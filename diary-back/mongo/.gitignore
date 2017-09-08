@@ -1,3 +1,5 @@
 *
 !.gitignore
+!data
+!data/db
 !data/db/.gitignore
