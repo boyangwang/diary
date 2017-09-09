@@ -1,23 +1,62 @@
 const MongoClient = require('mongodb').MongoClient;
+const ObjectId = require('mongodb').ObjectId;
 const mongoUrl = 'mongodb://localhost:27017/diary';
 const express = require('express');
+const bodyParser = require('body-parser');
 const config = require('./config.js');
 const app = express();
 
+/**
+ * entry: 
+{ "_id" : ObjectId("59b324daabd16dd3027ba454"), "date" : "2017-09-08", "title" : "work", "content" : "done dup id warnin
+g task, on Fri", "points" : "15" }
+{ "_id" : ObjectId("59b324f5abd16dd3027ba455"), "date" : "2017-09-08", "title" : "code", "content" : "started diary proj
+", "points" : "15" }
+{ "_id" : ObjectId("59b32538abd16dd3027ba456"), "date" : "2017-09-08", "title" : "eat less", "content" : "only breakfast
+ leftover, oatmeal, dinner wok master", "points" : "15" }
+{ "_id" : ObjectId("59b32574abd16dd3027ba457"), "date" : "2017-09-08", "title" : "sleep early", "content" : "8pm", "poin
+ts" : "15" }
+ */
 let diary_db, entry_collection;
 
 let getEntriesForDate = (req, res) => {
     let date = req.query.date;
     if (!date)
-        return res.status(400).json({err: 'Missing date query param'});
-    entry_collection.find({date}).toArray()
+        return res.status(400).json({ err: 'Missing date query param' });
+    entry_collection.find({ date }).toArray()
         .then(results => {
-            res.status(200).json({data: results});
+            res.status(200).json({ data: results });
+        })
+        .catch(err => {
+            res.status(500).json({ err: err.toString() });
         });
 };
 
 let postEntryForDate = (req, res) => {
-
+    if (!req.body)
+        return res.status(400).json({ err: 'Missing body' });
+    let entry = req.body.entry;
+    if (!entry)
+        return res.status(400).json({ err: 'Missing params in json' });
+    if (entry._id) {
+        let newEntry = Object.assign({}, entry);
+        delete newEntry._id;
+        entry_collection.updateOne({ _id: ObjectId(entry._id) }, newEntry)
+            .then(result => {
+                res.status(200).json({ data: result.toString() });
+            })
+            .catch(err => {
+                res.status(500).json({ err: err.toString() });
+            });
+    } else {
+        entry_collection.insertOne(entry)
+            .then(result => {
+                res.status(200).json({ data: result.toString() });
+            })
+            .catch(err => {
+                res.status(500).json({ err: err.toString() });
+            });
+    }
 };
 
 MongoClient.connect(mongoUrl)
@@ -26,6 +65,8 @@ MongoClient.connect(mongoUrl)
         entry_collection = diary_db.collection('entry');
     })
     .then(() => {
+        app.use(bodyParser.urlencoded({ extended: true }));
+        app.use(bodyParser.json());
         app.get('/api/getEntriesForDate', getEntriesForDate);
         app.post('/api/postEntryForDate', postEntryForDate);
         return new Promise((resolve, reject) => {
@@ -33,7 +74,7 @@ MongoClient.connect(mongoUrl)
         });
     })
     .then(() => {
-        console.log('Listening on '+config.port);
+        console.log('Listening on ' + config.port);
     })
     .catch(err => {
         console.log('ERR: ', err);
