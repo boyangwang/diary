@@ -1,14 +1,12 @@
-const {
-  MongoClient,
-} = require('mongodb');
-const {
-  ObjectId,
-} = require('mongodb');
-
-const mongoUrl = 'mongodb://localhost:27017/diary';
+const { MongoClient } = require('mongodb');
+const { ObjectId } = require('mongodb');
 const express = require('express');
 const bodyParser = require('body-parser');
 const config = require('./config.js');
+
+const collectionName = 'diary';
+const mongoUrl = `mongodb://localhost:27017/${collectionName}`;
+
 
 const app = express();
 
@@ -27,13 +25,9 @@ let diaryDb;
 let entryCollection;
 
 const getEntriesForDate = (req, res) => {
-  const {
-    date,
-  } = req.query;
+  const { date } = req.query;
   if (!date) {
-    res.status(400).json({
-      err: 'Missing date query param',
-    });
+    res.status(400).json({ err: 'Missing date query param' });
     return;
   }
   entryCollection.find({
