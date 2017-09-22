@@ -23,9 +23,8 @@ test('dairy-back server gets a entry', async () => {
 });
 
 afterAll(async () => {
+  await serverInstance.httpServer.destroy();
+  await serverInstance.dbConnection.close();
   await db.dropDatabase();
   await db.close();
-  await serverInstance.dbConnection.close();
-  await serverInstance.httpServer.destroy();
-  await serverInstance.close();
 });
