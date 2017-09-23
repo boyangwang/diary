@@ -8,7 +8,7 @@ const logger = require('koa-logger');
 const router = require('koa-router')();
 const config = require('./config.js');
 
-let app, diaryDb, entryCollection;
+let app, db;
 
 /**
  * returns a list of entries for specified date, or empty
@@ -16,13 +16,19 @@ let app, diaryDb, entryCollection;
  * @param {*} res 
  */
 const getEntriesForDate = async (ctx, next) => {
-  const { date } = ctx.request.query;
-  if (!date) {
+  const { date, owner } = ctx.request.query;
+  if (!date || !owner) {
     ctx.response.status = 400;
-    ctx.response.body = {err: 'Missing date query param'};
+    ctx.response.body = {err: 'Missing query param'};
     return;
   }
-  let results = await (await entryCollection.find({date})).toArray();
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || !/^[A-Za-z0-9]+$/.test(owner)) {
+    ctx.response.status = 400;
+    ctx.response.body = {err: 'Illegal query param'};
+    return;
+  }
+  let ownerEntryCollection = db.collection(`entry_${owner}`);
+  let results = await (await ownerEntryCollection.find({date})).toArray();
   ctx.response.body = {data: results};
 };
 
@@ -84,8 +90,7 @@ const main = async (opt = {}) => {
   app = new Koa(koaBody());
   const dbName = opt.dbName || dairy;
   const mongoUrl = `mongodb://localhost:27017/${dbName}`;
-  diaryDb = await MongoClient.connect(mongoUrl);
-  entryCollection = diaryDb.collection('entry');
+  db = await MongoClient.connect(mongoUrl);
   
   app.use(logger());
   app.use(koaBody());
@@ -102,7 +107,7 @@ const main = async (opt = {}) => {
     let server = http.createServer(app.callback());
     server.listen(config.port, () => {
       console.log(`Listening on ${config.port}`);
-      app.dbConnection = diaryDb;
+      app.dbConnection = db;
       destroyable(server);
       app.httpServer = server;
       resolve(app);
