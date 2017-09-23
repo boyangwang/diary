@@ -63,8 +63,22 @@ test('/api/getEntriesForDate returns a entry', async () => {
     expectStatusCode: 200, expectJson: {data: [entry]}});
 });
 
-test('/api/postEntryForDate adds a entry', async () => {
+test('/api/postEntryForDate needs an owner and an entry in body', async () => {
+  await expectFetchUrlStatusCodeAndJson({url:
+    `http://localhost:${config.port}/api/postEntryForDate?owner=testOwner`,
+    method: 'POST', expectStatusCode: 400, expectJson: {err: 'Missing entry'}});
+  
+  await expectFetchUrlStatusCodeAndJson({url:
+    `http://localhost:${config.port}/api/postEntryForDate`, postBody: {},
+    method: 'POST', expectStatusCode: 400, expectJson: {err: 'Missing query param'}});
+});
 
+test('/api/postEntryForDate adds a entry', async () => {
+  // let entry = {date: "1970-01-01", title: "test title", content: "test content", points: 1};
+  // expectFetchUrlStatusCodeAndJson({url:
+  //   `http://localhost:${config.port}/api/postEntryForDate?owner=testOwner`,
+  //   method: 'POST', expectStatusCode: 200, expectJson: {data: {entry}}
+  // });
 });
 
 afterEach(async () => {

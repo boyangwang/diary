@@ -40,39 +40,37 @@ const getEntriesForDate = async (ctx, next) => {
  * @param {*} res 
  */
 const postEntryForDate = async (ctx, next) => {
-  if (!req.body) {
-    res.status(400).json({
-      err: 'Missing body',
-    });
+  let {owner} = ctx.request.query;
+  if (!owner) {
+    ctx.response.status = 400;
+    ctx.response.body = {err: 'Missing query param'};
     return;
   }
-  const {
-    entry,
-  } = req.body;
-  if (!entry) {
-    res.status(400).json({
-      err: 'Missing params in json',
-    });
+  let postBody = ctx.request.body
+  if (!postBody || !postBody.data || !postBody.data.entry) {
+    ctx.response.status = 400;
+    ctx.response.body = {err: 'Missing entry'};
     return;
   }
-  if (entry._id) {
+  const {entry} = postBody.data;
+  if (!entry._id) {
+    entryCollection.insertOne(entry)
+    .then((result) => {
+      res.status(200).json({
+        data: result.toString(),
+      });
+    })
+    .catch((err) => {
+      res.status(500).json({
+        err: err.toString(),
+      });
+    });
+  } else {
     const newEntry = Object.assign({}, entry);
     delete newEntry._id;
     entryCollection.updateOne({
       _id: ObjectId(entry._id),
     }, newEntry)
-      .then((result) => {
-        res.status(200).json({
-          data: result.toString(),
-        });
-      })
-      .catch((err) => {
-        res.status(500).json({
-          err: err.toString(),
-        });
-      });
-  } else {
-    entryCollection.insertOne(entry)
       .then((result) => {
         res.status(200).json({
           data: result.toString(),
