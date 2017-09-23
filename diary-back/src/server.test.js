@@ -26,7 +26,9 @@ let expectFetchUrlStatusCodeAndJson = async ({url, expectStatusCode, expectJson,
   }
   expect(response.status).toBe(expectStatusCode);
   let body = await response.json();
-  expect(body).toEqual(expectJson);  
+  if (expectJson)
+    expect(body).toEqual(expectJson);
+  return body;
 }
 
 test('/api/getEntriesForDate require date and owner params', async () => {
@@ -74,11 +76,16 @@ test('/api/postEntryForDate needs an owner and an entry in body', async () => {
 });
 
 test('/api/postEntryForDate adds a entry', async () => {
-  // let entry = {date: "1970-01-01", title: "test title", content: "test content", points: 1};
-  // expectFetchUrlStatusCodeAndJson({url:
-  //   `http://localhost:${config.port}/api/postEntryForDate?owner=testOwner`,
-  //   method: 'POST', expectStatusCode: 200, expectJson: {data: {entry}}
-  // });
+  let entry = {date: "1970-01-01", title: "test title", content: "test content", points: 1};
+  let json = await expectFetchUrlStatusCodeAndJson({url:
+    `http://localhost:${config.port}/api/postEntryForDate?owner=testOwner`,
+    method: 'POST', postBody: {data: {entry}}, expectStatusCode: 200
+  });
+  let testOwnerEntryCollection = db.collection(`entry_testOwner`);
+  let dbResult = await (await testOwnerEntryCollection.find({})).toArray();
+  expect(dbResult).toHaveLength(1);
+  expect(dbResult[0]).toEqual({_id: dbResult[0]._id, date: "1970-01-01", title: "test title", content:
+    "test content", points: 1});
 });
 
 afterEach(async () => {

@@ -12,7 +12,7 @@ let app, db;
 
 /**
  * returns a list of entries for specified date, or empty
- * @param {*} req req.query.date
+ * @param {*} req req.query.date req.query.owner
  * @param {*} res 
  */
 const getEntriesForDate = async (ctx, next) => {
@@ -36,7 +36,7 @@ const getEntriesForDate = async (ctx, next) => {
  * add a new entry to date, or update an existing entry
  * - if new, your entry must have no _id
  * - if update, your entry must have _id. If that _id is not found, will give err
- * @param {*} req req.body.entry
+ * @param {*} req req.body.data.entry req.query.owner
  * @param {*} res 
  */
 const postEntryForDate = async (ctx, next) => {
@@ -52,19 +52,14 @@ const postEntryForDate = async (ctx, next) => {
     ctx.response.body = {err: 'Missing entry'};
     return;
   }
+
   const {entry} = postBody.data;
+  let ownerEntryCollection = db.collection(`entry_${owner}`);  
   if (!entry._id) {
-    entryCollection.insertOne(entry)
-    .then((result) => {
-      res.status(200).json({
-        data: result.toString(),
-      });
-    })
-    .catch((err) => {
-      res.status(500).json({
-        err: err.toString(),
-      });
-    });
+    let result = await ownerEntryCollection.insertOne(entry);
+    ctx.response.status = 200;
+    ctx.response.body = {data: {entry}};
+    return;
   } else {
     const newEntry = Object.assign({}, entry);
     delete newEntry._id;
