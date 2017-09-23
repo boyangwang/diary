@@ -35,7 +35,8 @@ const getEntriesForDate = async (ctx, next) => {
 /**
  * add a new entry to date, or update an existing entry
  * - if new, your entry must have no _id
- * - if update, your entry must have _id. If that _id is not found, will give err
+ * - if update, your entry must have _id. If that _id is not found, nothing happens
+ * - if new entry is identical to old, nothing happens
  * @param {*} req req.body.data.entry req.query.owner
  * @param {*} res 
  */
@@ -61,21 +62,10 @@ const postEntryForDate = async (ctx, next) => {
     ctx.response.body = {data: {entry}};
     return;
   } else {
-    const newEntry = Object.assign({}, entry);
-    delete newEntry._id;
-    entryCollection.updateOne({
-      _id: ObjectId(entry._id),
-    }, newEntry)
-      .then((result) => {
-        res.status(200).json({
-          data: result.toString(),
-        });
-      })
-      .catch((err) => {
-        res.status(500).json({
-          err: err.toString(),
-        });
-      });
+    let result = await ownerEntryCollection.updateOne({_id: ObjectId(entry._id)}, entry);
+    ctx.response.status = 200;
+    ctx.response.body = {data: result};
+    return;
   }
 };
 
