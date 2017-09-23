@@ -10,21 +10,35 @@ beforeAll(async () => {
     appInstance = await require('./server.js')({dbName});
 });
 
-test('/api/getEntriesForDate require date and owner params', async () => {
-  let response = await fetch(`http://localhost:${config.port}/api/getEntriesForDate`);
-  expect(response.status).toBe(400);
+let expectFetchUrlStatusCodeAndJson = async (url, expectStatusCode, expectJson) => {
+  let response = await fetch(url);
+  expect(response.status).toBe(expectStatusCode);
   let body = await response.json();
-  expect(body).toEqual({err: 'Missing query param'});
-  
-  response = await fetch(`http://localhost:${config.port}/api/getEntriesForDate?owner=testOwner`);
-  expect(response.status).toBe(400);
-  body = await response.json();
-  expect(body).toEqual({err: 'Missing query param'});
+  expect(body).toEqual(expectJson);  
+}
 
-  response = await fetch(`http://localhost:${config.port}/api/getEntriesForDate?date=1970-01-01`);
-  expect(response.status).toBe(400);
-  body = await response.json();
-  expect(body).toEqual({err: 'Missing query param'});
+test('/api/getEntriesForDate require date and owner params', async () => {
+  await expectFetchUrlStatusCodeAndJson(
+    `http://localhost:${config.port}/api/getEntriesForDate`,
+    400, {err: 'Missing query param'});
+
+  await expectFetchUrlStatusCodeAndJson(
+    `http://localhost:${config.port}/api/getEntriesForDate?owner=testOwner`,
+    400, {err: 'Missing query param'});
+  
+  await expectFetchUrlStatusCodeAndJson(
+    `http://localhost:${config.port}/api/getEntriesForDate?date=1970-01-01`,
+    400, {err: 'Missing query param'});
+});
+
+test('/api/getEntriesForDate require date and owner params legal', async () => {
+  await expectFetchUrlStatusCodeAndJson(
+    `http://localhost:${config.port}/api/getEntriesForDate?owner=_admin&date=1970-01-01`,
+    400, {err: 'Illegal query param'});
+
+  await expectFetchUrlStatusCodeAndJson(
+    `http://localhost:${config.port}/api/getEntriesForDate?owner=testOwner&date=1234`,
+    400, {err: 'Illegal query param'});
 });
 
 test('/api/getEntriesForDate returns a entry', async () => {
