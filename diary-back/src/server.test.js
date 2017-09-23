@@ -43,16 +43,16 @@ test('/api/getEntriesForDate require date and owner params legal', async () => {
 
 test('/api/getEntriesForDate returns a entry', async () => {
     let testOwnerEntryCollection = db.collection(`entry_testOwner`);
-    await testOwnerEntryCollection.insertOne({date: "1970-01-01", title:
-      "test title", content: "test content", points: 1});
-    let response = await fetch(`http://localhost:${config.port}/api/getEntriesForDate?date=1970-01-01&owner=testOwner`);
-    expect(response.status).toBe(200);
-    let result = await response.json();
-    expect(result.err).toBeUndefined();
-    expect(result.data).toHaveLength(1);
-    let expected = {data: [{_id: result.data[0]._id, date: "1970-01-01",
-      title: "test title", content: "test content", points: 1}]};
-    expect(result).toEqual(expected);
+    let entry = {_id: 'testid', date: "1970-01-01", title:
+      "test title", content: "test content", points: 1};
+    await testOwnerEntryCollection.insertOne(entry);
+    await expectFetchUrlStatusCodeAndJson(
+      `http://localhost:${config.port}/api/getEntriesForDate?date=1970-01-01&owner=testOwner`,
+      200, {data: [entry]});
+});
+
+test('/api/postEntryForDate adds a entry', async () => {
+
 });
 
 afterEach(async () => {
