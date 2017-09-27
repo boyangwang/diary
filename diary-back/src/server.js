@@ -62,7 +62,8 @@ const postEntryForDate = async (ctx, next) => {
     ctx.response.body = {data: {entry}};
     return;
   } else {
-    let result = await ownerEntryCollection.updateOne({_id: ObjectId(entry._id)}, entry);
+    let result = await ownerEntryCollection.updateOne({_id: entry._id},
+      {$set: {...entry}});
     ctx.response.status = 200;
     ctx.response.body = {data: result};
     return;

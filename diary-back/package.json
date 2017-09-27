@@ -11,7 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "isomorphic-fetch": "^2.2.1",
-    "jest": "^21.1.0",
+    "jest": "^21.2.0",
     "koa": "^2.3.0",
     "koa-body": "^2.3.0",
     "koa-logger": "^3.0.1",

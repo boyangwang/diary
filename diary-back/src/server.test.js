@@ -98,6 +98,41 @@ test('/api/postEntryForDate if update an entry that doesn\'t exist, give modifie
   });
 });
 
+test('/api/postEntryForDate if update an entry that exists, update it', async () => {
+  let entry = {_id: '59c61d8dc8864c16acb0c422', date: "1970-01-01", title: "test title",
+    content: "test content", points: 1};
+  let testOwnerEntryCollection = db.collection(`entry_testOwner`);    
+  await testOwnerEntryCollection.insertOne(entry);
+
+  let entryNew = Object.assign({}, entry, {title: 'updated test title',
+    content: 'updated test content', points: 2});
+  let json = await expectFetchUrlStatusCodeAndJson({url:
+    `http://localhost:${config.port}/api/postEntryForDate?owner=testOwner`,
+    method: 'POST', postBody: {data: {entry: entryNew}}, expectStatusCode: 200,
+    expectJson: {"data": {"n": 1, "nModified": 1, "ok": 1}}
+  });
+  let entryFromDb = await (await testOwnerEntryCollection.find({_id: entry._id})).toArray();
+  expect(entryFromDb).toHaveLength(1);
+  expect(entryFromDb[0]).toEqual(entryNew);
+});
+
+test('/api/postEntryForDate if update an entry that exists, but all same, do nothing', async () => {
+  let entry = {_id: '59c61d8dc8864c16acb0c422', date: "1970-01-01", title: "test title",
+    content: "test content", points: 1};
+  let testOwnerEntryCollection = db.collection(`entry_testOwner`);    
+  await testOwnerEntryCollection.insertOne(entry);
+
+  let entryNew = Object.assign({}, entry);
+  let json = await expectFetchUrlStatusCodeAndJson({url:
+    `http://localhost:${config.port}/api/postEntryForDate?owner=testOwner`,
+    method: 'POST', postBody: {data: {entry: entryNew}}, expectStatusCode: 200,
+    expectJson: {"data": {"n": 1, "nModified": 0, "ok": 1}}
+  });
+  let entryFromDb = await (await testOwnerEntryCollection.find({_id: entry._id})).toArray();
+  expect(entryFromDb).toHaveLength(1);
+  expect(entryFromDb[0]).toEqual(entryNew);
+});
+
 afterEach(async () => {
   await db.dropDatabase();
 });
