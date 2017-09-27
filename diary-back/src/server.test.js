@@ -29,7 +29,21 @@ let expectFetchUrlStatusCodeAndJson = async ({url, expectStatusCode, expectJson,
   if (expectJson)
     expect(body).toEqual(expectJson);
   return body;
-}
+};
+
+let expectDbQueryResult = async ({collection, query, expectedResults}) => {
+  if (typeof collection === 'string')
+    collection = db.collection(collection);
+  let dbResult = await (await collection.find(query)).toArray();
+  dbResult = dbResult.map(document => {
+    if (typeof document._id !== 'string') {
+      return Object.assign({}, document, {_id: document._id.toString()});
+    }
+    return document;
+  });
+  expect(dbResult).toEqual(expectedResults);
+  return dbResult;
+};
 
 test('/api/getEntries require date and owner params', async () => {
   await expectFetchUrlStatusCodeAndJson({url:
@@ -74,19 +88,19 @@ test('/api/postEntry needs an owner and an entry in body', async () => {
   await expectFetchUrlStatusCodeAndJson({url:
     `http://localhost:${config.port}/api/postEntry`, postBody: {data: {entry}},
     method: 'POST', expectStatusCode: 400, expectJson: {err: 'Missing json param'}});
+  
+  expectDbQueryResult({collection: 'entry_testOwner', query: {}, expectedResults: []});
 });
 
 test('/api/postEntry adds an entry', async () => {
   let entry = {date: "1970-01-01", title: "test title", content: "test content", points: 1};
-  let json = await expectFetchUrlStatusCodeAndJson({url:
+  let res = await expectFetchUrlStatusCodeAndJson({url:
     `http://localhost:${config.port}/api/postEntry`,
     method: 'POST', postBody: {data: {entry, owner: 'testOwner'}}, expectStatusCode: 200
   });
-  let testOwnerEntryCollection = db.collection(`entry_testOwner`);
-  let dbResult = await (await testOwnerEntryCollection.find({})).toArray();
-  expect(dbResult).toHaveLength(1);
-  expect(dbResult[0]).toEqual({_id: dbResult[0]._id, date: "1970-01-01", title: "test title",
-    content:"test content", points: 1});
+  expectDbQueryResult({collection: 'entry_testOwner', query: {}, expectedResults: [{_id:
+    res.data.entry._id, date: "1970-01-01", title: "test title",
+    content:"test content", points: 1}]});
 });
 
 test('/api/postEntry if update an entry that doesn\'t exist, give modified 0', async () => {
@@ -97,6 +111,7 @@ test('/api/postEntry if update an entry that doesn\'t exist, give modified 0', a
     method: 'POST', postBody: {data: {entry, owner: 'testOwner'}}, expectStatusCode: 200,
     expectJson: {"data": {"n": 0, "nModified": 0, "ok": 1}}
   });
+  expectDbQueryResult({collection: 'entry_testOwner', query: {}, expectedResults: []});
 });
 
 test('/api/postEntry if update an entry that exists, update it', async () => {
@@ -112,9 +127,8 @@ test('/api/postEntry if update an entry that exists, update it', async () => {
     method: 'POST', postBody: {data: {entry: entryNew, owner: 'testOwner'}}, expectStatusCode: 200,
     expectJson: {"data": {"n": 1, "nModified": 1, "ok": 1}}
   });
-  let entryFromDb = await (await testOwnerEntryCollection.find({_id: entry._id})).toArray();
-  expect(entryFromDb).toHaveLength(1);
-  expect(entryFromDb[0]).toEqual(entryNew);
+  expectDbQueryResult({collection: testOwnerEntryCollection, query: {_id: entry._id},
+    expectedResults: [entryNew]});
 });
 
 test('/api/postEntry if update an entry that exists, but all same, do nothing', async () => {
@@ -129,9 +143,9 @@ test('/api/postEntry if update an entry that exists, but all same, do nothing', 
     method: 'POST', postBody: {data: {entry: entryNew, owner: 'testOwner'}}, expectStatusCode: 200,
     expectJson: {"data": {"n": 1, "nModified": 0, "ok": 1}}
   });
-  let entryFromDb = await (await testOwnerEntryCollection.find({_id: entry._id})).toArray();
-  expect(entryFromDb).toHaveLength(1);
-  expect(entryFromDb[0]).toEqual(entryNew);
+
+  expectDbQueryResult({collection: testOwnerEntryCollection, query: {_id: entry._id},
+    expectedResults: [entryNew]});
 });
 
 afterEach(async () => {
