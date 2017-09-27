@@ -15,7 +15,7 @@ let app, db;
  * @param {*} req req.query.date req.query.owner
  * @param {*} res 
  */
-const getEntriesForDate = async (ctx, next) => {
+const getEntries = async (ctx, next) => {
   const { date, owner } = ctx.request.query;
   if (!date || !owner) {
     ctx.response.status = 400;
@@ -24,7 +24,7 @@ const getEntriesForDate = async (ctx, next) => {
   }
   if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || !/^[A-Za-z0-9]+$/.test(owner)) {
     ctx.response.status = 400;
-    ctx.response.body = {err: 'Illegal query param'};
+    ctx.response.body = {err: 'Illegal param'};
     return;
   }
   let ownerEntryCollection = db.collection(`entry_${owner}`);
@@ -40,21 +40,21 @@ const getEntriesForDate = async (ctx, next) => {
  * @param {*} req req.body.data.entry req.query.owner
  * @param {*} res 
  */
-const postEntryForDate = async (ctx, next) => {
-  let {owner} = ctx.request.query;
-  if (!owner) {
-    ctx.response.status = 400;
-    ctx.response.body = {err: 'Missing query param'};
-    return;
-  }
+const postEntry = async (ctx, next) => {
   let postBody = ctx.request.body
-  if (!postBody || !postBody.data || !postBody.data.entry) {
+  if (!postBody || !postBody.data || !postBody.data.entry || !postBody.data.owner) {
     ctx.response.status = 400;
-    ctx.response.body = {err: 'Missing entry'};
+    ctx.response.body = {err: 'Missing json param'};
     return;
   }
 
-  const {entry} = postBody.data;
+  const {entry, owner} = postBody.data;
+  if (!/^[A-Za-z0-9]+$/.test(owner)) {
+    ctx.response.status = 400;
+    ctx.response.body = {err: 'Illegal param'};
+    return;
+  }
+
   let ownerEntryCollection = db.collection(`entry_${owner}`);  
   if (!entry._id) {
     let result = await ownerEntryCollection.insertOne(entry);
@@ -82,8 +82,8 @@ const main = async (opt = {}) => {
     ctx.response.type = 'json';
     return next();
   });
-  router.get('/api/getEntriesForDate', getEntriesForDate);
-  router.post('/api/postEntryForDate', postEntryForDate);
+  router.get('/api/getEntries', getEntries);
+  router.post('/api/postEntry', postEntry);
   app.use(router.routes());
   app.use(router.allowedMethods());
   
