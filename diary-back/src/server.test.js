@@ -48,15 +48,15 @@ let expectDbQueryResult = async ({collection, query, expectedResults}) => {
 test('/api/getEntries require date and owner params', async () => {
   await expectFetchUrlStatusCodeAndJson({url:
     `http://localhost:${config.port}/api/getEntries`,
-    expectStatusCode: 400, expectJson: {err: 'Missing query param'}});
+    expectStatusCode: 400, expectJson: {err: 'Missing param'}});
 
   await expectFetchUrlStatusCodeAndJson({url:
     `http://localhost:${config.port}/api/getEntries?owner=testOwner`,
-    expectStatusCode: 400, expectJson: {err: 'Missing query param'}});
+    expectStatusCode: 400, expectJson: {err: 'Missing param'}});
   
   await expectFetchUrlStatusCodeAndJson({url:
     `http://localhost:${config.port}/api/getEntries?date=1970-01-01`,
-    expectStatusCode: 400, expectJson: {err: 'Missing query param'}});
+    expectStatusCode: 400, expectJson: {err: 'Missing param'}});
 });
 
 test('/api/getEntries require date and owner params legal', async () => {
@@ -83,11 +83,11 @@ test('/api/postEntry needs an owner and an entry in body', async () => {
   let entry = {date: "1970-01-01", title: "test title", content: "test content", points: 1};  
   await expectFetchUrlStatusCodeAndJson({url:
     `http://localhost:${config.port}/api/postEntry`, postBody: {data: {owner: 'testOwner'}},
-    method: 'POST', expectStatusCode: 400, expectJson: {err: 'Missing json param'}});
+    method: 'POST', expectStatusCode: 400, expectJson: {err: 'Missing param'}});
   
   await expectFetchUrlStatusCodeAndJson({url:
     `http://localhost:${config.port}/api/postEntry`, postBody: {data: {entry}},
-    method: 'POST', expectStatusCode: 400, expectJson: {err: 'Missing json param'}});
+    method: 'POST', expectStatusCode: 400, expectJson: {err: 'Missing param'}});
   
   expectDbQueryResult({collection: 'entry_testOwner', query: {}, expectedResults: []});
 });
@@ -146,6 +146,10 @@ test('/api/postEntry if update an entry that exists, but all same, do nothing', 
 
   expectDbQueryResult({collection: testOwnerEntryCollection, query: {_id: entry._id},
     expectedResults: [entryNew]});
+});
+
+test('/api/deleteEntry', async () => {
+
 });
 
 afterEach(async () => {

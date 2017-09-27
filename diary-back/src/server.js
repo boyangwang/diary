@@ -10,6 +10,41 @@ const config = require('./config.js');
 
 let app, db;
 
+let validateParams = async (ctx, next) => {
+  let invalid;
+  if (ctx.method === 'GET' && !ctx.request.query) {
+    invalid = true;
+  } else if (ctx.method === 'POST' && (!ctx.request.body || !ctx.request.body.data)) {
+    invalid = true;
+  }
+  if (invalid) {
+    ctx.response.status = 400;
+    ctx.response.body = {err: 'Missing param'};
+  } else {
+    await next();
+  }  
+};
+
+let validateOwner = async (ctx, next) => {
+  let owner, errMsg;
+  if (ctx.method === 'GET') {
+    ({owner} = ctx.request.query);
+  } else {
+    ({owner} = ctx.request.body && ctx.request.body.data);
+  }
+  if (!owner) {
+    errMsg = 'Missing param';
+  } else if (!/^[A-Za-z0-9]+$/.test(owner)) {
+    errMsg = 'Illegal param';
+  }
+  if (errMsg) {
+    ctx.response.status = 400;
+    ctx.response.body = {err: errMsg};
+  } else {
+    await next();
+  }
+};
+
 /**
  * returns a list of entries for specified date, or empty
  * @param {*} req req.query.date req.query.owner
@@ -17,12 +52,12 @@ let app, db;
  */
 const getEntries = async (ctx, next) => {
   const { date, owner } = ctx.request.query;
-  if (!date || !owner) {
+  if (!date) {
     ctx.response.status = 400;
-    ctx.response.body = {err: 'Missing query param'};
+    ctx.response.body = {err: 'Missing param'};
     return;
   }
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || !/^[A-Za-z0-9]+$/.test(owner)) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
     ctx.response.status = 400;
     ctx.response.body = {err: 'Illegal param'};
     return;
@@ -41,17 +76,10 @@ const getEntries = async (ctx, next) => {
  * @param {*} res 
  */
 const postEntry = async (ctx, next) => {
-  let postBody = ctx.request.body
-  if (!postBody || !postBody.data || !postBody.data.entry || !postBody.data.owner) {
+  let {entry, owner} = ctx.request.body.data
+  if (!entry) {
     ctx.response.status = 400;
-    ctx.response.body = {err: 'Missing json param'};
-    return;
-  }
-
-  const {entry, owner} = postBody.data;
-  if (!/^[A-Za-z0-9]+$/.test(owner)) {
-    ctx.response.status = 400;
-    ctx.response.body = {err: 'Illegal param'};
+    ctx.response.body = {err: 'Missing param'};
     return;
   }
 
@@ -78,10 +106,12 @@ const main = async (opt = {}) => {
   
   app.use(logger());
   app.use(koaBody());
-  app.use((ctx, next) => {
+  app.use(async (ctx, next) => {
     ctx.response.type = 'json';
-    return next();
+    await next();
   });
+  router.use(['/api/getEntries', '/api/postEntry'], validateParams);
+  router.use(['/api/getEntries', '/api/postEntry'], validateOwner);
   router.get('/api/getEntries', getEntries);
   router.post('/api/postEntry', postEntry);
   app.use(router.routes());
