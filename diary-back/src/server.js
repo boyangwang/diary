@@ -10,7 +10,7 @@ const config = require('./config.js');
 
 let app, db;
 
-let validateParams = async (ctx, next) => {
+const validateParams = async (ctx, next) => {
   let invalid;
   if (ctx.method === 'GET' && !ctx.request.query) {
     invalid = true;
@@ -25,7 +25,7 @@ let validateParams = async (ctx, next) => {
   }  
 };
 
-let validateOwner = async (ctx, next) => {
+const validateOwner = async (ctx, next) => {
   let owner, errMsg;
   if (ctx.method === 'GET') {
     ({owner} = ctx.request.query);
@@ -45,7 +45,7 @@ let validateOwner = async (ctx, next) => {
   }
 };
 
-let validateDate = async (ctx, next) => {
+const validateDate = async (ctx, next) => {
   let {date} = ctx.request.query, errMsg;
   if (!date) {
     errMsg = 'Missing param';
@@ -60,7 +60,7 @@ let validateDate = async (ctx, next) => {
   }
 };
 
-let validateEntry = async (ctx, next) => {
+const validateEntry = async (ctx, next) => {
   let {entry} = ctx.request.body.data, errMsg;
   if (!entry) {
     errMsg = 'Missing param';
@@ -96,20 +96,25 @@ const getEntries = async (ctx, next) => {
  */
 const postEntry = async (ctx, next) => {
   let {entry, owner} = ctx.request.body.data;
-
   let ownerEntryCollection = db.collection(`entry_${owner}`);  
   if (!entry._id) {
     let result = await ownerEntryCollection.insertOne(entry);
     ctx.response.status = 200;
     ctx.response.body = {data: {entry}};
-    return;
   } else {
     let result = await ownerEntryCollection.updateOne({_id: entry._id},
       {$set: {...entry}});
     ctx.response.status = 200;
     ctx.response.body = {data: result};
-    return;
   }
+};
+
+const deleteEntry = async (ctx, next) => {
+  let {owner, entry} = ctx.request.body.data;
+  let ownerEntryCollection = db.collection(`entry_${owner}`);
+  let result = await ownerEntryCollection.findOneAndDelete(entry);
+  ctx.response.status = 200;
+  ctx.response.body = {data: {entry: result.value}};
 };
 
 const main = async (opt = {}) => {
@@ -124,12 +129,13 @@ const main = async (opt = {}) => {
     ctx.response.type = 'json';
     await next();
   });
-  router.use(['/api/getEntries', '/api/postEntry'], validateParams);
-  router.use(['/api/getEntries', '/api/postEntry'], validateOwner);
+  router.use(['/api/getEntries', '/api/postEntry', '/api/deleteEntry'], validateParams);
+  router.use(['/api/getEntries', '/api/postEntry', '/api/deleteEntry'], validateOwner);
   router.use(['/api/getEntries'], validateDate);
-  router.use(['/api/postEntry'], validateEntry);
+  router.use(['/api/postEntry', '/api/deleteEntry'], validateEntry);
   router.get('/api/getEntries', getEntries);
   router.post('/api/postEntry', postEntry);
+  router.post('/api/deleteEntry', deleteEntry);
   app.use(router.routes());
   app.use(router.allowedMethods());
   

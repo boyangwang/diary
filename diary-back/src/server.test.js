@@ -149,7 +149,26 @@ test('/api/postEntry if update an entry that exists, but all same, do nothing', 
 });
 
 test('/api/deleteEntry', async () => {
+  let entry = {_id: '59c61d8dc8864c16acb0c422', date: "1970-01-01", title: "test title",
+  content: "test content", points: 1};
+  let testOwnerEntryCollection = db.collection(`entry_testOwner`);    
+  await testOwnerEntryCollection.insertOne(entry);
 
+  let json = await expectFetchUrlStatusCodeAndJson({url:
+    `http://localhost:${config.port}/api/deleteEntry`, method: 'POST',
+    postBody: {data: {entry: {_id: '59c61d8dc8864c16acb0c422'}, owner: 'testOwner'}},
+    expectStatusCode: 200,
+    expectJson: {"data": {entry: {
+      _id: '59c61d8dc8864c16acb0c422',
+      date: '1970-01-01',
+      title: 'test title',
+      content: 'test content',
+      points: 1 
+    }}}
+  });
+
+  expectDbQueryResult({collection: testOwnerEntryCollection, query: {_id: entry._id},
+    expectedResults: []});
 });
 
 afterEach(async () => {
