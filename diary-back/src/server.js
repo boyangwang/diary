@@ -30,7 +30,7 @@ let validateOwner = async (ctx, next) => {
   if (ctx.method === 'GET') {
     ({owner} = ctx.request.query);
   } else {
-    ({owner} = ctx.request.body && ctx.request.body.data);
+    ({owner} = ctx.request.body.data);
   }
   if (!owner) {
     errMsg = 'Missing param';
@@ -45,6 +45,34 @@ let validateOwner = async (ctx, next) => {
   }
 };
 
+let validateDate = async (ctx, next) => {
+  let {date} = ctx.request.query, errMsg;
+  if (!date) {
+    errMsg = 'Missing param';
+  } else if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+    errMsg = 'Illegal param';
+  }
+  if (errMsg) {
+    ctx.response.status = 400;
+    ctx.response.body = {err: errMsg}; 
+  } else {
+    await next();
+  }
+};
+
+let validateEntry = async (ctx, next) => {
+  let {entry} = ctx.request.body.data, errMsg;
+  if (!entry) {
+    errMsg = 'Missing param';
+  }
+  if (errMsg) {
+    ctx.response.status = 400;
+    ctx.response.body = {err: errMsg}; 
+  } else {
+    await next();
+  }
+};
+
 /**
  * returns a list of entries for specified date, or empty
  * @param {*} req req.query.date req.query.owner
@@ -52,16 +80,7 @@ let validateOwner = async (ctx, next) => {
  */
 const getEntries = async (ctx, next) => {
   const { date, owner } = ctx.request.query;
-  if (!date) {
-    ctx.response.status = 400;
-    ctx.response.body = {err: 'Missing param'};
-    return;
-  }
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
-    ctx.response.status = 400;
-    ctx.response.body = {err: 'Illegal param'};
-    return;
-  }
+  
   let ownerEntryCollection = db.collection(`entry_${owner}`);
   let results = await (await ownerEntryCollection.find({date})).toArray();
   ctx.response.body = {data: results};
@@ -76,12 +95,7 @@ const getEntries = async (ctx, next) => {
  * @param {*} res 
  */
 const postEntry = async (ctx, next) => {
-  let {entry, owner} = ctx.request.body.data
-  if (!entry) {
-    ctx.response.status = 400;
-    ctx.response.body = {err: 'Missing param'};
-    return;
-  }
+  let {entry, owner} = ctx.request.body.data;
 
   let ownerEntryCollection = db.collection(`entry_${owner}`);  
   if (!entry._id) {
@@ -112,6 +126,8 @@ const main = async (opt = {}) => {
   });
   router.use(['/api/getEntries', '/api/postEntry'], validateParams);
   router.use(['/api/getEntries', '/api/postEntry'], validateOwner);
+  router.use(['/api/getEntries'], validateDate);
+  router.use(['/api/postEntry'], validateEntry);
   router.get('/api/getEntries', getEntries);
   router.post('/api/postEntry', postEntry);
   app.use(router.routes());
