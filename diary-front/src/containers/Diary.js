@@ -1,5 +1,5 @@
 import React from 'react';
-import util from '../util';
+import util from '../utils/util';
 import DayContainer from './DayContainer';
 
 const Diary = () => {
