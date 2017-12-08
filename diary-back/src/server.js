@@ -10,23 +10,77 @@ const config = require('./config.js');
 
 let app, db;
 
+const validateParams = async (ctx, next) => {
+  let invalid;
+  if (ctx.method === 'GET' && !ctx.request.query) {
+    invalid = true;
+  } else if (ctx.method === 'POST' && (!ctx.request.body || !ctx.request.body.data)) {
+    invalid = true;
+  }
+  if (invalid) {
+    ctx.response.status = 400;
+    ctx.response.body = {err: 'Missing param'};
+  } else {
+    await next();
+  }  
+};
+
+const validateOwner = async (ctx, next) => {
+  let owner, errMsg;
+  if (ctx.method === 'GET') {
+    ({owner} = ctx.request.query);
+  } else {
+    ({owner} = ctx.request.body.data);
+  }
+  if (!owner) {
+    errMsg = 'Missing param';
+  } else if (!/^[A-Za-z0-9]+$/.test(owner)) {
+    errMsg = 'Illegal param';
+  }
+  if (errMsg) {
+    ctx.response.status = 400;
+    ctx.response.body = {err: errMsg};
+  } else {
+    await next();
+  }
+};
+
+const validateDate = async (ctx, next) => {
+  let {date} = ctx.request.query, errMsg;
+  if (!date) {
+    errMsg = 'Missing param';
+  } else if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+    errMsg = 'Illegal param';
+  }
+  if (errMsg) {
+    ctx.response.status = 400;
+    ctx.response.body = {err: errMsg}; 
+  } else {
+    await next();
+  }
+};
+
+const validateEntry = async (ctx, next) => {
+  let {entry} = ctx.request.body.data, errMsg;
+  if (!entry) {
+    errMsg = 'Missing param';
+  }
+  if (errMsg) {
+    ctx.response.status = 400;
+    ctx.response.body = {err: errMsg}; 
+  } else {
+    await next();
+  }
+};
+
 /**
  * returns a list of entries for specified date, or empty
  * @param {*} req req.query.date req.query.owner
  * @param {*} res 
  */
-const getEntriesForDate = async (ctx, next) => {
+const getEntries = async (ctx, next) => {
   const { date, owner } = ctx.request.query;
-  if (!date || !owner) {
-    ctx.response.status = 400;
-    ctx.response.body = {err: 'Missing query param'};
-    return;
-  }
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || !/^[A-Za-z0-9]+$/.test(owner)) {
-    ctx.response.status = 400;
-    ctx.response.body = {err: 'Illegal query param'};
-    return;
-  }
+  
   let ownerEntryCollection = db.collection(`entry_${owner}`);
   let results = await (await ownerEntryCollection.find({date})).toArray();
   ctx.response.body = {data: results};
@@ -40,33 +94,27 @@ const getEntriesForDate = async (ctx, next) => {
  * @param {*} req req.body.data.entry req.query.owner
  * @param {*} res 
  */
-const postEntryForDate = async (ctx, next) => {
-  let {owner} = ctx.request.query;
-  if (!owner) {
-    ctx.response.status = 400;
-    ctx.response.body = {err: 'Missing query param'};
-    return;
-  }
-  let postBody = ctx.request.body
-  if (!postBody || !postBody.data || !postBody.data.entry) {
-    ctx.response.status = 400;
-    ctx.response.body = {err: 'Missing entry'};
-    return;
-  }
-
-  const {entry} = postBody.data;
+const postEntry = async (ctx, next) => {
+  let {entry, owner} = ctx.request.body.data;
   let ownerEntryCollection = db.collection(`entry_${owner}`);  
   if (!entry._id) {
     let result = await ownerEntryCollection.insertOne(entry);
     ctx.response.status = 200;
     ctx.response.body = {data: {entry}};
-    return;
   } else {
-    let result = await ownerEntryCollection.updateOne({_id: ObjectId(entry._id)}, entry);
+    let result = await ownerEntryCollection.updateOne({_id: entry._id},
+      {$set: {...entry}});
     ctx.response.status = 200;
     ctx.response.body = {data: result};
-    return;
   }
+};
+
+const deleteEntry = async (ctx, next) => {
+  let {owner, entry} = ctx.request.body.data;
+  let ownerEntryCollection = db.collection(`entry_${owner}`);
+  let result = await ownerEntryCollection.findOneAndDelete(entry);
+  ctx.response.status = 200;
+  ctx.response.body = {data: {entry: result.value}};
 };
 
 const main = async (opt = {}) => {
@@ -77,12 +125,17 @@ const main = async (opt = {}) => {
   
   app.use(logger());
   app.use(koaBody());
-  app.use((ctx, next) => {
+  app.use(async (ctx, next) => {
     ctx.response.type = 'json';
-    return next();
+    await next();
   });
-  router.get('/api/getEntriesForDate', getEntriesForDate);
-  router.post('/api/postEntryForDate', postEntryForDate);
+  router.use(['/api/getEntries', '/api/postEntry', '/api/deleteEntry'], validateParams);
+  router.use(['/api/getEntries', '/api/postEntry', '/api/deleteEntry'], validateOwner);
+  router.use(['/api/getEntries'], validateDate);
+  router.use(['/api/postEntry', '/api/deleteEntry'], validateEntry);
+  router.get('/api/getEntries', getEntries);
+  router.post('/api/postEntry', postEntry);
+  router.post('/api/deleteEntry', deleteEntry);
   app.use(router.routes());
   app.use(router.allowedMethods());
   
