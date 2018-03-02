@@ -19,16 +19,15 @@ plan.remote(['deploy'], (remote) => {
   remote.sudo(`mkdir ${projectsDir}`, { failsafe: true });
   remote.sudo(`cd ${projectsDir} &&
     wget https://github.com/boyangwang/diary/archive/master.zip -O master.zip &&
-    7z x master.zip -y`);
+    rm -rf ./diary-master/ && 7z x master.zip -y`);
 
   // install and build
-  remote.sudo(`ls -a -l ${projectsDir}/diary-master/`);
   remote.sudo(`cd ${projectsDir}/diary-master/diary-back &&
-    yarn install && ./node_modules/.bin/pm2 stop diary-back
+    yarn install --ignore-engines && ./node_modules/.bin/pm2 stop diary-back
     ./node_modules/.bin/pm2 start ./src/server.js --name diary-back`);
 
   remote.sudo(`cd ${projectsDir}/diary-master/diary-front &&
-    yarn install && yarn run build`);
+    yarn install --ignore-engines && yarn run build`);
   remote.sudo(`cd ${projectsDir}/diary-master/diary-front &&
     ls -a -l`);
 });
