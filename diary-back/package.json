@@ -5,7 +5,8 @@
   "main": "src/server.js",
   "scripts": {
     "test": "jest",
-    "start": "node src/server.js"
+    "start": "node src/server.js",
+    "deploy": "export FLIGHTPLAN_KEY_PATH=~/.ssh/id_rsa && fly deploy:staging --flightplan ./flightplan.js"
   },
   "author": "",
   "license": "ISC",
@@ -19,5 +20,8 @@
     "mongodb": "^2.2.31",
     "server-destroy": "^1.0.1"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "flightplan": "^0.6.17",
+    "pm2": "^2.10.1"
+  }
 }
