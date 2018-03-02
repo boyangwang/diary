@@ -25,6 +25,9 @@
 
 - In diary-back, `yarn install`
 
+- If needed, use CN mirror
+  `yarn config set registry 'https://registry.npm.taobao.org'`
+
 - `npm test`
 
 - `npm start`
