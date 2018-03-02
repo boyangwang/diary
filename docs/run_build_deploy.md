@@ -36,3 +36,25 @@
 - `npm start`
 
 ## build and deploy
+
+- assume mongodb
+
+- assume wget, 7z
+  `sudo apt-get install wget p7zip-full`
+
+- download zip, unzip
+
+- assume yarn exists
+  ```
+  curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+  echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+  sudo apt-get update && sudo apt-get install yarn
+  ```
+
+- go in, run yarn install, yarn build
+
+- pm2 stop prev back, front
+
+- pm2 start back
+
+- pm2 start front
