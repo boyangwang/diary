@@ -119,7 +119,7 @@ const deleteEntry = async (ctx, next) => {
 
 const main = async (opt = {}) => {
   app = new Koa(koaBody());
-  const dbName = opt.dbName || dairy;
+  const dbName = opt.dbName || 'diary';
   const mongoUrl = `mongodb://localhost:27017/${dbName}`;
   db = await MongoClient.connect(mongoUrl);
   
