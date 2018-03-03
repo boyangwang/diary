@@ -15,31 +15,26 @@ plan.target('staging', {
 const projectsDir = '/var/www/diary_project';
 
 plan.remote(['deploy'], (remote) => {
-  // what's node version used?
-  remote.sudo(`node -v`);
-  remote.sudo(`which node`);
-  remote.sudo(`nvm use default`);
-
   // download and unzip
-  remote.sudo(`mkdir ${projectsDir}`, { failsafe: true });
-  remote.sudo(`cd ${projectsDir} &&
+  remote.exec(`mkdir ${projectsDir}`, { failsafe: true });
+  remote.exec(`cd ${projectsDir} &&
     wget https://github.com/boyangwang/diary/archive/master.zip -O master.zip &&
     rm -rf ./diary-master/ && 7z x master.zip -y`);
   // install and build
   // back
-  remote.sudo(`nohup mongod --bind_ip 127.0.0.1 --dbpath ${projectsDir}/diary-master/diary-back/mongo/data &`, { failsafe: true });
-  remote.sudo(`cd ${projectsDir}/diary-master/diary-back &&
+  remote.exec(`nohup mongod --bind_ip 127.0.0.1 --dbpath ${projectsDir}/diary-master/diary-back/mongo/data &`, { failsafe: true });
+  remote.exec(`cd ${projectsDir}/diary-master/diary-back &&
     yarn install --ignore-engines && ./node_modules/.bin/pm2 stop diary-back
     ./node_modules/.bin/pm2 start ./src/server.js --name diary-back --interpreter=$(which node)`);
   // front
-  remote.sudo(`cd ${projectsDir}/diary-master/diary-front &&
+  remote.exec(`cd ${projectsDir}/diary-master/diary-front &&
     yarn install --ignore-engines && yarn run build`);
-  remote.sudo(`cd ${projectsDir}/diary-master/diary-front &&
+  remote.exec(`cd ${projectsDir}/diary-master/diary-front &&
     ln -sf ${projectsDir}/diary-master/diary-front/config/diary.conf /etc/nginx/sites-enabled/`);
-  remote.sudo(`cd ${projectsDir} && chmod -R +X .`);
-  remote.sudo(`cd ${projectsDir}/diary-master/diary-front &&
+  remote.exec(`cd ${projectsDir} && chmod -R +X .`);
+  remote.exec(`cd ${projectsDir}/diary-master/diary-front &&
     chmod -R 755 ./build`);
-  remote.sudo(`nginx -s reload`);
+  remote.exec(`nginx -s reload`);
 });
 
 plan.remote(['start'], (remote) => {
