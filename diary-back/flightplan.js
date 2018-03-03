@@ -16,7 +16,7 @@ const projectsDir = '/var/www/diary_project';
 
 plan.remote(['deploy'], (remote) => {
   // what's node version used?
-  remote.sudo(`node -v `);
+  remote.sudo(`node -v`);
   remote.sudo(`which node`);
   remote.sudo(`nvm use default`);
 
@@ -30,7 +30,7 @@ plan.remote(['deploy'], (remote) => {
   remote.sudo(`nohup mongod --bind_ip 127.0.0.1 --dbpath ${projectsDir}/diary-master/diary-back/mongo/data &`, { failsafe: true });
   remote.sudo(`cd ${projectsDir}/diary-master/diary-back &&
     yarn install --ignore-engines && ./node_modules/.bin/pm2 stop diary-back
-    ./node_modules/.bin/pm2 start ./src/server.js --name diary-back`);
+    ./node_modules/.bin/pm2 start ./src/server.js --name diary-back --interpreter=$(which node)`);
   // front
   remote.sudo(`cd ${projectsDir}/diary-master/diary-front &&
     yarn install --ignore-engines && yarn run build`);
