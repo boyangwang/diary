@@ -1,6 +1,6 @@
-# run_build_deploy
+# run-build-deploy
 
-## run and devleop
+## Run and devleop
 
 ### Windows
 
@@ -12,7 +12,7 @@
 
 - install brew
 
-- check [CN homebrew guide](./cn_homebrew) if needed
+- check [CN homebrew guide](./cn-homebrew) if needed
 
 - install mongodb
   ```
@@ -38,7 +38,11 @@
 
 - `npm start`
 
-## build and deploy
+## Build and deploy
+
+`yarn run deploy`
+
+### Walkthrough
 
 - assume mongodb
 

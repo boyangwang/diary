@@ -9,6 +9,7 @@ Dear Diary
 [https://github.com/boyangwang/diary](https://github.com/boyangwang/diary)
 
 - [product](./product)
-- [run_build_deploy](./run_build_deploy)
+- [run-build-deploy](./run-build-deploy)
 - [back](./back)
 - [front](./front)
+- [dev-debug-notes](./dev-debug-notes)
