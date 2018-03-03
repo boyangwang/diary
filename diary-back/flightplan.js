@@ -28,7 +28,8 @@ plan.remote(['deploy'], (remote) => {
 
   remote.sudo(`cd ${projectsDir}/diary-master/diary-front &&
     yarn install --ignore-engines && yarn run build`);
-
+  remote.sudo(`cd ${projectsDir}/diary-master/diary-front &&
+    ln -s ./config/diary.conf /etc/nginx/sites-enabled/`)
 });
 
 plan.remote(['start'], (remote) => {

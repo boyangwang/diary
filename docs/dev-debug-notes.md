@@ -15,3 +15,11 @@
 - But this caused yarn to not be found (yarn: command not found). Because flightplan is using login shell, so bash_profile, not bash_rc. Yarn's $PATH change only in bash_rc. Added to bash_profile (maybe source entire bash_rc in profile better)
 
 - After all these, yarn is still using default node?? apt purge nodejs is too much risk. Settled with --ignore-engines
+
+## serve static
+
+nginx is still the better solution in terms of generality and perf. symlinking nginx conf to sites-enabled is not hard
+
+On the other hand, multiple sites in one server is messy. It gets worse when https comes in. And need to do proxy pass too - I've implemented all of these, so I could (without too much trouble) replicate this. For now, it seems I'm not doing anything on pg:80
+
+Decide to use nginx route, and get a aliyun free (?) server to deploy
