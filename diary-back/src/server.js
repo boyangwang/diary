@@ -86,6 +86,10 @@ const getEntries = async (ctx, next) => {
   ctx.response.body = {data: results};
 };
 
+const getApiTest = async (ctx, next) => {
+  ctx.response.body = {data: {success: true}};
+};
+
 /**
  * add a new entry to date, or update an existing entry
  * - if new, your entry must have no _id
@@ -133,6 +137,7 @@ const main = async (opt = {}) => {
   router.use(['/api/getEntries', '/api/postEntry', '/api/deleteEntry'], validateOwner);
   router.use(['/api/getEntries'], validateDate);
   router.use(['/api/postEntry', '/api/deleteEntry'], validateEntry);
+  router.get('/api/apiTest', getApiTest);
   router.get('/api/getEntries', getEntries);
   router.post('/api/postEntry', postEntry);
   router.post('/api/deleteEntry', deleteEntry);
