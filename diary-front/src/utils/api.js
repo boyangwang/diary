@@ -1,6 +1,4 @@
-const packagejson = require('./package.json');
-
-console.info('diary-front ', packagejson);
+console.info('diary-front', "font-size: 16px");
 
 export default {
 
