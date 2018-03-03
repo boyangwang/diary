@@ -6,6 +6,7 @@ import thunkMiddleware from 'redux-thunk'
 import { createLogger } from 'redux-logger'
 import reducer from './reducers'
 import Diary from './containers/Diary';
+import api from './utils/api';
 import registerServiceWorker from './registerServiceWorker';
 
 const store = createStore(
