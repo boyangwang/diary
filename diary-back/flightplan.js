@@ -20,16 +20,19 @@ plan.remote(['deploy'], (remote) => {
   remote.sudo(`cd ${projectsDir} &&
     wget https://github.com/boyangwang/diary/archive/master.zip -O master.zip &&
     rm -rf ./diary-master/ && 7z x master.zip -y`);
-
   // install and build
+  // back
   remote.sudo(`cd ${projectsDir}/diary-master/diary-back &&
     yarn install --ignore-engines && ./node_modules/.bin/pm2 stop diary-back
     ./node_modules/.bin/pm2 start ./src/server.js --name diary-back`);
-
+  // front
   remote.sudo(`cd ${projectsDir}/diary-master/diary-front &&
     yarn install --ignore-engines && yarn run build`);
   remote.sudo(`cd ${projectsDir}/diary-master/diary-front &&
     ln -sf ${projectsDir}/diary-master/diary-front/config/diary.conf /etc/nginx/sites-enabled/`);
+  remote.sudo(`cd ${projectsDir} && chmod -R +X .`);
+  remote.sudo(`cd ${projectsDir}/diary-master/diary-front &&
+    chmod -R 755 ./build`);
   remote.sudo(`nginx -s reload`);
 });
 
