@@ -60,8 +60,8 @@
 
 - go in, run yarn install, yarn build
 
-- pm2 stop prev back, front
+- pm2 stop prev back
 
 - pm2 start back
 
-- pm2 start front
+- link nginx conf, reload
