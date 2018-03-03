@@ -12,6 +12,7 @@ import Diary from './containers/Diary';
 import api from './utils/api';
 // TODO: SW requires https
 // import registerServiceWorker from './registerServiceWorker';
+// registerServiceWorker();
 
 const store = createStore(
     reducer,
@@ -25,4 +26,4 @@ ReactDOM.render(
     <Provider store={store}>
         <Diary />
     </Provider>, document.getElementById('root'));
-registerServiceWorker();
+
