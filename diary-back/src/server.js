@@ -5,6 +5,7 @@ const destroyable = require('server-destroy');
 const Koa = require('koa');
 const koaBody = require('koa-body');
 const logger = require('koa-logger');
+const cors = require('koa2-cors');
 const router = require('koa-router')();
 const config = require('./config.js');
 
@@ -133,6 +134,10 @@ const main = async (opt = {}) => {
     ctx.response.type = 'json';
     await next();
   });
+  // in local dev env, sometimes port/domain are different between front/back
+  if (process.env.NODE_ENV !== 'production') {
+    app.use(cors());
+  }
   router.use(['/api/getEntries', '/api/postEntry', '/api/deleteEntry'], validateParams);
   router.use(['/api/getEntries', '/api/postEntry', '/api/deleteEntry'], validateOwner);
   router.use(['/api/getEntries'], validateDate);
