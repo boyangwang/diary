@@ -29,6 +29,7 @@ plan.remote(['deploy'], (remote) => {
   remote.with(`cd ${projectsDir}/diary-master/diary-back`, () => {
     remote.exec(`yarn install --ignore-engines`);
     remote.exec(`./node_modules/.bin/pm2 stop diary-back`, { failsafe: true });
+    remote.exec(`export NODE_ENV=production`, { failsafe: true });
     remote.exec(`./node_modules/.bin/pm2 start ./src/server.js --name diary-back --interpreter=$(which node)`);
   })
   // front
