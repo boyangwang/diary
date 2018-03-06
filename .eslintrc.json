@@ -1,0 +1,19 @@
+{
+    "env": {
+        "browser": true,
+        "commonjs": true,
+        "es6": true
+    },
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "sourceType": "module"
+    },
+    "rules": {
+        "no-undef": 0,
+        "no-unreachable": 0,
+        "no-unused-vars": 0,
+        "valid-typeof": "warn"
+    }
+}
