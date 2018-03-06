@@ -16,7 +16,9 @@
     "koa": "^2.3.0",
     "koa-body": "^2.3.0",
     "koa-logger": "^3.0.1",
+    "koa-passport": "^4.0.1",
     "koa-router": "^7.2.1",
+    "koa-session": "^5.8.1",
     "koa2-cors": "^2.0.5",
     "mongodb": "^2.2.31",
     "server-destroy": "^1.0.1"
