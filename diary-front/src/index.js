@@ -1,5 +1,5 @@
 import 'promise-polyfill/src/polyfill';
-import 'whatwg-fetch'
+import 'isomorphic-fetch';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -8,11 +8,13 @@ import {Provider} from 'react-redux'
 import thunkMiddleware from 'redux-thunk'
 import { createLogger } from 'redux-logger'
 import reducer from './reducers'
-import Diary from './containers/Diary';
+import Diary from './components/Diary';
 import api from './utils/api';
 // TODO: SW requires https
 // import registerServiceWorker from './registerServiceWorker';
 // registerServiceWorker();
+
+import 'antd/dist/antd.css';
 
 const store = createStore(
     reducer,
@@ -22,8 +24,6 @@ const store = createStore(
     )
 );
 
-ReactDOM.render(
-    <Provider store={store}>
-        <Diary />
-    </Provider>, document.getElementById('root'));
-
+ReactDOM.render(<Provider store={store}>
+    <Diary />
+</Provider>, document.getElementById('root'));
