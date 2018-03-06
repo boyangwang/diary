@@ -21,7 +21,7 @@ module.exports = {
       expect(body).toEqual(expectJson);
     return body;
   },
-  expectDbQueryResult: async ({ collection, query, expectedResults }) => {
+  expectDbQueryResult: async ({ db, collection, query, expectedResults }) => {
     if (typeof collection === 'string')
       collection = db.collection(collection);
     let dbResult = await (await collection.find(query)).toArray();
