@@ -4,7 +4,7 @@
   "description": "",
   "main": "src/server.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --forceExit --runInBand",
     "start": "node src/server.js",
     "deploy": "export FLIGHTPLAN_KEY_PATH=~/.ssh/id_rsa && fly deploy:staging --flightplan ./flightplan.js"
   },
