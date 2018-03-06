@@ -3,7 +3,7 @@ const { ObjectId } = require('mongodb');
 const http = require('http');
 const destroyable = require('server-destroy');
 const Koa = require('koa');
-const koaBody = require('koa-body');
+const koaBody = require('koa-bodyparser');
 const session = require('koa-session')
 const logger = require('koa-logger');
 const cors = require('koa2-cors');
@@ -29,7 +29,8 @@ const authenticate = async (mergedConfig, ctx) => {
     ctx.body = { data: { username } };
     return ctx.login(username);
   } else {
-    console.log('Login failure', username, password);
+    console.log('Login failure', ctx.request.body);
+    console.log('Correct', {username: mergedConfig.username, password: mergedConfig.password});
     ctx.status = 401;
     return ctx.body = { err: 'Login failure' };
   }
