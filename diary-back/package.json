@@ -14,7 +14,7 @@
     "isomorphic-fetch": "^2.2.1",
     "jest": "^21.2.0",
     "koa": "^2.3.0",
-    "koa-body": "^2.3.0",
+    "koa-bodyparser": "^4.2.0",
     "koa-logger": "^3.0.1",
     "koa-passport": "^4.0.1",
     "koa-router": "^7.2.1",
