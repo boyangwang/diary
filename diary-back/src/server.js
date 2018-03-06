@@ -18,20 +18,20 @@ const verifyAuthenticated = async (ctx, next) => {
     await next();
   } else {
     ctx.status = 401;
-    ctx.body = {err: 'need login'};
+    ctx.body = { err: 'need login' };
   }
 };
 
-const authenticate = async (ctx) => {
+const authenticate = async (mergedConfig, ctx) => {
   const { username, password } = ctx.request.body;
-  if (username === mergedConfig.username && password === mergedConfig.passport) {
-    ctx.status = 201;
-    ctx.body = {data: {username}};
+  if (username == mergedConfig.username && password == mergedConfig.password) {
+    ctx.status = 200;
+    ctx.body = { data: { username } };
     return ctx.login(username);
   } else {
     console.log('Login failure', username, password);
     ctx.status = 401;
-    return ctx.body = {err: 'Login failure'};
+    return ctx.body = { err: 'Login failure' };
   }
 };
 
@@ -44,18 +44,18 @@ const validateParams = async (ctx, next) => {
   }
   if (invalid) {
     ctx.response.status = 400;
-    ctx.response.body = {err: 'Missing param'};
+    ctx.response.body = { err: 'Missing param' };
   } else {
     await next();
-  }  
+  }
 };
 
 const validateOwner = async (ctx, next) => {
   let owner, errMsg;
   if (ctx.method === 'GET') {
-    ({owner} = ctx.request.query);
+    ({ owner } = ctx.request.query);
   } else {
-    ({owner} = ctx.request.body.data);
+    ({ owner } = ctx.request.body.data);
   }
   if (!owner) {
     errMsg = 'Missing param';
@@ -64,14 +64,14 @@ const validateOwner = async (ctx, next) => {
   }
   if (errMsg) {
     ctx.response.status = 400;
-    ctx.response.body = {err: errMsg};
+    ctx.response.body = { err: errMsg };
   } else {
     await next();
   }
 };
 
 const validateDate = async (ctx, next) => {
-  let {date} = ctx.request.query, errMsg;
+  let { date } = ctx.request.query, errMsg;
   if (!date) {
     errMsg = 'Missing param';
   } else if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
@@ -79,20 +79,20 @@ const validateDate = async (ctx, next) => {
   }
   if (errMsg) {
     ctx.response.status = 400;
-    ctx.response.body = {err: errMsg}; 
+    ctx.response.body = { err: errMsg };
   } else {
     await next();
   }
 };
 
 const validateEntry = async (ctx, next) => {
-  let {entry} = ctx.request.body.data, errMsg;
+  let { entry } = ctx.request.body.data, errMsg;
   if (!entry) {
     errMsg = 'Missing param';
   }
   if (errMsg) {
     ctx.response.status = 400;
-    ctx.response.body = {err: errMsg}; 
+    ctx.response.body = { err: errMsg };
   } else {
     await next();
   }
@@ -105,14 +105,14 @@ const validateEntry = async (ctx, next) => {
  */
 const getEntries = async (ctx, next) => {
   const { date, owner } = ctx.request.query;
-  
+
   let ownerEntryCollection = db.collection(`entry_${owner}`);
-  let results = await (await ownerEntryCollection.find({date})).toArray();
-  ctx.response.body = {data: results};
+  let results = await (await ownerEntryCollection.find({ date })).toArray();
+  ctx.response.body = { data: results };
 };
 
 const getApiTest = async (ctx, next) => {
-  ctx.response.body = {data: {success: true}};
+  ctx.response.body = { data: { success: true } };
 };
 
 /**
@@ -124,26 +124,26 @@ const getApiTest = async (ctx, next) => {
  * @param {*} res 
  */
 const postEntry = async (ctx, next) => {
-  let {entry, owner} = ctx.request.body.data;
-  let ownerEntryCollection = db.collection(`entry_${owner}`);  
+  let { entry, owner } = ctx.request.body.data;
+  let ownerEntryCollection = db.collection(`entry_${owner}`);
   if (!entry._id) {
     let result = await ownerEntryCollection.insertOne(entry);
     ctx.response.status = 200;
-    ctx.response.body = {data: {entry}};
+    ctx.response.body = { data: { entry } };
   } else {
-    let result = await ownerEntryCollection.updateOne({_id: entry._id},
-      {$set: {...entry}});
+    let result = await ownerEntryCollection.updateOne({ _id: entry._id },
+      { $set: { ...entry } });
     ctx.response.status = 200;
-    ctx.response.body = {data: result};
+    ctx.response.body = { data: result };
   }
 };
 
 const deleteEntry = async (ctx, next) => {
-  let {owner, entry} = ctx.request.body.data;
+  let { owner, entry } = ctx.request.body.data;
   let ownerEntryCollection = db.collection(`entry_${owner}`);
   let result = await ownerEntryCollection.findOneAndDelete(entry);
   ctx.response.status = 200;
-  ctx.response.body = {data: {entry: result.value}};
+  ctx.response.body = { data: { entry: result.value } };
 };
 
 /**
@@ -157,9 +157,18 @@ const main = async (opt = {}) => {
   const mongoUrl = `mongodb://localhost:27017/${dbName}`;
   app.keys = mergedConfig.keys;
   db = await MongoClient.connect(mongoUrl);
-  
+
   app.use(logger());
   app.use(koaBody());
+  app.use(session(mergedConfig.sessionConfig, app));
+  app.use(passport.initialize());
+  app.use(passport.session());
+  passport.serializeUser(function(user, done) {
+    done(null, user);
+  });
+  passport.deserializeUser(function(user, done) {
+    done(null, user);
+  });
   app.use(async (ctx, next) => {
     ctx.response.type = 'json';
     await next();
@@ -168,6 +177,14 @@ const main = async (opt = {}) => {
   if (process.env.NODE_ENV !== 'production') {
     app.use(cors());
   }
+
+  router.post('/login', authenticate.bind(null, mergedConfig));
+  router.post('/logout', async (ctx) => {
+    ctx.logout();
+    ctx.redirect('/');
+  });
+
+  // router.use(['/api/getEntries', '/api/postEntry', '/api/deleteEntry'], verifyAuthenticated);
   router.use(['/api/getEntries', '/api/postEntry', '/api/deleteEntry'], validateParams);
   router.use(['/api/getEntries', '/api/postEntry', '/api/deleteEntry'], validateOwner);
   router.use(['/api/getEntries'], validateDate);
@@ -178,11 +195,11 @@ const main = async (opt = {}) => {
   router.post('/api/deleteEntry', deleteEntry);
   app.use(router.routes());
   app.use(router.allowedMethods());
-  
-  return new Promise(resolve => {
+
+  return new Promise((resolve) => {
     let server = http.createServer(app.callback());
-    server.listen(config.port, () => {
-      console.log(`Listening on ${config.port}`);
+    server.listen(mergedConfig.port, () => {
+      console.log(`Listening on ${mergedConfig.port}`);
       app.dbConnection = db;
       destroyable(server);
       app.httpServer = server;
