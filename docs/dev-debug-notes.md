@@ -39,3 +39,9 @@ Decide to use nginx route, and get a aliyun free (?) server to deploy
 配置真是太可怕了
 
 比较简单的方式实现了后端proxy_pass, 还是需要两个port, 暂时写死了. 前端, nginx直接听port 14432, 从外界来的请求打到port, serve文件. 后端, 是nginx听:14432/api, 收到直接转给:14464, 结果转回来
+
+## field name真的有引号
+
+~~很奇怪的bug, 多了一次JSON.stringify (由于isomorphic fetch是改写的API), field看起来是"username", 其实是\"\"~~
+
+搞错啦, 果然是我自己的问题. isomorphic里面设type json是必要的
