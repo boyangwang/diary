@@ -4,12 +4,36 @@ const http = require('http');
 const destroyable = require('server-destroy');
 const Koa = require('koa');
 const koaBody = require('koa-body');
+const session = require('koa-session')
 const logger = require('koa-logger');
 const cors = require('koa2-cors');
 const router = require('koa-router')();
+const passport = require('koa-passport');
 const config = require('./config.js');
 
 let app, db;
+
+const verifyAuthenticated = async (ctx, next) => {
+  if (ctx.isAuthenticated()) {
+    await next();
+  } else {
+    ctx.status = 401;
+    ctx.body = {err: 'need login'};
+  }
+};
+
+const authenticate = async (ctx) => {
+  const { username, password } = ctx.request.body;
+  if (username === mergedConfig.username && password === mergedConfig.passport) {
+    ctx.status = 201;
+    ctx.body = {data: {username}};
+    return ctx.login(username);
+  } else {
+    console.log('Login failure', username, password);
+    ctx.status = 401;
+    return ctx.body = {err: 'Login failure'};
+  }
+};
 
 const validateParams = async (ctx, next) => {
   let invalid;
@@ -122,10 +146,16 @@ const deleteEntry = async (ctx, next) => {
   ctx.response.body = {data: {entry: result.value}};
 };
 
+/**
+ * when used as a module. opt passed in will take precedence
+ * @param {*} opt 
+ */
 const main = async (opt = {}) => {
-  app = new Koa(koaBody());
-  const dbName = opt.dbName || 'diary';
+  app = new Koa();
+  const mergedConfig = Object.assign({}, config, opt);
+  const dbName = mergedConfig.dbName;
   const mongoUrl = `mongodb://localhost:27017/${dbName}`;
+  app.keys = mergedConfig.keys;
   db = await MongoClient.connect(mongoUrl);
   
   app.use(logger());
