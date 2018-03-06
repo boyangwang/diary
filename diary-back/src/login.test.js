@@ -1,8 +1,11 @@
 require('isomorphic-fetch');
 const { MongoClient } = require('mongodb');
 const config = require('./config.js');
+config.port = config.port + 1;
 const dbName = 'diaryTest';
 const mongoUrl = `mongodb://localhost:27017/${dbName}`;
+const { expectFetchUrlStatusCodeAndJson,
+  expectDbQueryResult } = require('./testutils.js');
 let appInstance, db;
 
 beforeAll(async () => {
@@ -11,7 +14,21 @@ beforeAll(async () => {
 });
 
 describe('login', async () => {
-  test('adds 1 + 2 to equal 3', () => {
-    expect(1 + 2).toBe(3);
+  test('correct', async () => {
+    await expectFetchUrlStatusCodeAndJson({
+      url: `http://localhost:${config.port}/login`,
+      postBody: { username: 'foo', password: 'bar' },
+      method: 'POST', expectJson: {err: 'Login failure'},
+      expectStatusCode: 401,
+    });
+  });
+
+  test('correct', async () => {
+    await expectFetchUrlStatusCodeAndJson({
+      url: `http://localhost:${config.port}/login`,
+      postBody: { username: config.username, password: config.password },
+      method: 'POST', expectJson: {data: {username: config.username}},
+      expectStatusCode: 200,
+    });
   });
 });

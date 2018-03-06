@@ -10,7 +10,7 @@ let appInstance, db;
 beforeAll(async () => {
   db = await MongoClient.connect(mongoUrl);
   appInstance = await require('./server.js')({ dbName, port: config.port });
-  fetch('login', {
+  fetch(`http://localhost:${config.port}/login`, {
     headers: {
       'Content-Type': 'application/json'
     },
@@ -22,8 +22,7 @@ beforeAll(async () => {
 describe('api', async () => {
   test('/api/getEntries require date and owner params', async () => {
     await expectFetchUrlStatusCodeAndJson({
-      url:
-        `http://localhost:${config.port}/api/getEntries`,
+      url: `http://localhost:${config.port}/api/getEntries`,
       expectStatusCode: 400, expectJson: { err: 'Missing param' }
     });
 
@@ -82,7 +81,7 @@ describe('api', async () => {
       method: 'POST', expectStatusCode: 400, expectJson: { err: 'Missing param' }
     });
 
-    expectDbQueryResult({ collection: 'entry_testOwner', query: {}, expectedResults: [] });
+    expectDbQueryResult({ db, collection: 'entry_testOwner', query: {}, expectedResults: [] });
   });
 
   test('/api/postEntry adds an entry', async () => {
@@ -93,6 +92,7 @@ describe('api', async () => {
       method: 'POST', postBody: { data: { entry, owner: 'testOwner' } }, expectStatusCode: 200
     });
     expectDbQueryResult({
+      db,
       collection: 'entry_testOwner', query: {}, expectedResults: [{
         _id:
           res.data.entry._id, date: "1970-01-01", title: "test title",
@@ -112,7 +112,7 @@ describe('api', async () => {
       method: 'POST', postBody: { data: { entry, owner: 'testOwner' } }, expectStatusCode: 200,
       expectJson: { "data": { "n": 0, "nModified": 0, "ok": 1 } }
     });
-    expectDbQueryResult({ collection: 'entry_testOwner', query: {}, expectedResults: [] });
+    expectDbQueryResult({ db, collection: 'entry_testOwner', query: {}, expectedResults: [] });
   });
 
   test('/api/postEntry if update an entry that exists, update it', async () => {
@@ -134,6 +134,7 @@ describe('api', async () => {
       expectJson: { "data": { "n": 1, "nModified": 1, "ok": 1 } }
     });
     expectDbQueryResult({
+      db,
       collection: testOwnerEntryCollection, query: { _id: entry._id },
       expectedResults: [entryNew]
     });
@@ -156,6 +157,7 @@ describe('api', async () => {
     });
 
     expectDbQueryResult({
+      db,
       collection: testOwnerEntryCollection, query: { _id: entry._id },
       expectedResults: [entryNew]
     });
@@ -188,6 +190,7 @@ describe('api', async () => {
     });
 
     expectDbQueryResult({
+      db,
       collection: testOwnerEntryCollection, query: { _id: entry._id },
       expectedResults: []
     });
