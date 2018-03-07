@@ -1,3 +1,5 @@
+import appendQuery from 'append-query';
+
 const PROTOCOL = process.env.REACT_APP_PROTOCOL;
 const DOMAIN = process.env.REACT_APP_DOMAIN;
 const PORT = process.env.REACT_APP_PORT;
@@ -11,6 +13,7 @@ const PREFIX =
 const apis = {
   apiTest: 'api/apiTest',
   login: 'login',
+  getEntries: 'api/getEntries',
 };
 
 const apiTest = () => {
@@ -45,6 +48,20 @@ const login = (params) => {
   });
 };
 
+const getEntries = (params) => {
+  const url = appendQuery(PREFIX + apis.getEntries, params);
+  return new Promise((resolve, reject) => {
+    fetch(url).then(
+      (res) => {
+        resolve(res.json());
+      },
+      (err) => {
+        reject(err);
+      }
+    );
+  });
+};
+
 console.info('%c diary-front', 'font-size: 16px');
 apiTest().then(
   (data) => {
@@ -58,4 +75,5 @@ apiTest().then(
 export default {
   apiTest,
   login,
+  getEntries,
 };

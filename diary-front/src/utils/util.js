@@ -1,3 +1,22 @@
+import moment from 'moment';
+import React from 'react';
+import { Icon } from 'antd';
+const dateStringFormat = 'YYYY-MM-DD';
+
 export default {
-  getTodayString: () => new Date().toISOString().substring(0, 10),
+  getTodayStringWithOffset: (offset) => {
+    offset = offset ? offset : 0;
+    return moment()
+      .subtract(offset, 'days')
+      .format(dateStringFormat);
+  },
+  getWeekdaysFromDateString: (date) => {
+    const firstDay = moment(date).startOf('isoWeek');
+    const res = [];
+    for (let i = 0; i < 7; i++) {
+      res.push(firstDay.add(i, 'days').format(dateStringFormat));
+    }
+    return res;
+  },
+  errComponent: <Icon type="exclamation-circle-o" />,
 };
