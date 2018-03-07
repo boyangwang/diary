@@ -4,7 +4,7 @@ const http = require('http');
 const destroyable = require('server-destroy');
 const Koa = require('koa');
 const koaBody = require('koa-bodyparser');
-const session = require('koa-session')
+const session = require('koa-session');
 const logger = require('koa-logger');
 const cors = require('koa2-cors');
 const router = require('koa-router')();
@@ -30,9 +30,12 @@ const authenticate = async (mergedConfig, ctx) => {
     return ctx.login(username);
   } else {
     console.log('Login failure', ctx.request.body);
-    console.log('Correct', {username: mergedConfig.username, password: mergedConfig.password});
+    console.log('Correct', {
+      username: mergedConfig.username,
+      password: mergedConfig.password,
+    });
     ctx.status = 401;
-    return ctx.body = { err: 'Login failure' };
+    return (ctx.body = { err: 'Login failure' });
   }
 };
 
@@ -40,7 +43,10 @@ const validateParams = async (ctx, next) => {
   let invalid;
   if (ctx.method === 'GET' && !ctx.request.query) {
     invalid = true;
-  } else if (ctx.method === 'POST' && (!ctx.request.body || !ctx.request.body.data)) {
+  } else if (
+    ctx.method === 'POST' &&
+    (!ctx.request.body || !ctx.request.body.data)
+  ) {
     invalid = true;
   }
   if (invalid) {
@@ -72,7 +78,8 @@ const validateOwner = async (ctx, next) => {
 };
 
 const validateDate = async (ctx, next) => {
-  let { date } = ctx.request.query, errMsg;
+  let { date } = ctx.request.query,
+    errMsg;
   if (!date) {
     errMsg = 'Missing param';
   } else if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
@@ -87,7 +94,8 @@ const validateDate = async (ctx, next) => {
 };
 
 const validateEntry = async (ctx, next) => {
-  let { entry } = ctx.request.body.data, errMsg;
+  let { entry } = ctx.request.body.data,
+    errMsg;
   if (!entry) {
     errMsg = 'Missing param';
   }
@@ -102,7 +110,7 @@ const validateEntry = async (ctx, next) => {
 /**
  * returns a list of entries for specified date, or empty
  * @param {*} req req.query.date req.query.owner
- * @param {*} res 
+ * @param {*} res
  */
 const getEntries = async (ctx, next) => {
   const { date, owner } = ctx.request.query;
@@ -122,7 +130,7 @@ const getApiTest = async (ctx, next) => {
  * - if update, your entry must have _id. If that _id is not found, nothing happens
  * - if new entry is identical to old, nothing happens
  * @param {*} req req.body.data.entry req.query.owner
- * @param {*} res 
+ * @param {*} res
  */
 const postEntry = async (ctx, next) => {
   let { entry, owner } = ctx.request.body.data;
@@ -132,8 +140,10 @@ const postEntry = async (ctx, next) => {
     ctx.response.status = 200;
     ctx.response.body = { data: { entry } };
   } else {
-    let result = await ownerEntryCollection.updateOne({ _id: entry._id },
-      { $set: { ...entry } });
+    let result = await ownerEntryCollection.updateOne(
+      { _id: entry._id },
+      { $set: { ...entry } }
+    );
     ctx.response.status = 200;
     ctx.response.body = { data: result };
   }
@@ -149,7 +159,7 @@ const deleteEntry = async (ctx, next) => {
 
 /**
  * when used as a module. opt passed in will take precedence
- * @param {*} opt 
+ * @param {*} opt
  */
 const main = async (opt = {}) => {
   app = new Koa();
@@ -186,8 +196,14 @@ const main = async (opt = {}) => {
   });
 
   // router.use(['/api/getEntries', '/api/postEntry', '/api/deleteEntry'], verifyAuthenticated);
-  router.use(['/api/getEntries', '/api/postEntry', '/api/deleteEntry'], validateParams);
-  router.use(['/api/getEntries', '/api/postEntry', '/api/deleteEntry'], validateOwner);
+  router.use(
+    ['/api/getEntries', '/api/postEntry', '/api/deleteEntry'],
+    validateParams
+  );
+  router.use(
+    ['/api/getEntries', '/api/postEntry', '/api/deleteEntry'],
+    validateOwner
+  );
   router.use(['/api/getEntries'], validateDate);
   router.use(['/api/postEntry', '/api/deleteEntry'], validateEntry);
   router.get('/api/apiTest', getApiTest);

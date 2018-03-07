@@ -6,7 +6,8 @@
   "scripts": {
     "test": "jest --forceExit --runInBand",
     "start": "node src/server.js",
-    "deploy": "export FLIGHTPLAN_KEY_PATH=~/.ssh/id_rsa && fly deploy:staging --flightplan ./flightplan.js"
+    "deploy": "export FLIGHTPLAN_KEY_PATH=~/.ssh/id_rsa && fly deploy:staging --flightplan ./flightplan.js",
+    "pretty": "prettier --write --trailing-comma es5 --single-quote --arrow-parens always \"src/**/*.js\""
   },
   "author": "",
   "license": "ISC",
@@ -21,6 +22,7 @@
     "koa-session": "^5.8.1",
     "koa2-cors": "^2.0.5",
     "mongodb": "^2.2.31",
+    "prettier": "^1.11.1",
     "server-destroy": "^1.0.1"
   },
   "devDependencies": {
