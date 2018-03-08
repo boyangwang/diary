@@ -9,7 +9,7 @@ import thunkMiddleware from 'redux-thunk';
 import { createLogger } from 'redux-logger';
 import reducer from './reducers';
 import DiaryApp from './components/DiaryApp';
-import api from './utils/api';
+import './utils/api';
 // TODO: SW requires https
 // import registerServiceWorker from './registerServiceWorker';
 // registerServiceWorker();
