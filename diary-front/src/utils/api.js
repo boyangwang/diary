@@ -14,6 +14,7 @@ const apis = {
   apiTest: 'api/apiTest',
   login: 'login',
   getEntries: 'api/getEntries',
+  postEntry: 'api/postEntry',
 };
 
 const apiTest = () => {
@@ -62,6 +63,25 @@ const getEntries = (params) => {
   });
 };
 
+const postEntry = (params) => {
+  return new Promise((resolve, reject) => {
+    fetch(PREFIX + apis.postEntry, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(params),
+    }).then(
+      (res) => {
+        resolve(res.json());
+      },
+      (err) => {
+        reject(err);
+      }
+    );
+  });
+};
+
 console.info('%c diary-front', 'font-size: 16px');
 apiTest().then(
   (data) => {
@@ -76,4 +96,5 @@ export default {
   apiTest,
   login,
   getEntries,
+  postEntry,
 };
