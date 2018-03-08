@@ -12,7 +12,7 @@ let appInstance, db;
 beforeAll(async () => {
   db = await MongoClient.connect(mongoUrl);
   appInstance = await require('./server.js')({ dbName, port: config.port });
-  fetch(`http://localhost:${config.port}/login`, {
+  fetch(`http://localhost:${config.port}/api/login`, {
     headers: {
       'Content-Type': 'application/json',
     },

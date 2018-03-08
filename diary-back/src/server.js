@@ -188,8 +188,8 @@ const main = async (opt = {}) => {
     app.use(cors());
   }
 
-  router.post('/login', authenticate.bind(null, mergedConfig));
-  router.post('/logout', async (ctx) => {
+  router.post('/api/login', authenticate.bind(null, mergedConfig));
+  router.post('/api/logout', async (ctx) => {
     ctx.logout();
     ctx.redirect('/');
   });

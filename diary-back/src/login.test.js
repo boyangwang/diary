@@ -18,7 +18,7 @@ beforeAll(async () => {
 describe('login', async () => {
   test('correct', async () => {
     await expectFetchUrlStatusCodeAndJson({
-      url: `http://localhost:${config.port}/login`,
+      url: `http://localhost:${config.port}/api/login`,
       postBody: { username: 'foo', password: 'bar' },
       method: 'POST',
       expectJson: { err: 'Login failure' },
@@ -28,7 +28,7 @@ describe('login', async () => {
 
   test('correct', async () => {
     await expectFetchUrlStatusCodeAndJson({
-      url: `http://localhost:${config.port}/login`,
+      url: `http://localhost:${config.port}/api/login`,
       postBody: { username: config.username, password: config.password },
       method: 'POST',
       expectJson: { data: { username: config.username } },
