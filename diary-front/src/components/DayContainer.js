@@ -1,8 +1,13 @@
 import api from 'utils/api';
 import util from 'utils/util';
+import DayContainerEntryObject from 'components/DayContainerEntryObject';
+import AddEntryFormContainer from 'components/AddEntryFormContainer';
 import React from 'react';
 import { connect } from 'react-redux';
 import { Row, Col, Icon } from 'antd';
+import classnames from 'classnames';
+
+import './DayContainer.css';
 
 class DayContainer extends React.Component {
   constructor() {
@@ -42,19 +47,29 @@ class DayContainer extends React.Component {
 
   renderContent() {
     const { date, entriesDateMap } = this.props;
-    return !entriesDateMap[date] ? (
-      <Icon type="loading" />
-    ) : (
-      JSON.stringify(entriesDateMap[date])
+    if (!entriesDateMap[date])
+      return (
+        <div className="DayContainerContentDiv">
+          <Icon type="loading" />
+        </div>
+      );
+    return (
+      <div className="DayContainerContentDiv">
+        {entriesDateMap[date].map((entry) => {
+          return <DayContainerEntryObject entry={entry} key={entry._id} />;
+        })}
+        <AddEntryFormContainer date={date} />
+      </div>
     );
   }
 
   render() {
-    const { date } = this.props;
+    const { date, highlight } = this.props;
     const isErr = this.state.err;
+    const dateClassNames = classnames('date', { highlight });
     return (
       <div className="DayContainer">
-        {date}
+        <div className={dateClassNames}>{date}</div>
         {isErr ? util.errComponent : this.renderContent()}
       </div>
     );

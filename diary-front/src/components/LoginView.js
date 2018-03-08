@@ -1,7 +1,7 @@
 import api from 'utils/api';
 import React from 'react';
 import { connect } from 'react-redux';
-import { Form, Icon, Input, Button, Checkbox, message } from 'antd';
+import { Form, Icon, Input, Button, message } from 'antd';
 const FormItem = Form.Item;
 
 class NormalLoginForm extends React.Component {
