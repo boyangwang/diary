@@ -129,7 +129,7 @@ const getApiTest = async (ctx, next) => {
  * - if new, your entry must have no _id
  * - if update, your entry must have _id. If that _id is not found, nothing happens
  * - if new entry is identical to old, nothing happens
- * @param {*} req req.body.data.entry req.query.owner
+ * @param {*} req req.body.data.entry req.body.data.owner
  * @param {*} res
  */
 const postEntry = async (ctx, next) => {
@@ -164,8 +164,7 @@ const deleteEntry = async (ctx, next) => {
 const main = async (opt = {}) => {
   app = new Koa();
   const mergedConfig = Object.assign({}, config, opt);
-  const dbName = mergedConfig.dbName;
-  const mongoUrl = `mongodb://localhost:27017/${dbName}`;
+  const mongoUrl = `mongodb://localhost:27017/${mergedConfig.dbName}`;
   app.keys = mergedConfig.keys;
   db = await MongoClient.connect(mongoUrl);
 
