@@ -7,14 +7,19 @@ export default {
   getTodayStringWithOffset: (offset) => {
     offset = offset ? offset : 0;
     return moment()
-      .subtract(offset, 'days')
+      .add(offset, 'days')
       .format(dateStringFormat);
   },
   getWeekdaysFromDateString: (date) => {
     const firstDay = moment(date).startOf('isoWeek');
     const res = [];
     for (let i = 0; i < 7; i++) {
-      res.push(firstDay.add(i, 'days').format(dateStringFormat));
+      res.push(
+        firstDay
+          .clone()
+          .add(i, 'days')
+          .format(dateStringFormat)
+      );
     }
     return res;
   },
