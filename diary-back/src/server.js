@@ -216,7 +216,7 @@ const main = async (opt = {}) => {
   return new Promise((resolve) => {
     let server = http.createServer(app.callback());
     server.listen(mergedConfig.port, () => {
-      console.log(`diary-back ver: `, packagejson.version);
+      console.log(`--------------- diary-back ver: `, packagejson.version);
       console.log(`Listening on ${mergedConfig.port}`);
       app.dbConnection = db;
       destroyable(server);
