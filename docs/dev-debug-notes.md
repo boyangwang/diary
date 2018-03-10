@@ -59,3 +59,9 @@ https://github.com/zalmoxisus/redux-devtools-extension#12-advanced-store-setup
 本地开发环境好的, 线上却报错. 结果发现我忘了我本地chrome安全性设置关掉了
 
 线上线下统一真是任重道远, f2etest这次帮我找到了问题 (我抱着试一试的想法用UC web跑了一下)
+
+## pm2不更新后端脚本?
+
+遇到一个问题排查好久才发现, 后端api endpoint定义没更新? server.js是新的, 那看来是pm2 in-memory的问题. 最后重写了flightplan脚本, 上来先stop (以免由于在跑, rm rf不成功?)
+
+反正现在看来是行了, 通过改logging验证了一下
