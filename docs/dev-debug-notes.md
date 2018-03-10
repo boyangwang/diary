@@ -45,3 +45,11 @@ Decide to use nginx route, and get a aliyun free (?) server to deploy
 ~~很奇怪的bug, 多了一次JSON.stringify (由于isomorphic fetch是改写的API), field看起来是"username", 其实是\"\"~~
 
 搞错啦, 果然是我自己的问题. isomorphic里面设type json是必要的
+
+## mobile chrome就报错, apply of undefined?
+
+一开始看到这个都绝望了, 因为手机没root, adb连接不停断, 看到报错也是一头包, sourcemap不能load...
+
+后来绝望之下搜索, 竟然找到答案! https://github.com/zalmoxisus/redux-devtools-extension/issues/320
+
+https://github.com/zalmoxisus/redux-devtools-extension#12-advanced-store-setup

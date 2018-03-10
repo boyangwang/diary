@@ -16,14 +16,14 @@ import './utils/api';
 
 import 'antd/dist/antd.css';
 
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(
   reducer,
-  compose(
+  composeEnhancers(
     applyMiddleware(
       thunkMiddleware, // lets us dispatch() functions
       createLogger()
-    ),
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+    )
   )
 );
 
