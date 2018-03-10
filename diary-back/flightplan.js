@@ -36,8 +36,9 @@ plan.remote(['deploy'], (remote) => {
   remote.with(`cd ${projectsDir}/diary-master/diary-front`, () => {
     remote.exec(`yarn install --ignore-engines`);
     remote.exec(`ln -sf ${projectsDir}/diary-master/diary-front/config/diary.conf /etc/nginx/sites-enabled/`);
-    remote.exec(`chmod -R 755 ./build`);
     remote.exec(`nginx -s reload`);
+    remote.exec(`mkdir ./build`, { failsafe: true });
+    remote.exec(`chmod -R 755 ./build`);
     remote.exec(`yarn run build`);
   });
 });
