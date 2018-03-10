@@ -55,6 +55,9 @@ class DayContainer extends React.Component {
       );
     return (
       <div className="DayContainerContentDiv">
+        <div className="sum">
+          {entriesDateMap[date].reduce((prev, cur) => prev + cur.points || 0, 0)}
+        </div>
         {entriesDateMap[date].map((entry) => {
           return <DayContainerEntryObject entry={entry} key={entry._id} />;
         })}
