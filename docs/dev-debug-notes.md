@@ -53,3 +53,9 @@ Decide to use nginx route, and get a aliyun free (?) server to deploy
 后来绝望之下搜索, 竟然找到答案! https://github.com/zalmoxisus/redux-devtools-extension/issues/320
 
 https://github.com/zalmoxisus/redux-devtools-extension#12-advanced-store-setup
+
+## chrome security disabled locally
+
+本地开发环境好的, 线上却报错. 结果发现我忘了我本地chrome安全性设置关掉了
+
+线上线下统一真是任重道远, f2etest这次帮我找到了问题 (我抱着试一试的想法用UC web跑了一下)
