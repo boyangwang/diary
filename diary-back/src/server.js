@@ -10,6 +10,7 @@ const cors = require('koa2-cors');
 const router = require('koa-router')();
 const passport = require('koa-passport');
 const config = require('./config.js');
+const packagejson = require('../package.json');
 
 let app, db;
 
@@ -215,6 +216,7 @@ const main = async (opt = {}) => {
   return new Promise((resolve) => {
     let server = http.createServer(app.callback());
     server.listen(mergedConfig.port, () => {
+      console.log(`diary-back ver: `, packagejson.version);
       console.log(`Listening on ${mergedConfig.port}`);
       app.dbConnection = db;
       destroyable(server);
