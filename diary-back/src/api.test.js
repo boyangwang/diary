@@ -144,7 +144,7 @@ describe('api', async () => {
 
   test("/api/postEntry if update an entry that doesn't exist, give modified 0", async () => {
     let entry = {
-      _id: '59c61d8dc8864c16acb0c422',
+      _id: 'testid',
       date: '1970-01-01',
       title: 'test title',
       content: 'test content',
@@ -167,7 +167,7 @@ describe('api', async () => {
 
   test('/api/postEntry if update an entry that exists, update it', async () => {
     let entry = {
-      _id: '59c61d8dc8864c16acb0c422',
+      _id: 'testid',
       date: '1970-01-01',
       title: 'test title',
       content: 'test content',
@@ -198,7 +198,7 @@ describe('api', async () => {
 
   test('/api/postEntry if update an entry that exists, but all same, do nothing', async () => {
     let entry = {
-      _id: '59c61d8dc8864c16acb0c422',
+      _id: 'testid',
       date: '1970-01-01',
       title: 'test title',
       content: 'test content',
@@ -226,13 +226,13 @@ describe('api', async () => {
 
   test('/api/deleteEntry', async () => {
     let entry = {
-      _id: '59c61d8dc8864c16acb0c422',
+      _id: 'testid',
       date: '1970-01-01',
       title: 'test title',
       content: 'test content',
       points: 1,
     };
-    let testOwnerEntryCollection = db.collection(`entry_testOwner`);
+    let testOwnerEntryCollection = await db.collection(`entry_testOwner`);
     await testOwnerEntryCollection.insertOne(entry);
 
     let json = await expectFetchUrlStatusCodeAndJson({
@@ -240,20 +240,14 @@ describe('api', async () => {
       method: 'POST',
       postBody: {
         data: {
-          entry: { _id: '59c61d8dc8864c16acb0c422' },
+          entry: { _id: 'testid' },
           owner: 'testOwner',
         },
       },
       expectStatusCode: 200,
       expectJson: {
         data: {
-          entry: {
-            _id: '59c61d8dc8864c16acb0c422',
-            date: '1970-01-01',
-            title: 'test title',
-            content: 'test content',
-            points: 1,
-          },
+          entry,
         },
       },
     });
@@ -265,10 +259,10 @@ describe('api', async () => {
       expectedResults: [],
     });
   });
-});
 
-afterEach(async () => {
-  await db.dropDatabase();
+  afterEach(async () => {
+    await db.dropDatabase();
+  });
 });
 
 afterAll(async () => {
