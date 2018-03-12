@@ -65,3 +65,8 @@ https://github.com/zalmoxisus/redux-devtools-extension#12-advanced-store-setup
 遇到一个问题排查好久才发现, 后端api endpoint定义没更新? server.js是新的, 那看来是pm2 in-memory的问题. 最后重写了flightplan脚本, 上来先stop (以免由于在跑, rm rf不成功?)
 
 反正现在看来是行了, 通过改logging验证了一下
+
+## 阿里郎忽略hosts?
+
+必须VPN除外列表里的才能走正常DNS, 忘了... (或者说不知道DNS也劫持, 但想想这正常, 因为
+好多是内网域名. 但是怎么也该是个包含list, 不该是个除外啊)
