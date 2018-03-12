@@ -1,6 +1,7 @@
 const { MongoClient } = require('mongodb');
 const { ObjectId } = require('mongodb');
 const http = require('http');
+const _ = require('lodash');
 const destroyable = require('server-destroy');
 const Koa = require('koa');
 const koaBody = require('koa-bodyparser');
@@ -158,6 +159,20 @@ const deleteEntry = async (ctx, next) => {
   ctx.response.body = { data: { entry: result.value } };
 };
 
+const errReport = async (ctx, next) => {
+  let err;
+  if (ctx.request.body && ctx.request.body.err &&
+    _.isObject(ctx.request.body.err)) {
+    err = ctx.request.body.err;
+  } else {
+    err = ctx.request.body;
+  }
+  let errCollection = db.collection(`errReport`);
+  let result = await errCollection.insertOne(err);
+  ctx.response.status = 200;
+  ctx.response.body = { err };
+};
+
 /**
  * when used as a module. opt passed in will take precedence
  * @param {*} opt
@@ -210,6 +225,7 @@ const main = async (opt = {}) => {
   router.get('/api/getEntries', getEntries);
   router.post('/api/postEntry', postEntry);
   router.post('/api/deleteEntry', deleteEntry);
+  router.post('/api/errReport', errReport);
   app.use(router.routes());
   app.use(router.allowedMethods());
 
