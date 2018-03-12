@@ -161,8 +161,11 @@ const deleteEntry = async (ctx, next) => {
 
 const errReport = async (ctx, next) => {
   let err;
-  if (ctx.request.body && ctx.request.body.err &&
-    _.isObject(ctx.request.body.err)) {
+  if (
+    ctx.request.body &&
+    ctx.request.body.err &&
+    _.isObject(ctx.request.body.err)
+  ) {
     err = ctx.request.body.err;
   } else {
     err = ctx.request.body;
