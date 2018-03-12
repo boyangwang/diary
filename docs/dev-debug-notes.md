@@ -70,3 +70,7 @@ https://github.com/zalmoxisus/redux-devtools-extension#12-advanced-store-setup
 
 必须VPN除外列表里的才能走正常DNS, 忘了... (或者说不知道DNS也劫持, 但想想这正常, 因为
 好多是内网域名. 但是怎么也该是个包含list, 不该是个除外啊)
+
+## test突然不过了??
+
+一开始以为是并发/setup teardown, 时序问题, 改了半天换了testid, 最后好像是afterEach的问题... 因为我加了describe test suite, afterEach编程了在每个suite之后进行?? 放进了describe里面, 好像就好了. 醉了. 也就是说加了describe之后, 我没有多跑几次test
