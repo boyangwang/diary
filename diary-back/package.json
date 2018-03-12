@@ -22,6 +22,7 @@
     "koa-router": "^7.2.1",
     "koa-session": "^5.8.1",
     "koa2-cors": "^2.0.5",
+    "lodash": "^4.17.5",
     "mongodb": "^2.2.31",
     "prettier": "^1.11.1",
     "server-destroy": "^1.0.1"
