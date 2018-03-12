@@ -73,4 +73,12 @@ https://github.com/zalmoxisus/redux-devtools-extension#12-advanced-store-setup
 
 ## test突然不过了??
 
-一开始以为是并发/setup teardown, 时序问题, 改了半天换了testid, 最后好像是afterEach的问题... 因为我加了describe test suite, afterEach编程了在每个suite之后进行?? 放进了describe里面, 好像就好了. 醉了. 也就是说加了describe之后, 我没有多跑几次test
+一开始以为是并发/setup teardown, 时序问题, 改了半天换了testid, 最后好像是afterEach的问题... 因为我加了describe test suite, afterEach编程了在每个suite之后进行?? 放进了describe里面, 好像就好了. 醉了. 也就是说加了describe之后, 我没有多跑几次test.
+
+感觉还是有点不对, 但是目前看问题解决了.
+
+Quoting doc:
+
+> If afterEach is inside a describe block, it only runs after the tests that are inside this describe block.
+
+> If you want to run some cleanup just once, after all of the tests run, use afterAll instead.
