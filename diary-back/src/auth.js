@@ -19,4 +19,21 @@ passport.deserializeUser(function(user, done) {
   done(null, user);
 });
 
-module.exports = {};
+module.exports = {
+  authenticateCallback: async (ctx, next) => {
+    return await passport.authenticate(
+      'local',
+      async (err, user, info, status) => {
+        if (user) {
+          ctx.status = 200;
+          ctx.body = { data: { user } };
+          return ctx.login(user);
+        } else {
+          console.log('Login failure', ctx.request.body);
+          ctx.status = 401;
+          return (ctx.body = { err: 'Login failure' });
+        }
+      }
+    )(ctx, next);
+  }
+};

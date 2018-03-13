@@ -25,23 +25,6 @@ const verifyAuthenticated = async (ctx, next) => {
   }
 };
 
-const authenticate = async (ctx, next) => {
-  return await passport.authenticate(
-    'local',
-    async (err, user, info, status) => {
-      if (user) {
-        ctx.status = 200;
-        ctx.body = { data: { user } };
-        return ctx.login(user);
-      } else {
-        console.log('Login failure', ctx.request.body);
-        ctx.status = 401;
-        return (ctx.body = { err: 'Login failure' });
-      }
-    }
-  )(ctx, next);
-};
-
 const validateParams = async (ctx, next) => {
   let invalid;
   if (ctx.method === 'GET' && !ctx.request.query) {
@@ -202,7 +185,7 @@ const main = async (opt = {}) => {
     app.use(cors());
   }
 
-  router.post('/api/login', authenticate);
+  router.post('/api/login', auth.authenticateCallback);
   router.post('/api/logout', async (ctx) => {
     ctx.logout();
     ctx.redirect('/');
