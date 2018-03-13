@@ -5,7 +5,7 @@ module.exports = {
   dbName: 'diary',
   keys: ['diary'],
   sessionConfig: {
-    key: 'koa:sessdairy' /** (string) cookie key (default is koa:sess) */,
+    key: 'koa:sess:dairy' /** (string) cookie key (default is koa:sess) */,
     /** (number || 'session') maxAge in ms (default is 1 days) */
     /** 'session' will result in a cookie that expires when session/browser is closed */
     /** Warning: If a session cookie is stolen, this cookie will never expire */
