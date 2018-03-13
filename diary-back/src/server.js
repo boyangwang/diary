@@ -10,7 +10,8 @@ const logger = require('koa-logger');
 const cors = require('koa2-cors');
 const router = require('koa-router')();
 const passport = require('koa-passport');
-const config = require('./config.js');
+const auth = require('./auth');
+const config = require('./config');
 const packagejson = require('../package.json');
 
 let app, db;
@@ -24,21 +25,21 @@ const verifyAuthenticated = async (ctx, next) => {
   }
 };
 
-const authenticate = async (mergedConfig, ctx) => {
-  const { username, password } = ctx.request.body;
-  if (username == mergedConfig.username && password == mergedConfig.password) {
-    ctx.status = 200;
-    ctx.body = { data: { username } };
-    return ctx.login(username);
-  } else {
-    console.log('Login failure', ctx.request.body);
-    console.log('Correct', {
-      username: mergedConfig.username,
-      password: mergedConfig.password,
-    });
-    ctx.status = 401;
-    return (ctx.body = { err: 'Login failure' });
-  }
+const authenticate = async (ctx, next) => {
+  return await passport.authenticate(
+    'local',
+    async (err, user, info, status) => {
+      if (user) {
+        ctx.status = 200;
+        ctx.body = { data: { user } };
+        return ctx.login(user);
+      } else {
+        console.log('Login failure', ctx.request.body);
+        ctx.status = 401;
+        return (ctx.body = { err: 'Login failure' });
+      }
+    }
+  )(ctx, next);
 };
 
 const validateParams = async (ctx, next) => {
@@ -192,12 +193,6 @@ const main = async (opt = {}) => {
   app.use(session(mergedConfig.sessionConfig, app));
   app.use(passport.initialize());
   app.use(passport.session());
-  passport.serializeUser(function(user, done) {
-    done(null, user);
-  });
-  passport.deserializeUser(function(user, done) {
-    done(null, user);
-  });
   app.use(async (ctx, next) => {
     ctx.response.type = 'json';
     await next();
@@ -207,13 +202,12 @@ const main = async (opt = {}) => {
     app.use(cors());
   }
 
-  router.post('/api/login', authenticate.bind(null, mergedConfig));
+  router.post('/api/login', authenticate);
   router.post('/api/logout', async (ctx) => {
     ctx.logout();
     ctx.redirect('/');
   });
 
-  // router.use(['/api/getEntries', '/api/postEntry', '/api/deleteEntry'], verifyAuthenticated);
   router.use(
     ['/api/getEntries', '/api/postEntry', '/api/deleteEntry'],
     validateParams

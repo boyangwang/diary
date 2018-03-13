@@ -7,10 +7,10 @@ const FormItem = Form.Item;
 class AddEntryFormContainer extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
-    const { date, username } = this.props;
+    const { date, user } = this.props;
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        api.postEntry({ data: { entry: values, owner: username } }).then(
+        api.postEntry({ data: { entry: values, owner: user.username } }).then(
           (data) => {
             if (data.err) {
               message.warn('' + data.err);
@@ -72,6 +72,6 @@ const WrappedAddEntryFormContainer = Form.create()(AddEntryFormContainer);
 
 export default connect((state) => {
   return {
-    username: state.username,
+    user: state.user,
   };
 })(WrappedAddEntryFormContainer);

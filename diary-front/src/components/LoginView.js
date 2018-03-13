@@ -16,7 +16,7 @@ class NormalLoginForm extends React.Component {
             } else {
               this.props.dispatch({
                 type: 'LOGIN',
-                payload: { username: data.data.username },
+                payload: { user: data.data.user },
               });
             }
           },

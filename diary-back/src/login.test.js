@@ -31,7 +31,7 @@ describe('login', async () => {
       url: `http://localhost:${config.port}/api/login`,
       postBody: { username: config.username, password: config.password },
       method: 'POST',
-      expectJson: { data: { username: config.username } },
+      expectJson: { data: { user: { username: config.username } } },
       expectStatusCode: 200,
     });
   });

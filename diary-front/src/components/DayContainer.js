@@ -18,9 +18,9 @@ class DayContainer extends React.Component {
   }
 
   getEntriesForDate() {
-    const { entriesDateMap, date, dispatch, username } = this.props;
+    const { entriesDateMap, date, dispatch, user } = this.props;
     if (!entriesDateMap[date])
-      api.getEntries({ date, owner: username }).then(
+      api.getEntries({ date, owner: user.username }).then(
         (data) => {
           dispatch({
             type: 'ENTRIES_FOR_DATE',
@@ -85,6 +85,6 @@ class DayContainer extends React.Component {
 export default connect((state) => {
   return {
     entriesDateMap: state.entriesDateMap,
-    username: state.username,
+    user: state.user,
   };
 })(DayContainer);

@@ -1,10 +1,10 @@
 const INITIAL_STATE = {
-  username: null,
+  user: null,
   entriesDateMap: {},
 };
 export default (state = INITIAL_STATE, action) => {
   if (action.type === 'LOGIN') {
-    return { ...state, username: action.payload.username };
+    return { ...state, user: action.payload.user };
   } else if (action.type === 'ENTRIES_FOR_DATE') {
     return {
       ...state,

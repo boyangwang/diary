@@ -5,16 +5,16 @@ import { connect } from 'react-redux';
 
 class DiaryApp extends React.Component {
   render() {
-    const { username } = this.props;
+    const { user } = this.props;
     return (
       <div className="DiaryApp">
         <h1>DiaryApp</h1>
-        {username ? <DiaryDateView /> : <LoginView />}
+        {user ? <DiaryDateView /> : <LoginView />}
       </div>
     );
   }
 }
 
 export default connect((state) => {
-  return { username: state.username };
+  return { user: state.user };
 })(DiaryApp);
