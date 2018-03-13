@@ -10,6 +10,7 @@ import { createLogger } from 'redux-logger';
 import reducer from './reducers';
 import DiaryApp from './components/DiaryApp';
 import './utils/api';
+import './utils/errReport';
 // TODO: SW requires https
 // import registerServiceWorker from './registerServiceWorker';
 // registerServiceWorker();
