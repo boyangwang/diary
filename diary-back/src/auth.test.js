@@ -16,13 +16,39 @@ beforeAll(async () => {
 });
 
 describe('login', async () => {
-  test('correct', async () => {
+  test('wrong', async () => {
     await expectFetchUrlStatusCodeAndJson({
       url: `http://localhost:${config.port}/api/login`,
       postBody: { username: 'foo', password: 'bar' },
       method: 'POST',
       expectJson: { err: 'Login failure' },
       expectStatusCode: 401,
+    });
+  });
+
+  test('401 for all api reqs', async () => {
+    await expectFetchUrlStatusCodeAndJson({
+      url: `http://localhost:${
+        config.port
+      }/api/getEntries?date=1970-01-01&owner=testOwner`,
+      expectStatusCode: 401,
+      expectJson: { err: 'need login' },
+    });
+    await expectFetchUrlStatusCodeAndJson({
+      url: `http://localhost:${
+        config.port
+      }/api/postEntry`,
+      method: 'POST',
+      expectStatusCode: 401,
+      expectJson: { err: 'need login' },
+    });
+    await expectFetchUrlStatusCodeAndJson({
+      url: `http://localhost:${
+        config.port
+      }/api/deleteEntry`,
+      method: 'POST',
+      expectStatusCode: 401,
+      expectJson: { err: 'need login' },
     });
   });
 
