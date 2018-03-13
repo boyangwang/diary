@@ -12,7 +12,7 @@ class NormalLoginForm extends React.Component {
         api.login(values).then(
           (data) => {
             if (data.err) {
-              message.warn(data.err);
+              message.warn('' + data.err);
             } else {
               this.props.dispatch({
                 type: 'LOGIN',
@@ -21,7 +21,7 @@ class NormalLoginForm extends React.Component {
             }
           },
           (err) => {
-            message.warn(err);
+            message.warn('' + err);
           }
         );
       }

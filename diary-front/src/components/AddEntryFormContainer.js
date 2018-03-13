@@ -13,7 +13,7 @@ class AddEntryFormContainer extends React.Component {
         api.postEntry({ data: { entry: values, owner: username } }).then(
           (data) => {
             if (data.err) {
-              message.warn(data.err);
+              message.warn('' + data.err);
             } else {
               this.props.dispatch({
                 type: 'postEntry',
@@ -22,7 +22,7 @@ class AddEntryFormContainer extends React.Component {
             }
           },
           (err) => {
-            message.warn(err);
+            message.warn('' + err);
           }
         );
       }
