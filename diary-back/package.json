@@ -24,11 +24,16 @@
     "koa2-cors": "^2.0.5",
     "lodash": "^4.17.5",
     "mongodb": "^2.2.31",
+    "passport-local": "^1.0.0",
     "prettier": "^1.11.1",
     "server-destroy": "^1.0.1"
   },
   "devDependencies": {
     "flightplan": "^0.6.17",
-    "pm2": "^2.10.1"
-  }
+    "pm2": "^2.10.1",
+    "pre-commit": "^1.2.2"
+  },
+  "pre-commit": [
+    "pretty"
+  ]
 }
