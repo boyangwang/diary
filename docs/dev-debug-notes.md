@@ -82,3 +82,7 @@ Quoting doc:
 > If afterEach is inside a describe block, it only runs after the tests that are inside this describe block.
 
 > If you want to run some cleanup just once, after all of the tests run, use afterAll instead.
+
+## passport不管用?
+
+果然是我根本没implement localStrategy, 之前就觉得不对, 还以为逻辑都在passport.authenticate里面, 其实那个里面给的是callback
