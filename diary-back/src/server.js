@@ -190,7 +190,8 @@ const main = async (opt = {}) => {
     ctx.logout();
     ctx.redirect('/');
   });
-
+  
+  router.use(['/api/getEntries', '/api/postEntry', '/api/deleteEntry'], verifyAuthenticated);
   router.use(
     ['/api/getEntries', '/api/postEntry', '/api/deleteEntry'],
     validateParams
