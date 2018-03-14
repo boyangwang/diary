@@ -48,5 +48,4 @@ class DiaryDateView extends React.Component {
     );
   }
 }
-
 export default DiaryDateView;

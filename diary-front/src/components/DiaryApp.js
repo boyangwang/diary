@@ -1,4 +1,5 @@
 import DiaryDateView from 'components/DiaryDateView';
+import TodoView from 'components/TodoView';
 import LoginView from 'components/LoginView';
 import React from 'react';
 import { connect } from 'react-redux';
@@ -9,7 +10,14 @@ class DiaryApp extends React.Component {
     return (
       <div className="DiaryApp">
         <h1>DiaryApp</h1>
-        {user ? <DiaryDateView /> : <LoginView />}
+        {user ? (
+          <div>
+            <DiaryDateView />
+            <TodoView />
+          </div>
+        ) : (
+          <LoginView />
+        )}
       </div>
     );
   }
