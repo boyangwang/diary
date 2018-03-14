@@ -1,6 +1,7 @@
 import util from 'utils/util';
 import api from 'utils/api';
 import AddTodoFormContainer from 'components/AddTodoFormContainer';
+import TodoObject from 'components/TodoObject';
 import React from 'react';
 import { connect } from 'react-redux';
 import { Card, List, Icon } from 'antd';
@@ -36,13 +37,7 @@ class TodoView extends React.Component {
           <List
             dataSource={todos}
             renderItem={todo => (
-              <List.Item>
-                <div className="TodoTitleDiv">{todo.title}</div>
-                <div className="TodoContentDiv">{todo.content}</div>
-                <div className="TodoDateDiv">{todo.date}</div>
-                <div className="TodoPriorityDiv">{todo.priority}</div>
-                <div className="TodoCheckDiv">{todo.check}</div>
-              </List.Item>
+              <TodoObject todo={todo} />
             )}
           />}
         <AddTodoFormContainer />
