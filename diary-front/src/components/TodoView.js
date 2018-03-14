@@ -17,6 +17,7 @@ class TodoView extends React.Component {
                 <div className="TodoContentDiv">{todo.content}</div>
                 <div className="TodoDateDiv">{todo.date}</div>
                 <div className="TodoPriorityDiv">{todo.priority}</div>
+                <div className="TodoCheckDiv">{todo.check}</div>
               </List.Item>
             )}
           />}

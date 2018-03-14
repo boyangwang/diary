@@ -22,6 +22,10 @@ const packagejson = require('../package.json');
 
 let app, db;
 
+const getApiTest = async (ctx, next) => {
+  ctx.response.body = { data: { success: true } };
+};
+
 /**
  * when used as a module. opt passed in will take precedence
  * @param {*} opt
@@ -43,10 +47,8 @@ const main = async (opt = {}) => {
     ctx.response.type = 'json';
     await next();
   });
-  // in local dev env, sometimes port/domain are different between front/back
-  if (process.env.NODE_ENV !== 'production') {
-    app.use(cors());
-  }
+  // apiTest
+  router.get('/api/apiTest', getApiTest);
   // auth
   router.post('/api/login', auth.authenticateCallback);
   router.post('/api/logout', async (ctx) => {
@@ -68,10 +70,23 @@ const main = async (opt = {}) => {
   );
   router.use(['/api/getEntries'], diary.validateDate);
   router.use(['/api/postEntry', '/api/deleteEntry'], diary.validateEntry);
-  router.get('/api/apiTest', diary.getApiTest);
   router.get('/api/getEntries', diary.getEntries);
   router.post('/api/postEntry', diary.postEntry);
   router.post('/api/deleteEntry', diary.deleteEntry);
+  // todo
+  todo.init(app, db);
+  router.use(
+    ['/api/getTodos', '/api/postTodo', '/api/deleteTodo'],
+    todo.validateParams
+  );
+  router.use(
+    ['/api/getTodos', '/api/postTodo', '/api/deleteTodo'],
+    todo.validateOwner
+  );
+  router.use(['/api/postTodo', '/api/deleteTodo'], todo.validateTodo);
+  router.get('/api/getTodos', todo.getTodos);
+  router.post('/api/postTodo', todo.postTodo);
+  router.post('/api/deleteTodo', todo.deleteTodo);
   // errReport
   errReport.init(app, db);
   router.post('/api/errReport', errReport.post);

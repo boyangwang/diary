@@ -81,9 +81,6 @@ module.exports = {
     let results = await (await ownerEntryCollection.find({ date })).toArray();
     ctx.response.body = { data: results };
   },
-  getApiTest: async (ctx, next) => {
-    ctx.response.body = { data: { success: true } };
-  },
   /**
    * add a new entry to date, or update an existing entry
    * - if new, your entry must have no _id
