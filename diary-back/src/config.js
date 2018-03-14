@@ -4,6 +4,7 @@ module.exports = {
   port: 14464,
   dbName: 'diary',
   keys: ['diary'],
+  useAuth: true,
   sessionConfig: {
     key: 'koa:sess:dairy' /** (string) cookie key (default is koa:sess) */,
     /** (number || 'session') maxAge in ms (default is 1 days) */
