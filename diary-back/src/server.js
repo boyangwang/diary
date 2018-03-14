@@ -16,15 +16,6 @@ const packagejson = require('../package.json');
 
 let app, db;
 
-const verifyAuthenticated = async (ctx, next) => {
-  if (ctx.isAuthenticated()) {
-    await next();
-  } else {
-    ctx.status = 401;
-    ctx.body = { err: 'need login' };
-  }
-};
-
 const validateParams = async (ctx, next) => {
   let invalid;
   if (ctx.method === 'GET' && !ctx.request.query) {
@@ -175,6 +166,7 @@ const main = async (opt = {}) => {
   app.use(koaBody());
   app.use(session(mergedConfig.sessionConfig, app));
   app.use(passport.initialize());
+  auth.init();
   app.use(passport.session());
   app.use(async (ctx, next) => {
     ctx.response.type = 'json';
@@ -191,7 +183,7 @@ const main = async (opt = {}) => {
     ctx.redirect('/');
   });
   
-  router.use(['/api/getEntries', '/api/postEntry', '/api/deleteEntry'], verifyAuthenticated);
+  router.use(['/api/getEntries', '/api/postEntry', '/api/deleteEntry'], auth.verifyAuthenticated);
   router.use(
     ['/api/getEntries', '/api/postEntry', '/api/deleteEntry'],
     validateParams
