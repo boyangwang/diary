@@ -38,6 +38,7 @@ const login = (params) => {
       headers: {
         'Content-Type': 'application/json',
       },
+      credentials: 'same-origin',
       body: JSON.stringify(params),
     }).then(
       (res) => {
@@ -53,7 +54,9 @@ const login = (params) => {
 const getEntries = (params) => {
   const url = appendQuery(PREFIX + apis.getEntries, params);
   return new Promise((resolve, reject) => {
-    fetch(url).then(
+    fetch(url, {
+      credentials: 'same-origin',
+    }).then(
       (res) => {
         resolve(res.json());
       },
@@ -71,6 +74,7 @@ const postEntry = (params) => {
       headers: {
         'Content-Type': 'application/json',
       },
+      credentials: 'same-origin',
       body: JSON.stringify(params),
     }).then(
       (res) => {
