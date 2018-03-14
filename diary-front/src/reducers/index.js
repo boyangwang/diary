@@ -10,6 +10,11 @@ export default (state = INITIAL_STATE, action) => {
       ...state,
       entriesDateMap: { ...state.entriesDateMap, ...action.payload },
     };
+  } else if (action.type === 'TODOS') {
+    return {
+      ...state,
+      ...action.payload,
+    };
   } else {
     return state;
   }

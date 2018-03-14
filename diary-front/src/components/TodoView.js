@@ -1,8 +1,32 @@
 import util from 'utils/util';
+import api from 'utils/api';
+import AddTodoFormContainer from 'components/AddTodoFormContainer';
 import React from 'react';
+import { connect } from 'react-redux';
 import { Card, List, Icon } from 'antd';
 
 class TodoView extends React.Component {
+  getTodos() {
+    const { dispatch, user } = this.props;
+    api.getTodos({ owner: user.username }).then(
+      (data) => {
+        dispatch({
+          type: 'TODOS',
+          payload: {
+            todos: data.data,
+          },
+        });
+      },
+      (err) => {
+        this.setState({ err });
+      }
+    );
+  }
+
+  componentWillMount() {
+    this.getTodos();
+  }
+
   renderContent() {
     const { todos } = this.props;
 
@@ -21,6 +45,7 @@ class TodoView extends React.Component {
               </List.Item>
             )}
           />}
+        <AddTodoFormContainer />
       </div>
     );
   }
@@ -35,4 +60,9 @@ class TodoView extends React.Component {
     );
   }
 }
-export default TodoView;
+export default connect((state) => {
+  return {
+    todos: state.todos,
+    user: state.user,
+  };
+})(TodoView);

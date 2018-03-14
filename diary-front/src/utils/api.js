@@ -13,8 +13,13 @@ const PREFIX =
 const apis = {
   apiTest: 'api/apiTest',
   login: 'api/login',
+  
   getEntries: 'api/getEntries',
   postEntry: 'api/postEntry',
+  
+  getTodos: 'api/getTodos',
+  postTodo: 'api/postTodo',
+
   errReport: 'api/errReport',
 };
 
@@ -87,6 +92,42 @@ const postEntry = (params) => {
   });
 };
 
+const getTodos = (params) => {
+  const url = appendQuery(PREFIX + apis.getTodos, params);
+  return new Promise((resolve, reject) => {
+    fetch(url, {
+      credentials: 'same-origin',
+    }).then(
+      (res) => {
+        resolve(res.json());
+      },
+      (err) => {
+        reject(err);
+      }
+    );
+  });
+};
+
+const postTodo = (params) => {
+  return new Promise((resolve, reject) => {
+    fetch(PREFIX + apis.postTodo, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'same-origin',
+      body: JSON.stringify(params),
+    }).then(
+      (res) => {
+        resolve(res.json());
+      },
+      (err) => {
+        reject(err);
+      }
+    );
+  });
+};
+
 const errReport = (params) => {
   return new Promise((resolve, reject) => {
     fetch(PREFIX + apis.errReport, {
@@ -122,4 +163,6 @@ export default {
   getEntries,
   postEntry,
   errReport,
+  getTodos,
+  postTodo,
 };
