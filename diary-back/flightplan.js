@@ -1,4 +1,5 @@
-var plan = require('flightplan');
+const path = require('path');
+const plan = require('flightplan');
 
 if (!process.env.FLIGHTPLAN_KEY_PATH) {
   console.error(
@@ -13,6 +14,8 @@ plan.target('staging', {
   privateKey: process.env.FLIGHTPLAN_KEY_PATH,
   agent: process.env.SSH_AUTH_SOCK,
 });
+
+plan.target('localhost');
 
 const projectsDir = '/var/www/diary_project';
 
@@ -70,4 +73,10 @@ plan.remote(['frontend', 'deploy-all'], (remote) => {
     remote.exec(`chmod -R 755 ./build`);
     remote.exec(`yarn run build`);
   });
+});
+
+plan.local(['link-nginx'], (local) => {
+  const confAbsolutePath = path.resolve('../diary-front/config/diary.local.conf');
+  local.exec(`ln -sf ${confAbsolutePath} /usr/local/etc/nginx/servers/`);
+  local.exec(`nginx -s reload`);
 });
