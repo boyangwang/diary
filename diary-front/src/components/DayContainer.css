@@ -1,3 +1,7 @@
 .DayContainer .date.highlight {
   background-color: lightblue;
 }
+
+.DayContainer .DayContainerContentDiv .sum {
+  font-weight: bold;
+}

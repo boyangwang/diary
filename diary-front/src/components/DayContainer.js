@@ -4,7 +4,7 @@ import DayContainerEntryObject from 'components/DayContainerEntryObject';
 import AddEntryFormContainer from 'components/AddEntryFormContainer';
 import React from 'react';
 import { connect } from 'react-redux';
-import { Row, Col, Icon } from 'antd';
+import { Row, Col, Icon, Card } from 'antd';
 import classnames from 'classnames';
 
 import './DayContainer.css';
@@ -55,16 +55,25 @@ class DayContainer extends React.Component {
       );
     return (
       <div className="DayContainerContentDiv">
-        <div className="sum">
-          {entriesDateMap[date].reduce(
-            (prev, cur) => prev + cur.points || 0,
-            0
-          )}
-        </div>
         {entriesDateMap[date].map((entry) => {
           return <DayContainerEntryObject entry={entry} key={entry._id} />;
         })}
         <AddEntryFormContainer date={date} />
+      </div>
+    );
+  }
+
+  renderSum() {
+    const { date, entriesDateMap } = this.props;
+    if (!entriesDateMap[date]) {
+      return "0";
+    }
+    return (
+      <div className="sum">
+        {entriesDateMap[date].reduce(
+          (prev, cur) => prev + cur.points || 0,
+          0
+        )}
       </div>
     );
   }
@@ -74,10 +83,13 @@ class DayContainer extends React.Component {
     const isErr = this.state.err;
     const dateClassNames = classnames('date', { highlight });
     return (
-      <div className="DayContainer">
-        <div className={dateClassNames}>{date}</div>
+      <Card
+        className="DayContainer"
+        title={<div className={dateClassNames}>{date}</div>}
+        extra={this.renderSum()}
+      >
         {isErr ? util.errComponent : this.renderContent()}
-      </div>
+      </Card>
     );
   }
 }
