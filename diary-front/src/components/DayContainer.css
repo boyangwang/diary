@@ -5,3 +5,11 @@
 .DayContainer .DayContainerContentDiv .sum {
   font-weight: bold;
 }
+
+.DayContainer {
+  margin-right: 12px;
+}
+
+.DayContainer > .ant-card-body {
+  padding: 0;
+}

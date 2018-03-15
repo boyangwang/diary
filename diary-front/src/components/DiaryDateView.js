@@ -1,4 +1,5 @@
 import WeekContainer from 'components/WeekContainer';
+import AddEntryFormContainer from 'components/AddEntryFormContainer';
 import util from 'utils/util';
 import React from 'react';
 import { Button, Row, Col } from 'antd';
@@ -22,29 +23,36 @@ class DiaryDateView extends React.Component {
   render() {
     const { offset } = this.state;
     return (
-      <Row className="DiaryDateView" type="flex" justify="space-between">
-        <Col span="2">
-          <div className="ArrowButtonDiv">
-            <Button
-              shape="circle"
-              icon="left"
-              onClick={this.handleArrowButtonClick('left')}
-            />
-          </div>
-        </Col>
-        <Col span="20">
-          <WeekContainer date={util.getTodayStringWithOffset(offset * 7)} />
-        </Col>
-        <Col span="2">
-          <div className="ArrowButtonDiv">
-            <Button
-              shape="circle"
-              icon="right"
-              onClick={this.handleArrowButtonClick('right')}
-            />
-          </div>
-        </Col>
-      </Row>
+      <div className="DiaryDateView">
+        <Row type="flex" justify="space-between">
+          <Col span="2">
+            <div className="ArrowButtonDiv">
+              <Button
+                shape="circle"
+                icon="left"
+                onClick={this.handleArrowButtonClick('left')}
+              />
+            </div>
+          </Col>
+          <Col span="20">
+            <AddEntryFormContainer />
+          </Col>
+          <Col span="2">
+            <div className="ArrowButtonDiv">
+              <Button
+                shape="circle"
+                icon="right"
+                onClick={this.handleArrowButtonClick('right')}
+              />
+            </div>
+          </Col>
+        </Row>
+        <Row type="flex" justify="space-between">
+          <Col span="24">
+            <WeekContainer date={util.getTodayStringWithOffset(offset * 7)} />
+          </Col>
+        </Row>
+      </div>
     );
   }
 }

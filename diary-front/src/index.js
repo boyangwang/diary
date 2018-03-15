@@ -1,3 +1,5 @@
+import 'antd/dist/antd.css';
+
 import 'promise-polyfill/src/polyfill';
 import 'isomorphic-fetch';
 
@@ -15,7 +17,6 @@ import './utils/errReport';
 // import registerServiceWorker from './registerServiceWorker';
 // registerServiceWorker();
 
-import 'antd/dist/antd.css';
 import './index.css';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

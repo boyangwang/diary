@@ -1,22 +1,30 @@
+import api from 'utils/api';
 import React from 'react';
-import { List, Icon } from 'antd';
+import { Avatar, List, Icon, Checkbox } from 'antd';
 
 class TodoObject extends React.Component {
   render() {
-    const { todo } = this.props;
+    const { todo, onCheckChange } = this.props;
     return (
-      <List.Item>
-        <div className="TodoObject">
-          <div className="_id">{todo._id}</div>
-          <div className="title">{todo.title}</div>
-          <div className="date">{todo.date}</div>
-          <div className="priority">{todo.priority}</div>
-          <div className="content">{todo.content}</div>
-          <div className="check">
-            {todo.check ? <Icon type="check-circle-o" /> :
-              <Icon type="minus-circle-o" />}
-          </div>
-        </div>
+      <List.Item
+        className="TodoObject"
+        actions={[
+          <Checkbox
+            defaultChecked={todo.check}
+            onChange={onCheckChange}
+          />
+        ]}>
+        <List.Item.Meta
+          avatar={<Avatar className="priority">{todo.priority}</Avatar>}
+          title={
+            <div>
+              <h4 className="title">{todo.title}</h4>
+              <div className="date">{todo.date}</div>
+            </div>
+          }
+          description={<div className="_id">{todo._id}</div>}
+        />
+        <div className="content">{todo.content}</div>
       </List.Item>
     );
   }

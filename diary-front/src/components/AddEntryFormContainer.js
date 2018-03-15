@@ -1,7 +1,7 @@
 import api from 'utils/api';
 import React from 'react';
 import { connect } from 'react-redux';
-import { Form, Icon, Input, InputNumber, Button, message } from 'antd';
+import { Form, Icon, Input, InputNumber, Button, message, DatePicker, Card } from 'antd';
 const FormItem = Form.Item;
 
 class AddEntryFormContainer extends React.Component {
@@ -34,37 +34,42 @@ class AddEntryFormContainer extends React.Component {
     const { date } = this.props;
 
     return (
-      <Form onSubmit={this.handleSubmit} className="AddEntryFormContainer">
-        <FormItem>
-          {getFieldDecorator('title', {
-            rules: [{ required: true, message: 'Title required' }],
-          })(<Input prefix={<Icon type="plus" />} placeholder="Title" />)}
-        </FormItem>
-        <FormItem>
-          {getFieldDecorator('points', {
-            rules: [{ required: true, message: 'Points required' }],
-          })(
-            <InputNumber
-              prefix={<Icon type="hourglass" />}
-              placeholder="Points"
-            />
-          )}
-        </FormItem>
-        <FormItem>
-          {getFieldDecorator('content', {
-            rules: [],
-          })(<Input placeholder="Content" />)}
-        </FormItem>
-        <FormItem>
-          {getFieldDecorator('date', {
-            rules: [],
-            initialValue: date,
-          })(<Input type="hidden" />)}
-        </FormItem>
-        <Button type="primary" htmlType="submit">
-          Add entry
-        </Button>
-      </Form>
+      <Card>
+        <Form onSubmit={this.handleSubmit} className="AddEntryFormContainer">
+          <FormItem>
+            {getFieldDecorator('title', {
+              rules: [{ required: true, message: 'Title required' }],
+            })(<Input prefix={<Icon type="plus" />} placeholder="Title" />)}
+          </FormItem>
+          <FormItem>
+            {getFieldDecorator('points', {
+              rules: [{ required: true, message: 'Points required' }],
+            })(
+              <InputNumber
+                prefix={<Icon type="hourglass" />}
+                placeholder="Points"
+              />
+            )}
+          </FormItem>
+          <FormItem>
+            {getFieldDecorator('content', {
+              rules: [],
+            })(<Input placeholder="Content" />)}
+          </FormItem>
+          {!date && <DatePicker onChange={(date, dateString) => {
+            this.props.form.setFieldsValue({ date: dateString })
+          }} />}
+          <Button type="primary" htmlType="submit">
+            Add entry
+          </Button>
+          <FormItem className="hidden">
+            {getFieldDecorator('date', {
+              rules: [],
+              initialValue: date,
+            })(<Input type="hidden" />)}
+          </FormItem>
+        </Form>
+      </Card>
     );
   }
 }

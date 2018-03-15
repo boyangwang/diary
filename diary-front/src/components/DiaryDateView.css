@@ -2,3 +2,7 @@
   display: flex;
   justify-content: center;
 }
+
+.DiaryDateView > .ant-card-body {
+  padding: 0;
+}

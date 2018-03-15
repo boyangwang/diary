@@ -2,7 +2,7 @@ import api from 'utils/api';
 import util from 'utils/util';
 import React from 'react';
 import { connect } from 'react-redux';
-import { Form, Icon, Input, InputNumber, Button, message } from 'antd';
+import { Card, Form, Icon, Input, InputNumber, Button, message } from 'antd';
 const FormItem = Form.Item;
 
 class AddTodoFormContainer extends React.Component {
@@ -34,43 +34,45 @@ class AddTodoFormContainer extends React.Component {
     const { getFieldDecorator } = this.props.form;
 
     return (
-      <Form onSubmit={this.handleSubmit} className="AddTodoFormContainer">
-        <FormItem>
-          {getFieldDecorator('title', {
-            rules: [{ required: true, message: 'Title required' }],
-          })(<Input prefix={<Icon type="plus" />} placeholder="Title" />)}
-        </FormItem>
-        <FormItem>
-          {getFieldDecorator('priority', {
-            rules: [{ required: true, message: 'Priority required' }],
-          })(
-            <InputNumber
-              prefix={<Icon type="" />}
-              placeholder="Priority"
-            />
-          )}
-        </FormItem>
-        <FormItem>
-          {getFieldDecorator('content', {
-            rules: [],
-          })(<Input placeholder="Content" />)}
-        </FormItem>
-        <FormItem>
-          {getFieldDecorator('date', {
-            rules: [],
-            initialValue: util.getTodayStringWithOffset(),
-          })(<Input type="hidden" />)}
-        </FormItem>
-        <FormItem>
-          {getFieldDecorator('check', {
-            rules: [],
-            initialValue: false,
-          })(<Input type="hidden" />)}
-        </FormItem>
-        <Button type="primary" htmlType="submit">
-          Add entry
+      <Card>
+        <Form onSubmit={this.handleSubmit} className="AddTodoFormContainer">
+          <FormItem>
+            {getFieldDecorator('title', {
+              rules: [{ required: true, message: 'Title required' }],
+            })(<Input prefix={<Icon type="plus" />} placeholder="Title" />)}
+          </FormItem>
+          <FormItem>
+            {getFieldDecorator('priority', {
+              rules: [{ required: true, message: 'Priority required' }],
+            })(
+              <InputNumber
+                prefix={<Icon type="" />}
+                placeholder="Priority"
+              />
+            )}
+          </FormItem>
+          <FormItem>
+            {getFieldDecorator('content', {
+              rules: [],
+            })(<Input placeholder="Content" />)}
+          </FormItem>
+          <FormItem className="hidden">
+            {getFieldDecorator('date', {
+              rules: [],
+              initialValue: util.getTodayStringWithOffset(),
+            })(<Input type="hidden" />)}
+          </FormItem>
+          <FormItem className="hidden">
+            {getFieldDecorator('check', {
+              rules: [],
+              initialValue: false,
+            })(<Input type="hidden" />)}
+          </FormItem>
+          <Button type="primary" htmlType="submit">
+            Add entry
         </Button>
-      </Form>
+        </Form>
+      </Card>
     );
   }
 }

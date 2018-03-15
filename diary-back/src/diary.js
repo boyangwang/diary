@@ -97,8 +97,10 @@ module.exports = {
       ctx.response.status = 200;
       ctx.response.body = { data: { entry } };
     } else {
+      const processedId = entry._id.length === 24 ? new ObjectId(entry._id) : entry._id;
+      delete entry._id;
       let result = await ownerEntryCollection.updateOne(
-        { _id: entry._id },
+        { _id: processedId },
         { $set: { ...entry } }
       );
       ctx.response.status = 200;

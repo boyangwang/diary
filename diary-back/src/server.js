@@ -1,6 +1,5 @@
 // third-party
 const { MongoClient } = require('mongodb');
-const { ObjectId } = require('mongodb');
 const http = require('http');
 const _ = require('lodash');
 const destroyable = require('server-destroy');

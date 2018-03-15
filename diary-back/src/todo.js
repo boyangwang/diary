@@ -1,3 +1,5 @@
+const { ObjectId } = require('mongodb').ObjectId;
+
 let app, db;
 
 module.exports = {
@@ -82,8 +84,10 @@ module.exports = {
       ctx.response.status = 200;
       ctx.response.body = { data: { todo } };
     } else {
+      const processedId = todo._id.length === 24 ? new ObjectId(todo._id) : todo._id;
+      delete todo._id;
       let result = await ownerTodoCollection.updateOne(
-        { _id: todo._id },
+        { _id: processedId },
         { $set: { ...todo } }
       );
       ctx.response.status = 200;

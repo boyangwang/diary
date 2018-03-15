@@ -10,3 +10,7 @@ html {
   font-size: 10px;
   color: #999;
 }
+
+.hidden {
+  display: none;
+}

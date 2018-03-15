@@ -28,6 +28,14 @@ class TodoView extends React.Component {
     this.getTodos();
   }
 
+  onCheckChange(todo) {
+    const { user } = this.props;
+    return (e) => {
+      todo.check = e.target.checked;
+      api.postTodo({data: {owner: user.username, todo}});
+    }
+  }
+
   renderContent() {
     const { todos } = this.props;
 
@@ -37,7 +45,7 @@ class TodoView extends React.Component {
           <List
             dataSource={todos}
             renderItem={todo => (
-              <TodoObject todo={todo} />
+              <TodoObject todo={todo} onCheckChange={this.onCheckChange(todo)} />
             )}
           />}
         <AddTodoFormContainer />
