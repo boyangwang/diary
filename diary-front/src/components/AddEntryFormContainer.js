@@ -1,6 +1,7 @@
 import React from 'react';
-import _ from 'lodash';
 import { connect } from 'react-redux';
+import _ from 'lodash';
+import moment from 'moment';
 import {
   Form,
   Icon,
@@ -13,6 +14,7 @@ import {
 } from 'antd';
 
 import api from 'utils/api';
+import util from 'utils/util';
 
 class AddEntryFormContainer extends React.Component {
   handleSubmit = (e) => {
@@ -24,6 +26,7 @@ class AddEntryFormContainer extends React.Component {
       if (err) {
         return;
       }
+      values.date = values.date.format(util.dateStringFormat);
       api
         .postEntry({ data: { entry: values, owner: user.username } })
         .then(
@@ -57,7 +60,7 @@ class AddEntryFormContainer extends React.Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { date, buttonText, entry } = this.props;
+    const { buttonText, entry } = this.props;
 
     return (
       <Card>
@@ -65,13 +68,13 @@ class AddEntryFormContainer extends React.Component {
           <Form.Item>
             {getFieldDecorator('title', {
               rules: [{ required: true, message: 'Title required' }],
-              initialValue: _.get(entry, 'title') || date,
+              initialValue: _.get(entry, 'title'),
             })(<Input prefix={<Icon type="plus" />} placeholder="Title" />)}
           </Form.Item>
           <Form.Item>
             {getFieldDecorator('points', {
               rules: [{ required: true, message: 'Points required' }],
-              initialValue: _.get(entry, 'points') || date,
+              initialValue: _.get(entry, 'points'),
             })(
               <InputNumber
                 prefix={<Icon type="hourglass" />}
@@ -82,25 +85,25 @@ class AddEntryFormContainer extends React.Component {
           <Form.Item>
             {getFieldDecorator('content', {
               rules: [],
-              initialValue: _.get(entry, 'content') || date,
+              initialValue: _.get(entry, 'content'),
             })(<Input placeholder="Content" />)}
           </Form.Item>
-          {!date && (
-            <DatePicker
-              onChange={(date, dateString) => {
-                this.props.form.setFieldsValue({ date: dateString });
-              }}
-            />
-          )}
+          <Form.Item>
+            {getFieldDecorator('date', {
+              rules: [
+                { required: true, message: 'Date required' },
+              ],
+              initialValue: _.get(entry, 'date') ? moment(_.get(entry, 'date')) : null,
+            })(
+              // if editing entry, do not allow change date (for now)
+              <DatePicker
+                disabled={!!_.get(entry, 'date')}
+              />
+            )}
+          </Form.Item>
           <Button type="primary" htmlType="submit">
             {buttonText}
           </Button>
-          <Form.Item className="hidden">
-            {getFieldDecorator('date', {
-              rules: [],
-              initialValue: _.get(entry, 'date') || date,
-            })(<Input type="hidden" />)}
-          </Form.Item>
           <Form.Item className="hidden">
             {getFieldDecorator('_id', {
               rules: [],
@@ -114,7 +117,7 @@ class AddEntryFormContainer extends React.Component {
 }
 AddEntryFormContainer.defaultProps = {
   buttonText: 'Add entry',
-  onSubmit: () => {},
+  onSubmit: () => { },
 };
 
 const WrappedAddEntryFormContainer = Form.create()(AddEntryFormContainer);

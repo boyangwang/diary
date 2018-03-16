@@ -5,6 +5,7 @@ import { Icon } from 'antd';
 const dateStringFormat = 'YYYY-MM-DD';
 
 export default {
+  dateStringFormat,
   getTodayStringWithOffset: (offset) => {
     offset = offset ? offset : 0;
     return moment()

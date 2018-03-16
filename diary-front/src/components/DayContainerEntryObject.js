@@ -76,7 +76,6 @@ class DayContainerEntryObject extends React.Component {
           closable={false}
         >
           <AddEntryFormContainer
-            date={entry.date}
             entry={entry}
             buttonText={'Edit entry'}
             onSubmit={() =>

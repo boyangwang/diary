@@ -58,7 +58,6 @@ class DayContainer extends React.Component {
         {entriesDateMap[date].map((entry) => {
           return <DayContainerEntryObject entry={entry} key={entry._id} />;
         })}
-        {/* <AddEntryFormContainer date={date} /> */}
       </div>
     );
   }
