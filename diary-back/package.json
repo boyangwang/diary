@@ -1,8 +1,8 @@
 {
   "name": "diary-back",
   "version": "1.0.1",
-  "description": "",
-  "main": "src/server.js",
+  "private": true,
+  "author": "Boyang <wangboyang1991@gmail.com>",
   "scripts": {
     "test": "jest --forceExit --runInBand",
     "start": "node src/server.js",
@@ -11,8 +11,7 @@
     "pretty": "prettier --write --trailing-comma es5 --single-quote --arrow-parens always \"src/**/*.js\" flightplan.js",
     "postinstall": "cd .. && yarn install"
   },
-  "author": "",
-  "license": "ISC",
+  "main": "src/server.js",
   "dependencies": {
     "isomorphic-fetch": "^2.2.1",
     "jest": "^21.2.0",
