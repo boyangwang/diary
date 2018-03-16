@@ -10,23 +10,26 @@ class AddTodoFormContainer extends React.Component {
     e.preventDefault();
     const { user } = this.props;
     this.props.form.validateFields((err, values) => {
-      if (!err) {
-        api.postTodo({ data: { todo: values, owner: user.username } }).then(
-          (data) => {
-            if (data.err) {
-              message.warn('' + data.err);
-            } else {
-              this.props.dispatch({
-                type: 'POST_TODO',
-                payload: { todo: values },
-              });
-            }
-          },
-          (err) => {
-            message.warn('' + err);
-          }
-        );
+      if (err) {
+        return;
       }
+      api.postTodo({ data: { todo: values, owner: user.username } }).then(
+        (data) => {
+          if (data.err) {
+            message.warn('' + data.err);
+          } else {
+            this.props.dispatch({
+              type: 'POST_TODO',
+              payload: { todo: data.data.todo },
+            });
+          }
+        },
+        (err) => {
+          message.warn('' + err);
+        }
+      ).then(
+        () => this.props.form.resetFields()
+      );
     });
   };
 
@@ -66,7 +69,7 @@ class AddTodoFormContainer extends React.Component {
             })(<Input type="hidden" />)}
           </FormItem>
           <Button type="primary" htmlType="submit">
-            Add entry
+            Add todo
           </Button>
         </Form>
       </Card>

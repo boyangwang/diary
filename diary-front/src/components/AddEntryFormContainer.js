@@ -18,23 +18,26 @@ class AddEntryFormContainer extends React.Component {
     e.preventDefault();
     const { date, user } = this.props;
     this.props.form.validateFields((err, values) => {
-      if (!err) {
-        api.postEntry({ data: { entry: values, owner: user.username } }).then(
-          (data) => {
-            if (data.err) {
-              message.warn('' + data.err);
-            } else {
-              this.props.dispatch({
-                type: 'postEntry',
-                payload: { entry: values, date },
-              });
-            }
-          },
-          (err) => {
-            message.warn('' + err);
-          }
-        );
+      if (err) {
+        return;
       }
+      api.postEntry({ data: { entry: values, owner: user.username } }).then(
+        (data) => {
+          if (data.err) {
+            message.warn('' + data.err);
+          } else {
+            this.props.dispatch({
+              type: 'POST_ENTRY',
+              payload: { entry: data.data.entry, },
+            });
+          }
+        },
+        (err) => {
+          message.warn('' + err);
+        }
+      ).then(
+        () => this.props.form.resetFields()
+      );
     });
   };
 
