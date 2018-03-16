@@ -42,6 +42,8 @@
 
 `yarn run deploy`
 
+- We also increment version number. You will need `yarn config set version-git-tag false` to prevent creating git tag (because 2 package.json will create dup tags)
+
 ### Walkthrough
 
 - assume mongodb
