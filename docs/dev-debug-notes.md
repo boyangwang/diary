@@ -90,3 +90,11 @@ Quoting doc:
 ## n次因为ObjectId和string _id的问题排查半天
 
 测试不写好, 这事完不了. 快把测试改对吧!
+
+## 在测试里写了一个恐怖的bug
+
+`delete exampleTodo._id`, 会影响之后所有test. 但是因为是parallel, 所以不一定出不出错或者谁出错
+
+## mongodb这二货db, 看呆了
+
+insert/update之后要query, 得等一秒钟... 改了testutil, 之前问题全好了, 醉了. 看官网例子果然有用
