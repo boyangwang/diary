@@ -40,6 +40,17 @@ export default (state = INITIAL_STATE, action) => {
       entriesDateMap: { ...state.entriesDateMap,
         [date]: newEntriesArr },
     };
+  } else if (action.type === 'DELETE_ENTRY') {
+    const date = action.payload.entry.date;
+    let newEntriesArr = _.isArray(state.entriesDateMap[date]) ?
+      state.entriesDateMap[date].slice() : [];
+    const findIndex = newEntriesArr.findIndex(entry => entry._id == action.payload.entry._id);
+    newEntriesArr = [...newEntriesArr.slice(0, findIndex), ...newEntriesArr.slice(findIndex+1)];
+    return {
+      ...state,
+      entriesDateMap: { ...state.entriesDateMap,
+        [date]: newEntriesArr },
+    };
   } else if (action.type === 'TODOS') {
     return {
       ...state,

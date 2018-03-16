@@ -1,12 +1,34 @@
 import './DayContainerEntryObject.css';
 
+import api from 'utils/api';
 import AddEntryFormContainer from './AddEntryFormContainer';
 
 import React from 'react';
-import { Modal, Card, Alert, Button } from 'antd';
+import { connect } from 'react-redux';
+
+import { message, Modal, Card, Alert, Button } from 'antd';
 
 class DayContainerEntryObject extends React.Component {
-  state = { visible: false };
+  state = { editVisible: false, deleteVisible: false };
+
+  deleteEntry() {
+    const { entry, user } = this.props;
+    api.deleteEntry({data: { owner: user.username, entry }}).then(
+      (data) => {
+        if (data.err) {
+          message.warn('' + data.err);
+        } else {
+          this.props.dispatch({
+            type: 'DELETE_ENTRY',
+            payload: { entry: data.data.entry, },
+          });
+        }
+      },
+      (err) => {
+        message.warn('' + err);
+      }
+    );
+  }
 
   render() {
     const { entry } = this.props;
@@ -18,15 +40,28 @@ class DayContainerEntryObject extends React.Component {
           <Alert message={entry.points} type="success" />
         </div>
         <div className="content">{entry.content}</div>
-        <Button className="EntryEditButton" icon="edit"
-          onClick={() => this.setState({
-            visible: true,
-          })}
-        />
+        <div className="actionButtonDiv">
+          <Button className="EntryEditButton" icon="edit" size="large"
+            onClick={() => this.setState({
+              editVisible: true,
+            })}
+          />
+          <Button className="EntryDeleteButton"
+            icon="delete" type="danger" size="large"
+            onClick={() => {
+              Modal.confirm({
+                title: 'Confirm delete?',
+                okText: "Delete",
+                cancelText: "Cancel",
+                onOk: this.deleteEntry.bind(this),
+              });
+            }}
+          />
+        </div>
         <Modal
-          visible={this.state.visible}
+          visible={this.state.editVisible}
           onCancel={() => this.setState({
-            visible: false,
+            editVisible: false,
           })}
           footer={null}
           closable={false}
@@ -36,7 +71,7 @@ class DayContainerEntryObject extends React.Component {
             entry={entry}
             buttonText={'Edit entry'}
             onSubmit={() => this.setState({
-              visible: false,
+              editVisible: false,
             })}
           />
         </Modal>
@@ -45,4 +80,8 @@ class DayContainerEntryObject extends React.Component {
   }
 }
 
-export default DayContainerEntryObject;
+export default connect((state) => {
+  return {
+    user: state.user,
+  };
+})(DayContainerEntryObject);

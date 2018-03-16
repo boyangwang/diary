@@ -16,6 +16,7 @@ const apis = {
 
   getEntries: 'api/getEntries',
   postEntry: 'api/postEntry',
+  deleteEntry: 'api/deleteEntry',
 
   getTodos: 'api/getTodos',
   postTodo: 'api/postTodo',
@@ -77,6 +78,26 @@ const getEntries = (params) => {
 const postEntry = (params) => {
   return new Promise((resolve, reject) => {
     fetch(PREFIX + apis.postEntry, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'same-origin',
+      body: JSON.stringify(params),
+    }).then(
+      (res) => {
+        resolve(res.json());
+      },
+      (err) => {
+        reject(err);
+      }
+    );
+  });
+};
+
+const deleteEntry = (params) => {
+  return new Promise((resolve, reject) => {
+    fetch(PREFIX + apis.deleteEntry, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -156,6 +177,7 @@ export default {
   login,
   getEntries,
   postEntry,
+  deleteEntry,
   errReport,
   getTodos,
   postTodo,

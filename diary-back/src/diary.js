@@ -113,7 +113,11 @@ module.exports = {
   deleteEntry: async (ctx, next) => {
     let { owner, entry } = ctx.request.body.data;
     let ownerEntryCollection = db.collection(`entry_${owner}`);
-    let result = await ownerEntryCollection.findOneAndDelete(entry);
+    const processedId =
+        entry._id.length === 24 ? new ObjectId(entry._id) : entry._id;
+    let result = await ownerEntryCollection.findOneAndDelete({
+      _id: processedId,
+    });
     ctx.response.status = 200;
     ctx.response.body = { data: { entry: result.value } };
   },

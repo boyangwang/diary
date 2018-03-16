@@ -86,3 +86,7 @@ Quoting doc:
 ## passport不管用?
 
 果然是我根本没implement localStrategy, 之前就觉得不对, 还以为逻辑都在passport.authenticate里面, 其实那个里面给的是callback
+
+## n次因为ObjectId和string _id的问题排查半天
+
+测试不写好, 这事完不了. 快把测试改对吧!
