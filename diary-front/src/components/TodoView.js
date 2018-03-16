@@ -40,7 +40,7 @@ class TodoView extends React.Component {
     const { todos } = this.props;
 
     return (
-      <div className="TodoView">
+      <div className="TodosContainer">
         {todos.length === 0 ? (
           'Empty'
         ) : (
@@ -54,7 +54,6 @@ class TodoView extends React.Component {
             )}
           />
         )}
-        <AddTodoFormContainer />
       </div>
     );
   }
@@ -63,9 +62,12 @@ class TodoView extends React.Component {
     const { todos } = this.props;
 
     return (
-      <Card title="TodoView">
-        {!todos ? <Icon type="loading" /> : this.renderContent()}
-      </Card>
+      <div className="TodoView">
+        <Card title="TodoView">
+          {!todos ? <Icon type="loading" /> : this.renderContent()}
+        </Card>
+        <AddTodoFormContainer />
+      </div>
     );
   }
 }
