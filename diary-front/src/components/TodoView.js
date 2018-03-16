@@ -32,8 +32,8 @@ class TodoView extends React.Component {
     const { user } = this.props;
     return (e) => {
       todo.check = e.target.checked;
-      api.postTodo({data: {owner: user.username, todo}});
-    }
+      api.postTodo({ data: { owner: user.username, todo } });
+    };
   }
 
   renderContent() {
@@ -41,13 +41,19 @@ class TodoView extends React.Component {
 
     return (
       <div className="TodoView">
-        {todos.length === 0 ? "Empty" :
+        {todos.length === 0 ? (
+          'Empty'
+        ) : (
           <List
             dataSource={todos}
-            renderItem={todo => (
-              <TodoObject todo={todo} onCheckChange={this.onCheckChange(todo)} />
+            renderItem={(todo) => (
+              <TodoObject
+                todo={todo}
+                onCheckChange={this.onCheckChange(todo)}
+              />
             )}
-          />}
+          />
+        )}
         <AddTodoFormContainer />
       </div>
     );

@@ -8,7 +8,8 @@
     "start": "node src/server.js",
     "deploy": "export FLIGHTPLAN_KEY_PATH=~/.ssh/id_rsa && fly deploy-all:staging --flightplan ./flightplan.js",
     "flightplan": "export FLIGHTPLAN_KEY_PATH=~/.ssh/id_rsa && fly --flightplan ./flightplan.js",
-    "pretty": "prettier --write --trailing-comma es5 --single-quote --arrow-parens always \"src/**/*.js\" flightplan.js"
+    "pretty": "prettier --write --trailing-comma es5 --single-quote --arrow-parens always \"src/**/*.js\" flightplan.js",
+    "postinstall": "cd .. && yarn install"
   },
   "author": "",
   "license": "ISC",
@@ -30,13 +31,6 @@
   },
   "devDependencies": {
     "flightplan": "^0.6.17",
-    "husky": "^0.14.3",
     "pm2": "^2.10.1"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "yarn run test",
-      "pre-push": "yarn run test"
-    }
   }
 }

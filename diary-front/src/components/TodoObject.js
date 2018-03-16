@@ -9,11 +9,9 @@ class TodoObject extends React.Component {
       <List.Item
         className="TodoObject"
         actions={[
-          <Checkbox
-            defaultChecked={todo.check}
-            onChange={onCheckChange}
-          />
-        ]}>
+          <Checkbox defaultChecked={todo.check} onChange={onCheckChange} />,
+        ]}
+      >
         <List.Item.Meta
           avatar={<Avatar className="priority">{todo.priority}</Avatar>}
           title={

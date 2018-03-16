@@ -45,10 +45,7 @@ class AddTodoFormContainer extends React.Component {
             {getFieldDecorator('priority', {
               rules: [{ required: true, message: 'Priority required' }],
             })(
-              <InputNumber
-                prefix={<Icon type="" />}
-                placeholder="Priority"
-              />
+              <InputNumber prefix={<Icon type="" />} placeholder="Priority" />
             )}
           </FormItem>
           <FormItem>
@@ -70,7 +67,7 @@ class AddTodoFormContainer extends React.Component {
           </FormItem>
           <Button type="primary" htmlType="submit">
             Add entry
-        </Button>
+          </Button>
         </Form>
       </Card>
     );

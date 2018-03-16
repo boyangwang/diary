@@ -1,7 +1,16 @@
 import api from 'utils/api';
 import React from 'react';
 import { connect } from 'react-redux';
-import { Form, Icon, Input, InputNumber, Button, message, DatePicker, Card } from 'antd';
+import {
+  Form,
+  Icon,
+  Input,
+  InputNumber,
+  Button,
+  message,
+  DatePicker,
+  Card,
+} from 'antd';
 const FormItem = Form.Item;
 
 class AddEntryFormContainer extends React.Component {
@@ -56,9 +65,13 @@ class AddEntryFormContainer extends React.Component {
               rules: [],
             })(<Input placeholder="Content" />)}
           </FormItem>
-          {!date && <DatePicker onChange={(date, dateString) => {
-            this.props.form.setFieldsValue({ date: dateString })
-          }} />}
+          {!date && (
+            <DatePicker
+              onChange={(date, dateString) => {
+                this.props.form.setFieldsValue({ date: dateString });
+              }}
+            />
+          )}
           <Button type="primary" htmlType="submit">
             Add entry
           </Button>

@@ -13,10 +13,10 @@ const PREFIX =
 const apis = {
   apiTest: 'api/apiTest',
   login: 'api/login',
-  
+
   getEntries: 'api/getEntries',
   postEntry: 'api/postEntry',
-  
+
   getTodos: 'api/getTodos',
   postTodo: 'api/postTodo',
 

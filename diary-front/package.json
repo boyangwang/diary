@@ -22,18 +22,12 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "pretty": "prettier --write --trailing-comma es5 --single-quote --arrow-parens always \"src/**/*.js\""
+    "pretty": "prettier --write --trailing-comma es5 --single-quote --arrow-parens always \"src/**/*.js\"",
+    "postinstall": "cd .. && yarn install"
   },
   "devDependencies": {
     "eslint": "^4.7.1",
-    "husky": "^0.14.3",
     "prettier": "1.11.1",
     "serve": "^6.5.1"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "yarn run pretty",
-      "pre-push": "yarn run pretty"
-    }
   }
 }
