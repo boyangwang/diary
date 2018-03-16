@@ -1,0 +1,4 @@
+.DiaryApp .DiaryAppTitleDiv {
+  display: flex;
+  align-items: baseline;
+}

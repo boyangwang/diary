@@ -6,6 +6,8 @@ import React from 'react';
 import { message } from 'antd';
 import { connect } from 'react-redux';
 
+import './DiaryApp.css';
+
 class DiaryApp extends React.Component {
   componentWillMount() {
     api.apiTest().then(
@@ -14,6 +16,10 @@ class DiaryApp extends React.Component {
         if (data.err) {
           message.warn('' + data.err);
         } else {
+          this.props.dispatch({
+            type: 'VERSION',
+            payload: { backendVersion: data.data.backendVersion },
+          });
           this.props.dispatch({
             type: 'LOGIN',
             payload: { user: data.data.user },
@@ -27,10 +33,12 @@ class DiaryApp extends React.Component {
   }
 
   render() {
-    const { user } = this.props;
+    const { user, backendVersion } = this.props;
     return (
       <div className="DiaryApp">
-        <h1>DiaryApp</h1>
+        <div className="DiaryAppTitleDiv">
+          <h1>DiaryApp</h1><h4 className="grey">{backendVersion}</h4>
+        </div>
         {user ? (
           <div>
             <DiaryDateView />
@@ -45,5 +53,8 @@ class DiaryApp extends React.Component {
 }
 
 export default connect((state) => {
-  return { user: state.user };
+  return {
+    user: state.user,
+    backendVersion: state.backendVersion,
+  };
 })(DiaryApp);

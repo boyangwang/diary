@@ -7,6 +7,13 @@ const INITIAL_STATE = {
 export default (state = INITIAL_STATE, action) => {
   if (action.type === 'LOGIN') {
     return { ...state, user: action.payload.user };
+  } else if (action.type === 'VERSION') {
+    return { ...state,
+      backendVersion: action.payload.backendVersion ||
+        state.backendVersion,
+      frontendVersion: action.payload.frontendVersion ||
+        state.frontendVersion,
+    };
   } else if (action.type === 'ENTRIES_FOR_DATE') {
     return {
       ...state,
