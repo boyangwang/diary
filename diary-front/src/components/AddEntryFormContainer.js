@@ -117,7 +117,6 @@ AddEntryFormContainer.defaultProps = {
   buttonText: 'Add entry',
   onSubmit: () => {},
 };
-
 const WrappedAddEntryFormContainer = Form.create()(AddEntryFormContainer);
 
 export default connect((state) => {

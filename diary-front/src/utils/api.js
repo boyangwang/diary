@@ -193,11 +193,11 @@ export default {
   apiTest,
   login,
   errReport,
-  
+
   getEntries,
   postEntry,
   deleteEntry,
-  
+
   getTodos,
   postTodo,
   deleteTodo,

@@ -80,10 +80,24 @@ export default (state = INITIAL_STATE, action) => {
       ...state,
       todos: [...state.todos, action.payload.todo],
     };
-  } else if (action.type === 'DELETE_TODO') {
+  } else if (action.type === 'UPDATE_TODO') {
     let newTodosArr = _.isArray(state.todos)
       ? state.todos.slice()
       : [];
+    const findIndex = newTodosArr.findIndex(
+      (todo) => todo._id === action.payload.todo._id
+    );
+    newTodosArr = [
+      ...newTodosArr.slice(0, findIndex),
+      action.payload.todo,
+      ...newTodosArr.slice(findIndex + 1),
+    ];
+    return {
+      ...state,
+      todos: newTodosArr,
+    };
+  } else if (action.type === 'DELETE_TODO') {
+    let newTodosArr = _.isArray(state.todos) ? state.todos.slice() : [];
     const findIndex = newTodosArr.findIndex(
       (todo) => todo._id === action.payload.todo._id
     );

@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import _ from 'lodash';
 import { Card, Form, Icon, Input, InputNumber, Button, message } from 'antd';
 
 import api from 'utils/api';
@@ -8,8 +9,9 @@ import util from 'utils/util';
 class AddTodoFormContainer extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
-    const { user } = this.props;
-    this.props.form.validateFields((err, values) => {
+    const { user, onSubmit } = this.props;
+    const { validateFields, resetFields } = this.props.form;
+    validateFields((err, values) => {
       if (err) {
         return;
       }
@@ -20,22 +22,33 @@ class AddTodoFormContainer extends React.Component {
             if (data.err) {
               message.warn('' + data.err);
             } else {
-              this.props.dispatch({
-                type: 'POST_TODO',
-                payload: { todo: data.data.todo },
-              });
+              if (data.data.todo) {
+                this.props.dispatch({
+                  type: 'POST_TODO',
+                  payload: { todo: data.data.todo },
+                });
+              } else {
+                this.props.dispatch({
+                  type: 'UPDATE_TODO',
+                  payload: { todo: values },
+                });
+              }
             }
           },
           (err) => {
             message.warn('' + err);
           }
         )
-        .then(() => this.props.form.resetFields());
+        .then(() => {
+          resetFields();
+          onSubmit();
+        });
     });
   };
 
   render() {
     const { getFieldDecorator } = this.props.form;
+    const { buttonText, todo } = this.props;
 
     return (
       <Card>
@@ -43,11 +56,13 @@ class AddTodoFormContainer extends React.Component {
           <Form.Item>
             {getFieldDecorator('title', {
               rules: [{ required: true, message: 'Title required' }],
+              initialValue: _.get(todo, 'title'),
             })(<Input prefix={<Icon type="plus" />} placeholder="Title" />)}
           </Form.Item>
           <Form.Item>
             {getFieldDecorator('priority', {
               rules: [{ required: true, message: 'Priority required' }],
+              initialValue: _.get(todo, 'priority'),
             })(
               <InputNumber prefix={<Icon type="" />} placeholder="Priority" />
             )}
@@ -55,28 +70,39 @@ class AddTodoFormContainer extends React.Component {
           <Form.Item>
             {getFieldDecorator('content', {
               rules: [],
+              initialValue: _.get(todo, 'content'),
             })(<Input placeholder="Content" />)}
           </Form.Item>
           <Form.Item className="hidden">
             {getFieldDecorator('date', {
               rules: [],
-              initialValue: util.getTodayStringWithOffset(),
+              initialValue: _.get(todo, 'date') || util.getTodayStringWithOffset(),
             })(<Input type="hidden" />)}
           </Form.Item>
           <Form.Item className="hidden">
             {getFieldDecorator('check', {
               rules: [],
-              initialValue: false,
+              initialValue: _.get(todo, 'check') || false,
             })(<Input type="hidden" />)}
           </Form.Item>
           <Button type="primary" htmlType="submit">
-            Add todo
+            {buttonText}
           </Button>
+          <Form.Item className="hidden">
+            {getFieldDecorator('_id', {
+              rules: [],
+              initialValue: _.get(todo, '_id'),
+            })(<Input type="hidden" />)}
+          </Form.Item>
         </Form>
       </Card>
     );
   }
 }
+AddTodoFormContainer.defaultProps = {
+  buttonText: 'Add todo',
+  onSubmit: () => {},
+};
 const WrappedAddTodoFormContainer = Form.create()(AddTodoFormContainer);
 
 export default connect((state) => {
