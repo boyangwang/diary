@@ -26,14 +26,15 @@ module.exports = {
   },
   expectDbQueryResult: async ({ db, collection, query, expectedResults }) => {
     if (typeof collection === 'string') collection = db.collection(collection);
-    let dbResult = await (await collection.find(query)).toArray();
-    dbResult = dbResult.map((document) => {
-      if (typeof document._id !== 'string') {
-        return Object.assign({}, document, { _id: document._id.toString() });
-      }
-      return document;
-    });
-    expect(dbResult).toEqual(expectedResults);
-    return dbResult;
+    setTimeout(async () => {
+      let dbResult = await (await collection.find(query)).toArray();
+      dbResult = dbResult.map((document) => {
+        if (typeof document._id !== 'string') {
+          return Object.assign({}, document, { _id: document._id.toString() });
+        }
+        return document;
+      });
+      expect(dbResult).toEqual(expectedResults);
+    }, 1000);
   },
 };

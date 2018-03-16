@@ -85,7 +85,7 @@ module.exports = {
       ctx.response.body = { data: { todo } };
     } else {
       const processedId =
-        todo._id.length === 24 ? new ObjectId(todo._id) : todo._id;
+        todo._id.length === 24 ? ObjectId(todo._id) : todo._id;
       delete todo._id;
       let result = await ownerTodoCollection.updateOne(
         { _id: processedId },
@@ -99,7 +99,7 @@ module.exports = {
     let { owner, todo } = ctx.request.body.data;
     let ownerTodoCollection = db.collection(`todo_${owner}`);
     const processedId =
-        todo._id.length === 24 ? new ObjectId(todo._id) : todo._id;
+        todo._id.length === 24 ? ObjectId(todo._id) : todo._id;
     let result = await ownerTodoCollection.findOneAndDelete({
       _id: processedId
     });

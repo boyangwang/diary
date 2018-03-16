@@ -1,5 +1,6 @@
 require('isomorphic-fetch');
-const { MongoClient } = require('mongodb');
+const { MongoClient, ObjectId } = require('mongodb');
+const leftPad = require('left-pad');
 const config = require('./config.js');
 config.port = config.port + 3;
 const dbName = 'diaryTest';
@@ -11,7 +12,7 @@ const {
 let appInstance, db;
 
 const exampleTodo = {
-  _id: 'testid',
+  _id: '00000000000000000000',
   date: '1970-01-01',
   title: 'test title',
   content: 'test content',
@@ -41,7 +42,7 @@ describe('api', async () => {
     await expectFetchUrlStatusCodeAndJson({
       url: `http://localhost:${
         config.port
-      }/api/getTodos?owner=_admin&date=1970-01-01`,
+        }/api/getTodos?owner=_admin&date=1970-01-01`,
       expectStatusCode: 400,
       expectJson: { err: 'Illegal param' },
     });
@@ -53,14 +54,16 @@ describe('api', async () => {
     await expectFetchUrlStatusCodeAndJson({
       url: `http://localhost:${
         config.port
-      }/api/getTodos?date=1970-01-01&owner=testOwner`,
+        }/api/getTodos?date=1970-01-01&owner=testOwner`,
       expectStatusCode: 200,
       expectJson: { data: [exampleTodo] },
     });
   });
 
   test('/api/postTodo needs an owner and an todo in body', async () => {
-    delete exampleTodo._id;
+    const todo = Object.assign({}, exampleTodo, {
+      _id: exampleTodo._id + leftPad(Math.floor(Math.random() * 1000), 4, '0'),
+    });
     await expectFetchUrlStatusCodeAndJson({
       url: `http://localhost:${config.port}/api/postTodo`,
       postBody: { data: { owner: 'testOwner' } },
@@ -71,7 +74,7 @@ describe('api', async () => {
 
     await expectFetchUrlStatusCodeAndJson({
       url: `http://localhost:${config.port}/api/postTodo`,
-      postBody: { data: { todo: exampleTodo } },
+      postBody: { data: { todo } },
       method: 'POST',
       expectStatusCode: 400,
       expectJson: { err: 'Missing param' },
@@ -86,10 +89,13 @@ describe('api', async () => {
   });
 
   test('/api/postTodo adds an todo', async () => {
+    const todo = Object.assign({}, exampleTodo, {
+      _id: undefined,
+    });
     let res = await expectFetchUrlStatusCodeAndJson({
       url: `http://localhost:${config.port}/api/postTodo`,
       method: 'POST',
-      postBody: { data: { todo: exampleTodo, owner: 'testOwner' } },
+      postBody: { data: { todo, owner: 'testOwner' } },
       expectStatusCode: 200,
     });
     expectDbQueryResult({
@@ -97,7 +103,7 @@ describe('api', async () => {
       collection: 'todo_testOwner',
       query: {},
       expectedResults: [
-        Object.assign({}, exampleTodo, {
+        Object.assign({}, todo, {
           _id: res.data.todo._id,
         }),
       ],
@@ -106,7 +112,7 @@ describe('api', async () => {
 
   test("/api/postTodo if update an todo that doesn't exist, give modified 0", async () => {
     const todo = Object.assign({}, exampleTodo, {
-      _id: 'testid' + Math.floor(Math.random() * 1000),
+      _id: exampleTodo._id + leftPad(Math.floor(Math.random() * 1000), 4, '0'),
     });
     let json = await expectFetchUrlStatusCodeAndJson({
       url: `http://localhost:${config.port}/api/postTodo`,
@@ -124,11 +130,10 @@ describe('api', async () => {
   });
 
   test('/api/postTodo if update an todo that exists, update it', async () => {
-    const todo = Object.assign({}, exampleTodo, {
-      _id: 'testid' + Math.floor(Math.random() * 1000),
-    });
+    const _id = exampleTodo._id + leftPad(Math.floor(Math.random() * 1000), 4, '0');
+    const todo = Object.assign({}, exampleTodo, { _id });
     let testOwnerTodoCollection = db.collection(`todo_testOwner`);
-    await testOwnerTodoCollection.insertOne(todo);
+    await testOwnerTodoCollection.insertOne(Object.assign({}, todo, { _id: ObjectId(_id) }));
     const todoNew = Object.assign({}, todo, {
       title: 'updated test title',
       content: 'updated test content',
@@ -149,11 +154,10 @@ describe('api', async () => {
   });
 
   test('/api/postTodo if update an todo that exists, but all same, do nothing', async () => {
-    const todo = Object.assign({}, exampleTodo, {
-      _id: 'testid' + Math.floor(Math.random() * 1000),
-    });
+    const _id = exampleTodo._id + leftPad(Math.floor(Math.random() * 1000), 4, '0');
+    const todo = Object.assign({}, exampleTodo, { _id });
     let testOwnerTodoCollection = db.collection(`todo_testOwner`);
-    await testOwnerTodoCollection.insertOne(todo);
+    await testOwnerTodoCollection.insertOne(Object.assign({}, todo, { _id: ObjectId(_id) }));
 
     let json = await expectFetchUrlStatusCodeAndJson({
       url: `http://localhost:${config.port}/api/postTodo`,
@@ -162,7 +166,6 @@ describe('api', async () => {
       expectStatusCode: 200,
       expectJson: { data: { n: 1, nModified: 0, ok: 1 } },
     });
-
     expectDbQueryResult({
       db,
       collection: testOwnerTodoCollection,
@@ -172,11 +175,11 @@ describe('api', async () => {
   });
 
   test('/api/deleteTodo', async () => {
-    const _id = 'testid' + Math.floor(Math.random() * 1000);
+    const _id = exampleTodo._id + leftPad(Math.floor(Math.random() * 1000), 4, '0');
     const todo = Object.assign({}, exampleTodo, { _id });
 
     let testOwnerTodoCollection = await db.collection(`todo_testOwner`);
-    await testOwnerTodoCollection.insertOne(todo);
+    await testOwnerTodoCollection.insertOne(Object.assign({}, todo, { _id: ObjectId(_id) }));
 
     let json = await expectFetchUrlStatusCodeAndJson({
       url: `http://localhost:${config.port}/api/deleteTodo`,
