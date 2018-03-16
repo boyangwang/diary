@@ -1,5 +1,6 @@
 import api from 'utils/api';
 import React from 'react';
+import _ from 'lodash';
 import { connect } from 'react-redux';
 import {
   Form,
@@ -15,9 +16,11 @@ const FormItem = Form.Item;
 
 class AddEntryFormContainer extends React.Component {
   handleSubmit = (e) => {
+    const { date, user, onSubmit } = this.props;
+    const { validateFields, resetFields } = this.props.form;
+    
     e.preventDefault();
-    const { date, user } = this.props;
-    this.props.form.validateFields((err, values) => {
+    validateFields((err, values) => {
       if (err) {
         return;
       }
@@ -26,36 +29,48 @@ class AddEntryFormContainer extends React.Component {
           if (data.err) {
             message.warn('' + data.err);
           } else {
-            this.props.dispatch({
-              type: 'POST_ENTRY',
-              payload: { entry: data.data.entry, },
-            });
+            if (data.data.entry) {
+              this.props.dispatch({
+                type: 'POST_ENTRY',
+                payload: { entry: data.data.entry, },
+              });
+            } else {
+              this.props.dispatch({
+                type: 'UPDATE_ENTRY',
+                payload: { entry: values, },
+              });
+            }
           }
         },
         (err) => {
           message.warn('' + err);
         }
       ).then(
-        () => this.props.form.resetFields()
+        () => {
+          resetFields();
+          onSubmit();
+        }
       );
     });
   };
 
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { date } = this.props;
+    const { date, buttonText, entry } = this.props;
 
     return (
       <Card>
         <Form onSubmit={this.handleSubmit} className="AddEntryFormContainer">
           <FormItem>
             {getFieldDecorator('title', {
-              rules: [{ required: true, message: 'Title required' }],
+              rules: [{ required: true, message: 'Title required',}],
+              initialValue: _.get(entry, 'title') || date,
             })(<Input prefix={<Icon type="plus" />} placeholder="Title" />)}
           </FormItem>
           <FormItem>
             {getFieldDecorator('points', {
-              rules: [{ required: true, message: 'Points required' }],
+              rules: [{ required: true, message: 'Points required',}],
+              initialValue: _.get(entry, 'points') || date,
             })(
               <InputNumber
                 prefix={<Icon type="hourglass" />}
@@ -66,6 +81,7 @@ class AddEntryFormContainer extends React.Component {
           <FormItem>
             {getFieldDecorator('content', {
               rules: [],
+              initialValue: _.get(entry, 'content') || date,
             })(<Input placeholder="Content" />)}
           </FormItem>
           {!date && (
@@ -76,12 +92,18 @@ class AddEntryFormContainer extends React.Component {
             />
           )}
           <Button type="primary" htmlType="submit">
-            Add entry
+            {buttonText}
           </Button>
           <FormItem className="hidden">
             {getFieldDecorator('date', {
               rules: [],
-              initialValue: date,
+              initialValue: _.get(entry, 'date') || date,
+            })(<Input type="hidden" />)}
+          </FormItem>
+          <FormItem className="hidden">
+            {getFieldDecorator('_id', {
+              rules: [],
+              initialValue: _.get(entry, '_id'),
             })(<Input type="hidden" />)}
           </FormItem>
         </Form>
@@ -89,6 +111,11 @@ class AddEntryFormContainer extends React.Component {
     );
   }
 }
+AddEntryFormContainer.defaultProps = {
+  buttonText: 'Add entry',
+  onSubmit: () => {}
+};
+
 const WrappedAddEntryFormContainer = Form.create()(AddEntryFormContainer);
 
 export default connect((state) => {

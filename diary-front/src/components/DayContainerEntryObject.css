@@ -1,3 +1,9 @@
 .DayContainerEntryObject .points .ant-alert {
   display: inline-block;
 }
+
+.EntryEditButton {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
