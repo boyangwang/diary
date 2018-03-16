@@ -18,6 +18,7 @@ const apis = {
 
   getTodos: 'api/getTodos',
   postTodo: 'api/postTodo',
+  deleteTodo: 'api/deleteTodo',
 
   errReport: 'api/errReport',
 };
@@ -149,6 +150,26 @@ const postTodo = (params) => {
   });
 };
 
+const deleteTodo = (params) => {
+  return new Promise((resolve, reject) => {
+    fetch(PREFIX + apis.deleteTodo, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'same-origin',
+      body: JSON.stringify(params),
+    }).then(
+      (res) => {
+        resolve(res.json());
+      },
+      (err) => {
+        reject(err);
+      }
+    );
+  });
+};
+
 const errReport = (params) => {
   return new Promise((resolve, reject) => {
     fetch(PREFIX + apis.errReport, {
@@ -171,10 +192,13 @@ const errReport = (params) => {
 export default {
   apiTest,
   login,
+  errReport,
+  
   getEntries,
   postEntry,
   deleteEntry,
-  errReport,
+  
   getTodos,
   postTodo,
+  deleteTodo,
 };

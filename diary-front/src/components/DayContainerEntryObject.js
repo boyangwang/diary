@@ -8,7 +8,7 @@ import api from 'utils/api';
 import AddEntryFormContainer from './AddEntryFormContainer';
 
 class DayContainerEntryObject extends React.Component {
-  state = { editVisible: false, deleteVisible: false };
+  state = { editVisible: false };
 
   deleteEntry() {
     const { entry, user } = this.props;
