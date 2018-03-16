@@ -38,6 +38,10 @@
 
 - `npm start`
 
+### husky hooks
+
+If installed using yarn, install script is ignored. Trigger it mannually by `node node_modules/husky/bin/install.js`
+
 ## Build and deploy
 
 `yarn run deploy`

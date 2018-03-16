@@ -98,3 +98,7 @@ Quoting doc:
 ## mongodb这二货db, 看呆了
 
 insert/update之后要query, 得等一秒钟... 改了testutil, 之前问题全好了, 醉了. 看官网例子果然有用
+
+## husky hook不跑, 果然是因为版本对不上. 在package.json放hook的位置不一样了
+
+太自信是不好, 人家说了是@next
