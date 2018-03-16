@@ -65,9 +65,10 @@ class DayContainer extends React.Component {
 
   renderSum() {
     const { date, entriesDateMap } = this.props;
-    let sum = !entriesDateMap[date] ? 0 :
-    entriesDateMap[date].reduce((prev, cur) => prev + cur.points || 0, 0);
-    
+    let sum = !entriesDateMap[date]
+      ? 0
+      : entriesDateMap[date].reduce((prev, cur) => prev + cur.points || 0, 0);
+
     let sumClasses = 'sum ';
     if (sum === 0) {
       sumClasses += 'grey';
