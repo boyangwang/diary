@@ -1,4 +1,3 @@
-import api from 'utils/api';
 import React from 'react';
 import _ from 'lodash';
 import { connect } from 'react-redux';
@@ -12,11 +11,12 @@ import {
   DatePicker,
   Card,
 } from 'antd';
-const FormItem = Form.Item;
+
+import api from 'utils/api';
 
 class AddEntryFormContainer extends React.Component {
   handleSubmit = (e) => {
-    const { date, user, onSubmit } = this.props;
+    const { user, onSubmit } = this.props;
     const { validateFields, resetFields } = this.props.form;
 
     e.preventDefault();
@@ -62,13 +62,13 @@ class AddEntryFormContainer extends React.Component {
     return (
       <Card>
         <Form onSubmit={this.handleSubmit} className="AddEntryFormContainer">
-          <FormItem>
+          <Form.Item>
             {getFieldDecorator('title', {
               rules: [{ required: true, message: 'Title required' }],
               initialValue: _.get(entry, 'title') || date,
             })(<Input prefix={<Icon type="plus" />} placeholder="Title" />)}
-          </FormItem>
-          <FormItem>
+          </Form.Item>
+          <Form.Item>
             {getFieldDecorator('points', {
               rules: [{ required: true, message: 'Points required' }],
               initialValue: _.get(entry, 'points') || date,
@@ -78,13 +78,13 @@ class AddEntryFormContainer extends React.Component {
                 placeholder="Points"
               />
             )}
-          </FormItem>
-          <FormItem>
+          </Form.Item>
+          <Form.Item>
             {getFieldDecorator('content', {
               rules: [],
               initialValue: _.get(entry, 'content') || date,
             })(<Input placeholder="Content" />)}
-          </FormItem>
+          </Form.Item>
           {!date && (
             <DatePicker
               onChange={(date, dateString) => {
@@ -95,18 +95,18 @@ class AddEntryFormContainer extends React.Component {
           <Button type="primary" htmlType="submit">
             {buttonText}
           </Button>
-          <FormItem className="hidden">
+          <Form.Item className="hidden">
             {getFieldDecorator('date', {
               rules: [],
               initialValue: _.get(entry, 'date') || date,
             })(<Input type="hidden" />)}
-          </FormItem>
-          <FormItem className="hidden">
+          </Form.Item>
+          <Form.Item className="hidden">
             {getFieldDecorator('_id', {
               rules: [],
               initialValue: _.get(entry, '_id'),
             })(<Input type="hidden" />)}
-          </FormItem>
+          </Form.Item>
         </Form>
       </Card>
     );

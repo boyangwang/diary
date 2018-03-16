@@ -15,6 +15,7 @@
         "no-undef": 0,
         "no-unreachable": 0,
         "no-unused-vars": 0,
-        "valid-typeof": "warn"
+        "valid-typeof": "warn",
+        "import-first": 0
     }
 }

@@ -37,7 +37,7 @@ export default (state = INITIAL_STATE, action) => {
       ? state.entriesDateMap[date].slice()
       : [];
     const findIndex = newEntriesArr.findIndex(
-      (entry) => entry._id == action.payload.entry._id
+      (entry) => entry._id === action.payload.entry._id
     );
     newEntriesArr = [
       ...newEntriesArr.slice(0, findIndex),
@@ -57,7 +57,7 @@ export default (state = INITIAL_STATE, action) => {
       ? state.entriesDateMap[date].slice()
       : [];
     const findIndex = newEntriesArr.findIndex(
-      (entry) => entry._id == action.payload.entry._id
+      (entry) => entry._id === action.payload.entry._id
     );
     newEntriesArr = [
       ...newEntriesArr.slice(0, findIndex),

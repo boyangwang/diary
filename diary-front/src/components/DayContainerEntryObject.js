@@ -1,12 +1,11 @@
 import './DayContainerEntryObject.css';
 
-import api from 'utils/api';
-import AddEntryFormContainer from './AddEntryFormContainer';
-
 import React from 'react';
 import { connect } from 'react-redux';
-
 import { message, Modal, Card, Alert, Button } from 'antd';
+
+import api from 'utils/api';
+import AddEntryFormContainer from './AddEntryFormContainer';
 
 class DayContainerEntryObject extends React.Component {
   state = { editVisible: false, deleteVisible: false };

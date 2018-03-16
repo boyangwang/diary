@@ -1,10 +1,10 @@
-import util from 'utils/util';
-import api from 'utils/api';
-import AddTodoFormContainer from 'components/AddTodoFormContainer';
-import TodoObject from 'components/TodoObject';
 import React from 'react';
 import { connect } from 'react-redux';
 import { Card, List, Icon } from 'antd';
+
+import api from 'utils/api';
+import AddTodoFormContainer from 'components/AddTodoFormContainer';
+import TodoObject from 'components/TodoObject';
 
 class TodoView extends React.Component {
   getTodos() {

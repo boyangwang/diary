@@ -1,6 +1,5 @@
-import api from 'utils/api';
 import React from 'react';
-import { Avatar, List, Icon, Checkbox } from 'antd';
+import { Avatar, List, Checkbox } from 'antd';
 
 class TodoObject extends React.Component {
   render() {

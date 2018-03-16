@@ -1,8 +1,8 @@
-import api from 'utils/api';
 import React from 'react';
 import { connect } from 'react-redux';
 import { Form, Icon, Input, Button, message } from 'antd';
-const FormItem = Form.Item;
+
+import api from 'utils/api';
 
 class NormalLoginForm extends React.Component {
   handleSubmit = (e) => {
@@ -32,7 +32,7 @@ class NormalLoginForm extends React.Component {
     const { getFieldDecorator } = this.props.form;
     return (
       <Form onSubmit={this.handleSubmit} className="LoginView">
-        <FormItem>
+        <Form.Item>
           {getFieldDecorator('username', {
             rules: [{ required: true, message: 'Please input your username!' }],
           })(
@@ -41,8 +41,8 @@ class NormalLoginForm extends React.Component {
               placeholder="Username"
             />
           )}
-        </FormItem>
-        <FormItem>
+        </Form.Item>
+        <Form.Item>
           {getFieldDecorator('password', {
             rules: [{ required: true, message: 'Please input your Password!' }],
           })(
@@ -52,8 +52,8 @@ class NormalLoginForm extends React.Component {
               placeholder="Password"
             />
           )}
-        </FormItem>
-        <FormItem>
+        </Form.Item>
+        <Form.Item>
           {/* {getFieldDecorator('remember', {
             valuePropName: 'checked',
             initialValue: true,
@@ -69,7 +69,7 @@ class NormalLoginForm extends React.Component {
             Log in
           </Button>
           {/* Or <a href="">register now!</a> */}
-        </FormItem>
+        </Form.Item>
       </Form>
     );
   }

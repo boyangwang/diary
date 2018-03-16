@@ -1,12 +1,13 @@
+import './DiaryApp.css';
+
+import React from 'react';
+import { connect } from 'react-redux';
+import { message } from 'antd';
+
 import api from 'utils/api';
 import DiaryDateView from 'components/DiaryDateView';
 import TodoView from 'components/TodoView';
 import LoginView from 'components/LoginView';
-import React from 'react';
-import { message } from 'antd';
-import { connect } from 'react-redux';
-
-import './DiaryApp.css';
 
 class DiaryApp extends React.Component {
   componentWillMount() {

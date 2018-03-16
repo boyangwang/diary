@@ -1,9 +1,9 @@
-import api from 'utils/api';
-import util from 'utils/util';
 import React from 'react';
 import { connect } from 'react-redux';
 import { Card, Form, Icon, Input, InputNumber, Button, message } from 'antd';
-const FormItem = Form.Item;
+
+import api from 'utils/api';
+import util from 'utils/util';
 
 class AddTodoFormContainer extends React.Component {
   handleSubmit = (e) => {
@@ -40,35 +40,35 @@ class AddTodoFormContainer extends React.Component {
     return (
       <Card>
         <Form onSubmit={this.handleSubmit} className="AddTodoFormContainer">
-          <FormItem>
+          <Form.Item>
             {getFieldDecorator('title', {
               rules: [{ required: true, message: 'Title required' }],
             })(<Input prefix={<Icon type="plus" />} placeholder="Title" />)}
-          </FormItem>
-          <FormItem>
+          </Form.Item>
+          <Form.Item>
             {getFieldDecorator('priority', {
               rules: [{ required: true, message: 'Priority required' }],
             })(
               <InputNumber prefix={<Icon type="" />} placeholder="Priority" />
             )}
-          </FormItem>
-          <FormItem>
+          </Form.Item>
+          <Form.Item>
             {getFieldDecorator('content', {
               rules: [],
             })(<Input placeholder="Content" />)}
-          </FormItem>
-          <FormItem className="hidden">
+          </Form.Item>
+          <Form.Item className="hidden">
             {getFieldDecorator('date', {
               rules: [],
               initialValue: util.getTodayStringWithOffset(),
             })(<Input type="hidden" />)}
-          </FormItem>
-          <FormItem className="hidden">
+          </Form.Item>
+          <Form.Item className="hidden">
             {getFieldDecorator('check', {
               rules: [],
               initialValue: false,
             })(<Input type="hidden" />)}
-          </FormItem>
+          </Form.Item>
           <Button type="primary" htmlType="submit">
             Add todo
           </Button>

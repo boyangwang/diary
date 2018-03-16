@@ -1,9 +1,10 @@
-import DayContainer from 'components/DayContainer';
-import util from 'utils/util';
+import './WeekContainer.css';
+
 import React from 'react';
 import { Card } from 'antd';
 
-import './WeekContainer.css';
+import util from 'utils/util';
+import DayContainer from 'components/DayContainer';
 
 class WeekContainer extends React.Component {
   render() {

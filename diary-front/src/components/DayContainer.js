@@ -1,13 +1,13 @@
+import './DayContainer.css';
+
+import React from 'react';
+import { connect } from 'react-redux';
+import classnames from 'classnames';
+import { Badge, Icon, Card } from 'antd';
+
 import api from 'utils/api';
 import util from 'utils/util';
 import DayContainerEntryObject from 'components/DayContainerEntryObject';
-import AddEntryFormContainer from 'components/AddEntryFormContainer';
-import React from 'react';
-import { connect } from 'react-redux';
-import { Badge, Row, Col, Icon, Card } from 'antd';
-import classnames from 'classnames';
-
-import './DayContainer.css';
 
 class DayContainer extends React.Component {
   constructor() {
