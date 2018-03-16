@@ -12,7 +12,7 @@ class WeekContainer extends React.Component {
     const todayString = util.getTodayStringWithOffset();
 
     return (
-      <Card title="WeekContainer">
+      <Card title="WeekContainer" className="WeekContainerCard">
         <div className="WeekContainer">
           {weekdays.map((d) => (
             <DayContainer key={d} date={d} highlight={d === todayString} />
