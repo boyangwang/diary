@@ -13,7 +13,9 @@ let appInstance, db;
 beforeAll(async () => {
   db = await MongoClient.connect(mongoUrl);
   appInstance = await require('./server.js')({
-    dbName, port: config.port, useAuth: false
+    dbName,
+    port: config.port,
+    useAuth: false,
   });
 });
 

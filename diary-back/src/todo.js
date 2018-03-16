@@ -84,7 +84,8 @@ module.exports = {
       ctx.response.status = 200;
       ctx.response.body = { data: { todo } };
     } else {
-      const processedId = todo._id.length === 24 ? new ObjectId(todo._id) : todo._id;
+      const processedId =
+        todo._id.length === 24 ? new ObjectId(todo._id) : todo._id;
       delete todo._id;
       let result = await ownerTodoCollection.updateOne(
         { _id: processedId },

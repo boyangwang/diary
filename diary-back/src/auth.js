@@ -6,7 +6,7 @@ module.exports = {
   init: () => {
     passport.use(
       new LocalStrategy(function(username, password, done) {
-        const user = config.users.find(u => u.username == username);
+        const user = config.users.find((u) => u.username == username);
         if (user && password == user.password) {
           done(null, { username: user.username });
         } else {
@@ -14,7 +14,7 @@ module.exports = {
         }
       })
     );
-    
+
     passport.serializeUser(function(user, done) {
       done(null, user);
     });
@@ -45,5 +45,5 @@ module.exports = {
       ctx.status = 401;
       ctx.body = { err: 'need login' };
     }
-  }
+  },
 };

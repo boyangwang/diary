@@ -30,10 +30,13 @@
   },
   "devDependencies": {
     "flightplan": "^0.6.17",
-    "pm2": "^2.10.1",
-    "pre-commit": "^1.2.2"
+    "husky": "^0.14.3",
+    "pm2": "^2.10.1"
   },
-  "pre-commit": [
-    "pretty"
-  ]
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn run test",
+      "pre-push": "yarn run test"
+    }
+  }
 }

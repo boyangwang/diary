@@ -10,13 +10,21 @@ const {
 } = require('./testutils.js');
 let appInstance, db;
 
-const exampleTodo = {_id: 'testid', date: "1970-01-01", title:
-"test title", content: "test content", priority: 3, check: false};
+const exampleTodo = {
+  _id: 'testid',
+  date: '1970-01-01',
+  title: 'test title',
+  content: 'test content',
+  priority: 3,
+  check: false,
+};
 
 beforeAll(async () => {
   db = await MongoClient.connect(mongoUrl);
   appInstance = await require('./server.js')({
-    dbName, port: config.port, useAuth: false
+    dbName,
+    port: config.port,
+    useAuth: false,
   });
 });
 
@@ -52,7 +60,7 @@ describe('api', async () => {
   });
 
   test('/api/postTodo needs an owner and an todo in body', async () => {
-    delete exampleTodo._id
+    delete exampleTodo._id;
     await expectFetchUrlStatusCodeAndJson({
       url: `http://localhost:${config.port}/api/postTodo`,
       postBody: { data: { owner: 'testOwner' } },
@@ -88,9 +96,11 @@ describe('api', async () => {
       db,
       collection: 'todo_testOwner',
       query: {},
-      expectedResults: [Object.assign({}, exampleTodo, {
-        _id: res.data.todo._id,
-      }),],
+      expectedResults: [
+        Object.assign({}, exampleTodo, {
+          _id: res.data.todo._id,
+        }),
+      ],
     });
   });
 
@@ -139,7 +149,9 @@ describe('api', async () => {
   });
 
   test('/api/postTodo if update an todo that exists, but all same, do nothing', async () => {
-    const todo = Object.assign({}, exampleTodo, {_id: 'testid' + Math.floor(Math.random() * 1000)});
+    const todo = Object.assign({}, exampleTodo, {
+      _id: 'testid' + Math.floor(Math.random() * 1000),
+    });
     let testOwnerTodoCollection = db.collection(`todo_testOwner`);
     await testOwnerTodoCollection.insertOne(todo);
 
@@ -161,12 +173,10 @@ describe('api', async () => {
 
   test('/api/deleteTodo', async () => {
     const _id = 'testid' + Math.floor(Math.random() * 1000);
-    const todo = Object.assign({}, exampleTodo, {_id});
+    const todo = Object.assign({}, exampleTodo, { _id });
 
     let testOwnerTodoCollection = await db.collection(`todo_testOwner`);
-    await testOwnerTodoCollection.insertOne(
-      todo
-    );
+    await testOwnerTodoCollection.insertOne(todo);
 
     let json = await expectFetchUrlStatusCodeAndJson({
       url: `http://localhost:${config.port}/api/deleteTodo`,

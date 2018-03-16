@@ -22,5 +22,5 @@ module.exports = {
     let result = await errCollection.insertOne(err);
     ctx.response.status = 200;
     ctx.response.body = { err };
-  }
-}
+  },
+};

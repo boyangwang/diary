@@ -36,17 +36,13 @@ describe('login', async () => {
       expectJson: { err: 'need login' },
     });
     await expectFetchUrlStatusCodeAndJson({
-      url: `http://localhost:${
-        config.port
-      }/api/postEntry`,
+      url: `http://localhost:${config.port}/api/postEntry`,
       method: 'POST',
       expectStatusCode: 401,
       expectJson: { err: 'need login' },
     });
     await expectFetchUrlStatusCodeAndJson({
-      url: `http://localhost:${
-        config.port
-      }/api/deleteEntry`,
+      url: `http://localhost:${config.port}/api/deleteEntry`,
       method: 'POST',
       expectStatusCode: 401,
       expectJson: { err: 'need login' },

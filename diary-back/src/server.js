@@ -55,7 +55,10 @@ const main = async (opt = {}) => {
     ctx.redirect('/');
   });
   if (mergedConfig.useAuth) {
-    router.use(['/api/getEntries', '/api/postEntry', '/api/deleteEntry'], auth.verifyAuthenticated);
+    router.use(
+      ['/api/getEntries', '/api/postEntry', '/api/deleteEntry'],
+      auth.verifyAuthenticated
+    );
   }
   // diary
   diary.init(app, db);

@@ -76,7 +76,9 @@ plan.remote(['frontend', 'deploy-all'], (remote) => {
 });
 
 plan.local(['link-nginx'], (local) => {
-  const confAbsolutePath = path.resolve('../diary-front/config/diary.local.conf');
+  const confAbsolutePath = path.resolve(
+    '../diary-front/config/diary.local.conf'
+  );
   local.exec(`ln -sf ${confAbsolutePath} /usr/local/etc/nginx/servers/`);
   local.exec(`nginx -s reload`);
 });

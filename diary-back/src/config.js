@@ -1,7 +1,7 @@
 module.exports = {
   users: [
-    {username: 'diary', password: 'pass',},
-    {username: 'pyc', password: 'pass',},
+    { username: 'diary', password: 'pass' },
+    { username: 'pyc', password: 'pass' },
   ],
   port: 14464,
   dbName: 'diary',
