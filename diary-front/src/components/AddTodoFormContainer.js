@@ -13,23 +13,24 @@ class AddTodoFormContainer extends React.Component {
       if (err) {
         return;
       }
-      api.postTodo({ data: { todo: values, owner: user.username } }).then(
-        (data) => {
-          if (data.err) {
-            message.warn('' + data.err);
-          } else {
-            this.props.dispatch({
-              type: 'POST_TODO',
-              payload: { todo: data.data.todo },
-            });
+      api
+        .postTodo({ data: { todo: values, owner: user.username } })
+        .then(
+          (data) => {
+            if (data.err) {
+              message.warn('' + data.err);
+            } else {
+              this.props.dispatch({
+                type: 'POST_TODO',
+                payload: { todo: data.data.todo },
+              });
+            }
+          },
+          (err) => {
+            message.warn('' + err);
           }
-        },
-        (err) => {
-          message.warn('' + err);
-        }
-      ).then(
-        () => this.props.form.resetFields()
-      );
+        )
+        .then(() => this.props.form.resetFields());
     });
   };
 

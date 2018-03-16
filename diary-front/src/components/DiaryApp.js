@@ -37,7 +37,8 @@ class DiaryApp extends React.Component {
     return (
       <div className="DiaryApp">
         <div className="DiaryAppTitleDiv">
-          <h1>DiaryApp</h1><h4 className="grey">{backendVersion}</h4>
+          <h1>DiaryApp</h1>
+          <h4 className="grey">{backendVersion}</h4>
         </div>
         {user ? (
           <div>
