@@ -6,8 +6,9 @@ module.exports = {
   init: () => {
     passport.use(
       new LocalStrategy(function(username, password, done) {
-        if (username == config.username && password == config.password) {
-          done(null, { username });
+        const user = config.users.find(u => u.username == username);
+        if (user && password == user.password) {
+          done(null, { username: user.username });
         } else {
           done(null, false);
         }
@@ -19,7 +20,7 @@ module.exports = {
     });
     passport.deserializeUser(function(user, done) {
       done(null, user);
-    });    
+    });
   },
   authenticateCallback: async (ctx, next) => {
     return await passport.authenticate(

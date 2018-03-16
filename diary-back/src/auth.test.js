@@ -2,6 +2,7 @@ require('isomorphic-fetch');
 const { MongoClient } = require('mongodb');
 const config = require('./config.js');
 config.port = config.port + 1;
+const user = config.users[0];
 const dbName = 'diaryTest';
 const mongoUrl = `mongodb://localhost:27017/${dbName}`;
 const {
@@ -55,9 +56,9 @@ describe('login', async () => {
   test('correct', async () => {
     await expectFetchUrlStatusCodeAndJson({
       url: `http://localhost:${config.port}/api/login`,
-      postBody: { username: config.username, password: config.password },
+      postBody: { username: user.username, password: user.password },
       method: 'POST',
-      expectJson: { data: { user: { username: config.username } } },
+      expectJson: { data: { user: { username: user.username } } },
       expectStatusCode: 200,
     });
   });
