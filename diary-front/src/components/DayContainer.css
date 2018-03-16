@@ -13,3 +13,19 @@
 .DayContainer > .ant-card-body {
   padding: 0;
 }
+
+.DayContainer .sum .ant-badge {
+  margin-left: 24px;
+}
+
+.DayContainer .sum.grey .ant-badge .ant-badge-count {
+  background-color: #999999;
+}
+
+.DayContainer .sum.blue .ant-badge .ant-badge-count {
+  background-color: #1890ff;
+}
+
+.DayContainer .sum.green .ant-badge .ant-badge-count {
+  background-color: #52c41a;
+}
