@@ -25,7 +25,9 @@ const apis = {
 
 const apiTest = () => {
   return new Promise((resolve, reject) => {
-    fetch(PREFIX + apis.apiTest).then(
+    fetch(PREFIX + apis.apiTest, {
+      credentials: 'same-origin',
+    }).then(
       (res) => {
         resolve(res.json());
       },
@@ -148,14 +150,6 @@ const errReport = (params) => {
 };
 
 console.info('%c diary-front', 'font-size: 16px');
-apiTest().then(
-  (data) => {
-    console.log('apiTest: ', PREFIX + apis.apiTest, data);
-  },
-  (err) => {
-    console.log('apiTest failed: ', err);
-  }
-);
 
 export default {
   apiTest,

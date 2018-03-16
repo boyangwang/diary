@@ -22,7 +22,7 @@ const packagejson = require('../package.json');
 let app, db;
 
 const getApiTest = async (ctx, next) => {
-  ctx.response.body = { data: { success: true } };
+  ctx.response.body = { data: { user: ctx.state.user || null } };
 };
 
 /**
