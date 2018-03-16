@@ -1,12 +1,12 @@
 {
   "private": true,
   "devDependencies": {
-    "husky": "^0.14.3"
+    "husky": "^0.15.0-rc.9"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "cd diary-front && yarn run pretty && cd ../diary-back && yarn run pretty",
-      "pre-push": "cd diary-front && yarn run pretty && cd ../diary-back && yarn run pretty && yarn run test"
+      "pre-commit": "echo pre-commit && cd diary-front && yarn run pretty && cd ../diary-back && yarn run pretty",
+      "pre-push": "echo pre-push && cd diary-front && yarn run pretty && cd ../diary-back && yarn run pretty && yarn run test"
     }
   }
 }
