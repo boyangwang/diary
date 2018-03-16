@@ -90,15 +90,13 @@ class AddEntryFormContainer extends React.Component {
           </Form.Item>
           <Form.Item>
             {getFieldDecorator('date', {
-              rules: [
-                { required: true, message: 'Date required' },
-              ],
-              initialValue: _.get(entry, 'date') ? moment(_.get(entry, 'date')) : null,
+              rules: [{ required: true, message: 'Date required' }],
+              initialValue: _.get(entry, 'date')
+                ? moment(_.get(entry, 'date'))
+                : null,
             })(
               // if editing entry, do not allow change date (for now)
-              <DatePicker
-                disabled={!!_.get(entry, 'date')}
-              />
+              <DatePicker disabled={!!_.get(entry, 'date')} />
             )}
           </Form.Item>
           <Button type="primary" htmlType="submit">
@@ -117,7 +115,7 @@ class AddEntryFormContainer extends React.Component {
 }
 AddEntryFormContainer.defaultProps = {
   buttonText: 'Add entry',
-  onSubmit: () => { },
+  onSubmit: () => {},
 };
 
 const WrappedAddEntryFormContainer = Form.create()(AddEntryFormContainer);
