@@ -22,10 +22,12 @@ const packagejson = require('../package.json');
 let app, db;
 
 const getApiTest = async (ctx, next) => {
-  ctx.response.body = { data: {
-    user: ctx.state.user || null,
-    backendVersion: packagejson.version
-  } };
+  ctx.response.body = {
+    data: {
+      user: ctx.state.user || null,
+      backendVersion: packagejson.version,
+    },
+  };
 };
 
 /**

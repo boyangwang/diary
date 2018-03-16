@@ -114,7 +114,7 @@ module.exports = {
     let { owner, entry } = ctx.request.body.data;
     let ownerEntryCollection = db.collection(`entry_${owner}`);
     const processedId =
-        entry._id.length === 24 ? new ObjectId(entry._id) : entry._id;
+      entry._id.length === 24 ? new ObjectId(entry._id) : entry._id;
     let result = await ownerEntryCollection.findOneAndDelete({
       _id: processedId,
     });

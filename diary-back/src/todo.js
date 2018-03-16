@@ -98,10 +98,9 @@ module.exports = {
   deleteTodo: async (ctx, next) => {
     let { owner, todo } = ctx.request.body.data;
     let ownerTodoCollection = db.collection(`todo_${owner}`);
-    const processedId =
-        todo._id.length === 24 ? ObjectId(todo._id) : todo._id;
+    const processedId = todo._id.length === 24 ? ObjectId(todo._id) : todo._id;
     let result = await ownerTodoCollection.findOneAndDelete({
-      _id: processedId
+      _id: processedId,
     });
     ctx.response.status = 200;
     ctx.response.body = { data: { todo: result.value } };

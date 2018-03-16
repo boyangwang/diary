@@ -62,7 +62,9 @@ describe('api', async () => {
   test('/api/getEntries returns a entry', async () => {
     let testOwnerEntryCollection = db.collection(`entry_testOwner`);
     let entry = {
-      _id: '00000000000000000000' + leftPad(Math.floor(Math.random() * 1000), 4, '0'),
+      _id:
+        '00000000000000000000' +
+        leftPad(Math.floor(Math.random() * 1000), 4, '0'),
       date: '1970-01-01',
       title: 'test title',
       content: 'test content',
@@ -140,7 +142,9 @@ describe('api', async () => {
 
   test("/api/postEntry if update an entry that doesn't exist, give modified 0", async () => {
     let entry = {
-      _id: '00000000000000000000' + leftPad(Math.floor(Math.random() * 1000), 4, '0'),
+      _id:
+        '00000000000000000000' +
+        leftPad(Math.floor(Math.random() * 1000), 4, '0'),
       date: '1970-01-01',
       title: 'test title',
       content: 'test content',
@@ -162,7 +166,9 @@ describe('api', async () => {
   });
 
   test('/api/postEntry if update an entry that exists, update it', async () => {
-    const _id = '00000000000000000000' + leftPad(Math.floor(Math.random() * 1000), 4, '0');
+    const _id =
+      '00000000000000000000' +
+      leftPad(Math.floor(Math.random() * 1000), 4, '0');
     let entry = {
       _id,
       date: '1970-01-01',
@@ -171,7 +177,9 @@ describe('api', async () => {
       points: 1,
     };
     let testOwnerEntryCollection = db.collection(`entry_testOwner`);
-    await testOwnerEntryCollection.insertOne(Object.assign({}, entry, {_id: ObjectId(_id)}));
+    await testOwnerEntryCollection.insertOne(
+      Object.assign({}, entry, { _id: ObjectId(_id) })
+    );
 
     let entryNew = Object.assign({}, entry, {
       title: 'updated test title',
@@ -194,7 +202,9 @@ describe('api', async () => {
   });
 
   test('/api/postEntry if update an entry that exists, but all same, do nothing', async () => {
-    const _id = '00000000000000000000' + leftPad(Math.floor(Math.random() * 1000), 4, '0');
+    const _id =
+      '00000000000000000000' +
+      leftPad(Math.floor(Math.random() * 1000), 4, '0');
     let entry = {
       _id,
       date: '1970-01-01',
@@ -203,7 +213,9 @@ describe('api', async () => {
       points: 1,
     };
     let testOwnerEntryCollection = db.collection(`entry_testOwner`);
-    await testOwnerEntryCollection.insertOne(Object.assign({}, entry, {_id: ObjectId(_id)}));
+    await testOwnerEntryCollection.insertOne(
+      Object.assign({}, entry, { _id: ObjectId(_id) })
+    );
 
     let entryNew = Object.assign({}, entry);
     let json = await expectFetchUrlStatusCodeAndJson({
@@ -223,7 +235,9 @@ describe('api', async () => {
   });
 
   test('/api/deleteEntry', async () => {
-    const _id = '00000000000000000000' + leftPad(Math.floor(Math.random() * 1000), 4, '0');
+    const _id =
+      '00000000000000000000' +
+      leftPad(Math.floor(Math.random() * 1000), 4, '0');
     let entry = {
       _id,
       date: '1970-01-01',
@@ -232,7 +246,9 @@ describe('api', async () => {
       points: 1,
     };
     let testOwnerEntryCollection = await db.collection(`entry_testOwner`);
-    await testOwnerEntryCollection.insertOne(Object.assign({}, entry, {_id: ObjectId(_id)}));
+    await testOwnerEntryCollection.insertOne(
+      Object.assign({}, entry, { _id: ObjectId(_id) })
+    );
 
     let json = await expectFetchUrlStatusCodeAndJson({
       url: `http://localhost:${config.port}/api/deleteEntry`,
