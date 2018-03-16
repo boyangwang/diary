@@ -15,8 +15,10 @@ same as component class name, e.g. DiaryApp
 - external css
 - my css
 ---
-- my non-component
-- my component
+- polyfill
 ---
 - external non-component
 - external component
+---
+- my non-component
+- my component

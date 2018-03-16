@@ -3,13 +3,11 @@ import appendQuery from 'append-query';
 const PROTOCOL = process.env.REACT_APP_PROTOCOL;
 const DOMAIN = process.env.REACT_APP_DOMAIN;
 const PORT = process.env.REACT_APP_PORT;
-
 const PREFIX =
   (PROTOCOL ? PROTOCOL + '://' : '') +
   (DOMAIN ? DOMAIN : '') +
   (PORT ? ':' + PORT : '') +
   '/';
-
 const apis = {
   apiTest: 'api/apiTest',
   login: 'api/login',
@@ -169,8 +167,6 @@ const errReport = (params) => {
     );
   });
 };
-
-console.info('%c diary-front', 'font-size: 16px');
 
 export default {
   apiTest,
