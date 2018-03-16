@@ -16,7 +16,7 @@ class DayContainerEntryObject extends React.Component {
       (data) => {
         if (data.err) {
           message.warn('' + data.err);
-        } else {
+        } else if (data.data.entry) {
           this.props.dispatch({
             type: 'DELETE_ENTRY',
             payload: { entry: data.data.entry },
