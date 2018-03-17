@@ -22,8 +22,8 @@ class AddEntryFormContainer extends React.Component {
     const { validateFields, resetFields } = this.props.form;
 
     e.preventDefault();
-    validateFields((err, values) => {
-      if (err) {
+    validateFields((validateErr, values) => {
+      if (validateErr) {
         return;
       }
       values.date = values.date.format(util.dateStringFormat);

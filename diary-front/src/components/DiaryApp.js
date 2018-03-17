@@ -13,7 +13,7 @@ class DiaryApp extends React.Component {
   componentWillMount() {
     api.apiTest().then(
       (data) => {
-        console.log('apiTest: ', data);
+        console.info('apiTest: ', data);
         if (data.err) {
           message.warn('' + data.err);
         } else {

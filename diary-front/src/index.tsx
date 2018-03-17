@@ -1,24 +1,24 @@
 import 'antd/dist/antd.css';
 import './index.css';
 
-import 'promise-polyfill/src/polyfill';
 import 'isomorphic-fetch';
+import 'promise-polyfill/src/polyfill';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
-import thunkMiddleware from 'redux-thunk';
+import { applyMiddleware, compose, createStore } from 'redux';
 import { createLogger } from 'redux-logger';
+import thunkMiddleware from 'redux-thunk';
 
 // TODO: SW requires https
 // import registerServiceWorker from './registerServiceWorker';
 // registerServiceWorker();
-import './utils/errReport';
-import reducer from './reducers';
 import DiaryApp from './components/DiaryApp';
+import reducer from './reducers';
+import './utils/errReport';
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(
   reducer,
   composeEnhancers(

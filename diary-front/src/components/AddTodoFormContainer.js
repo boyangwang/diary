@@ -11,8 +11,8 @@ class AddTodoFormContainer extends React.Component {
     e.preventDefault();
     const { user, onSubmit } = this.props;
     const { validateFields, resetFields } = this.props.form;
-    validateFields((err, values) => {
-      if (err) {
+    validateFields((validateErr, values) => {
+      if (validateErr) {
         return;
       }
       api

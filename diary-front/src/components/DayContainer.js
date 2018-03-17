@@ -19,7 +19,7 @@ class DayContainer extends React.Component {
 
   getEntriesForDate() {
     const { entriesDateMap, date, dispatch, user } = this.props;
-    if (!entriesDateMap[date])
+    if (!entriesDateMap[date]) {
       api.getEntries({ date, owner: user.username }).then(
         (data) => {
           dispatch({
@@ -33,6 +33,7 @@ class DayContainer extends React.Component {
           this.setState({ err });
         }
       );
+    }
   }
 
   componentWillMount() {
@@ -47,12 +48,13 @@ class DayContainer extends React.Component {
 
   renderContent() {
     const { date, entriesDateMap } = this.props;
-    if (!entriesDateMap[date])
+    if (!entriesDateMap[date]) {
       return (
         <div className="DayContainerContentDiv">
           <Icon type="loading" />
         </div>
       );
+    }
     return (
       <div className="DayContainerContentDiv">
         {entriesDateMap[date].map((entry) => {

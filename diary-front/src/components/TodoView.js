@@ -42,16 +42,24 @@ class TodoView extends React.Component {
     const checkedTodos = todos
       .filter((t) => t.check)
       .sort((a, b) => {
-        if (!a.date) return -1;
-        if (!b.date) return 1;
+        if (!a.date) {
+          return -1;
+        }
+        if (!b.date) {
+          return 1;
+        }
         return a.date.localeCompare(b.date);
       })
       .reverse();
     const uncheckedTodos = todos
       .filter((t) => !t.check)
       .sort((a, b) => {
-        if (!a.priority) return -1;
-        if (!b.priority) return 1;
+        if (!a.priority) {
+          return -1;
+        }
+        if (!b.priority) {
+          return 1;
+        }
         return a.priority - b.priority;
       })
       .reverse();

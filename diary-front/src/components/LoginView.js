@@ -7,8 +7,8 @@ import api from 'utils/api';
 class NormalLoginForm extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
-    this.props.form.validateFields((err, values) => {
-      if (!err) {
+    this.props.form.validateFields((validateErr, values) => {
+      if (!validateErr) {
         api.login(values).then(
           (data) => {
             if (data.err) {
