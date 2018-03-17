@@ -1,36 +1,65 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import _ from 'lodash';
-import moment from 'moment';
 import {
+  Button,
+  Card,
+  DatePicker,
   Form,
   Icon,
   Input,
   InputNumber,
-  Button,
   message,
-  DatePicker,
-  Card,
 } from 'antd';
+import { FormComponentProps } from 'antd/lib/form/Form';
+import _ from 'lodash';
+import * as moment from 'moment';
+import React from 'react';
+import { connect } from 'react-redux';
 
-import api from 'utils/api';
+import { Action, ReduxState, User } from 'reducers';
+import api, { Entry, PostEntryResponse } from 'utils/api';
 import util from 'utils/util';
 
-class AddEntryFormContainer extends React.Component {
-  handleSubmit = (e) => {
+class Props {
+  public entry?: Entry;
+  public buttonText: string;
+  public onSubmit: () => void;
+
+  public form?: any;
+}
+class ReduxProps {
+  public dispatch: (action: Action) => void;
+  public user: User | null;
+}
+class AddEntryFormValues {
+  public _id?: string;
+  public date: moment.Moment;
+  public title: string;
+  public content: string;
+  public points: number;
+}
+class AddEntryFormContainer extends React.Component<Props & ReduxProps & FormComponentProps, {}> {
+  public static defaultProps = {
+    buttonText: 'Add entry',
+    onSubmit: () => {},
+  };
+
+  private handleSubmit = (e: any) => {
     const { user, onSubmit } = this.props;
     const { validateFields, resetFields } = this.props.form;
-
+    if (!user) {
+      return;
+    }
     e.preventDefault();
-    validateFields((validateErr, values) => {
+    validateFields((validateErr: any, values: AddEntryFormValues) => {
       if (validateErr) {
         return;
       }
-      values.date = values.date.format(util.dateStringFormat);
+      const entry: Entry = Object.assign({}, values, {
+        date: values.date.format(util.dateStringFormat)
+      });
       api
-        .postEntry({ data: { entry: values, owner: user.username } })
+        .postEntry({ data: { entry, owner: user.username } })
         .then(
-          (data) => {
+          (data: PostEntryResponse) => {
             if (data.err) {
               message.warn('' + data.err);
             } else {
@@ -58,7 +87,7 @@ class AddEntryFormContainer extends React.Component {
     });
   };
 
-  render() {
+  public render() {
     const { getFieldDecorator } = this.props.form;
     const { buttonText, entry } = this.props;
 
@@ -76,10 +105,7 @@ class AddEntryFormContainer extends React.Component {
               rules: [{ required: true, message: 'Points required' }],
               initialValue: _.get(entry, 'points'),
             })(
-              <InputNumber
-                prefix={<Icon type="hourglass" />}
-                placeholder="Points"
-              />
+              <InputNumber placeholder="Points" />
             )}
           </Form.Item>
           <Form.Item>
@@ -113,14 +139,10 @@ class AddEntryFormContainer extends React.Component {
     );
   }
 }
-AddEntryFormContainer.defaultProps = {
-  buttonText: 'Add entry',
-  onSubmit: () => {},
-};
 const WrappedAddEntryFormContainer = Form.create()(AddEntryFormContainer);
 
-export default connect((state) => {
+export default connect((state: ReduxState) => {
   return {
     user: state.user,
   };
-})(WrappedAddEntryFormContainer);
+})(WrappedAddEntryFormContainer as any);
