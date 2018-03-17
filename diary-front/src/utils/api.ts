@@ -165,7 +165,7 @@ const deleteEntry = (params: DeleteEntryParams) => {
   });
 };
 
-class Todo {
+export class Todo {
   public _id?: string;
   public date: string;
   public title: string;

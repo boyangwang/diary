@@ -1,10 +1,26 @@
-import _ from 'lodash';
+import * as _ from 'lodash';
+import { Entry, Todo } from 'utils/api';
 
-const INITIAL_STATE = {
+class State {
+  public user: null | {
+    username: string;
+  };
+  public backendVersion: null | string;
+  public frontendVersion: null | string;
+  public entriesDateMap: {
+    [date: string]: Entry[];
+  };
+  public todos: Todo[];
+}
+const INITIAL_STATE: State = {
   user: null,
+  backendVersion: null,
+  frontendVersion: null,
   entriesDateMap: {},
+  todos: [],
 };
-export default (state = INITIAL_STATE, action) => {
+export default (state: State = INITIAL_STATE,
+  action: { type: string; payload: any }) => {
   if (action.type === 'LOGIN') {
     return { ...state, user: action.payload.user };
   } else if (action.type === 'VERSION') {
