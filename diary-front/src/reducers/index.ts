@@ -1,10 +1,11 @@
 import * as _ from 'lodash';
 import { Entry, Todo } from 'utils/api';
 
-class State {
-  public user: null | {
-    username: string;
-  };
+export class User {
+  public username: string;
+}
+export class ReduxState {
+  public user: null | User;
   public backendVersion: null | string;
   public frontendVersion: null | string;
   public entriesDateMap: {
@@ -12,15 +13,19 @@ class State {
   };
   public todos: Todo[];
 }
-const INITIAL_STATE: State = {
+const INITIAL_STATE: ReduxState = {
   user: null,
   backendVersion: null,
   frontendVersion: null,
   entriesDateMap: {},
   todos: [],
 };
-export default (state: State = INITIAL_STATE,
-  action: { type: string; payload: any }) => {
+export class Action {
+  public type: string;
+  public payload: any;
+}
+export default (state: ReduxState = INITIAL_STATE,
+  action: Action) => {
   if (action.type === 'LOGIN') {
     return { ...state, user: action.payload.user };
   } else if (action.type === 'VERSION') {
