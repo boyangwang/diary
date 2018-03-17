@@ -59,7 +59,7 @@ class TodoView extends React.Component {
     return (
       <div className="TodosContainer">
         <List
-          locale={{emptyText: 'Empty'}}
+          locale={{ emptyText: 'Empty' }}
           dataSource={uncheckedTodos}
           renderItem={(todo) => (
             <TodoObject todo={todo} onCheckChange={this.onCheckChange(todo)} />
@@ -71,7 +71,7 @@ class TodoView extends React.Component {
             key="unchecked"
           >
             <List
-              locale={{emptyText: 'Empty'}}
+              locale={{ emptyText: 'Empty' }}
               dataSource={checkedTodos}
               renderItem={(todo) => (
                 <TodoObject
