@@ -6,7 +6,7 @@ const dateStringFormat = 'YYYY-MM-DD';
 
 export default {
   dateStringFormat,
-  getTodayStringWithOffset: (offset: number | undefined) => {
+  getTodayStringWithOffset: (offset?: number) => {
     offset = offset ? offset : 0;
     return moment()
       .add(offset, 'days')
