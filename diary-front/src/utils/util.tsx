@@ -6,13 +6,13 @@ const dateStringFormat = 'YYYY-MM-DD';
 
 export default {
   dateStringFormat,
-  getTodayStringWithOffset: (offset) => {
+  getTodayStringWithOffset: (offset: number | undefined) => {
     offset = offset ? offset : 0;
     return moment()
       .add(offset, 'days')
       .format(dateStringFormat);
   },
-  getWeekdaysFromDateString: (date) => {
+  getWeekdaysFromDateString: (date: string) => {
     const firstDay = moment(date).startOf('isoWeek');
     const res = [];
     for (let i = 0; i < 7; i++) {
@@ -25,5 +25,5 @@ export default {
     }
     return res;
   },
-  errComponent: <Icon type="exclamation-circle-o" />,
+  errComponent: (<Icon type="exclamation-circle-o" />),
 };

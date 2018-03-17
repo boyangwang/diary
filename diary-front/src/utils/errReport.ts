@@ -16,7 +16,7 @@ window.onerror = (message, source, lineno, colno, errObj) => {
     colno,
     errJson,
   };
-  api.errReport(errReportObj);
+  api.errReport({ err: errReportObj });
   window.alert(JSON.stringify(errReportObj));
   origOnerror(message, source, lineno, colno, errObj);
 };

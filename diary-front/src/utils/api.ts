@@ -37,8 +37,38 @@ const apiTest = () => {
     );
   });
 };
-
-const login = (params) => {
+class ErrReportParams {
+  err: {
+    message?: string;
+    source?: any;
+    lineno?: any;
+    colno?: any;
+    errJson?: any;
+  }
+}
+const errReport = (params: ErrReportParams) => {
+  return new Promise((resolve, reject) => {
+    fetch(PREFIX + apis.errReport, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(params),
+    }).then(
+      (res) => {
+        resolve(res.json());
+      },
+      (err) => {
+        reject(err);
+      }
+    );
+  });
+};
+class LoginParams {
+  username: string;
+  password: string;
+}
+const login = (params: LoginParams) => {
   return new Promise((resolve, reject) => {
     fetch(PREFIX + apis.login, {
       method: 'POST',
@@ -58,7 +88,18 @@ const login = (params) => {
   });
 };
 
-const getEntries = (params) => {
+export class Entry {
+  _id?: string;
+  date: string;
+  title: string;
+  content: string;
+  points: number;
+}
+class GetEntriesParams {
+  date: string;
+  owner: string;
+}
+const getEntries = (params: GetEntriesParams) => {
   const url = appendQuery(PREFIX + apis.getEntries, params);
   return new Promise((resolve, reject) => {
     fetch(url, {
@@ -73,8 +114,13 @@ const getEntries = (params) => {
     );
   });
 };
-
-const postEntry = (params) => {
+class PostEntryParams {
+  data: {
+    owner: string;
+    entry: Entry;
+  }
+}
+const postEntry = (params: PostEntryParams) => {
   return new Promise((resolve, reject) => {
     fetch(PREFIX + apis.postEntry, {
       method: 'POST',
@@ -93,8 +139,13 @@ const postEntry = (params) => {
     );
   });
 };
-
-const deleteEntry = (params) => {
+class DeleteEntryParams {
+  data: {
+    owner: string;
+    entry: Entry;
+  }
+}
+const deleteEntry = (params: DeleteEntryParams) => {
   return new Promise((resolve, reject) => {
     fetch(PREFIX + apis.deleteEntry, {
       method: 'POST',
@@ -114,7 +165,18 @@ const deleteEntry = (params) => {
   });
 };
 
-const getTodos = (params) => {
+class Todo {
+  _id?: string;
+  date: string;
+  title: string;
+  content: string;
+  priority: number;
+  check: boolean;
+}
+class GetTodosParams {
+  owner: string;
+}
+const getTodos = (params: GetTodosParams) => {
   const url = appendQuery(PREFIX + apis.getTodos, params);
   return new Promise((resolve, reject) => {
     fetch(url, {
@@ -129,8 +191,13 @@ const getTodos = (params) => {
     );
   });
 };
-
-const postTodo = (params) => {
+class PostTodosParams {
+  data: {
+    owner: string;
+    todo: Todo;
+  }
+}
+const postTodo = (params: PostTodosParams) => {
   return new Promise((resolve, reject) => {
     fetch(PREFIX + apis.postTodo, {
       method: 'POST',
@@ -149,8 +216,13 @@ const postTodo = (params) => {
     );
   });
 };
-
-const deleteTodo = (params) => {
+class DeleteTodoParams {
+  data: {
+    owner: string;
+    todo: Todo;
+  }
+}
+const deleteTodo = (params: DeleteTodoParams) => {
   return new Promise((resolve, reject) => {
     fetch(PREFIX + apis.deleteTodo, {
       method: 'POST',
@@ -158,25 +230,6 @@ const deleteTodo = (params) => {
         'Content-Type': 'application/json',
       },
       credentials: 'same-origin',
-      body: JSON.stringify(params),
-    }).then(
-      (res) => {
-        resolve(res.json());
-      },
-      (err) => {
-        reject(err);
-      }
-    );
-  });
-};
-
-const errReport = (params) => {
-  return new Promise((resolve, reject) => {
-    fetch(PREFIX + apis.errReport, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
       body: JSON.stringify(params),
     }).then(
       (res) => {
