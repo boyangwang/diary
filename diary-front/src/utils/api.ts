@@ -120,6 +120,15 @@ class PostEntryParams {
     entry: Entry;
   }
 }
+export class PostEntryResponse {
+  public err?: any;
+  public data: {
+    entry?: Entry;
+    n?: number;
+    nModified?: number;
+    ok?: number;
+  };
+}
 const postEntry = (params: PostEntryParams) => {
   return new Promise((resolve, reject) => {
     fetch(PREFIX + apis.postEntry, {
@@ -196,6 +205,15 @@ class PostTodosParams {
     owner: string;
     todo: Todo;
   }
+}
+export class PostTodoResponse {
+  public err?: any;
+  public data: {
+    todo?: Todo;
+    n?: number;
+    nModified?: number;
+    ok?: number;
+  };
 }
 const postTodo = (params: PostTodosParams) => {
   return new Promise((resolve, reject) => {
