@@ -102,3 +102,7 @@ insert/update之后要query, 得等一秒钟... 改了testutil, 之前问题全�
 ## husky hook不跑, 果然是因为版本对不上. 在package.json放hook的位置不一样了
 
 太自信是不好, 人家说了是@next
+
+## tslint.json 仰天长啸啊, 没想到jsRules是单独的, 怪不得改rules不管用!
+
+想不到. 早查查doc, 别怀疑是别人bug就好了 (都没有类似的report)
