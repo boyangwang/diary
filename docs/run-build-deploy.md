@@ -28,15 +28,19 @@
 - If needed, use CN mirror
   `yarn config set registry 'https://registry.npm.taobao.org'`
 
-- `npm test`
+- `yarn test`
 
-- `npm start`
+- `yarn start`
 
 - In diary-front, `yarn install`
 
-- `npm test`
+- `yarn test`
 
-- `npm start`
+- `yarn start`
+
+- On local dev env, we also need to link nginx conf. This is to make sure front+back are accessed port same origin (including port), so that we simulate prod CORS environment. In diary-back directory, run `yarn run flightplan -- link-nginx:localhost`
+
+- Access localhost:14432 from browser (not :3000)
 
 ### husky hooks
 
