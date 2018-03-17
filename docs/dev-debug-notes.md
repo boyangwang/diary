@@ -106,3 +106,7 @@ insert/update之后要query, 得等一秒钟... 改了testutil, 之前问题全�
 ## tslint.json 仰天长啸啊, 没想到jsRules是单独的, 怪不得改rules不管用!
 
 想不到. 早查查doc, 别怀疑是别人bug就好了 (都没有类似的report)
+
+## 解决了一堆匪夷所思的ts bug之后 (antd的locale被pass到div, redux connect 怎么都不给用dispatch, 嫌props里没有, index.d.ts不被pickup, 好像是不鼓励重名只有后缀不一样的文件名, 最后改成types.d.ts就奏效???) 终于算行了
+
+发布!
