@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Card, List, Icon } from 'antd';
+import { Card, List, Icon, Collapse } from 'antd';
 
 import api from 'utils/api';
 import AddTodoFormContainer from 'components/AddTodoFormContainer';
@@ -39,21 +39,33 @@ class TodoView extends React.Component {
   renderContent() {
     const { todos } = this.props;
 
+    const checkedTodos = todos.filter(t => t.check);
+    const uncheckedTodos = todos.filter(t => !t.check);
+
     return (
       <div className="TodosContainer">
-        {todos.length === 0 ? (
-          'Empty'
-        ) : (
-          <List
-            dataSource={todos}
-            renderItem={(todo) => (
-              <TodoObject
-                todo={todo}
-                onCheckChange={this.onCheckChange(todo)}
-              />
-            )}
-          />
-        )}
+        <List
+          dataSource={uncheckedTodos}
+          renderItem={(todo) => (
+            <TodoObject
+              todo={todo}
+              onCheckChange={this.onCheckChange(todo)}
+            />
+          )}
+        />
+        <Collapse>
+          <Collapse.Panel header="Checked todos" key="unchecked">
+            <List
+              dataSource={checkedTodos}
+              renderItem={(todo) => (
+                <TodoObject
+                  todo={todo}
+                  onCheckChange={this.onCheckChange(todo)}
+                />
+              )}
+            />
+          </Collapse.Panel>
+        </Collapse>
       </div>
     );
   }
@@ -64,7 +76,8 @@ class TodoView extends React.Component {
     return (
       <div className="TodoView">
         <Card title="TodoView">
-          {!todos ? <Icon type="loading" /> : this.renderContent()}
+          {!todos ? <Icon type="loading" /> : todos.length === 0 ? <h3>Empty</h3> :
+            this.renderContent()}
         </Card>
         <AddTodoFormContainer />
       </div>
