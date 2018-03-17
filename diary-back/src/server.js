@@ -12,7 +12,7 @@ const router = require('koa-router')();
 const passport = require('koa-passport');
 // own dependencies
 const auth = require('./auth');
-const diary = require('./diary');
+const entry = require('./entry');
 const todo = require('./todo');
 const errReport = require('./errReport');
 // conf
@@ -66,20 +66,20 @@ const main = async (opt = {}) => {
     );
   }
   // diary
-  diary.init(app, db);
+  entry.init(app, db);
   router.use(
     ['/api/getEntries', '/api/postEntry', '/api/deleteEntry'],
-    diary.validateParams
+    entry.validateParams
   );
   router.use(
     ['/api/getEntries', '/api/postEntry', '/api/deleteEntry'],
-    diary.validateOwner
+    entry.validateOwner
   );
-  router.use(['/api/getEntries'], diary.validateDate);
-  router.use(['/api/postEntry', '/api/deleteEntry'], diary.validateEntry);
-  router.get('/api/getEntries', diary.getEntries);
-  router.post('/api/postEntry', diary.postEntry);
-  router.post('/api/deleteEntry', diary.deleteEntry);
+  router.use(['/api/getEntries'], entry.validateDate);
+  router.use(['/api/postEntry', '/api/deleteEntry'], entry.validateEntry);
+  router.get('/api/getEntries', entry.getEntries);
+  router.post('/api/postEntry', entry.postEntry);
+  router.post('/api/deleteEntry', entry.deleteEntry);
   // todo
   todo.init(app, db);
   router.use(
