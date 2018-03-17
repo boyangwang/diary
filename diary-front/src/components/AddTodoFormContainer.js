@@ -76,7 +76,8 @@ class AddTodoFormContainer extends React.Component {
           <Form.Item className="hidden">
             {getFieldDecorator('date', {
               rules: [],
-              initialValue: _.get(todo, 'date') || util.getTodayStringWithOffset(),
+              initialValue:
+                _.get(todo, 'date') || util.getTodayStringWithOffset(),
             })(<Input type="hidden" />)}
           </Form.Item>
           <Form.Item className="hidden">

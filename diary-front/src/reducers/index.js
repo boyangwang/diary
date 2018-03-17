@@ -81,9 +81,7 @@ export default (state = INITIAL_STATE, action) => {
       todos: [...state.todos, action.payload.todo],
     };
   } else if (action.type === 'UPDATE_TODO') {
-    let newTodosArr = _.isArray(state.todos)
-      ? state.todos.slice()
-      : [];
+    let newTodosArr = _.isArray(state.todos) ? state.todos.slice() : [];
     const findIndex = newTodosArr.findIndex(
       (todo) => todo._id === action.payload.todo._id
     );
