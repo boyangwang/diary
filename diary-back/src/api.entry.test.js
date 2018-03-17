@@ -116,6 +116,18 @@ describe('api', async () => {
       postBody: { data: { entry, owner: 'testOwner' } },
       expectStatusCode: 200,
     });
+    /**
+     * we don't know _id beforehand, so not asserting res
+     * format: 
+     * { data:
+         { todo:
+            { date: '1970-01-01',
+              title: 'test title',
+              content: 'test content',
+              priority: 3,
+              check: false,
+              _id: '5aad3a16a2b32c25e0c95c57' } } }
+     */
     expectDbQueryResult({
       db,
       collection: 'entry_testOwner',
