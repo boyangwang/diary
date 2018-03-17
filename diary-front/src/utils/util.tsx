@@ -1,5 +1,5 @@
 import { Icon } from 'antd';
-import moment from 'moment';
+import * as moment from 'moment';
 import React from 'react';
 
 const dateStringFormat = 'YYYY-MM-DD';
