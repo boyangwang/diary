@@ -15,7 +15,6 @@ import thunkMiddleware from 'redux-thunk';
 // import registerServiceWorker from './registerServiceWorker';
 // registerServiceWorker();
 import DiaryApp from './components/DiaryApp';
-import './index.d';
 import reducer from './reducers';
 import './utils/errReport';
 
