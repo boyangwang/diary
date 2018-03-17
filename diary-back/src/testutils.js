@@ -1,6 +1,28 @@
 require('isomorphic-fetch');
+const { ObjectId } = require('mongodb');
+const leftPad = require('left-pad');
+
+let testObj;
 
 module.exports = {
+  setTestObj: (obj) => {
+    testObj = obj;
+  },
+  getTestObj: (overrides) => {
+    if (!testObj) {
+      throw new Error('Must first call setTestObj');
+    }
+    const currentTestObj = Object.assign({}, testObj, {
+      _id: '00000000000000000000' + leftPad(Math.floor(Math.random() * 1000), 4, '0'),
+    });
+    if (overrides) {
+      Object.assign(currentTestObj, overrides);
+    }
+    return currentTestObj;
+  },
+  transformIdToObjectId: (obj) => {
+    return Object.assign({}, obj, {_id: ObjectId(obj._id)});
+  },
   expectFetchUrlStatusCodeAndJson: async ({
     url,
     expectStatusCode,
@@ -27,6 +49,9 @@ module.exports = {
   expectDbQueryResult: async ({ db, collection, query, expectedResults }) => {
     if (typeof collection === 'string') collection = db.collection(collection);
     setTimeout(async () => {
+      if (query._id && typeof document._id === 'string') {
+        query._id = ObjectId(query._id);
+      }
       let dbResult = await (await collection.find(query)).toArray();
       dbResult = dbResult.map((document) => {
         if (typeof document._id !== 'string') {

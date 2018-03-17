@@ -1,17 +1,27 @@
 require('isomorphic-fetch');
-const { MongoClient, ObjectId } = require('mongodb');
-const leftPad = require('left-pad');
-const config = require('./config.js');
-config.port = config.port + 4;
-const dbName = 'diaryTest';
-const mongoUrl = `mongodb://localhost:27017/${dbName}`;
+const { MongoClient } = require('mongodb');
+
 const {
   expectFetchUrlStatusCodeAndJson,
   expectDbQueryResult,
+  setTestObj,
+  getTestObj,
+  transformIdToObjectId,
 } = require('./testutils.js');
+const config = require('./config.js');
+
+config.port = config.port + 4;
+const dbName = 'diaryTest';
+const mongoUrl = `mongodb://localhost:27017/${dbName}`;
 let appInstance, db;
 
 beforeAll(async () => {
+  setTestObj({
+    date: '1970-01-01',
+    title: 'test title',
+    content: 'test content',
+    points: 1,
+  });
   db = await MongoClient.connect(mongoUrl);
   appInstance = await require('./server.js')({
     dbName,
@@ -60,33 +70,22 @@ describe('api', async () => {
   });
 
   test('/api/getEntries returns a entry', async () => {
+    let entry = getTestObj();
     let testOwnerEntryCollection = db.collection(`entry_testOwner`);
-    let entry = {
-      _id:
-        '00000000000000000000' +
-        leftPad(Math.floor(Math.random() * 1000), 4, '0'),
-      date: '1970-01-01',
-      title: 'test title',
-      content: 'test content',
-      points: 1,
-    };
-    await testOwnerEntryCollection.insertOne(entry);
+    await testOwnerEntryCollection.insertOne(
+      transformIdToObjectId(entry)
+    );
     await expectFetchUrlStatusCodeAndJson({
       url: `http://localhost:${
         config.port
-      }/api/getEntries?date=1970-01-01&owner=testOwner`,
+      }/api/getEntries?date=${entry.date}&owner=testOwner`,
       expectStatusCode: 200,
       expectJson: { data: [entry] },
     });
   });
 
   test('/api/postEntry needs an owner and an entry in body', async () => {
-    let entry = {
-      date: '1970-01-01',
-      title: 'test title',
-      content: 'test content',
-      points: 1,
-    };
+    let entry = getTestObj();
     await expectFetchUrlStatusCodeAndJson({
       url: `http://localhost:${config.port}/api/postEntry`,
       postBody: { data: { owner: 'testOwner' } },
@@ -112,12 +111,7 @@ describe('api', async () => {
   });
 
   test('/api/postEntry adds an entry', async () => {
-    let entry = {
-      date: '1970-01-01',
-      title: 'test title',
-      content: 'test content',
-      points: 1,
-    };
+    let entry = getTestObj({_id: undefined});
     let res = await expectFetchUrlStatusCodeAndJson({
       url: `http://localhost:${config.port}/api/postEntry`,
       method: 'POST',
@@ -129,27 +123,13 @@ describe('api', async () => {
       collection: 'entry_testOwner',
       query: {},
       expectedResults: [
-        {
-          _id: res.data.entry._id,
-          date: '1970-01-01',
-          title: 'test title',
-          content: 'test content',
-          points: 1,
-        },
+        Object.assign({}, entry, {_id: res.data.entry._id}),
       ],
     });
   });
 
   test("/api/postEntry if update an entry that doesn't exist, give modified 0", async () => {
-    let entry = {
-      _id:
-        '00000000000000000000' +
-        leftPad(Math.floor(Math.random() * 1000), 4, '0'),
-      date: '1970-01-01',
-      title: 'test title',
-      content: 'test content',
-      points: 1,
-    };
+    let entry = getTestObj();
     let json = await expectFetchUrlStatusCodeAndJson({
       url: `http://localhost:${config.port}/api/postEntry`,
       method: 'POST',
@@ -166,21 +146,11 @@ describe('api', async () => {
   });
 
   test('/api/postEntry if update an entry that exists, update it', async () => {
-    const _id =
-      '00000000000000000000' +
-      leftPad(Math.floor(Math.random() * 1000), 4, '0');
-    let entry = {
-      _id,
-      date: '1970-01-01',
-      title: 'test title',
-      content: 'test content',
-      points: 1,
-    };
+    let entry = getTestObj();
     let testOwnerEntryCollection = db.collection(`entry_testOwner`);
     await testOwnerEntryCollection.insertOne(
-      Object.assign({}, entry, { _id: ObjectId(_id) })
+      transformIdToObjectId(entry)
     );
-
     let entryNew = Object.assign({}, entry, {
       title: 'updated test title',
       content: 'updated test content',
@@ -196,27 +166,17 @@ describe('api', async () => {
     expectDbQueryResult({
       db,
       collection: testOwnerEntryCollection,
-      query: { _id },
+      query: { _id: entry._id },
       expectedResults: [entryNew],
     });
   });
 
   test('/api/postEntry if update an entry that exists, but all same, do nothing', async () => {
-    const _id =
-      '00000000000000000000' +
-      leftPad(Math.floor(Math.random() * 1000), 4, '0');
-    let entry = {
-      _id,
-      date: '1970-01-01',
-      title: 'test title',
-      content: 'test content',
-      points: 1,
-    };
+    let entry = getTestObj();
     let testOwnerEntryCollection = db.collection(`entry_testOwner`);
     await testOwnerEntryCollection.insertOne(
-      Object.assign({}, entry, { _id: ObjectId(_id) })
+      transformIdToObjectId(entry)
     );
-
     let entryNew = Object.assign({}, entry);
     let json = await expectFetchUrlStatusCodeAndJson({
       url: `http://localhost:${config.port}/api/postEntry`,
@@ -229,33 +189,23 @@ describe('api', async () => {
     expectDbQueryResult({
       db,
       collection: testOwnerEntryCollection,
-      query: { _id },
+      query: { _id: entry._id },
       expectedResults: [entryNew],
     });
   });
 
   test('/api/deleteEntry', async () => {
-    const _id =
-      '00000000000000000000' +
-      leftPad(Math.floor(Math.random() * 1000), 4, '0');
-    let entry = {
-      _id,
-      date: '1970-01-01',
-      title: 'test title',
-      content: 'test content',
-      points: 1,
-    };
+    let entry = getTestObj();
     let testOwnerEntryCollection = await db.collection(`entry_testOwner`);
     await testOwnerEntryCollection.insertOne(
-      Object.assign({}, entry, { _id: ObjectId(_id) })
+      transformIdToObjectId(entry)
     );
-
     let json = await expectFetchUrlStatusCodeAndJson({
       url: `http://localhost:${config.port}/api/deleteEntry`,
       method: 'POST',
       postBody: {
         data: {
-          entry: { _id },
+          entry: { _id: entry._id },
           owner: 'testOwner',
         },
       },
@@ -270,7 +220,7 @@ describe('api', async () => {
     expectDbQueryResult({
       db,
       collection: testOwnerEntryCollection,
-      query: { _id },
+      query: { _id: entry._id },
       expectedResults: [],
     });
   });
