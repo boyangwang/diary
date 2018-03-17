@@ -13,7 +13,9 @@ module.exports = {
       throw new Error('Must first call setTestObj');
     }
     const currentTestObj = Object.assign({}, testObj, {
-      _id: '00000000000000000000' + leftPad(Math.floor(Math.random() * 1000), 4, '0'),
+      _id:
+        '00000000000000000000' +
+        leftPad(Math.floor(Math.random() * 1000), 4, '0'),
     });
     if (overrides) {
       Object.assign(currentTestObj, overrides);
@@ -21,7 +23,7 @@ module.exports = {
     return currentTestObj;
   },
   transformIdToObjectId: (obj) => {
-    return Object.assign({}, obj, {_id: ObjectId(obj._id)});
+    return Object.assign({}, obj, { _id: ObjectId(obj._id) });
   },
   expectFetchUrlStatusCodeAndJson: async ({
     url,

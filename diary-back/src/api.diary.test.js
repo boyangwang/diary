@@ -72,13 +72,11 @@ describe('api', async () => {
   test('/api/getEntries returns a entry', async () => {
     let entry = getTestObj();
     let testOwnerEntryCollection = db.collection(`entry_testOwner`);
-    await testOwnerEntryCollection.insertOne(
-      transformIdToObjectId(entry)
-    );
+    await testOwnerEntryCollection.insertOne(transformIdToObjectId(entry));
     await expectFetchUrlStatusCodeAndJson({
-      url: `http://localhost:${
-        config.port
-      }/api/getEntries?date=${entry.date}&owner=testOwner`,
+      url: `http://localhost:${config.port}/api/getEntries?date=${
+        entry.date
+      }&owner=testOwner`,
       expectStatusCode: 200,
       expectJson: { data: [entry] },
     });
@@ -111,7 +109,7 @@ describe('api', async () => {
   });
 
   test('/api/postEntry adds an entry', async () => {
-    let entry = getTestObj({_id: undefined});
+    let entry = getTestObj({ _id: undefined });
     let res = await expectFetchUrlStatusCodeAndJson({
       url: `http://localhost:${config.port}/api/postEntry`,
       method: 'POST',
@@ -122,9 +120,7 @@ describe('api', async () => {
       db,
       collection: 'entry_testOwner',
       query: {},
-      expectedResults: [
-        Object.assign({}, entry, {_id: res.data.entry._id}),
-      ],
+      expectedResults: [Object.assign({}, entry, { _id: res.data.entry._id })],
     });
   });
 
@@ -148,9 +144,7 @@ describe('api', async () => {
   test('/api/postEntry if update an entry that exists, update it', async () => {
     let entry = getTestObj();
     let testOwnerEntryCollection = db.collection(`entry_testOwner`);
-    await testOwnerEntryCollection.insertOne(
-      transformIdToObjectId(entry)
-    );
+    await testOwnerEntryCollection.insertOne(transformIdToObjectId(entry));
     let entryNew = Object.assign({}, entry, {
       title: 'updated test title',
       content: 'updated test content',
@@ -174,9 +168,7 @@ describe('api', async () => {
   test('/api/postEntry if update an entry that exists, but all same, do nothing', async () => {
     let entry = getTestObj();
     let testOwnerEntryCollection = db.collection(`entry_testOwner`);
-    await testOwnerEntryCollection.insertOne(
-      transformIdToObjectId(entry)
-    );
+    await testOwnerEntryCollection.insertOne(transformIdToObjectId(entry));
     let entryNew = Object.assign({}, entry);
     let json = await expectFetchUrlStatusCodeAndJson({
       url: `http://localhost:${config.port}/api/postEntry`,
@@ -197,9 +189,7 @@ describe('api', async () => {
   test('/api/deleteEntry', async () => {
     let entry = getTestObj();
     let testOwnerEntryCollection = await db.collection(`entry_testOwner`);
-    await testOwnerEntryCollection.insertOne(
-      transformIdToObjectId(entry)
-    );
+    await testOwnerEntryCollection.insertOne(transformIdToObjectId(entry));
     let json = await expectFetchUrlStatusCodeAndJson({
       url: `http://localhost:${config.port}/api/deleteEntry`,
       method: 'POST',

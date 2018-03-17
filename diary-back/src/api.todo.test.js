@@ -90,7 +90,7 @@ describe('api', async () => {
   });
 
   test('/api/postTodo adds an todo', async () => {
-    const todo = getTestObj({_id: undefined});
+    const todo = getTestObj({ _id: undefined });
     let res = await expectFetchUrlStatusCodeAndJson({
       url: `http://localhost:${config.port}/api/postTodo`,
       method: 'POST',
@@ -129,9 +129,7 @@ describe('api', async () => {
   test('/api/postTodo if update an todo that exists, update it', async () => {
     const todo = getTestObj();
     let testOwnerTodoCollection = db.collection(`todo_testOwner`);
-    await testOwnerTodoCollection.insertOne(
-      transformIdToObjectId(todo)
-    );
+    await testOwnerTodoCollection.insertOne(transformIdToObjectId(todo));
     const todoNew = Object.assign({}, todo, {
       title: 'updated test title',
       content: 'updated test content',
@@ -155,9 +153,7 @@ describe('api', async () => {
   test('/api/postTodo if update an todo that exists, but all same, do nothing', async () => {
     const todo = getTestObj();
     let testOwnerTodoCollection = db.collection(`todo_testOwner`);
-    await testOwnerTodoCollection.insertOne(
-      transformIdToObjectId(todo)
-    );
+    await testOwnerTodoCollection.insertOne(transformIdToObjectId(todo));
     let json = await expectFetchUrlStatusCodeAndJson({
       url: `http://localhost:${config.port}/api/postTodo`,
       method: 'POST',
@@ -176,9 +172,7 @@ describe('api', async () => {
   test('/api/deleteTodo', async () => {
     const todo = getTestObj();
     let testOwnerTodoCollection = await db.collection(`todo_testOwner`);
-    await testOwnerTodoCollection.insertOne(
-      transformIdToObjectId(todo)
-    );
+    await testOwnerTodoCollection.insertOne(transformIdToObjectId(todo));
     let json = await expectFetchUrlStatusCodeAndJson({
       url: `http://localhost:${config.port}/api/deleteTodo`,
       method: 'POST',
