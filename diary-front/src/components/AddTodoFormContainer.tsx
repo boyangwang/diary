@@ -1,24 +1,53 @@
+import { Button, Card, Form, Icon, Input, InputNumber, message } from 'antd';
+import { FormComponentProps } from 'antd/lib/form/Form';
+import * as _ from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
-import _ from 'lodash';
-import { Card, Form, Icon, Input, InputNumber, Button, message } from 'antd';
 
-import api from 'utils/api';
+import { Action, ReduxState, User } from 'reducers';
+import api, { PostTodoResponse, Todo } from 'utils/api';
 import util from 'utils/util';
 
-class AddTodoFormContainer extends React.Component {
-  handleSubmit = (e) => {
+class Props {
+  public todo?: Todo;
+  public buttonText: string;
+  public onSubmit: () => void;
+
+  public form?: any;
+}
+class ReduxProps {
+  public dispatch: (action: Action) => void;
+  public user: User | null;
+}
+class AddTodoFormValues {
+  public _id?: string;
+  public date: string;
+  public title: string;
+  public content: string;
+  public priority: number;
+  public check: boolean;
+}
+class AddTodoFormContainer extends React.Component<Props & ReduxProps & FormComponentProps, {}> {
+  public static defaultProps = {
+    buttonText: 'Add entry',
+    onSubmit: () => {},
+  };
+  
+  public handleSubmit = (e: any) => {
     e.preventDefault();
     const { user, onSubmit } = this.props;
     const { validateFields, resetFields } = this.props.form;
-    validateFields((validateErr, values) => {
+    if (!user) {
+      return;
+    }
+    validateFields((validateErr: any, values: AddTodoFormValues) => {
       if (validateErr) {
         return;
       }
       api
         .postTodo({ data: { todo: values, owner: user.username } })
         .then(
-          (data) => {
+          (data: PostTodoResponse) => {
             if (data.err) {
               message.warn('' + data.err);
             } else {
@@ -46,7 +75,7 @@ class AddTodoFormContainer extends React.Component {
     });
   };
 
-  render() {
+  public render() {
     const { getFieldDecorator } = this.props.form;
     const { buttonText, todo } = this.props;
 
@@ -64,7 +93,7 @@ class AddTodoFormContainer extends React.Component {
               rules: [{ required: true, message: 'Priority required' }],
               initialValue: _.get(todo, 'priority'),
             })(
-              <InputNumber prefix={<Icon type="" />} placeholder="Priority" />
+              <InputNumber placeholder="Priority" />
             )}
           </Form.Item>
           <Form.Item>
@@ -100,14 +129,10 @@ class AddTodoFormContainer extends React.Component {
     );
   }
 }
-AddTodoFormContainer.defaultProps = {
-  buttonText: 'Add todo',
-  onSubmit: () => {},
-};
 const WrappedAddTodoFormContainer = Form.create()(AddTodoFormContainer);
 
-export default connect((state) => {
+export default connect((state: ReduxState) => {
   return {
     user: state.user,
   };
-})(WrappedAddTodoFormContainer);
+})(WrappedAddTodoFormContainer as any);

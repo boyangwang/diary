@@ -9,7 +9,7 @@ import {
   message,
 } from 'antd';
 import { FormComponentProps } from 'antd/lib/form/Form';
-import _ from 'lodash';
+import * as _ from 'lodash';
 import * as moment from 'moment';
 import React from 'react';
 import { connect } from 'react-redux';
@@ -42,13 +42,13 @@ class AddEntryFormContainer extends React.Component<Props & ReduxProps & FormCom
     onSubmit: () => {},
   };
 
-  private handleSubmit = (e: any) => {
+  public handleSubmit = (e: any) => {
+    e.preventDefault();
     const { user, onSubmit } = this.props;
     const { validateFields, resetFields } = this.props.form;
     if (!user) {
       return;
     }
-    e.preventDefault();
     validateFields((validateErr: any, values: AddEntryFormValues) => {
       if (validateErr) {
         return;
@@ -71,7 +71,7 @@ class AddEntryFormContainer extends React.Component<Props & ReduxProps & FormCom
               } else {
                 this.props.dispatch({
                   type: 'UPDATE_ENTRY',
-                  payload: { entry: values },
+                  payload: { entry },
                 });
               }
             }
