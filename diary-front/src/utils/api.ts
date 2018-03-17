@@ -38,7 +38,7 @@ const apiTest = () => {
   });
 };
 class ErrReportParams {
-  err: {
+  public err: {
     message?: string;
     source?: any;
     lineno?: any;
@@ -65,8 +65,8 @@ const errReport = (params: ErrReportParams) => {
   });
 };
 class LoginParams {
-  username: string;
-  password: string;
+  public username: string;
+  public password: string;
 }
 const login = (params: LoginParams) => {
   return new Promise((resolve, reject) => {
@@ -89,15 +89,15 @@ const login = (params: LoginParams) => {
 };
 
 export class Entry {
-  _id?: string;
-  date: string;
-  title: string;
-  content: string;
-  points: number;
+  public _id?: string;
+  public date: string;
+  public title: string;
+  public content: string;
+  public points: number;
 }
 class GetEntriesParams {
-  date: string;
-  owner: string;
+  public date: string;
+  public owner: string;
 }
 const getEntries = (params: GetEntriesParams) => {
   const url = appendQuery(PREFIX + apis.getEntries, params);
@@ -115,7 +115,7 @@ const getEntries = (params: GetEntriesParams) => {
   });
 };
 class PostEntryParams {
-  data: {
+  public data: {
     owner: string;
     entry: Entry;
   }
@@ -140,7 +140,7 @@ const postEntry = (params: PostEntryParams) => {
   });
 };
 class DeleteEntryParams {
-  data: {
+  public data: {
     owner: string;
     entry: Entry;
   }
@@ -166,15 +166,15 @@ const deleteEntry = (params: DeleteEntryParams) => {
 };
 
 class Todo {
-  _id?: string;
-  date: string;
-  title: string;
-  content: string;
-  priority: number;
-  check: boolean;
+  public _id?: string;
+  public date: string;
+  public title: string;
+  public content: string;
+  public priority: number;
+  public check: boolean;
 }
 class GetTodosParams {
-  owner: string;
+  public owner: string;
 }
 const getTodos = (params: GetTodosParams) => {
   const url = appendQuery(PREFIX + apis.getTodos, params);
@@ -192,7 +192,7 @@ const getTodos = (params: GetTodosParams) => {
   });
 };
 class PostTodosParams {
-  data: {
+  public data: {
     owner: string;
     todo: Todo;
   }
@@ -217,7 +217,7 @@ const postTodo = (params: PostTodosParams) => {
   });
 };
 class DeleteTodoParams {
-  data: {
+  public data: {
     owner: string;
     todo: Todo;
   }

@@ -14,10 +14,10 @@ import thunkMiddleware from 'redux-thunk';
 // TODO: SW requires https
 // import registerServiceWorker from './registerServiceWorker';
 // registerServiceWorker();
+import DiaryApp from './components/DiaryApp';
 import './index.d';
 import reducer from './reducers';
 import './utils/errReport';
-import DiaryApp from './components/DiaryApp';
 
 const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(
