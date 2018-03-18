@@ -12,9 +12,9 @@ import { Provider } from 'react-redux';
 // import registerServiceWorker from './registerServiceWorker';
 // registerServiceWorker();
 import store from 'reducers/store';
+import mylog from 'utils/mylog';
 import DiaryApp from './components/DiaryApp';
 import './utils/errReport';
-import mylog from 'utils/mylog';
 
 ReactDOM.render(
   <Provider store={store}>
