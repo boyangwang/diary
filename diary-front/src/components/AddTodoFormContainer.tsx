@@ -11,8 +11,12 @@ import util from 'utils/util';
 
 class Props {
   public todo?: Todo;
-  public buttonText: string = 'Add entry';
+  public buttonText?: string;
   public form?: any;
+  public onSubmit?: () => void;
+}
+class PropsDefaults {
+  public buttonText: string = 'Add entry';
   public onSubmit: () => void = () => {};
 }
 class ReduxProps {
@@ -27,7 +31,7 @@ class AddTodoFormValues {
   public check: boolean;
 }
 class AddTodoFormContainer extends React.Component<
-  Props & ReduxProps & FormComponentProps,
+  Props & PropsDefaults & ReduxProps & FormComponentProps,
   {}
 > {
   public static defaultProps = new Props();
@@ -128,7 +132,7 @@ class AddTodoFormContainer extends React.Component<
 }
 const WrappedAddTodoFormContainer = Form.create()(AddTodoFormContainer);
 
-export default connect((state: ReduxState) => {
+export default connect<ReduxProps, {}, Props>((state: ReduxState) => {
   return {
     user: state.user,
   };

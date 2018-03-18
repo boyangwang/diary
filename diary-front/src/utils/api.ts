@@ -207,6 +207,9 @@ export class Todo {
 class GetTodosParams {
   public owner: string;
 }
+export class GetTodosResponse {
+  public data: Todo[];
+}
 const getTodos = (params: GetTodosParams) => {
   const url = appendQuery(PREFIX + apis.getTodos, params);
   return new Promise((resolve, reject) => {
@@ -258,6 +261,11 @@ const postTodo = (params: PostTodosParams) => {
 class DeleteTodoParams {
   public data: {
     owner: string;
+    todo: Todo;
+  };
+}
+export class DeleteTodoResponse {
+  public data: {
     todo: Todo;
   };
 }

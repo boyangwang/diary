@@ -1,16 +1,25 @@
+import { Card, Collapse, Icon, List } from 'antd';
 import React from 'react';
 import { connect } from 'react-redux';
-import { Card, List, Icon, Collapse } from 'antd';
 
-import api from 'utils/api';
 import AddTodoFormContainer from 'components/AddTodoFormContainer';
 import TodoObject from 'components/TodoObject';
+import { ReduxState, User } from 'reducers';
+import { dispatch } from 'reducers/store';
+import api, { ErrResponse, GetTodosResponse, Todo } from 'utils/api';
 
-class TodoView extends React.Component {
-  getTodos() {
-    const { dispatch, user } = this.props;
+class ReduxProps {
+  public todos: Todo[];
+  public user: User | null;
+}
+class TodoView extends React.Component<ReduxProps> {
+  public getTodos() {
+    const { user } = this.props;
+    if (!user) {
+      return;
+    }
     api.getTodos({ owner: user.username }).then(
-      (data) => {
+      (data: GetTodosResponse & ErrResponse) => {
         dispatch({
           type: 'TODOS',
           payload: {
@@ -24,19 +33,22 @@ class TodoView extends React.Component {
     );
   }
 
-  componentWillMount() {
+  public componentWillMount() {
     this.getTodos();
   }
 
-  onCheckChange(todo) {
+  public onCheckChange(todo: Todo) {
     const { user } = this.props;
-    return (e) => {
+    if (!user) {
+      return;
+    }
+    return (e: any) => {
       todo.check = e.target.checked;
       api.postTodo({ data: { owner: user.username, todo } });
     };
   }
 
-  renderContent() {
+  public renderContent() {
     const { todos } = this.props;
 
     const checkedTodos = todos
@@ -68,7 +80,7 @@ class TodoView extends React.Component {
       <div className="TodosContainer">
         <List
           dataSource={uncheckedTodos}
-          renderItem={(todo) => (
+          renderItem={(todo: Todo) => (
             <TodoObject todo={todo} onCheckChange={this.onCheckChange(todo)} />
           )}
         />
@@ -79,7 +91,7 @@ class TodoView extends React.Component {
           >
             <List
               dataSource={checkedTodos}
-              renderItem={(todo) => (
+              renderItem={(todo: Todo) => (
                 <TodoObject
                   todo={todo}
                   onCheckChange={this.onCheckChange(todo)}
@@ -92,7 +104,7 @@ class TodoView extends React.Component {
     );
   }
 
-  render() {
+  public render() {
     const { todos } = this.props;
 
     return (
@@ -111,7 +123,7 @@ class TodoView extends React.Component {
     );
   }
 }
-export default connect((state) => {
+export default connect((state: ReduxState) => {
   return {
     todos: state.todos,
     user: state.user,
