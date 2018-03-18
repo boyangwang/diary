@@ -14,19 +14,18 @@ import * as moment from 'moment';
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { Action, ReduxState, User } from 'reducers';
-import api, { Entry, PostEntryResponse } from 'utils/api';
+import { ReduxState, User } from 'reducers';
+import { dispatch } from 'reducers/store';
+import api, { Entry, ErrResponse, PostEntryResponse } from 'utils/api';
 import util from 'utils/util';
 
 class Props {
   public entry?: Entry;
-  public buttonText: string;
-  public onSubmit: () => void;
-
+  public buttonText: string = 'Add entry';
   public form?: any;
+  public onSubmit: () => void = () => {};
 }
 class ReduxProps {
-  public dispatch: (action: Action) => void;
   public user: User | null;
 }
 class AddEntryFormValues {
@@ -37,10 +36,7 @@ class AddEntryFormValues {
   public points: number;
 }
 class AddEntryFormContainer extends React.Component<Props & ReduxProps & FormComponentProps, {}> {
-  public static defaultProps = {
-    buttonText: 'Add entry',
-    onSubmit: () => {},
-  };
+  public static defaultProps = new Props();
 
   public handleSubmit = (e: any) => {
     e.preventDefault();
@@ -59,17 +55,17 @@ class AddEntryFormContainer extends React.Component<Props & ReduxProps & FormCom
       api
         .postEntry({ data: { entry, owner: user.username } })
         .then(
-          (data: PostEntryResponse) => {
+          (data: PostEntryResponse & ErrResponse) => {
             if (data.err) {
               message.warn('' + data.err);
             } else {
               if (data.data.entry) {
-                this.props.dispatch({
+                dispatch({
                   type: 'POST_ENTRY',
                   payload: { entry: data.data.entry },
                 });
               } else {
-                this.props.dispatch({
+                dispatch({
                   type: 'UPDATE_ENTRY',
                   payload: { entry },
                 });
@@ -141,7 +137,7 @@ class AddEntryFormContainer extends React.Component<Props & ReduxProps & FormCom
 }
 const WrappedAddEntryFormContainer = Form.create()(AddEntryFormContainer);
 
-export default connect((state: ReduxState) => {
+export default connect<ReduxProps, void, Props>((state: ReduxState) => {
   return {
     user: state.user,
   };

@@ -1,23 +1,40 @@
 import './DayContainerEntryObject.css';
 
+import { Alert, Button, Card, message, Modal } from 'antd';
 import React from 'react';
 import { connect } from 'react-redux';
-import { message, Modal, Card, Alert, Button } from 'antd';
 
-import api from 'utils/api';
+import { ReduxState, User } from 'reducers';
+import { dispatch } from 'reducers/store';
+import api, { DeleteEntryResponse, Entry, ErrResponse } from 'utils/api';
 import AddEntryFormContainer from './AddEntryFormContainer';
 
-class DayContainerEntryObject extends React.Component {
-  state = { editVisible: false };
+class Props {
+  public entry: Entry;
+}
+class ReduxProps {
+  public user: User | null;
+}
+class State {
+  public editVisible: boolean = false;
+}
+class DayContainerEntryObject extends React.Component<Props & ReduxProps, State> {
+  constructor(props: Props & ReduxProps) {
+    super(props);
+    this.state = new State();
+  }
 
-  deleteEntry() {
+  public deleteEntry() {
     const { entry, user } = this.props;
+    if (!user) {
+      return;
+    }
     api.deleteEntry({ data: { owner: user.username, entry } }).then(
-      (data) => {
+      (data: DeleteEntryResponse & ErrResponse) => {
         if (data.err) {
           message.warn('' + data.err);
         } else if (data.data.entry) {
-          this.props.dispatch({
+          dispatch({
             type: 'DELETE_ENTRY',
             payload: { entry: data.data.entry },
           });
@@ -29,7 +46,7 @@ class DayContainerEntryObject extends React.Component {
     );
   }
 
-  render() {
+  public render() {
     const { entry } = this.props;
     return (
       <Card className="DayContainerEntryObject">
@@ -90,8 +107,8 @@ class DayContainerEntryObject extends React.Component {
   }
 }
 
-export default connect((state) => {
+export default connect<ReduxProps, void, Props>((state: ReduxState) => {
   return {
     user: state.user,
   };
-})(DayContainerEntryObject);
+})(DayContainerEntryObject as any);

@@ -4,19 +4,18 @@ import * as _ from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { Action, ReduxState, User } from 'reducers';
-import api, { PostTodoResponse, Todo } from 'utils/api';
+import { ReduxState, User } from 'reducers';
+import { dispatch } from 'reducers/store';
+import api, { ErrResponse, PostTodoResponse, Todo } from 'utils/api';
 import util from 'utils/util';
 
 class Props {
   public todo?: Todo;
-  public buttonText: string;
-  public onSubmit: () => void;
-
+  public buttonText: string = 'Add entry';
   public form?: any;
+  public onSubmit: () => void = () => {};
 }
 class ReduxProps {
-  public dispatch: (action: Action) => void;
   public user: User | null;
 }
 class AddTodoFormValues {
@@ -28,10 +27,7 @@ class AddTodoFormValues {
   public check: boolean;
 }
 class AddTodoFormContainer extends React.Component<Props & ReduxProps & FormComponentProps, {}> {
-  public static defaultProps = {
-    buttonText: 'Add entry',
-    onSubmit: () => {},
-  };
+  public static defaultProps = new Props();
   
   public handleSubmit = (e: any) => {
     e.preventDefault();
@@ -47,17 +43,17 @@ class AddTodoFormContainer extends React.Component<Props & ReduxProps & FormComp
       api
         .postTodo({ data: { todo: values, owner: user.username } })
         .then(
-          (data: PostTodoResponse) => {
+          (data: PostTodoResponse & ErrResponse) => {
             if (data.err) {
               message.warn('' + data.err);
             } else {
               if (data.data.todo) {
-                this.props.dispatch({
+                dispatch({
                   type: 'POST_TODO',
                   payload: { todo: data.data.todo },
                 });
               } else {
-                this.props.dispatch({
+                dispatch({
                   type: 'UPDATE_TODO',
                   payload: { todo: values },
                 });

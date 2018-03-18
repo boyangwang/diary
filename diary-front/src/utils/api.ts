@@ -23,6 +23,9 @@ const apis = {
   errReport: 'api/errReport',
 };
 
+export class ErrResponse {
+  public err: any;
+}
 const apiTest = () => {
   return new Promise((resolve, reject) => {
     fetch(PREFIX + apis.apiTest, {
@@ -99,6 +102,9 @@ class GetEntriesParams {
   public date: string;
   public owner: string;
 }
+export class GetEntriesResponse {
+  public data: Entry[];
+}
 const getEntries = (params: GetEntriesParams) => {
   const url = appendQuery(PREFIX + apis.getEntries, params);
   return new Promise((resolve, reject) => {
@@ -121,7 +127,6 @@ class PostEntryParams {
   }
 }
 export class PostEntryResponse {
-  public err?: any;
   public data: {
     entry?: Entry;
     n?: number;
@@ -151,6 +156,11 @@ const postEntry = (params: PostEntryParams) => {
 class DeleteEntryParams {
   public data: {
     owner: string;
+    entry: Entry;
+  }
+}
+export class DeleteEntryResponse {
+  public data: {
     entry: Entry;
   }
 }
@@ -207,7 +217,6 @@ class PostTodosParams {
   }
 }
 export class PostTodoResponse {
-  public err?: any;
   public data: {
     todo?: Todo;
     n?: number;

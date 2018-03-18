@@ -1,27 +1,45 @@
 import './DayContainer.css';
 
+import { Badge, Card, Icon } from 'antd';
+import classnames from 'classnames';
 import React from 'react';
 import { connect } from 'react-redux';
-import classnames from 'classnames';
-import { Badge, Icon, Card } from 'antd';
 
-import api from 'utils/api';
-import util from 'utils/util';
 import DayContainerEntryObject from 'components/DayContainerEntryObject';
+import { ReduxState, User } from 'reducers';
+import { dispatch } from 'reducers/store';
+import api, { Entry, ErrResponse, GetEntriesResponse } from 'utils/api';
+import util from 'utils/util';
 
-class DayContainer extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      err: null,
-    };
+class Props {
+  public date: string;
+  public highlight: boolean = false;
+}
+class ReduxProps {
+  public entriesDateMap: {
+    [date: string]: Entry[];
+  };
+  public user: User | null;
+}
+class State {
+  public err: null | any = null;
+}
+class DayContainer extends React.Component<Props & ReduxProps, State> {
+  public static defaultProps = new Props();
+
+  constructor(props: Props & ReduxProps) {
+    super(props);
+    this.state = new State();
   }
 
-  getEntriesForDate() {
-    const { entriesDateMap, date, dispatch, user } = this.props;
+  public getEntriesForDate() {
+    const { entriesDateMap, date, user } = this.props;
+    if (!user) {
+      return;
+    }
     if (!entriesDateMap[date]) {
       api.getEntries({ date, owner: user.username }).then(
-        (data) => {
+        (data: GetEntriesResponse & ErrResponse) => {
           dispatch({
             type: 'ENTRIES_FOR_DATE',
             payload: {
@@ -36,17 +54,17 @@ class DayContainer extends React.Component {
     }
   }
 
-  componentWillMount() {
+  public componentWillMount() {
     this.getEntriesForDate();
   }
 
-  componentWillReceiveProps(nextProps) {
+  public componentWillReceiveProps(nextProps: Props & ReduxProps) {
     if (nextProps.date !== this.props.date) {
       this.getEntriesForDate();
     }
   }
 
-  renderContent() {
+  public renderContent() {
     const { date, entriesDateMap } = this.props;
     if (!entriesDateMap[date]) {
       return (
@@ -64,9 +82,9 @@ class DayContainer extends React.Component {
     );
   }
 
-  renderSum() {
+  public renderSum() {
     const { date, entriesDateMap } = this.props;
-    let sum = !entriesDateMap[date]
+    const sum = !entriesDateMap[date]
       ? 0
       : entriesDateMap[date].reduce((prev, cur) => prev + cur.points || 0, 0);
 
@@ -80,12 +98,12 @@ class DayContainer extends React.Component {
     }
     return (
       <div className={sumClasses}>
-        <Badge showZero count={sum} />
+        <Badge showZero={true} count={sum} />
       </div>
     );
   }
 
-  render() {
+  public render() {
     const { date, highlight } = this.props;
     const isErr = this.state.err;
     const dateClassNames = classnames('date', { highlight });
@@ -101,9 +119,9 @@ class DayContainer extends React.Component {
   }
 }
 
-export default connect((state) => {
+export default connect<ReduxProps, void, Props>((state: ReduxState) => {
   return {
     entriesDateMap: state.entriesDateMap,
     user: state.user,
   };
-})(DayContainer);
+})(DayContainer as any);

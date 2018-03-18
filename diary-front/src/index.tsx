@@ -7,27 +7,13 @@ import 'promise-polyfill/src/polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { applyMiddleware, compose, createStore } from 'redux';
-import { createLogger } from 'redux-logger';
-import thunkMiddleware from 'redux-thunk';
 
 // TODO: SW requires https
 // import registerServiceWorker from './registerServiceWorker';
 // registerServiceWorker();
+import store from 'reducers/store';
 import DiaryApp from './components/DiaryApp';
-import reducer from './reducers';
 import './utils/errReport';
-
-const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const store = createStore(
-  reducer,
-  composeEnhancers(
-    applyMiddleware(
-      thunkMiddleware, // lets us dispatch() functions
-      createLogger()
-    )
-  )
-);
 
 ReactDOM.render(
   <Provider store={store}>

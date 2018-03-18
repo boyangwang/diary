@@ -3,5 +3,5 @@ declare module 'append-query' {
 }
 
 declare module 'classnames' {
-  export default function classnames(): string;
+  export default function classnames(arg1: any, arg2: any): string;
 }
