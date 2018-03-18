@@ -1,16 +1,16 @@
 import './WeekContainer.css';
 
-import React from 'react';
 import { Card } from 'antd';
+import React from 'react';
 
-import util from 'utils/util';
 import DayContainer from 'components/DayContainer';
+import util from 'utils/util';
 
 class Props {
   public date: string;
 }
 class WeekContainer extends React.Component<Props> {
-  render() {
+  public render() {
     const { date } = this.props;
     const weekdays = util.getWeekdaysFromDateString(date);
     const todayString = util.getTodayStringWithOffset();
