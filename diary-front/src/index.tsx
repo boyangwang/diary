@@ -14,6 +14,7 @@ import { Provider } from 'react-redux';
 import store from 'reducers/store';
 import DiaryApp from './components/DiaryApp';
 import './utils/errReport';
+import mylog from 'utils/mylog';
 
 ReactDOM.render(
   <Provider store={store}>
@@ -22,4 +23,4 @@ ReactDOM.render(
   document.getElementById('root')
 );
 
-console.info('%c diary-front', 'font-size: 16px');
+mylog('%c diary-front', 'font-size: 16px');

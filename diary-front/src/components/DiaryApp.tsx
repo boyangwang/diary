@@ -10,6 +10,7 @@ import TodoView from 'components/TodoView';
 import { ReduxState, User } from 'reducers';
 import { dispatch } from 'reducers/store';
 import api, { ApiTestResponse, ErrResponse } from 'utils/api';
+import mylog from 'utils/mylog';
 
 class ReduxProps {
   public user: User | null;
@@ -19,7 +20,7 @@ class DiaryApp extends React.Component<ReduxProps> {
   public componentWillMount() {
     api.apiTest().then(
       (data: ApiTestResponse & ErrResponse) => {
-        console.info('apiTest: ', data);
+        mylog('apiTest: ', data);
         if (data.err) {
           message.warn('' + data.err);
         } else {

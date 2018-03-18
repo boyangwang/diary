@@ -1,8 +1,9 @@
 import api from 'utils/api';
+import mylog from 'utils/mylog';
 
 const origOnerror = window.onerror;
 window.onerror = (message, source, lineno, colno, errObj) => {
-  console.info('window.onerror');
+  mylog('window.onerror');
   let errJson = '';
   try {
     errJson = JSON.stringify(errObj);
