@@ -39,6 +39,15 @@ class DiaryApp extends React.Component<ReduxProps> {
     );
   }
 
+  public logout() {
+    api.logout().then(() => {
+      dispatch({
+        type: 'LOGOUT',
+        payload: { user: null },
+      });
+    });
+  }
+
   public render() {
     const { user, backendVersion } = this.props;
     return (
@@ -50,9 +59,9 @@ class DiaryApp extends React.Component<ReduxProps> {
               <h4 className="grey">{backendVersion}</h4>
             </div>
             <Menu theme="light" mode="horizontal">
-              <Menu.Item key="logout">
-                <Button>Logout</Button>
-              </Menu.Item>
+              {user && <Menu.Item key="logout">
+                <Button onClick={this.logout}>Logout</Button>
+              </Menu.Item>}
             </Menu>
           </Layout.Header>
           <Layout.Content>

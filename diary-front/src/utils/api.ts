@@ -12,6 +12,7 @@ const PREFIX =
 const apis = {
   apiTest: 'api/apiTest',
   login: 'api/login',
+  logout: 'api/logout',
 
   getEntries: 'api/getEntries',
   postEntry: 'api/postEntry',
@@ -92,6 +93,24 @@ const login = (params: LoginParams) => {
       },
       credentials: 'same-origin',
       body: JSON.stringify(params),
+    }).then(
+      (res) => {
+        resolve(res.json());
+      },
+      (err) => {
+        reject(err);
+      }
+    );
+  });
+};
+const logout = () => {
+  return new Promise((resolve, reject) => {
+    fetch(PREFIX + apis.logout, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'same-origin',
     }).then(
       (res) => {
         resolve(res.json());
@@ -292,6 +311,7 @@ const deleteTodo = (params: DeleteTodoParams) => {
 export default {
   apiTest,
   login,
+  logout,
   errReport,
 
   getEntries,
