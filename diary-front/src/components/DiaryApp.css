@@ -1,4 +1,12 @@
 .DiaryApp .DiaryAppTitleDiv {
   display: flex;
   align-items: baseline;
+  width: 180px;
+  float: left;
+}
+.DiaryApp .ant-layout-header {
+  background-color: transparent;
+}
+.DiaryApp .ant-menu {
+  line-height: 64px;
 }

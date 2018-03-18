@@ -1,6 +1,6 @@
 import './DiaryApp.css';
 
-import { message } from 'antd';
+import { Button, Layout, Menu, message } from 'antd';
 import React from 'react';
 import { connect } from 'react-redux';
 
@@ -43,18 +43,29 @@ class DiaryApp extends React.Component<ReduxProps> {
     const { user, backendVersion } = this.props;
     return (
       <div className="DiaryApp">
-        <div className="DiaryAppTitleDiv">
-          <h1>DiaryApp</h1>
-          <h4 className="grey">{backendVersion}</h4>
-        </div>
-        {user ? (
-          <div>
-            <DiaryDateView />
-            <TodoView />
-          </div>
-        ) : (
-          <LoginView />
-        )}
+        <Layout>
+          <Layout.Header>
+            <div className="DiaryAppTitleDiv logo">
+              <h1>DiaryApp</h1>
+              <h4 className="grey">{backendVersion}</h4>
+            </div>
+            <Menu theme="light" mode="horizontal">
+              <Menu.Item key="logout">
+                <Button>Logout</Button>
+              </Menu.Item>
+            </Menu>
+          </Layout.Header>
+          <Layout.Content>
+            {user ? (
+              <div>
+                <DiaryDateView />
+                <TodoView />
+              </div>
+            ) : (
+              <LoginView />
+            )}
+          </Layout.Content>
+        </Layout>
       </div>
     );
   }
