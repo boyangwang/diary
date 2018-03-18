@@ -1,4 +1,13 @@
-import { Button, Card, Form, Icon, Input, InputNumber, message, DatePicker } from 'antd';
+import {
+  Button,
+  Card,
+  DatePicker,
+  Form,
+  Icon,
+  Input,
+  InputNumber,
+  message,
+} from 'antd';
 import { FormComponentProps } from 'antd/lib/form/Form';
 import * as _ from 'lodash';
 import * as moment from 'moment';
@@ -50,7 +59,9 @@ class AddTodoFormContainer extends React.Component<
         return;
       }
       const todo: Todo = Object.assign({}, values, {
-        dueDate: values.dueDate ? values.dueDate.format(util.dateStringFormat) : null
+        dueDate: values.dueDate
+          ? values.dueDate.format(util.dateStringFormat)
+          : null,
       });
       api
         .postTodo({ data: { todo, owner: user.username } })
@@ -108,9 +119,7 @@ class AddTodoFormContainer extends React.Component<
               initialValue: _.get(todo, 'dueDate')
                 ? moment(_.get(todo, 'dueDate'))
                 : null,
-            })(
-              <DatePicker placeholder="Due date" />
-            )}
+            })(<DatePicker placeholder="Due date" />)}
           </Form.Item>
           <Form.Item>
             {getFieldDecorator('content', {

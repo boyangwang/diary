@@ -1,6 +1,6 @@
 import { Icon } from 'antd';
-import * as moment from 'moment';
 import * as _ from 'lodash';
+import * as moment from 'moment';
 import React from 'react';
 import mylog from 'utils/mylog';
 
@@ -28,10 +28,13 @@ export default {
     return res;
   },
   errComponent: <Icon type="exclamation-circle-o" />,
-  compare: (a: number | string | undefined, b: number | string | undefined): 0 | 1 | -1 => {
+  compare: (
+    a: number | string | undefined,
+    b: number | string | undefined
+  ): 0 | 1 | -1 => {
     if (_.isNil(a)) {
       // b is bigger
-      return -1
+      return -1;
     } else if (_.isNil(b)) {
       return 1;
     }
@@ -46,7 +49,11 @@ export default {
       return 0;
     }
   },
-  compareDate(a: string | undefined, b: string | undefined, isDescending: boolean = false) {
+  compareDate(
+    a: string | undefined,
+    b: string | undefined,
+    isDescending: boolean = false
+  ) {
     let res;
     if (_.isNil(a)) {
       // b is bigger

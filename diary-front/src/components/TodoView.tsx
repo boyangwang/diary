@@ -56,11 +56,12 @@ class TodoView extends React.Component<ReduxProps> {
       .filter((t) => t.check)
       .sort()
       .reverse();
-    const uncheckedTodos = todos
-      .filter((t) => !t.check)
-      .sort((a, b) => {
-        return util.compareDate(a.dueDate, b.dueDate) * 10 + util.compare(a.priority, b.priority) * -1;
-      });
+    const uncheckedTodos = todos.filter((t) => !t.check).sort((a, b) => {
+      return (
+        util.compareDate(a.dueDate, b.dueDate) * 10 +
+        util.compare(a.priority, b.priority) * -1
+      );
+    });
 
     return (
       <div className="TodosContainer">
@@ -101,8 +102,8 @@ class TodoView extends React.Component<ReduxProps> {
           ) : todos.length === 0 ? (
             <h3>Empty</h3>
           ) : (
-                this.renderContent()
-              )}
+            this.renderContent()
+          )}
         </Card>
         <AddTodoFormContainer />
       </div>

@@ -91,7 +91,9 @@ class TodoObject extends React.Component<Props & ReduxProps, State> {
           title={
             <div>
               <h3 className="title">{todo.title}</h3>
-              {todo.dueDate && <h4 className="title">Due date: {todo.dueDate}</h4>}
+              {todo.dueDate && (
+                <h4 className="title">Due date: {todo.dueDate}</h4>
+              )}
             </div>
           }
           description={
