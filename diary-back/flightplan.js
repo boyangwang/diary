@@ -5,6 +5,7 @@ if (!process.env.FLIGHTPLAN_KEY_PATH) {
   console.error(
     'You must specify envvar FLIGHTPLAN_KEY_PATH by export FLIGHTPLAN_KEY_PATH=foobar'
   );
+  process.exit(1);
 }
 
 plan.target('staging', {

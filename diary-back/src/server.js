@@ -1,3 +1,8 @@
+// polyfill etc
+console.mylog = (...args) => {
+  process.stdout.write((new Date()).toISOString() + ' | ');
+  console.info(...args);
+};
 // third-party
 const { MongoClient } = require('mongodb');
 const http = require('http');
@@ -41,7 +46,10 @@ const main = async (opt = {}) => {
   app.keys = mergedConfig.keys;
   db = await MongoClient.connect(mongoUrl);
 
-  app.use(logger());
+  app.use(logger(function (str, args){
+    process.stdout.write(''+new Date());
+    console.mylog(...args);
+  }));
   app.use(koaBody());
   app.use(session(mergedConfig.sessionConfig, app));
   app.use(passport.initialize());
@@ -105,8 +113,8 @@ const main = async (opt = {}) => {
   return new Promise((resolve) => {
     let server = http.createServer(app.callback());
     server.listen(mergedConfig.port, () => {
-      console.log(`--------------- diary-back ver: `, packagejson.version);
-      console.log(`Listening on ${mergedConfig.port}`);
+      console.mylog(`diary-back ver: `, packagejson.version);
+      console.mylog(`Listening on ${mergedConfig.port}`);
       app.dbConnection = db;
       destroyable(server);
       app.httpServer = server;

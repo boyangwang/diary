@@ -31,7 +31,7 @@ module.exports = {
           ctx.body = { data: { user } };
           return ctx.login(user);
         } else {
-          console.log('Login failure', ctx.request.body);
+          console.mylog('Login failure', ctx.request.body);
           ctx.status = 401;
           return (ctx.body = { err: 'Login failure' });
         }
