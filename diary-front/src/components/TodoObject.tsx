@@ -90,11 +90,16 @@ class TodoObject extends React.Component<Props & ReduxProps, State> {
           avatar={<Avatar className="priority">{todo.priority}</Avatar>}
           title={
             <div>
-              <h4 className="title">{todo.title}</h4>
-              <div className="date">{todo.date}</div>
+              <h3 className="title">{todo.title}</h3>
+              {todo.dueDate && <h4 className="title">Due date: {todo.dueDate}</h4>}
             </div>
           }
-          description={<div className="_id">{todo._id}</div>}
+          description={
+            <div>
+              <div className="date grey">{todo.date}</div>
+              <div className="_id grey">{todo._id}</div>
+            </div>
+          }
         />
         <div className="content">{todo.content}</div>
         <Modal

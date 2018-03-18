@@ -218,6 +218,7 @@ const deleteEntry = (params: DeleteEntryParams) => {
 export class Todo {
   public _id?: string;
   public date: string;
+  public dueDate?: string;
   public title: string;
   public content: string;
   public priority: number;

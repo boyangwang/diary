@@ -43,7 +43,7 @@ class AddEntryFormContainer extends React.Component<
   Props & PropsDefaults & ReduxProps & FormComponentProps,
   {}
 > {
-  public static defaultProps = new Props();
+  public static defaultProps = new PropsDefaults();
 
   public handleSubmit = (e: any) => {
     e.preventDefault();

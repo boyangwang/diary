@@ -7,6 +7,7 @@ import TodoObject from 'components/TodoObject';
 import { ReduxState, User } from 'reducers';
 import { dispatch } from 'reducers/store';
 import api, { ErrResponse, GetTodosResponse, Todo } from 'utils/api';
+import util from 'utils/util';
 
 class ReduxProps {
   public todos: Todo[];
@@ -53,28 +54,13 @@ class TodoView extends React.Component<ReduxProps> {
 
     const checkedTodos = todos
       .filter((t) => t.check)
-      .sort((a, b) => {
-        if (!a.date) {
-          return -1;
-        }
-        if (!b.date) {
-          return 1;
-        }
-        return a.date.localeCompare(b.date);
-      })
+      .sort()
       .reverse();
     const uncheckedTodos = todos
       .filter((t) => !t.check)
       .sort((a, b) => {
-        if (!a.priority) {
-          return -1;
-        }
-        if (!b.priority) {
-          return 1;
-        }
-        return a.priority - b.priority;
-      })
-      .reverse();
+        return util.compareDate(a.dueDate, b.dueDate) * 10 + util.compare(a.priority, b.priority) * -1;
+      });
 
     return (
       <div className="TodosContainer">
@@ -86,7 +72,7 @@ class TodoView extends React.Component<ReduxProps> {
         />
         <Collapse>
           <Collapse.Panel
-            header="Checked todos - sorted by date"
+            header="Checked todos - sorted by: date"
             key="unchecked"
           >
             <List
@@ -109,14 +95,14 @@ class TodoView extends React.Component<ReduxProps> {
 
     return (
       <div className="TodoView">
-        <Card title="TodoView" extra="Sorted by priority">
+        <Card title="TodoView" extra="Sorted by: due date -> priority">
           {!todos ? (
             <Icon type="loading" />
           ) : todos.length === 0 ? (
             <h3>Empty</h3>
           ) : (
-            this.renderContent()
-          )}
+                this.renderContent()
+              )}
         </Card>
         <AddTodoFormContainer />
       </div>

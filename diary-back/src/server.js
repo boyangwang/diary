@@ -48,7 +48,6 @@ const main = async (opt = {}) => {
 
   app.use(
     logger(function(str, args) {
-      process.stdout.write('' + new Date());
       console.mylog(...args);
     })
   );

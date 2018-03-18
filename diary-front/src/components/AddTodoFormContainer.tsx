@@ -1,6 +1,7 @@
-import { Button, Card, Form, Icon, Input, InputNumber, message } from 'antd';
+import { Button, Card, Form, Icon, Input, InputNumber, message, DatePicker } from 'antd';
 import { FormComponentProps } from 'antd/lib/form/Form';
 import * as _ from 'lodash';
+import * as moment from 'moment';
 import React from 'react';
 import { connect } from 'react-redux';
 
@@ -29,12 +30,13 @@ class AddTodoFormValues {
   public content: string;
   public priority: number;
   public check: boolean;
+  public dueDate?: moment.Moment;
 }
 class AddTodoFormContainer extends React.Component<
   Props & PropsDefaults & ReduxProps & FormComponentProps,
   {}
 > {
-  public static defaultProps = new Props();
+  public static defaultProps = new PropsDefaults();
 
   public handleSubmit = (e: any) => {
     e.preventDefault();
@@ -47,8 +49,11 @@ class AddTodoFormContainer extends React.Component<
       if (validateErr) {
         return;
       }
+      const todo: Todo = Object.assign({}, values, {
+        dueDate: values.dueDate ? values.dueDate.format(util.dateStringFormat) : null
+      });
       api
-        .postTodo({ data: { todo: values, owner: user.username } })
+        .postTodo({ data: { todo, owner: user.username } })
         .then(
           (data: PostTodoResponse & ErrResponse) => {
             if (data.err) {
@@ -62,7 +67,7 @@ class AddTodoFormContainer extends React.Component<
               } else {
                 dispatch({
                   type: 'UPDATE_TODO',
-                  payload: { todo: values },
+                  payload: { todo },
                 });
               }
             }
@@ -96,6 +101,16 @@ class AddTodoFormContainer extends React.Component<
               rules: [{ required: true, message: 'Priority required' }],
               initialValue: _.get(todo, 'priority'),
             })(<InputNumber placeholder="Priority" />)}
+          </Form.Item>
+          <Form.Item>
+            {getFieldDecorator('dueDate', {
+              rules: [],
+              initialValue: _.get(todo, 'dueDate')
+                ? moment(_.get(todo, 'dueDate'))
+                : null,
+            })(
+              <DatePicker placeholder="Due date" />
+            )}
           </Form.Item>
           <Form.Item>
             {getFieldDecorator('content', {

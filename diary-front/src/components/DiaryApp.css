@@ -1,8 +1,10 @@
 .DiaryApp .DiaryAppTitleDiv {
   display: flex;
-  align-items: baseline;
   width: 180px;
   float: left;
+}
+.DiaryApp .DiaryAppTitleDiv h1, .DiaryApp .DiaryAppTitleDiv h4 {
+  margin: 0;
 }
 .DiaryApp .ant-layout-header {
   background-color: transparent;
