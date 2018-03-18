@@ -50,7 +50,9 @@ If installed using yarn, install script is ignored. Trigger it mannually by `nod
 
 `yarn run deploy`
 
-- We also increment version number. You will need `yarn config set version-git-tag false` to prevent creating git tag (because 2 package.json will create dup tags)
+- ~~We also increment version number. You will need `yarn config set version-git-tag false` to prevent creating git tag (because 2 package.json will create dup tags)~~
+
+- No need to turn off git-tag now. In deploy.sh made second yarn version call fail-safe
 
 ### Walkthrough
 
