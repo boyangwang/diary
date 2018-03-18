@@ -19,7 +19,7 @@ Example for an `{entry}` object that will be used in the following
   "title": "test title",
   "content": "test content",
   "points": 1,
-  "_id": "5aae5d46c53c46492ce1086a"  // this field is optional
+  "_id": "5aae5d46c53c46492ce1086a"
 }
 ```
 ## Document for each REST API
