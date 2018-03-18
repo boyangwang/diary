@@ -10,6 +10,7 @@ import { ReduxState, User } from 'reducers';
 import { dispatch } from 'reducers/store';
 import api, { Entry, ErrResponse, GetEntriesResponse } from 'utils/api';
 import util from 'utils/util';
+import ReactDOM from 'react-dom';
 
 class Props {
   public date: string;
@@ -26,6 +27,7 @@ class State {
 }
 class DayContainer extends React.Component<Props & ReduxProps, State> {
   public static defaultProps = new Props();
+  selfComponent: React.Component | null = null;
 
   constructor(props: Props & ReduxProps) {
     super(props);
@@ -56,6 +58,13 @@ class DayContainer extends React.Component<Props & ReduxProps, State> {
 
   public componentWillMount() {
     this.getEntriesForDate();
+  }
+
+  public componentDidMount() {
+    const { highlight } = this.props;
+    if (highlight && this.selfComponent) {
+      (window as any).todayContainer = ReactDOM.findDOMNode(this.selfComponent);
+    }
   }
 
   public componentWillReceiveProps(nextProps: Props & ReduxProps) {
@@ -109,6 +118,7 @@ class DayContainer extends React.Component<Props & ReduxProps, State> {
     const dateClassNames = classnames('date', { highlight });
     return (
       <Card
+        ref={ref => this.selfComponent = ref}
         className="DayContainer"
         title={<div className={dateClassNames}>{date}</div>}
         extra={this.renderSum()}
