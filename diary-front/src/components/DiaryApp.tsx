@@ -1,22 +1,22 @@
 import './DiaryApp.css';
 
+import { message } from 'antd';
 import React from 'react';
 import { connect } from 'react-redux';
-import { message } from 'antd';
 
-import api, { ApiTestResponse, ErrResponse } from 'utils/api';
 import DiaryDateView from 'components/DiaryDateView';
-import TodoView from 'components/TodoView';
 import LoginView from 'components/LoginView';
+import TodoView from 'components/TodoView';
+import { ReduxState, User } from 'reducers';
 import { dispatch } from 'reducers/store';
-import { User, ReduxState } from 'reducers';
+import api, { ApiTestResponse, ErrResponse } from 'utils/api';
 
 class ReduxProps {
   public user: User | null;
   public backendVersion: null | string;
 }
 class DiaryApp extends React.Component<ReduxProps> {
-  componentWillMount() {
+  public componentWillMount() {
     api.apiTest().then(
       (data: ApiTestResponse & ErrResponse) => {
         console.info('apiTest: ', data);
@@ -39,7 +39,7 @@ class DiaryApp extends React.Component<ReduxProps> {
     );
   }
 
-  render() {
+  public render() {
     const { user, backendVersion } = this.props;
     return (
       <div className="DiaryApp">

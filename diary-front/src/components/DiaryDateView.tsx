@@ -1,11 +1,11 @@
 import './DiaryDateView.css';
 
+import { Button, Col, Row } from 'antd';
 import React from 'react';
-import { Button, Row, Col } from 'antd';
 
-import util from 'utils/util';
-import WeekContainer from 'components/WeekContainer';
 import AddEntryFormContainer from 'components/AddEntryFormContainer';
+import WeekContainer from 'components/WeekContainer';
+import util from 'utils/util';
 
 class State {
   public offset: number = 0;
@@ -16,13 +16,13 @@ class DiaryDateView extends React.Component<{}, State> {
     this.state = new State();
   }
 
-  handleArrowButtonClick = (direction: 'left' | 'right') => () => {
+  public handleArrowButtonClick = (direction: 'left' | 'right') => () => {
     this.setState({
       offset: this.state.offset + (direction === 'left' ? -1 : +1),
     });
   };
 
-  render() {
+  public render() {
     const { offset } = this.state;
     return (
       <div className="DiaryDateView">

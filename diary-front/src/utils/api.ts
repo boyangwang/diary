@@ -28,7 +28,7 @@ export class ErrResponse {
   public err: any;
 }
 export class ApiTestResponse {
-  data: {
+  public data: {
     user?: User;
     backendVersion: string;
   }
