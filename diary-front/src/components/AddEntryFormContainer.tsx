@@ -39,7 +39,10 @@ class AddEntryFormValues {
   public content: string;
   public points: number;
 }
-class AddEntryFormContainer extends React.Component<Props & PropsDefaults & ReduxProps & FormComponentProps, {}> {
+class AddEntryFormContainer extends React.Component<
+  Props & PropsDefaults & ReduxProps & FormComponentProps,
+  {}
+> {
   public static defaultProps = new Props();
 
   public handleSubmit = (e: any) => {
@@ -54,7 +57,7 @@ class AddEntryFormContainer extends React.Component<Props & PropsDefaults & Redu
         return;
       }
       const entry: Entry = Object.assign({}, values, {
-        date: values.date.format(util.dateStringFormat)
+        date: values.date.format(util.dateStringFormat),
       });
       api
         .postEntry({ data: { entry, owner: user.username } })
@@ -104,9 +107,7 @@ class AddEntryFormContainer extends React.Component<Props & PropsDefaults & Redu
             {getFieldDecorator('points', {
               rules: [{ required: true, message: 'Points required' }],
               initialValue: _.get(entry, 'points'),
-            })(
-              <InputNumber placeholder="Points" />
-            )}
+            })(<InputNumber placeholder="Points" />)}
           </Form.Item>
           <Form.Item>
             {getFieldDecorator('content', {

@@ -26,9 +26,12 @@ class AddTodoFormValues {
   public priority: number;
   public check: boolean;
 }
-class AddTodoFormContainer extends React.Component<Props & ReduxProps & FormComponentProps, {}> {
+class AddTodoFormContainer extends React.Component<
+  Props & ReduxProps & FormComponentProps,
+  {}
+> {
   public static defaultProps = new Props();
-  
+
   public handleSubmit = (e: any) => {
     e.preventDefault();
     const { user, onSubmit } = this.props;
@@ -88,9 +91,7 @@ class AddTodoFormContainer extends React.Component<Props & ReduxProps & FormComp
             {getFieldDecorator('priority', {
               rules: [{ required: true, message: 'Priority required' }],
               initialValue: _.get(todo, 'priority'),
-            })(
-              <InputNumber placeholder="Priority" />
-            )}
+            })(<InputNumber placeholder="Priority" />)}
           </Form.Item>
           <Form.Item>
             {getFieldDecorator('content', {

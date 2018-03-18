@@ -24,8 +24,7 @@ export class Action {
   public type: string;
   public payload: any;
 }
-export default (state: ReduxState = INITIAL_STATE,
-  action: Action) => {
+export default (state: ReduxState = INITIAL_STATE, action: Action) => {
   if (action.type === 'LOGIN') {
     return { ...state, user: action.payload.user };
   } else if (action.type === 'VERSION') {

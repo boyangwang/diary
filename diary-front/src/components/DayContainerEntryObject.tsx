@@ -18,7 +18,10 @@ class ReduxProps {
 class State {
   public editVisible: boolean = false;
 }
-class DayContainerEntryObject extends React.Component<Props & ReduxProps, State> {
+class DayContainerEntryObject extends React.Component<
+  Props & ReduxProps,
+  State
+> {
   constructor(props: Props & ReduxProps) {
     super(props);
     this.state = new State();

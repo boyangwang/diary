@@ -19,9 +19,5 @@
     "noUnusedLocals": true,
     "allowSyntheticDefaultImports": true
   },
-  "exclude": [
-    "node_modules",
-    "build",
-    "jest"
-  ]
+  "exclude": ["node_modules", "build", "jest"]
 }

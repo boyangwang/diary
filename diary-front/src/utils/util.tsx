@@ -25,5 +25,5 @@ export default {
     }
     return res;
   },
-  errComponent: (<Icon type="exclamation-circle-o" />),
+  errComponent: <Icon type="exclamation-circle-o" />,
 };

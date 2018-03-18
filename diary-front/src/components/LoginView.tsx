@@ -1,34 +1,45 @@
+import { Button, Form, Icon, Input, message } from 'antd';
 import React from 'react';
 import { connect } from 'react-redux';
-import { Form, Icon, Input, Button, message } from 'antd';
 
-import api from 'utils/api';
+import { FormComponentProps } from 'antd/lib/form';
+import { dispatch } from 'reducers/store';
+import api, { ErrResponse, LoginResponse } from 'utils/api';
 
-class NormalLoginForm extends React.Component {
-  handleSubmit = (e) => {
+class Props {
+  public form?: any;
+}
+class LoginFormValues {
+  public username: string;
+  public password: string;
+}
+class NormalLoginForm extends React.Component<Props & FormComponentProps> {
+  public handleSubmit = (e: any) => {
     e.preventDefault();
-    this.props.form.validateFields((validateErr, values) => {
-      if (!validateErr) {
-        api.login(values).then(
-          (data) => {
-            if (data.err) {
-              message.warn('' + data.err);
-            } else {
-              this.props.dispatch({
-                type: 'LOGIN',
-                payload: { user: data.data.user },
-              });
+    this.props.form.validateFields(
+      (validateErr: any, values: LoginFormValues) => {
+        if (!validateErr) {
+          api.login(values).then(
+            (data: LoginResponse & ErrResponse) => {
+              if (data.err) {
+                message.warn('' + data.err);
+              } else {
+                dispatch({
+                  type: 'LOGIN',
+                  payload: { user: data.data.user },
+                });
+              }
+            },
+            (err) => {
+              message.warn('' + err);
             }
-          },
-          (err) => {
-            message.warn('' + err);
-          }
-        );
+          );
+        }
       }
-    });
+    );
   };
 
-  render() {
+  public render() {
     const { getFieldDecorator } = this.props.form;
     return (
       <Form onSubmit={this.handleSubmit} className="LoginView">

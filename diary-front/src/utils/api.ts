@@ -31,7 +31,7 @@ export class ApiTestResponse {
   public data: {
     user?: User;
     backendVersion: string;
-  }
+  };
 }
 const apiTest = () => {
   return new Promise((resolve, reject) => {
@@ -54,7 +54,7 @@ class ErrReportParams {
     lineno?: any;
     colno?: any;
     errJson?: any;
-  }
+  };
 }
 const errReport = (params: ErrReportParams) => {
   return new Promise((resolve, reject) => {
@@ -77,6 +77,11 @@ const errReport = (params: ErrReportParams) => {
 class LoginParams {
   public username: string;
   public password: string;
+}
+export class LoginResponse {
+  public data: {
+    user: User;
+  };
 }
 const login = (params: LoginParams) => {
   return new Promise((resolve, reject) => {
@@ -131,7 +136,7 @@ class PostEntryParams {
   public data: {
     owner: string;
     entry: Entry;
-  }
+  };
 }
 export class PostEntryResponse {
   public data: {
@@ -164,12 +169,12 @@ class DeleteEntryParams {
   public data: {
     owner: string;
     entry: Entry;
-  }
+  };
 }
 export class DeleteEntryResponse {
   public data: {
     entry: Entry;
-  }
+  };
 }
 const deleteEntry = (params: DeleteEntryParams) => {
   return new Promise((resolve, reject) => {
@@ -221,7 +226,7 @@ class PostTodosParams {
   public data: {
     owner: string;
     todo: Todo;
-  }
+  };
 }
 export class PostTodoResponse {
   public data: {
@@ -254,7 +259,7 @@ class DeleteTodoParams {
   public data: {
     owner: string;
     todo: Todo;
-  }
+  };
 }
 const deleteTodo = (params: DeleteTodoParams) => {
   return new Promise((resolve, reject) => {
