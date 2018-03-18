@@ -48,8 +48,7 @@ Returns a list of entries for specified date, or empty
 
     - Code: `400`
     - Content: `{ "err" : "Illegal param" }`
-- Sample Call:
-    ??? 不会写
+
 
 ### postEntry
 Adds a new entry to date, or update an existing entry
@@ -79,5 +78,3 @@ Adds a new entry to date, or update an existing entry
 - Error Response:
     - Code: `400`
     - Content: `{ "err" : "Missing param" }`
-
-- Sample Call:
