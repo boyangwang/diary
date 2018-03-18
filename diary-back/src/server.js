@@ -58,7 +58,7 @@ const main = async (opt = {}) => {
   router.post('/api/logout', async (ctx) => {
     await ctx.logout();
     ctx.response.status = 200;
-    ctx.response.body = { data: { user: null }};
+    ctx.response.body = { data: { user: null } };
   });
   if (mergedConfig.useAuth) {
     router.use(

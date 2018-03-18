@@ -59,9 +59,11 @@ class DiaryApp extends React.Component<ReduxProps> {
               <h4 className="grey">{backendVersion}</h4>
             </div>
             <Menu theme="light" mode="horizontal">
-              {user && <Menu.Item key="logout">
-                <Button onClick={this.logout}>Logout</Button>
-              </Menu.Item>}
+              {user && (
+                <Menu.Item key="logout">
+                  <Button onClick={this.logout}>Logout</Button>
+                </Menu.Item>
+              )}
             </Menu>
           </Layout.Header>
           <Layout.Content>
