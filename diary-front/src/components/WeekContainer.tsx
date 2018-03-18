@@ -6,7 +6,10 @@ import { Card } from 'antd';
 import util from 'utils/util';
 import DayContainer from 'components/DayContainer';
 
-class WeekContainer extends React.Component {
+class Props {
+  public date: string;
+}
+class WeekContainer extends React.Component<Props> {
   render() {
     const { date } = this.props;
     const weekdays = util.getWeekdaysFromDateString(date);
