@@ -1,6 +1,6 @@
 // polyfill etc
 console.mylog = (...args) => {
-  process.stdout.write((new Date()).toISOString() + ' | ');
+  process.stdout.write(new Date().toISOString() + ' | ');
   console.info(...args);
 };
 // third-party
@@ -46,10 +46,12 @@ const main = async (opt = {}) => {
   app.keys = mergedConfig.keys;
   db = await MongoClient.connect(mongoUrl);
 
-  app.use(logger(function (str, args){
-    process.stdout.write(''+new Date());
-    console.mylog(...args);
-  }));
+  app.use(
+    logger(function(str, args) {
+      process.stdout.write('' + new Date());
+      console.mylog(...args);
+    })
+  );
   app.use(koaBody());
   app.use(session(mergedConfig.sessionConfig, app));
   app.use(passport.initialize());
