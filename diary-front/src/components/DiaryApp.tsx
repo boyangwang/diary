@@ -4,24 +4,30 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { message } from 'antd';
 
-import api from 'utils/api';
+import api, { ApiTestResponse, ErrResponse } from 'utils/api';
 import DiaryDateView from 'components/DiaryDateView';
 import TodoView from 'components/TodoView';
 import LoginView from 'components/LoginView';
+import { dispatch } from 'reducers/store';
+import { User, ReduxState } from 'reducers';
 
-class DiaryApp extends React.Component {
+class ReduxProps {
+  public user: User | null;
+  public backendVersion: null | string;
+}
+class DiaryApp extends React.Component<ReduxProps> {
   componentWillMount() {
     api.apiTest().then(
-      (data) => {
+      (data: ApiTestResponse & ErrResponse) => {
         console.info('apiTest: ', data);
         if (data.err) {
           message.warn('' + data.err);
         } else {
-          this.props.dispatch({
+          dispatch({
             type: 'VERSION',
             payload: { backendVersion: data.data.backendVersion },
           });
-          this.props.dispatch({
+          dispatch({
             type: 'LOGIN',
             payload: { user: data.data.user },
           });
@@ -54,7 +60,7 @@ class DiaryApp extends React.Component {
   }
 }
 
-export default connect((state) => {
+export default connect((state: ReduxState) => {
   return {
     user: state.user,
     backendVersion: state.backendVersion,

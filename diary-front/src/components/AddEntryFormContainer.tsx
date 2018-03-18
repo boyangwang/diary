@@ -21,8 +21,12 @@ import util from 'utils/util';
 
 class Props {
   public entry?: Entry;
-  public buttonText: string = 'Add entry';
+  public buttonText?: string;
   public form?: any;
+  public onSubmit?: () => void;
+}
+class PropsDefaults {
+  public buttonText: string = 'Add entry';
   public onSubmit: () => void = () => {};
 }
 class ReduxProps {
@@ -35,7 +39,7 @@ class AddEntryFormValues {
   public content: string;
   public points: number;
 }
-class AddEntryFormContainer extends React.Component<Props & ReduxProps & FormComponentProps, {}> {
+class AddEntryFormContainer extends React.Component<Props & PropsDefaults & ReduxProps & FormComponentProps, {}> {
   public static defaultProps = new Props();
 
   public handleSubmit = (e: any) => {
@@ -137,7 +141,7 @@ class AddEntryFormContainer extends React.Component<Props & ReduxProps & FormCom
 }
 const WrappedAddEntryFormContainer = Form.create()(AddEntryFormContainer);
 
-export default connect<ReduxProps, void, Props>((state: ReduxState) => {
+export default connect<ReduxProps, {}, Props>((state: ReduxState) => {
   return {
     user: state.user,
   };

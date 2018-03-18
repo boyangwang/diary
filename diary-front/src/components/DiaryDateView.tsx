@@ -7,15 +7,16 @@ import util from 'utils/util';
 import WeekContainer from 'components/WeekContainer';
 import AddEntryFormContainer from 'components/AddEntryFormContainer';
 
-class DiaryDateView extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      offset: 0,
-    };
+class State {
+  public offset: number = 0;
+}
+class DiaryDateView extends React.Component<{}, State> {
+  constructor(props: {}) {
+    super(props);
+    this.state = new State();
   }
 
-  handleArrowButtonClick = (direction) => () => {
+  handleArrowButtonClick = (direction: 'left' | 'right') => () => {
     this.setState({
       offset: this.state.offset + (direction === 'left' ? -1 : +1),
     });
@@ -26,7 +27,7 @@ class DiaryDateView extends React.Component {
     return (
       <div className="DiaryDateView">
         <Row type="flex" justify="space-between">
-          <Col span="2">
+          <Col span={2}>
             <div className="ArrowButtonDiv">
               <Button
                 shape="circle"
@@ -35,10 +36,10 @@ class DiaryDateView extends React.Component {
               />
             </div>
           </Col>
-          <Col span="20">
+          <Col span={20}>
             <AddEntryFormContainer />
           </Col>
-          <Col span="2">
+          <Col span={2}>
             <div className="ArrowButtonDiv">
               <Button
                 shape="circle"
@@ -49,7 +50,7 @@ class DiaryDateView extends React.Component {
           </Col>
         </Row>
         <Row type="flex" justify="space-between">
-          <Col span="24">
+          <Col span={24}>
             <WeekContainer date={util.getTodayStringWithOffset(offset * 7)} />
           </Col>
         </Row>

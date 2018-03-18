@@ -110,3 +110,7 @@ insert/update之后要query, 得等一秒钟... 改了testutil, 之前问题全�
 ## 解决了一堆匪夷所思的ts bug之后 (antd的locale被pass到div, redux connect 怎么都不给用dispatch, 嫌props里没有, index.d.ts不被pickup, 好像是不鼓励重名只有后缀不一样的文件名, 最后改成types.d.ts就奏效???) 终于算行了
 
 发布!
+
+## 又遇到还没解决的ts + react + redux 问题
+
+看这里https://github.com/DefinitelyTyped/DefinitelyTyped/issues/11640#issuecomment-350198556

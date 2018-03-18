@@ -1,4 +1,5 @@
 import appendQuery from 'append-query';
+import { User } from 'reducers';
 
 const PROTOCOL = process.env.REACT_APP_PROTOCOL;
 const DOMAIN = process.env.REACT_APP_DOMAIN;
@@ -25,6 +26,12 @@ const apis = {
 
 export class ErrResponse {
   public err: any;
+}
+export class ApiTestResponse {
+  data: {
+    user?: User;
+    backendVersion: string;
+  }
 }
 const apiTest = () => {
   return new Promise((resolve, reject) => {

@@ -119,7 +119,7 @@ class DayContainer extends React.Component<Props & ReduxProps, State> {
   }
 }
 
-export default connect<ReduxProps, void, Props>((state: ReduxState) => {
+export default connect<ReduxProps, {}, Props>((state: ReduxState) => {
   return {
     entriesDateMap: state.entriesDateMap,
     user: state.user,
