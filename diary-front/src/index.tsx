@@ -23,4 +23,4 @@ ReactDOM.render(
   document.getElementById('root')
 );
 
-mylog('%c diary-front', 'font-size: 16px');
+mylog('diary-front');
