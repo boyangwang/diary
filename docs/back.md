@@ -8,9 +8,10 @@ GET | http://{hostname}:{port}/api/getEntries?date={date}&owner={owner} | Retrie
 POST | http://{hostname}:{port}/api/postEntry | Add a new entry to date, or update an existing entry
 POST | http://{hostname}:{port}/api/deleteEntry | Delete an entry
 GET | http://{hostname}:{port}/api/getTodos?owner={owner} | Return todos for this owner
-POST| http://{hostname}:{port}/api/postTodo | Add a new todo to date, or update an existing todo
+POST | http://{hostname}:{port}/api/postTodo | Add a new todo to date, or update an existing todo
 POST | http://{hostname}:{port}/api/deleteTodo | Delete a todo
-
+POST | http://{hostname}:{port}/api/login | Perform login authentication
+POST | http://{hostname}:{port}/api/errReport | Report error entry
 
 **Note:**  
 `{some}` represnets a variable called "some"
@@ -191,3 +192,47 @@ Deletes an existing todo
 - Success Response:
     - Code: 200 
     - Content: `{ "data" : { {todo} } }`
+
+
+### login
+Performs login authentication
+
+- URL: /api/login
+
+- Method: `POST`
+
+- URL Params None
+
+- Data Params 
+    - Required: `username=[string]`
+    - Required: `password=[string]`
+
+- Success Response:
+    - Code: 200 
+    - Content: `{ "data" : { "user": { "username": "xxx" } } }`
+    
+- Error Response:
+    - Code: `401`
+    - Content: `{ "err" : "Login failure" }`
+    
+    OR 
+    - Code: `401`
+    - Content: `{ "err" : "need login" }`
+
+
+### errReport
+Reports error entry
+
+- URL: /api/errReport
+
+- Method: `POST`
+
+- URL Params None
+
+- Data Params 
+    - Required: `_id=[string]`
+    - Required: `err=[string]`
+
+- Success Response:
+    - Code: 200 
+    - Content: `{ "err" : { "_id": "testid", "err": "test" } }`
