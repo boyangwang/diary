@@ -1,5 +1,19 @@
 # Product
 
+## Modules
+
+- Entry (diary)
+
+- Todo
+
+- Digest (markdown, upload pic)
+
+- AccountBook
+
+- Calendar (...hard)
+
+## Entry flow
+
 1.
 come to home
 if owner not found on localStorage
