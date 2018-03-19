@@ -14,14 +14,13 @@
     "postinstall": "cd .. && yarn install"
   },
   "dependencies": {
-    "antd": "^3.2.3",
+    "antd": "^3.3.0",
     "append-query": "^2.0.1",
     "classnames": "^2.2.5",
     "isomorphic-fetch": "^2.2.1",
     "moment": "^2.21.0",
-    "promise-polyfill": "^7.1.0",
-    "react": "^15.6.1",
-    "react-dom": "^15.6.1",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
     "react-redux": "^5.0.7",
     "react-scripts-ts": "^2.14.0",
     "redux": "^3.7.2",
@@ -37,8 +36,6 @@
     "@types/react-redux": "^5.0.15",
     "@types/redux-logger": "^3.0.5",
     "prettier": "1.11.1",
-    "react-app-rewired": "^1.5.0",
-    "serve": "^6.5.1",
     "tslint": "^5.9.1",
     "tslint-config-prettier": "^1.10.0",
     "tslint-react": "^3.5.1"

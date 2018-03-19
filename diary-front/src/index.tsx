@@ -2,7 +2,6 @@ import 'antd/dist/antd.css';
 import './index.css';
 
 import 'isomorphic-fetch';
-import 'promise-polyfill/src/polyfill';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
