@@ -5,9 +5,12 @@
 Method | URI | Action
 --- | --- | ---
 GET | http://{hostname}:{port}/api/getEntries?date={date}&owner={owner} | Retrieve list of entries
-GET | http://{hostname}:{port}/api/getTodos?owner={owner} | Return todos for this owner
 POST | http://{hostname}:{port}/api/postEntry | Add a new entry to date, or update an existing entry
 POST | http://{hostname}:{port}/api/deleteEntry | Delete an entry
+GET | http://{hostname}:{port}/api/getTodos?owner={owner} | Return todos for this owner
+POST| http://{hostname}:{port}/api/postTodo | Add a new todo to date, or update an existing todo
+POST | http://{hostname}:{port}/api/deleteTodo | Delete a todo
+
 
 **Note:**  
 `{some}` represnets a variable called "some"
@@ -22,6 +25,18 @@ Example for an `{entry}` object that will be used in the following
   "_id": "5aae5d46c53c46492ce1086a"
 }
 ```
+Example for an `{todo}` object that will be used in the following
+```json
+{
+  "date": "1970-01-01",
+  "title": "test title",
+  "content": "test content",
+  "priority": 3,
+  "check": "false",
+  "_id": "5aae5d46c53c46492ce1086a"
+}
+```
+
 ## Document for each REST API
 
 ### getEntries
@@ -74,7 +89,105 @@ Adds a new entry to date, or update an existing entry
     OR
     
     - Code: 200
+    - Content: `{ "data" : { "n": 1, "nModified": 1, "ok": 1 } }`
+    
+    OR
+    
+    - Code: 200
     - Content: `{ "data" : { "n": 1, "nModified": 0, "ok": 1 } }`
 - Error Response:
     - Code: `400`
     - Content: `{ "err" : "Missing param" }`
+
+
+### deleteEntry
+Deletes an existing entry
+
+- URL: /api/deleteEntry
+
+- Method: `POST`
+
+- URL Params None
+
+- Data Params 
+    - Required: `owner=/^[A-Za-z0-9]+$/`
+    - Required: `entry={ _id: {id} }`
+
+- Success Response:
+    - Code: 200 
+    - Content: `{ "data" : { {entry} } }`
+
+
+### getTodos
+Returns todos for this owner
+
+- URL: /api/getTodos?date={date}&owner={owner}
+
+- Method: `GET`
+
+- URL Params
+    - Required: `date=/^\d{4}-\d{2}-\d{2}$/`
+    - Required: `owner=/^[A-Za-z0-9]+$/`
+
+- Data Params None
+
+- Success Response:
+    - Code: 200 
+    - Content: `{ "data" : {todo} }`
+- Error Response:
+    - Code: `400`
+    - Content: `{ "err" : "Missing param" }`
+    
+    OR
+
+    - Code: `400`
+    - Content: `{ "err" : "Illegal param" }`
+
+
+### postTodo
+Adds a new todo to date, or update an existing todo
+
+- URL: /api/postTodo
+
+- Method: `POST`
+
+- URL Params None
+
+- Data Params 
+    - Required: `owner=/^[A-Za-z0-9]+$/`
+    - Required: `todo`
+
+- Success Response:
+    - Code: 200 
+    - Content: `{ "data" : { {todo} } }`
+    
+    OR
+    
+    - Code: 200
+    - Content: `{ "data" : { "n": 0, "nModified": 0, "ok": 1 } }`
+    
+    OR
+    
+    - Code: 200
+    - Content: `{ "data" : { "n": 1, "nModified": 1, "ok": 1 } }`
+- Error Response:
+    - Code: `400`
+    - Content: `{ "err" : "Missing param" }`
+    
+    
+### deleteTodo
+Deletes an existing todo
+
+- URL: /api/deleteTodo
+
+- Method: `POST`
+
+- URL Params None
+
+- Data Params 
+    - Required: `owner=/^[A-Za-z0-9]+$/`
+    - Required: `entry={ _id: {id} }`
+
+- Success Response:
+    - Code: 200 
+    - Content: `{ "data" : { {todo} } }`
