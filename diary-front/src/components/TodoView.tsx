@@ -66,7 +66,7 @@ class TodoView extends React.Component<ReduxProps> {
     return (
       <div className="TodosContainer">
         <List
-          locale={{emptyText: 'Empty'}}
+          locale={{ emptyText: 'Empty' }}
           dataSource={uncheckedTodos}
           renderItem={(todo: Todo) => (
             <TodoObject todo={todo} onCheckChange={this.onCheckChange(todo)} />
@@ -78,7 +78,7 @@ class TodoView extends React.Component<ReduxProps> {
             key="unchecked"
           >
             <List
-              locale={{emptyText: 'Empty'}}
+              locale={{ emptyText: 'Empty' }}
               dataSource={checkedTodos}
               renderItem={(todo: Todo) => (
                 <TodoObject
