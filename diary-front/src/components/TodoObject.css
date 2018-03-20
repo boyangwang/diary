@@ -1,9 +1,23 @@
 .TodoObject .ant-checkbox-inner {
-  transform: scale(2);
+  transform: scale(2.5);
 }
 
 .TodoObject .ant-checkbox-wrapper {
   width: 40px;
+  height: 40px;
+  margin-top: 12px;
+}
+
+.ant-list-item-action > li {
+  display: block;
+  padding-left: 0;
+  padding-right: 0;
+  margin-bottom: 12px;
+}
+
+.TodoObject .editButton, .TodoObject .deleteButton {
+  padding-left: 0;
+  padding-right: 0;
 }
 
 .TodoObject .priority {
