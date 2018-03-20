@@ -23,3 +23,5 @@ ReactDOM.render(
 );
 
 mylog('diary-front');
+
+(document as any).getElementById('loadingDiv').remove();
