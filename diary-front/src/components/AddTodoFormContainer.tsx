@@ -110,7 +110,7 @@ class AddTodoFormContainer extends React.Component<
           <Form.Item>
             {getFieldDecorator('priority', {
               rules: [{ required: true, message: 'Priority required' }],
-              initialValue: _.get(todo, 'priority'),
+              initialValue: _.get(todo, 'priority') || 12,
             })(<InputNumber placeholder="Priority" />)}
           </Form.Item>
           <Form.Item>
@@ -118,7 +118,7 @@ class AddTodoFormContainer extends React.Component<
               rules: [],
               initialValue: _.get(todo, 'dueDate')
                 ? moment(_.get(todo, 'dueDate'))
-                : null,
+                : moment(),
             })(<DatePicker placeholder="Due date" />)}
           </Form.Item>
           <Form.Item>

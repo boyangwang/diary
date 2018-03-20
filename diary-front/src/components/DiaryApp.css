@@ -1,6 +1,6 @@
 .DiaryApp .DiaryAppTitleDiv {
   display: flex;
-  width: 180px;
+  width: auto;
   float: left;
 }
 .DiaryApp .DiaryAppTitleDiv h1, .DiaryApp .DiaryAppTitleDiv h4 {
@@ -11,4 +11,11 @@
 }
 .DiaryApp .ant-menu {
   line-height: 64px;
+  display: flex;
+  flex-wrap: nowrap;
+  float: right;
+}
+
+.DiaryApp .ant-menu .ant-menu-item {
+  padding: 0 0 0 6px;
 }

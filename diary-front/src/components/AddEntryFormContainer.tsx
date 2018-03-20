@@ -106,7 +106,7 @@ class AddEntryFormContainer extends React.Component<
           <Form.Item>
             {getFieldDecorator('points', {
               rules: [{ required: true, message: 'Points required' }],
-              initialValue: _.get(entry, 'points'),
+              initialValue: _.get(entry, 'points') || 2,
             })(<InputNumber placeholder="Points" />)}
           </Form.Item>
           <Form.Item>
@@ -120,7 +120,7 @@ class AddEntryFormContainer extends React.Component<
               rules: [{ required: true, message: 'Date required' }],
               initialValue: _.get(entry, 'date')
                 ? moment(_.get(entry, 'date'))
-                : null,
+                : moment(),
             })(
               // if editing entry, do not allow change date (for now)
               <DatePicker disabled={!!_.get(entry, 'date')} />
