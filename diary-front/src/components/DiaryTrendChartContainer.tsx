@@ -9,6 +9,7 @@ import {
   ResponsiveContainer,
   XAxis,
   YAxis,
+  Tooltip,
 } from 'recharts';
 import { ReduxState, User } from 'reducers';
 import { dispatch } from 'reducers/store';
@@ -141,7 +142,7 @@ class DiaryTrendChartContainer extends React.Component<ReduxProps, State> {
           stackId: '3',
           stroke: chartColorPanel[colorIdx],
           fill: util.setOpacity(chartColorPanel[colorIdx], 0.36),
-          dot: true,
+          dot: false,
           label: {
             formatter: (label: number | string) => {
               if (+label === 0) {
@@ -199,14 +200,27 @@ class DiaryTrendChartContainer extends React.Component<ReduxProps, State> {
     );
 
     return (
-      <ResponsiveContainer width="100%" height={200}>
+      <ResponsiveContainer width="100%" height={280}>
         <AreaChart
           data={chartData}
-          margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+          margin={{ top: 12, right: 16, left: -20, bottom: 12 }}
         >
-          <XAxis dataKey="date" padding={{ left: 30, right: 30 }} />
+          <XAxis dataKey="date" padding={{ left: 10, right: 10 }} />
           <YAxis padding={{ top: 10, bottom: 0 }} />
           <Legend />
+          <Tooltip
+            itemStyle={{
+              paddingTop: 0,
+              paddingBottom: 0,
+              height: '20px',
+            }}
+            wrapperStyle={{
+              padding: '0 10px',
+              overflow: 'visible',
+              maxHeight: '240px',
+            }}
+            
+          />
           <CartesianGrid strokeDasharray="3 3" />
           {areas}
         </AreaChart>
