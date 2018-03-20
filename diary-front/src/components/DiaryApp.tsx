@@ -62,8 +62,12 @@ class DiaryApp extends React.Component<ReduxProps> {
             <Menu theme="light" mode="horizontal">
               <Menu.Item key="issue">
                 <Button>
-                  <a target="_blank"
-                    href="https://github.com/boyangwang/diary/issues/new">Issue</a>
+                  <a
+                    target="_blank"
+                    href="https://github.com/boyangwang/diary/issues/new"
+                  >
+                    Issue
+                  </a>
                 </Button>
               </Menu.Item>
               {user && (

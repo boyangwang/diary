@@ -14,6 +14,7 @@
   display: flex;
   flex-wrap: nowrap;
   float: right;
+  border: none;
 }
 
 .DiaryApp .ant-menu .ant-menu-item {
