@@ -5,6 +5,7 @@ import React from 'react';
 
 import AddEntryFormContainer from 'components/AddEntryFormContainer';
 import WeekContainer from 'components/WeekContainer';
+import DiaryTrendChartContainer from 'components/DiaryTrendChartContainer';
 import util from 'utils/util';
 
 class State {
@@ -49,11 +50,8 @@ class DiaryDateView extends React.Component<{}, State> {
             </div>
           </Col>
         </Row>
-        <Row type="flex" justify="space-between">
-          <Col span={24}>
-            <WeekContainer date={util.getTodayStringWithOffset(offset * 7)} />
-          </Col>
-        </Row>
+        <DiaryTrendChartContainer />
+        <WeekContainer date={util.getTodayStringWithOffset(offset * 7)} />
       </div>
     );
   }

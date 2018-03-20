@@ -8,6 +8,7 @@
 
 .DayContainer {
   margin-right: 12px;
+  min-height: 191px;
 }
 
 .DayContainer > .ant-card-body {
