@@ -4,8 +4,8 @@ import { Button, Col, Row } from 'antd';
 import React from 'react';
 
 import AddEntryFormContainer from 'components/AddEntryFormContainer';
-import WeekContainer from 'components/WeekContainer';
 import DiaryTrendChartContainer from 'components/DiaryTrendChartContainer';
+import WeekContainer from 'components/WeekContainer';
 import util from 'utils/util';
 
 class State {

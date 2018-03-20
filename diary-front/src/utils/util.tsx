@@ -8,14 +8,16 @@ const dateStringFormat = 'YYYY-MM-DD';
 
 export default {
   setOpacity: (s: string, a: number) => {
-    return s.substring(0, s.lastIndexOf(',')+1) + a + ')';
+    return s.substring(0, s.lastIndexOf(',') + 1) + a + ')';
   },
   stringHashCode: (s: string) => {
     let hash = 0;
-    if (s.length === 0) return hash;
+    if (s.length === 0) {
+      return hash;
+    }
     for (let i = 0; i < s.length; i++) {
-      const chr   = s.charCodeAt(i);
-      hash  = ((hash << 5) - hash) + chr;
+      const chr = s.charCodeAt(i);
+      hash = (hash << 5) - hash + chr;
       hash |= 0; // Convert to 32bit integer
     }
     return hash;
