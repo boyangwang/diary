@@ -136,8 +136,11 @@ class GetEntriesParams {
 export class GetEntriesResponse {
   public data: Entry[];
 }
-const getEntries = (params: GetEntriesParams) => {
-  const url = appendQuery(PREFIX + apis.getEntries, params);
+const getEntries = (
+  params: GetEntriesParams,
+  options: AppendQueryOptions = {}
+) => {
+  const url = appendQuery(PREFIX + apis.getEntries, params, options);
   return new Promise((resolve, reject) => {
     fetch(url, {
       credentials: 'same-origin',
