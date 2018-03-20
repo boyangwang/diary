@@ -1,3 +1,7 @@
+.TodoObject {
+  justify-content: center;
+}
+
 .TodoObject .ant-checkbox-inner {
   transform: scale(2.5);
 }
@@ -8,7 +12,21 @@
   margin-top: 12px;
 }
 
-.ant-list-item-action > li {
+.TodoObject .ant-list-item-content {
+  flex: 1 1 auto;
+}
+
+.TodoObject .ant-list-item-meta {
+  margin: 0 16px 0 0;
+}
+.TodoObject .ant-list-item-content {
+  margin: 0;
+}
+.TodoObject .ant-list-item-action {
+  margin: 0 0 0 16px;
+}
+
+.TodoObject .ant-list-item-action > li {
   display: block;
   padding-left: 0;
   padding-right: 0;

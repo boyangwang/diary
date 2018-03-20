@@ -114,3 +114,7 @@ insert/update之后要query, 得等一秒钟... 改了testutil, 之前问题全�
 ## 又遇到还没解决的ts + react + redux 问题
 
 看这里https://github.com/DefinitelyTyped/DefinitelyTyped/issues/11640#issuecomment-350198556
+
+## 非常奇怪, 遇到一个移动端模拟不出来的bug. 原因是如果设了flex: 1 1 和 flex-basis
+
+flex-basis会变成 0%, 此时如果模拟mobile, 显示正常, 如果在mobile chrome上, 就会缩成一个竖条
