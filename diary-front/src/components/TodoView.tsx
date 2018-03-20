@@ -1,4 +1,4 @@
-import { Card, Collapse, Icon, List } from 'antd';
+import { Card, Collapse, Icon, List, message } from 'antd';
 import React from 'react';
 import { connect } from 'react-redux';
 
@@ -6,7 +6,7 @@ import AddTodoFormContainer from 'components/AddTodoFormContainer';
 import TodoObject from 'components/TodoObject';
 import { ReduxState, User } from 'reducers';
 import { dispatch } from 'reducers/store';
-import api, { ErrResponse, GetTodosResponse, Todo } from 'utils/api';
+import api, { ErrResponse, GetTodosResponse, Todo, PostTodoResponse } from 'utils/api';
 import util from 'utils/util';
 
 class ReduxProps {
@@ -45,7 +45,22 @@ class TodoView extends React.Component<ReduxProps> {
     }
     return (e: any) => {
       todo.check = e.target.checked;
-      api.postTodo({ data: { owner: user.username, todo } });
+      api.postTodo({ data: { owner: user.username, todo } })
+      .then(
+        (data: PostTodoResponse & ErrResponse) => {
+          if (data.err) {
+            message.warn('' + data.err);
+          } else {
+              dispatch({
+                type: 'UPDATE_TODO',
+                payload: { todo },
+              });
+          }
+        },
+        (err) => {
+          message.warn('' + err);
+        }
+      );
     };
   }
 
@@ -102,7 +117,7 @@ class TodoView extends React.Component<ReduxProps> {
           {!todos ? (
             <Icon type="loading" />
           ) : todos.length === 0 ? (
-            <h3>Empty</h3>
+            "Empty"
           ) : (
             this.renderContent()
           )}

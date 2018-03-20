@@ -49,6 +49,7 @@ class TodoObject extends React.Component<Props & ReduxProps, State> {
 
   public render() {
     const { todo, onCheckChange } = this.props;
+    // debugger;
     return (
       <List.Item
         className="TodoObject"
