@@ -19,7 +19,16 @@ const barLowValue = 8;
 const barHighValue = 12;
 const barLowColor = '#006600';
 const barHighColor = '#990000';
-const chartColorPanel = ["rgba(242,119,122,1)","rgba(249,145,87,1)","rgba(240,192,96,1)","rgba(144,192,144,1)","rgba(96,192,192,1)","rgba(96,144,192,1)","rgba(192,144,192,1)","rgba(210,123,83,1)"];
+const chartColorPanel = [
+  'rgba(242,119,122,1)',
+  'rgba(249,145,87,1)',
+  'rgba(240,192,96,1)',
+  'rgba(144,192,144,1)',
+  'rgba(96,192,192,1)',
+  'rgba(96,144,192,1)',
+  'rgba(192,144,192,1)',
+  'rgba(210,123,83,1)',
+];
 
 class Props {}
 class ReduxProps {
@@ -124,7 +133,8 @@ class DiaryTrendChartContainer extends React.Component<ReduxProps, State> {
     const areas = [...allKeys.keys(), '_barLow', '_barHigh']
       .sort()
       .map((key) => {
-        const colorIdx = Math.abs(util.stringHashCode(key)) % chartColorPanel.length;
+        const colorIdx =
+          Math.abs(util.stringHashCode(key)) % chartColorPanel.length;
         const props = {
           type: 'linear' as 'linear',
           dataKey: key,
