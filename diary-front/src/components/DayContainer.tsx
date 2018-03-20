@@ -1,6 +1,6 @@
 import './DayContainer.css';
 
-import { Badge, Card, Icon } from 'antd';
+import { Badge, Card, Icon, message } from 'antd';
 import classnames from 'classnames';
 import React from 'react';
 import { connect } from 'react-redux';
@@ -42,12 +42,16 @@ class DayContainer extends React.Component<Props & ReduxProps, State> {
     if (!entriesDateMap[date]) {
       api.getEntries({ date, owner: user.username }).then(
         (data: GetEntriesResponse & ErrResponse) => {
-          dispatch({
-            type: 'ENTRIES_FOR_DATE',
-            payload: {
-              [date]: data.data,
-            },
-          });
+          if (data.err) {
+            message.warn('' + data.err);
+          } else {
+            dispatch({
+              type: 'ENTRIES_FOR_DATE',
+              payload: {
+                [date]: data.data,
+              },
+            });
+          }
         },
         (err) => {
           this.setState({ err });
