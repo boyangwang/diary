@@ -7,7 +7,7 @@
 }
 
 .TodoObject .priority {
-  display: inline-block;
+  display: inline-block;  
 }
 
 .TodoObject .dueDate {

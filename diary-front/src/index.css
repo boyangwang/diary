@@ -14,3 +14,11 @@ html {
 .hidden {
   display: none;
 }
+
+.ant-layout {
+  background: transparent;
+}
+
+.ant-layout .ant-layout-header {
+  padding: 0 32px;
+}
