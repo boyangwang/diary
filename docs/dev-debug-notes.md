@@ -118,3 +118,11 @@ insert/update之后要query, 得等一秒钟... 改了testutil, 之前问题全�
 ## 非常奇怪, 遇到一个移动端模拟不出来的bug. 原因是如果设了flex: 1 1 和 flex-basis
 
 flex-basis会变成 0%, 此时如果模拟mobile, 显示正常, 如果在mobile chrome上, 就会缩成一个竖条
+
+## 我的人生已经遇到过足够多可怕的bug了, 总结来说, 最艰苦的之一可以算是在服务器端, *nix/OS/binary相关的bug. 这一个是scp: scp竟然是读每一行output的!
+
+由于我.bashrc里面有echo, 导致出来的stdout被scp读了, scp不认, 直接挂断!
+
+我verbose一行一行读, 才看到有一个最可疑的sink!
+
+当然, 之前也有hint, bashrc我有好多行output, 但是一行印出来就断了. 其实是立刻报错退出了

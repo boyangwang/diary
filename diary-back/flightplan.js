@@ -20,6 +20,19 @@ plan.target('localhost');
 
 const projectsDir = '/var/www/diary_project';
 
+plan.remote(['mongodump'], (remote) => {
+  remote.with(`cd ${projectsDir}/`, () => {
+    remote.exec(`mongodump --host localhost --db diary --out mongodump`);
+  });
+});
+
+plan.local(['mongorestore'], (local) => {
+  local.exec(
+    `scp -r root@playground.wangboyang.com:${projectsDir}/mongodump/ ./mongo/`
+  );
+  local.exec(`mongorestore ./mongo/mongodump/`);
+});
+
 plan.remote(['stop-backend', 'deploy-all'], (remote) => {
   remote.with(`cd ${projectsDir}/diary-master/diary-back`, () => {
     remote.exec(`./node_modules/.bin/pm2 stop diary-back`, { failsafe: true });
