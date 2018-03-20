@@ -82,6 +82,21 @@ describe('api', async () => {
     });
   });
 
+  test('/api/getEntries returns entries for multiple days', async () => {
+    let entry1 = getTestObj({date: '1970-01-01'});
+    let entry2 = getTestObj({date: '1970-01-02'});
+    let testOwnerEntryCollection = db.collection(`entry_testOwner`);
+    await testOwnerEntryCollection.insertOne(transformIdToObjectId(entry1));
+    await testOwnerEntryCollection.insertOne(transformIdToObjectId(entry2));
+    await expectFetchUrlStatusCodeAndJson({
+      url: `http://localhost:${config.port}/api/getEntries?date=${
+        [entry1.date, entry2.date].join(',')
+      }&owner=testOwner`,
+      expectStatusCode: 200,
+      expectJson: { data: [entry1, entry2] },
+    });
+  });
+
   test('/api/postEntry needs an owner and an entry in body', async () => {
     let entry = getTestObj();
     await expectFetchUrlStatusCodeAndJson({

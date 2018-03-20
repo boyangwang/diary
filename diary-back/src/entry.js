@@ -48,7 +48,7 @@ module.exports = {
       errMsg;
     if (!date) {
       errMsg = 'Missing param';
-    } else if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+    } else if (!/^(\d{4}-\d{2}-\d{2},)*(\d{4}-\d{2}-\d{2})$/.test(date)) {
       errMsg = 'Illegal param';
     }
     if (errMsg) {
@@ -80,7 +80,10 @@ module.exports = {
     const { date, owner } = ctx.request.query;
 
     let ownerEntryCollection = db.collection(`entry_${owner}`);
-    let results = await (await ownerEntryCollection.find({ date })).toArray();
+    const dates = date.split(',');
+    let results = await (await ownerEntryCollection.find({
+      $or: dates.map(date => { return {date}; })
+    })).toArray();
     ctx.response.body = { data: results };
   },
   /**
