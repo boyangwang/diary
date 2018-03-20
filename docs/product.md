@@ -6,11 +6,11 @@
 
 - Todo
 
-- Digest (markdown, upload pic)
+- Digest (note) - markdown, upload pic
 
 - AccountBook
 
-- Calendar (...hard)
+- Calendar - ...hard
 
 ## Entry flow
 
