@@ -1,6 +1,6 @@
 import './TodoObject.css';
 
-import { Button, Checkbox, List, message, Modal, Alert } from 'antd';
+import { Alert, Button, Checkbox, List, message, Modal } from 'antd';
 import React from 'react';
 import { connect } from 'react-redux';
 
@@ -91,7 +91,11 @@ class TodoObject extends React.Component<Props & ReduxProps, State> {
           title={
             <div>
               <h3 className="title">{todo.title}</h3>
-              <Alert className="priority" message={todo.priority} type="success" />
+              <Alert
+                className="priority"
+                message={todo.priority}
+                type="success"
+              />
             </div>
           }
           description={
