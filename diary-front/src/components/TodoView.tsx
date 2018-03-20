@@ -1,4 +1,6 @@
-import { Card, Collapse, Icon, List, message } from 'antd';
+import { Card, Collapse, Icon, List, 
+  // message
+ } from 'antd';
 import React from 'react';
 import { connect } from 'react-redux';
 
@@ -6,7 +8,12 @@ import AddTodoFormContainer from 'components/AddTodoFormContainer';
 import TodoObject from 'components/TodoObject';
 import { ReduxState, User } from 'reducers';
 import { dispatch } from 'reducers/store';
-import api, { ErrResponse, GetTodosResponse, Todo, PostTodoResponse } from 'utils/api';
+import api, {
+  ErrResponse,
+  GetTodosResponse,
+  // PostTodoResponse,
+  Todo,
+} from 'utils/api';
 import util from 'utils/util';
 
 class ReduxProps {
@@ -38,32 +45,6 @@ class TodoView extends React.Component<ReduxProps> {
     this.getTodos();
   }
 
-  public onCheckChange(todo: Todo) {
-    const { user } = this.props;
-    if (!user) {
-      return;
-    }
-    return (e: any) => {
-      todo.check = e.target.checked;
-      api.postTodo({ data: { owner: user.username, todo } })
-      .then(
-        (data: PostTodoResponse & ErrResponse) => {
-          if (data.err) {
-            message.warn('' + data.err);
-          } else {
-              dispatch({
-                type: 'UPDATE_TODO',
-                payload: { todo },
-              });
-          }
-        },
-        (err) => {
-          message.warn('' + err);
-        }
-      );
-    };
-  }
-
   public renderContent() {
     const { todos } = this.props;
 
@@ -84,7 +65,7 @@ class TodoView extends React.Component<ReduxProps> {
           locale={{ emptyText: 'Empty' }}
           dataSource={uncheckedTodos}
           renderItem={(todo: Todo) => (
-            <TodoObject todo={todo} onCheckChange={this.onCheckChange(todo)} />
+            <TodoObject todo={todo} />
           )}
         />
         <Collapse>
@@ -98,7 +79,6 @@ class TodoView extends React.Component<ReduxProps> {
               renderItem={(todo: Todo) => (
                 <TodoObject
                   todo={todo}
-                  onCheckChange={this.onCheckChange(todo)}
                 />
               )}
             />
@@ -117,7 +97,7 @@ class TodoView extends React.Component<ReduxProps> {
           {!todos ? (
             <Icon type="loading" />
           ) : todos.length === 0 ? (
-            "Empty"
+            'Empty'
           ) : (
             this.renderContent()
           )}

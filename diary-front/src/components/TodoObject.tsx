@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 
 import { ReduxState, User } from 'reducers';
 import { dispatch } from 'reducers/store';
-import api, { DeleteTodoResponse, ErrResponse, Todo } from 'utils/api';
+import api, { DeleteTodoResponse, ErrResponse, Todo, PostTodoResponse } from 'utils/api';
 import AddTodoFormContainer from './AddTodoFormContainer';
 
 class Props {
@@ -47,9 +47,31 @@ class TodoObject extends React.Component<Props & ReduxProps, State> {
     );
   }
 
+  public onCheckChange(todo: Todo) {
+    const { user } = this.props;
+    if (!user) {
+      return () => {};
+    }
+    return (e: any) => {
+      todo.check = e.target.checked;
+      api.postTodo({ data: { owner: user.username, todo } })
+      .then(
+        (data: PostTodoResponse & ErrResponse) => {
+          if (data.err) {
+            message.warn('' + data.err);
+          } else {
+            this.setState(this.state);
+          }
+        },
+        (err) => {
+          message.warn('' + err);
+        }
+      );
+    };
+  }
+
   public render() {
-    const { todo, onCheckChange } = this.props;
-    // debugger;
+    const { todo } = this.props;
     return (
       <List.Item
         className="TodoObject"
@@ -82,8 +104,8 @@ class TodoObject extends React.Component<Props & ReduxProps, State> {
           />,
           <Checkbox
             key="check"
-            defaultChecked={todo.check}
-            onChange={onCheckChange}
+            checked={todo.check}
+            onChange={this.onCheckChange(todo)}
           />,
         ]}
       >
