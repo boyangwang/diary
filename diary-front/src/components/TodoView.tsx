@@ -1,6 +1,10 @@
-import { Card, Collapse, Icon, List, 
+import {
+  Card,
+  Collapse,
+  Icon,
+  List,
   // message
- } from 'antd';
+} from 'antd';
 import React from 'react';
 import { connect } from 'react-redux';
 
@@ -64,9 +68,7 @@ class TodoView extends React.Component<ReduxProps> {
         <List
           locale={{ emptyText: 'Empty' }}
           dataSource={uncheckedTodos}
-          renderItem={(todo: Todo) => (
-            <TodoObject todo={todo} />
-          )}
+          renderItem={(todo: Todo) => <TodoObject todo={todo} />}
         />
         <Collapse>
           <Collapse.Panel
@@ -76,11 +78,7 @@ class TodoView extends React.Component<ReduxProps> {
             <List
               locale={{ emptyText: 'Empty' }}
               dataSource={checkedTodos}
-              renderItem={(todo: Todo) => (
-                <TodoObject
-                  todo={todo}
-                />
-              )}
+              renderItem={(todo: Todo) => <TodoObject todo={todo} />}
             />
           </Collapse.Panel>
         </Collapse>
