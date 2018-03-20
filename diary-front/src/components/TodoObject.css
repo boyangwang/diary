@@ -11,13 +11,13 @@
 }
 
 .TodoObject .dueDate {
+  padding: 12px 0;
   font-size: 14px;
   display: inline-block;
   writing-mode: vertical-rl;
-  padding-top: 16px;
-  padding-bottom: 16px;
+  transform: rotate(180deg);
   text-align: center;
-  background: #ccc;
+  background: #aaa;
   color: #fff;
   white-space: nowrap;
   overflow: hidden;
