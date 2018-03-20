@@ -1,6 +1,6 @@
 import './TodoObject.css';
 
-import { Avatar, Button, Checkbox, List, message, Modal } from 'antd';
+import { Button, Checkbox, List, message, Modal, Alert } from 'antd';
 import React from 'react';
 import { connect } from 'react-redux';
 
@@ -87,13 +87,11 @@ class TodoObject extends React.Component<Props & ReduxProps, State> {
         ]}
       >
         <List.Item.Meta
-          avatar={<Avatar className="priority">{todo.priority}</Avatar>}
+          avatar={<div className="dueDate">{todo.dueDate || 'No due'}</div>}
           title={
             <div>
               <h3 className="title">{todo.title}</h3>
-              {todo.dueDate && (
-                <h4 className="title">Due date: {todo.dueDate}</h4>
-              )}
+              <Alert className="priority" message={todo.priority} type="success" />
             </div>
           }
           description={

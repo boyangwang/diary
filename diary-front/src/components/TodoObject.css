@@ -5,3 +5,23 @@
 .TodoObject .ant-checkbox-wrapper {
   width: 40px;
 }
+
+.TodoObject .priority {
+  display: inline-block;
+}
+
+.TodoObject .dueDate {
+  font-size: 14px;
+  display: inline-block;
+  writing-mode: vertical-rl;
+  padding-top: 16px;
+  padding-bottom: 16px;
+  text-align: center;
+  background: #ccc;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  vertical-align: middle;
+  line-height: 32px;
+  border-radius: 16px;
+}
