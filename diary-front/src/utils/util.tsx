@@ -7,6 +7,9 @@ import mylog from 'utils/mylog';
 const dateStringFormat = 'YYYY-MM-DD';
 
 export default {
+  isNumOrStrAndNotNaN: (a: any) => {
+    return (_.isNumber(a) || _.isString(a)) && !_.isNaN(a);
+  },
   setOpacity: (s: string, a: number) => {
     return s.substring(0, s.lastIndexOf(',') + 1) + a + ')';
   },

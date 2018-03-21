@@ -7,14 +7,15 @@ import {
   CartesianGrid,
   Legend,
   ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
-  Tooltip,
 } from 'recharts';
 import { ReduxState, User } from 'reducers';
 import { dispatch } from 'reducers/store';
 import api, { Entry, ErrResponse, GetEntriesResponse } from 'utils/api';
 import util from 'utils/util';
+import DiaryTrendChartTooltipContent from 'components/DiaryTrendChartTooltipContent';
 
 const barLowValue = 8;
 const barHighValue = 12;
@@ -216,10 +217,15 @@ class DiaryTrendChartContainer extends React.Component<ReduxProps, State> {
             }}
             wrapperStyle={{
               padding: '0 10px',
-              overflow: 'visible',
-              maxHeight: '240px',
+              overflow: 'hidden',
+              maxHeight: '220px',
+
             }}
-            
+            cursor={true}
+            itemSorter={
+              (a: any, b: any) => b.value - a.value
+            }
+            content={(props: any) => <DiaryTrendChartTooltipContent {...props} />}
           />
           <CartesianGrid strokeDasharray="3 3" />
           {areas}
