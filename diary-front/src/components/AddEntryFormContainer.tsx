@@ -101,6 +101,13 @@ class AddEntryFormContainer extends React.Component<
             {getFieldDecorator('title', {
               rules: [{ required: true, message: 'Title required' }],
               initialValue: _.get(entry, 'title'),
+              normalize: (
+                value: string,
+                prevValue: string,
+                allValues: string[]
+              ) => {
+                return value.toLocaleLowerCase();
+              },
             })(<Input prefix={<Icon type="plus" />} placeholder="Title" />)}
           </Form.Item>
           <Form.Item>
