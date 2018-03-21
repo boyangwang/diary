@@ -106,7 +106,13 @@ class AddEntryFormContainer extends React.Component<
                 prevValue: string,
                 allValues: string[]
               ) => {
-                return value.toLocaleLowerCase();
+                if (!value) {
+                  return '';
+                } else if (!_.isString(value)) {
+                  return value;
+                } else {
+                  return value.toLocaleLowerCase();
+                }
               },
             })(<Input prefix={<Icon type="plus" />} placeholder="Title" />)}
           </Form.Item>
