@@ -1,6 +1,6 @@
 {
   "name": "diary-front",
-  "version": "1.1.8",
+  "version": "1.1.9",
   "private": true,
   "author": "Boyang <wangboyang1991@gmail.com>",
   "scripts": {
@@ -8,8 +8,7 @@
     "build": "react-scripts-ts build",
     "test": "react-scripts-ts test --env=jsdom",
     "eject": "react-scripts-ts eject",
-    "pretty":
-      "prettier --write --trailing-comma es5 --single-quote --arrow-parens always \"{src/**/*.{js,ts,tsx},*.json}\" && tslint --project . --fix",
+    "pretty": "prettier --write --trailing-comma es5 --single-quote --arrow-parens always \"{src/**/*.{js,ts,tsx},*.json}\" && tslint --project . --fix",
     "tslint-check": "tslint-config-prettier-check ./tslint.json",
     "postinstall": "cd .. && yarn install"
   },
