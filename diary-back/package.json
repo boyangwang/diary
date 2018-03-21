@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest --forceExit --runInBand",
     "start": "node src/server.js",
-    "deploy": "../scripts/deploy.sh",
+    "deploy": "./src/scripts/deploy.sh",
     "flightplan": "export FLIGHTPLAN_KEY_PATH=~/.ssh/id_rsa && fly --flightplan ./flightplan.js",
     "pretty": "prettier --write --trailing-comma es5 --single-quote --arrow-parens always \"src/**/*.js\" flightplan.js",
     "postinstall": "cd .. && yarn install"
