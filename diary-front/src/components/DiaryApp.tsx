@@ -60,6 +60,9 @@ class DiaryApp extends React.Component<ReduxProps> {
               <h4 className="grey">{backendVersion}</h4>
             </div>
             <Menu theme="light" mode="horizontal">
+              <Menu.Item key="sync">
+                <Button onClick={() => window.location.reload()}>Sync</Button>
+              </Menu.Item>
               <Menu.Item key="issue">
                 <Button>
                   <a
