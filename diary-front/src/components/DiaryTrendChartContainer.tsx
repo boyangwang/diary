@@ -209,7 +209,12 @@ class DiaryTrendChartContainer extends React.Component<ReduxProps, State> {
         >
           <XAxis dataKey="date" padding={{ left: 10, right: 10 }} />
           <YAxis padding={{ top: 10, bottom: 0 }} />
-          <Legend />
+          <Legend
+            wrapperStyle={{
+              marginLeft: '20px',
+              padding: '10px 10px 10px 10px',
+            }}
+          />
           <Tooltip
             itemStyle={{
               paddingTop: 0,
