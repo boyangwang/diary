@@ -43,12 +43,13 @@ const defaultFormatter = (value: any) =>
     : value;
 
 class Props {
-  public separator?: string;
-  public formatter: Function;
+  public filter: (tooltipPayload: TooltipPayload) => boolean;
+  public separator: string;
+  public formatter: any;
   public wrapperStyle: any;
   public itemStyle: any;
   public labelStyle: any;
-  public labelFormatter: Function;
+  public labelFormatter: any;
   public label: any;
   public payload: TooltipPayload[];
   public itemSorter: (a: TooltipPayload, b: TooltipPayload) => 0 | 1 | -1;
@@ -66,7 +67,14 @@ class DiaryTrendChartTooltipContent extends React.Component<
   public static defaultProps = new PropsDefaults();
 
   public renderContent() {
-    const { payload, separator, formatter, itemStyle, itemSorter } = this.props;
+    const {
+      payload,
+      separator,
+      formatter,
+      itemStyle,
+      itemSorter,
+      filter,
+    } = this.props;
 
     if (payload && payload.length) {
       const listStyle = { padding: 0, margin: 0 };
@@ -81,6 +89,10 @@ class DiaryTrendChartTooltipContent extends React.Component<
         };
         const hasName = util.isNumOrStrAndNotNaN(entry.name);
         const finalFormatter = formatter || defaultFormatter;
+
+        if (filter && !filter(entry)) {
+          return null;
+        }
 
         return (
           <li

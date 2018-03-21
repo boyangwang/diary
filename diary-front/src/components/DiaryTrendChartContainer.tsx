@@ -1,5 +1,4 @@
 import { message } from 'antd';
-import DiaryTrendChartTooltipContent from 'components/DiaryTrendChartTooltipContent';
 import React from 'react';
 import { connect } from 'react-redux';
 import {
@@ -12,6 +11,10 @@ import {
   XAxis,
   YAxis,
 } from 'recharts';
+
+import DiaryTrendChartTooltipContent, {
+  TooltipPayload,
+} from 'components/DiaryTrendChartTooltipContent';
 import { ReduxState, User } from 'reducers';
 import { dispatch } from 'reducers/store';
 import api, { Entry, ErrResponse, GetEntriesResponse } from 'utils/api';
@@ -160,7 +163,6 @@ class DiaryTrendChartContainer extends React.Component<ReduxProps, State> {
             stroke: barLowColor,
             fill: 'transparent',
             dot: false,
-            name: 'Bar low',
             strokeWidth: 2,
             strokeDasharray: '5 5',
             strokeOpacity: 0.8,
@@ -172,7 +174,6 @@ class DiaryTrendChartContainer extends React.Component<ReduxProps, State> {
             stroke: barHighColor,
             fill: 'transparent',
             dot: false,
-            name: 'Bar high',
             strokeWidth: 2,
             strokeDasharray: '5 5',
             strokeOpacity: 0.8,
@@ -223,7 +224,19 @@ class DiaryTrendChartContainer extends React.Component<ReduxProps, State> {
             cursor={true}
             itemSorter={(a: any, b: any) => b.value - a.value}
             content={(props: any) => (
-              <DiaryTrendChartTooltipContent {...props} />
+              <DiaryTrendChartTooltipContent
+                {...props}
+                filter={(data: TooltipPayload) => {
+                  if (
+                    data.name === '_barLow' ||
+                    data.name === '_barHigh' ||
+                    data.value === 0
+                  ) {
+                    return false;
+                  }
+                  return true;
+                }}
+              />
             )}
           />
           <CartesianGrid strokeDasharray="3 3" />
