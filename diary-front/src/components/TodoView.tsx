@@ -1,3 +1,5 @@
+import './TodoView.css';
+
 import {
   Card,
   Collapse,
@@ -65,11 +67,18 @@ class TodoView extends React.Component<ReduxProps> {
 
     return (
       <div className="TodosContainer">
-        <List
-          locale={{ emptyText: 'Empty' }}
-          dataSource={uncheckedTodos}
-          renderItem={(todo: Todo) => <TodoObject todo={todo} />}
-        />
+        <Collapse>
+          <Collapse.Panel
+            header="Unchecked todos - sorted by: due date -> priority"
+            key="unchecked"
+          >
+            <List
+              locale={{ emptyText: 'Empty' }}
+              dataSource={uncheckedTodos}
+              renderItem={(todo: Todo) => <TodoObject todo={todo} />}
+            />
+          </Collapse.Panel>
+        </Collapse>
         <Collapse>
           <Collapse.Panel
             header="Checked todos - sorted by: date"
@@ -91,7 +100,7 @@ class TodoView extends React.Component<ReduxProps> {
 
     return (
       <div className="TodoView">
-        <Card title="TodoView" extra="Sorted by: due date -> priority">
+        <Card title="TodoView">
           {!todos ? (
             <Icon type="loading" />
           ) : todos.length === 0 ? (
