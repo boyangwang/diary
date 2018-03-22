@@ -78,11 +78,9 @@ class TodoView extends React.Component<ReduxProps> {
               renderItem={(todo: Todo) => <TodoObject todo={todo} />}
             />
           </Collapse.Panel>
-        </Collapse>
-        <Collapse>
           <Collapse.Panel
             header="Checked todos - sorted by: date"
-            key="unchecked"
+            key="checked"
           >
             <List
               locale={{ emptyText: 'Empty' }}

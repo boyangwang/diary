@@ -43,11 +43,6 @@ export const htmlToDraft = (content: string) => {
  * an empty state
  */
 export const EmptyState = EditorState.createEmpty();
-export const A = (arr: any[]) => {
-  return arr.map((a) => {
-    a;
-  });
-};
 export interface DraftProps {
   children?: React.ReactNode;
   /**

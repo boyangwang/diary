@@ -1,6 +1,6 @@
 import './WeekContainer.css';
 
-import { Card } from 'antd';
+import { Card, Collapse } from 'antd';
 import React from 'react';
 
 import DayContainer from 'components/DayContainer';
@@ -17,11 +17,18 @@ class WeekContainer extends React.Component<Props> {
 
     return (
       <Card title="WeekContainer" className="WeekContainerCard">
-        <div className="WeekContainer">
-          {weekdays.map((d) => (
-            <DayContainer key={d} date={d} highlight={d === todayString} />
-          ))}
-        </div>
+        <Collapse>
+          <Collapse.Panel
+            header="Weekdays"
+            key="weekdays"
+          >
+            <div className="WeekContainer">
+              {weekdays.map((d) => (
+                <DayContainer key={d} date={d} highlight={d === todayString} />
+              ))}
+            </div>
+          </Collapse.Panel>
+        </Collapse>
       </Card>
     );
   }
