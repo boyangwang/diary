@@ -25,11 +25,8 @@ const barHighValue = 12;
 const barLowColor = '#006600';
 const barHighColor = '#990000';
 const chartColorPanel = [
-  'rgba(242,119,122,1)',
   'rgba(242,122,119,1)',
   'rgba(119,242,122,1)',
-  'rgba(119,122,242,1)',
-  'rgba(122,242,119,1)',
   'rgba(122,119,242,1)',
   'rgba(249,145,87,1)',
   'rgba(249,87,145,1)',
