@@ -5,6 +5,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import DiaryDateView from 'components/DiaryDateView';
+import DigestView from 'components/DigestView';
 import LoginView from 'components/LoginView';
 import TodoView from 'components/TodoView';
 import { ReduxState, User } from 'reducers';
@@ -85,6 +86,7 @@ class DiaryApp extends React.Component<ReduxProps> {
               <div>
                 <DiaryDateView />
                 <TodoView />
+                <DigestView />
               </div>
             ) : (
               <LoginView />
