@@ -18,10 +18,7 @@ class WeekContainer extends React.Component<Props> {
     return (
       <Card title="WeekContainer" className="WeekContainerCard">
         <Collapse>
-          <Collapse.Panel
-            header="Weekdays"
-            key="weekdays"
-          >
+          <Collapse.Panel header="Weekdays" key="weekdays">
             <div className="WeekContainer">
               {weekdays.map((d) => (
                 <DayContainer key={d} date={d} highlight={d === todayString} />
