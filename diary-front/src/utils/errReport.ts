@@ -19,5 +19,7 @@ window.onerror = (message, source, lineno, colno, errObj) => {
   };
   api.errReport({ err: errReportObj });
   window.alert(JSON.stringify(errReportObj));
-  origOnerror(message, source, lineno, colno, errObj);
+  if (origOnerror && typeof origOnerror === "function") {
+    origOnerror(message, source, lineno, colno, errObj);
+  }
 };
