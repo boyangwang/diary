@@ -28,7 +28,7 @@ export default (state: ReduxState = INITIAL_STATE, action: Action) => {
   if (action.type === 'LOGIN') {
     return { ...state, user: action.payload.user };
   } else if (action.type === 'LOGOUT') {
-    return {...INITIAL_STATE};
+    return { ...INITIAL_STATE };
   } else if (action.type === 'VERSION') {
     return {
       ...state,
