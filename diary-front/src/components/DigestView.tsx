@@ -1,11 +1,16 @@
-import DigestEditorObject from 'components/DigestEditorObject';
 import React from 'react';
 
-class Props {}
-class State {}
+import DigestEditorForm from 'components/DigestEditorForm';
+
+class Props { }
+class State { }
 class DigestView extends React.Component<Props, State> {
   public render() {
-    return <DigestEditorObject />;
+    return (
+      <div className="DigestView">
+        <DigestEditorForm />
+      </div>
+    );
   }
 }
 export default DigestView;

@@ -271,15 +271,15 @@ class Draft extends React.Component<DraftProps, DraftState> {
         options: ['unordered', 'ordered'],
       },
     },
-    locale: 'zh',
+    locale: 'en',
   };
   public render() {
     return (
       <Editor
-        wrapperClassName="hake-draft-wrapper"
-        editorClassName="hake-draft-editor"
-        toolbarClassName="hake-draft-toolbar"
-        placeholder="Heresy's digest..."
+        wrapperClassName="digest-draft-wrapper"
+        editorClassName="digest-draft-editor"
+        toolbarClassName="digest-draft-toolbar"
+        placeholder="Heresy's digest"
         toolbar={this.props.toolbar}
         locale={this.props.locale}
         {...this.props}
