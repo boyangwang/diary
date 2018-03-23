@@ -1,17 +1,11 @@
-import {
-  Button,
-  Form,
-  Icon,
-  Input,
-  Card,
-} from 'antd';
+import { Button, Card, Form, Icon, Input } from 'antd';
 import { FormComponentProps } from 'antd/lib/form/Form';
 import DraftToHtml from 'draftjs-to-html';
 import React from 'react';
 
 import DigestEditorObject from 'components/DigestEditorObject';
-import { User, ReduxState } from 'reducers';
 import { connect } from 'react-redux';
+import { ReduxState, User } from 'reducers';
 
 class Props {
   public buttonText?: string;
@@ -20,7 +14,7 @@ class Props {
 }
 class PropsDefaults {
   public buttonText: string = 'Save digest';
-  public onSubmit: () => void = () => { };
+  public onSubmit: () => void = () => {};
 }
 class ReduxProps {
   public user: User | null;
@@ -35,7 +29,7 @@ class FormValues {
 class DigestEditorForm extends React.Component<
   Props & PropsDefaults & ReduxProps & FormComponentProps,
   State
-  > {
+> {
   public static defaultProps = new PropsDefaults();
 
   public handleSubmit = (e: any) => {
@@ -50,11 +44,11 @@ class DigestEditorForm extends React.Component<
         return;
       }
       if (values.content) {
-        values.content = DraftToHtml(values.content)
+        values.content = DraftToHtml(values.content);
       }
       onSubmit();
     });
-  }
+  };
 
   public render() {
     const { getFieldDecorator } = this.props.form;
@@ -73,9 +67,7 @@ class DigestEditorForm extends React.Component<
             {getFieldDecorator('content', {
               rules: [],
               initialValue: '',
-            })(
-              <DigestEditorObject />
-            )}
+            })(<DigestEditorObject />)}
           </Form.Item>
           <Button type="primary" htmlType="submit">
             {buttonText}
