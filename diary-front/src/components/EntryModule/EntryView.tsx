@@ -3,8 +3,8 @@ import './EntryView.css';
 import { Button, Col, Row } from 'antd';
 import React from 'react';
 
-import EntryTrendChartContainer from 'components/EntryModule/EntryTrendChartContainer';
 import EntryFormContainer from 'components/EntryModule/EntryFormContainer';
+import EntryTrendChartContainer from 'components/EntryModule/EntryTrendChartContainer';
 import EntryWeekContainer from 'components/EntryModule/EntryWeekContainer';
 import util from 'utils/util';
 

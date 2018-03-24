@@ -21,7 +21,11 @@ class EntryWeekContainer extends React.Component<Props> {
           <Collapse.Panel header="Weekdays" key="weekdays">
             <div className="EntryWeekContainer">
               {weekdays.map((d) => (
-                <EntryDayContainer key={d} date={d} highlight={d === todayString} />
+                <EntryDayContainer
+                  key={d}
+                  date={d}
+                  highlight={d === todayString}
+                />
               ))}
             </div>
           </Collapse.Panel>

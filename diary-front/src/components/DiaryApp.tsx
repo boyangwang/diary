@@ -4,8 +4,8 @@ import { Button, Layout, Menu, message } from 'antd';
 import React from 'react';
 import { connect } from 'react-redux';
 
-import EntryView from 'components/EntryModule/EntryView';
 import DigestView from 'components/DigestModule/DigestView';
+import EntryView from 'components/EntryModule/EntryView';
 import LoginView from 'components/LoginView';
 import TodoView from 'components/TodoModule/TodoView';
 import { ReduxState, User } from 'reducers';
