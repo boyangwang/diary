@@ -140,3 +140,5 @@ public componentDidMount() {
   this.props.onChange!(convertToRaw(this.state.editorState.getCurrentContent()));
 }
 ```
+
+不对, 最后发现我把上面的全删了才是全对的, 也是最合理的. 我是怎么被搞到这个境地的????? 真是困了???

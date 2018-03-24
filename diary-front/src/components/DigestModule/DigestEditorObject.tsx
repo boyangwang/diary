@@ -4,7 +4,6 @@ import './DigestEditorObject.css';
 import {
   ContentState,
   convertFromHTML,
-  convertToRaw,
   EditorState,
 } from 'draft-js';
 import DraftToHtml from 'draftjs-to-html';
@@ -291,9 +290,6 @@ class Draft extends React.Component<DraftProps, DraftState> {
   }
 
   public componentDidMount() {
-    this.props.onChange!(
-      convertToRaw(this.state.editorState.getCurrentContent())
-    );
   }
 
   public render() {
