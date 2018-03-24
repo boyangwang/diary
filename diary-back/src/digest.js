@@ -98,7 +98,8 @@ module.exports = {
   deleteDigest: async (ctx, next) => {
     let { owner, digest } = ctx.request.body.data;
     let ownerDigestCollection = db.collection(`digest_${owner}`);
-    const processedId = digest._id.length === 24 ? ObjectId(digest._id) : digest._id;
+    const processedId =
+      digest._id.length === 24 ? ObjectId(digest._id) : digest._id;
     let result = await ownerDigestCollection.findOneAndDelete({
       _id: processedId,
     });

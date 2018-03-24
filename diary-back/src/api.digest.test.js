@@ -17,11 +17,11 @@ let appInstance, db;
 
 beforeAll(async () => {
   setTestObj({
-    "createTimestamp": 1521819342901,
-    "lastModified": 1521819342901,
-    "title": "test title",
-    "content": "<p>test</p>",
-    "tags": ["tag1", "tag2", "tag3"],
+    createTimestamp: 1521819342901,
+    lastModified: 1521819342901,
+    title: 'test title',
+    content: '<p>test</p>',
+    tags: ['tag1', 'tag2', 'tag3'],
   });
   db = await MongoClient.connect(mongoUrl);
   appInstance = await require('./server.js')({
@@ -55,9 +55,7 @@ describe('api', async () => {
     let testOwnerDigestCollection = db.collection(`digest_testOwner`);
     await testOwnerDigestCollection.insertOne(transformIdToObjectId(digest));
     await expectFetchUrlStatusCodeAndJson({
-      url: `http://localhost:${
-        config.port
-      }/api/getDigests?owner=testOwner`,
+      url: `http://localhost:${config.port}/api/getDigests?owner=testOwner`,
       expectStatusCode: 200,
       expectJson: { data: [digest] },
     });

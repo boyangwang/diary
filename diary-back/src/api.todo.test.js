@@ -55,9 +55,7 @@ describe('api', async () => {
     let testOwnerTodoCollection = db.collection(`todo_testOwner`);
     await testOwnerTodoCollection.insertOne(transformIdToObjectId(todo));
     await expectFetchUrlStatusCodeAndJson({
-      url: `http://localhost:${
-        config.port
-      }/api/getTodos?owner=testOwner`,
+      url: `http://localhost:${config.port}/api/getTodos?owner=testOwner`,
       expectStatusCode: 200,
       expectJson: { data: [todo] },
     });
