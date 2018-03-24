@@ -126,3 +126,17 @@ flex-basis会变成 0%, 此时如果模拟mobile, 显示正常, 如果在mobile 
 我verbose一行一行读, 才看到有一个最可疑的sink!
 
 当然, 之前也有hint, bashrc我有好多行output, 但是一行印出来就断了. 其实是立刻报错退出了
+
+## huge trouble implementing antd Form custom component
+
+非常烂的doc, 最终还是不想打开rc-form来看. 参考了成功实现的tags和搜到的issue, 尝试解决editor的诸多问题. 尤其是不同步, 和第一次不onchange导致当成空的问题.
+
+解决了, 感慨, 搞到五点. 原来是这么一回事. 不用直接叫onChange, 这也是当然的 - 之前没叫也work. 是因为下层editor直接用了onChange, 直接回给东西. 然后, 重点来了, 下层editor给的原来不是EditorState, 是一个什么raw blocks. 而**draftToHtml**竟然就是作用在这个上面的. 如果收到string, return string. 如果收到这个, return 正确结果. 如果收到EditorState, return ''! 这真是日了狗了.
+
+最后去查了draftjs-to-html实际用法(还好当时的想法是options也许有有用的, 才去查看了. 源码只有压缩过的, 不友好!), 然后发现到不对. 最后的fix长成这样:
+
+```
+public componentDidMount() {
+  this.props.onChange!(convertToRaw(this.state.editorState.getCurrentContent()));
+}
+```

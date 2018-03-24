@@ -1,7 +1,7 @@
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import './DigestEditorObject.css';
 
-import { ContentState, convertFromHTML, EditorState } from 'draft-js';
+import { ContentState, convertFromHTML, EditorState, convertToRaw } from 'draft-js';
 import DraftToHtml from 'draftjs-to-html';
 import HtmlToDraft from 'html-to-draftjs';
 import * as React from 'react';
@@ -237,7 +237,7 @@ export interface DraftProps {
     }>;
   }>;
   editorValue?: string;
-  onChange?: (editorState: EditorState) => void;
+  onChange?: (rawState: any) => void;
   /** */
   locale?: string;
   [key: string]: any;
@@ -252,14 +252,6 @@ export interface DraftState {
  * @extends {React.Component<DraftProps, DraftState>}
  */
 class Draft extends React.Component<DraftProps, DraftState> {
-  constructor(props: DraftProps) {
-    super(props);
-    const { editorValue } = this.props;
-    const editorState = (editorValue && htmlToDraft(editorValue)) || EmptyState;
-    this.state = { editorState };
-    this.props.onChange!(editorState);
-  }
-
   public static defaultProps: DraftProps = {
     toolbar: {
       options: [
@@ -285,6 +277,18 @@ class Draft extends React.Component<DraftProps, DraftState> {
     },
     locale: 'en',
   };
+
+  constructor(props: DraftProps) {
+    super(props);
+    const { editorValue } = this.props;
+    const editorState = (editorValue && htmlToDraft(editorValue)) || EmptyState;
+    this.state = { editorState };
+  }
+
+  public componentDidMount() {
+    this.props.onChange!(convertToRaw(this.state.editorState.getCurrentContent()));
+  }
+
   public render() {
     return (
       <Editor
@@ -298,7 +302,6 @@ class Draft extends React.Component<DraftProps, DraftState> {
         editorState={this.state.editorState}
         onEditorStateChange={(editorState) => {
           this.setState({ editorState });
-          this.props.onChange!(editorState);
         }}
       />
     );
