@@ -11,6 +11,8 @@ const PREFIX =
   '/';
 const apis = {
   apiTest: 'api/apiTest',
+  errReport: 'api/errReport',
+
   login: 'api/login',
   logout: 'api/logout',
 
@@ -22,7 +24,9 @@ const apis = {
   postTodo: 'api/postTodo',
   deleteTodo: 'api/deleteTodo',
 
-  errReport: 'api/errReport',
+  getDigests: 'api/getDigests',
+  postDigest: 'api/postDigest',
+  deleteDigest: 'api/deleteDigest',
 };
 
 export class ErrResponse {
@@ -312,6 +316,99 @@ const deleteTodo = (params: DeleteTodoParams) => {
   });
 };
 
+export class Digest {
+  public _id?: string;
+  public createTimestamp: number;
+  public lastModified: number;
+  public title: string;
+  public tags: string[];
+  public content: string;
+}
+class GetDigestsParams {
+  public owner: string;
+}
+export class GetDigestsResponse {
+  public data: Digest[];
+}
+const getDigests = (params: GetDigestsParams) => {
+  const url = appendQuery(PREFIX + apis.getDigests, params);
+  return new Promise((resolve, reject) => {
+    fetch(url, {
+      credentials: 'same-origin',
+    }).then(
+      (res) => {
+        resolve(res.json());
+      },
+      (err) => {
+        reject(err);
+      }
+    );
+  });
+};
+class PostDigestParams {
+  public data: {
+    owner: string;
+    digest: Digest;
+  };
+}
+export class PostDigestResponse {
+  public data: {
+    digest?: Digest;
+    n?: number;
+    nModified?: number;
+    ok?: number;
+  };
+}
+const postDigest = (params: PostDigestParams) => {
+  return new Promise((resolve, reject) => {
+    fetch(PREFIX + apis.postTodo, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'same-origin',
+      body: JSON.stringify(params),
+    }).then(
+      (res) => {
+        resolve(res.json());
+      },
+      (err) => {
+        reject(err);
+      }
+    );
+  });
+};
+class DeleteDigestParams {
+  public data: {
+    owner: string;
+    digest: Digest;
+  };
+}
+export class DeleteDigestResponse {
+  public data: {
+    digest: Digest;
+  };
+}
+const deleteDigest = (params: DeleteDigestParams) => {
+  return new Promise((resolve, reject) => {
+    fetch(PREFIX + apis.deleteDigest, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'same-origin',
+      body: JSON.stringify(params),
+    }).then(
+      (res) => {
+        resolve(res.json());
+      },
+      (err) => {
+        reject(err);
+      }
+    );
+  });
+};
+
 export default {
   apiTest,
   login,
@@ -325,4 +422,6 @@ export default {
   getTodos,
   postTodo,
   deleteTodo,
+
+  deleteDigest, 
 };

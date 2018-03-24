@@ -4,6 +4,7 @@ import DraftToHtml from 'draftjs-to-html';
 import React from 'react';
 
 import DigestEditorObject from 'components/DigestEditorObject';
+import DigestTags from 'components/DigestTags';
 import { connect } from 'react-redux';
 import { ReduxState, User } from 'reducers';
 
@@ -47,6 +48,7 @@ class DigestEditorForm extends React.Component<
         values.content = DraftToHtml(values.content);
       }
       onSubmit();
+      console.log('XXX values', values);
     });
   };
 
@@ -62,6 +64,13 @@ class DigestEditorForm extends React.Component<
               rules: [{ required: true, message: 'Title required' }],
               initialValue: '',
             })(<Input prefix={<Icon type="plus" />} placeholder="Title" />)}
+          </Form.Item>
+          <Form.Item>
+            {getFieldDecorator('tags', {
+              rules: [],
+              initialValue: '',
+              valuePropName: 'tags',
+            })(<DigestTags />)}
           </Form.Item>
           <Form.Item>
             {getFieldDecorator('content', {

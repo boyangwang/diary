@@ -26,6 +26,7 @@ Example for an `{entry}` object that will be used in the following
   "_id": "5aae5d46c53c46492ce1086a"
 }
 ```
+
 Example for an `{todo}` object that will be used in the following
 ```json
 {
@@ -35,6 +36,18 @@ Example for an `{todo}` object that will be used in the following
   "priority": 3,
   "check": "false",
   "_id": "5aae5d46c53c46492ce1086a"
+}
+```
+
+Example for an `{digest}` object that will be used in the following
+```json
+{
+  "createTimestamp": 1521819342901,
+  "lastModified": 1521819342901,
+  "title": "test title",
+  "content": "<p>test</p>",
+  "tags": ["tag1", "tag2", "tag3"],
+  "_id": "5aae5d46c53c46492ce1086a",
 }
 ```
 

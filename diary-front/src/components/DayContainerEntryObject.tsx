@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { ReduxState, User } from 'reducers';
 import { dispatch } from 'reducers/store';
 import api, { DeleteEntryResponse, Entry, ErrResponse } from 'utils/api';
-import AddEntryFormContainer from './AddEntryFormContainer';
+import EntryFormContainer from './EntryFormContainer';
 
 class Props {
   public entry: Entry;
@@ -95,7 +95,7 @@ class DayContainerEntryObject extends React.Component<
           footer={null}
           closable={false}
         >
-          <AddEntryFormContainer
+          <EntryFormContainer
             entry={entry}
             buttonText={'Edit entry'}
             onSubmit={() =>

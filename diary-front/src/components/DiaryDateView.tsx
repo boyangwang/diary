@@ -3,7 +3,7 @@ import './DiaryDateView.css';
 import { Button, Col, Row } from 'antd';
 import React from 'react';
 
-import AddEntryFormContainer from 'components/AddEntryFormContainer';
+import EntryFormContainer from 'components/EntryFormContainer';
 import DiaryTrendChartContainer from 'components/DiaryTrendChartContainer';
 import WeekContainer from 'components/WeekContainer';
 import util from 'utils/util';
@@ -38,7 +38,7 @@ class DiaryDateView extends React.Component<{}, State> {
             </div>
           </Col>
           <Col span={20}>
-            <AddEntryFormContainer />
+            <EntryFormContainer />
           </Col>
           <Col span={2}>
             <div className="ArrowButtonDiv">

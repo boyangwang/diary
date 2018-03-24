@@ -10,7 +10,7 @@ import {
 import React from 'react';
 import { connect } from 'react-redux';
 
-import AddTodoFormContainer from 'components/AddTodoFormContainer';
+import TodoFormContainer from 'components/TodoFormContainer';
 import TodoObject from 'components/TodoObject';
 import { ReduxState, User } from 'reducers';
 import { dispatch } from 'reducers/store';
@@ -107,7 +107,7 @@ class TodoView extends React.Component<ReduxProps> {
             this.renderContent()
           )}
         </Card>
-        <AddTodoFormContainer />
+        <TodoFormContainer />
       </div>
     );
   }

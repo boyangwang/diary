@@ -12,7 +12,7 @@ import api, {
   PostTodoResponse,
   Todo,
 } from 'utils/api';
-import AddTodoFormContainer from './AddTodoFormContainer';
+import TodoFormContainer from './TodoFormContainer';
 
 class Props {
   public todo: Todo;
@@ -143,7 +143,7 @@ class TodoObject extends React.Component<Props & ReduxProps, State> {
           footer={null}
           closable={false}
         >
-          <AddTodoFormContainer
+          <TodoFormContainer
             todo={todo}
             buttonText={'Edit todo'}
             onSubmit={() =>

@@ -46,3 +46,11 @@ same for delete button
 
 7.
 shows sum of points for date every day
+
+## Digest flow
+
+1. DigestView = DigestContainer + DigestForm
+
+2. DigestContainer, collapsed, all digests, sorted by last modified
+
+3. DigestForm, add new one or edit, same logic

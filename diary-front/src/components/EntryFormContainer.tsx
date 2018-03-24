@@ -16,11 +16,11 @@ import { connect } from 'react-redux';
 
 import { ReduxState, User } from 'reducers';
 import { dispatch } from 'reducers/store';
-import api, { ErrResponse, PostTodoResponse, Todo } from 'utils/api';
+import api, { Entry, ErrResponse, PostEntryResponse } from 'utils/api';
 import util from 'utils/util';
 
 class Props {
-  public todo?: Todo;
+  public entry?: Entry;
   public buttonText?: string;
   public form?: any;
   public onSubmit?: () => void;
@@ -32,16 +32,14 @@ class PropsDefaults {
 class ReduxProps {
   public user: User | null;
 }
-class AddTodoFormValues {
+class EntryFormValues {
   public _id?: string;
-  public date: string;
+  public date: moment.Moment;
   public title: string;
   public content: string;
-  public priority: number;
-  public check: boolean;
-  public dueDate?: moment.Moment;
+  public points: number;
 }
-class AddTodoFormContainer extends React.Component<
+class EntryFormContainer extends React.Component<
   Props & PropsDefaults & ReduxProps & FormComponentProps,
   {}
 > {
@@ -54,31 +52,29 @@ class AddTodoFormContainer extends React.Component<
     if (!user) {
       return;
     }
-    validateFields((validateErr: any, values: AddTodoFormValues) => {
+    validateFields((validateErr: any, values: EntryFormValues) => {
       if (validateErr) {
         return;
       }
-      const todo: Todo = Object.assign({}, values, {
-        dueDate: values.dueDate
-          ? values.dueDate.format(util.dateStringFormat)
-          : null,
+      const entry: Entry = Object.assign({}, values, {
+        date: values.date.format(util.dateStringFormat),
       });
       api
-        .postTodo({ data: { todo, owner: user.username } })
+        .postEntry({ data: { entry, owner: user.username } })
         .then(
-          (data: PostTodoResponse & ErrResponse) => {
+          (data: PostEntryResponse & ErrResponse) => {
             if (data.err) {
               message.warn('' + data.err);
             } else {
-              if (data.data.todo) {
+              if (data.data.entry) {
                 dispatch({
-                  type: 'POST_TODO',
-                  payload: { todo: data.data.todo },
+                  type: 'POST_ENTRY',
+                  payload: { entry: data.data.entry },
                 });
               } else {
                 dispatch({
-                  type: 'UPDATE_TODO',
-                  payload: { todo },
+                  type: 'UPDATE_ENTRY',
+                  payload: { entry },
                 });
               }
             }
@@ -96,49 +92,52 @@ class AddTodoFormContainer extends React.Component<
 
   public render() {
     const { getFieldDecorator } = this.props.form;
-    const { buttonText, todo } = this.props;
+    const { buttonText, entry } = this.props;
 
     return (
       <Card>
-        <Form onSubmit={this.handleSubmit} className="AddTodoFormContainer">
+        <Form onSubmit={this.handleSubmit} className="EntryFormContainer">
           <Form.Item>
             {getFieldDecorator('title', {
               rules: [{ required: true, message: 'Title required' }],
-              initialValue: _.get(todo, 'title'),
+              initialValue: _.get(entry, 'title'),
+              normalize: (
+                value: string,
+                prevValue: string,
+                allValues: string[]
+              ) => {
+                if (!value) {
+                  return '';
+                } else if (!_.isString(value)) {
+                  return value;
+                } else {
+                  return value.toLocaleLowerCase();
+                }
+              },
             })(<Input prefix={<Icon type="plus" />} placeholder="Title" />)}
           </Form.Item>
           <Form.Item>
-            {getFieldDecorator('priority', {
-              rules: [{ required: true, message: 'Priority required' }],
-              initialValue: _.get(todo, 'priority') || 12,
-            })(<InputNumber placeholder="Priority" />)}
-          </Form.Item>
-          <Form.Item>
-            {getFieldDecorator('dueDate', {
-              rules: [],
-              initialValue: _.get(todo, 'dueDate')
-                ? moment(_.get(todo, 'dueDate'))
-                : moment(),
-            })(<DatePicker placeholder="Due date" />)}
+            {getFieldDecorator('points', {
+              rules: [{ required: true, message: 'Points required' }],
+              initialValue: _.get(entry, 'points') || 2,
+            })(<InputNumber placeholder="Points" />)}
           </Form.Item>
           <Form.Item>
             {getFieldDecorator('content', {
               rules: [],
-              initialValue: _.get(todo, 'content'),
+              initialValue: _.get(entry, 'content'),
             })(<Input placeholder="Content" />)}
           </Form.Item>
-          <Form.Item className="hidden">
+          <Form.Item>
             {getFieldDecorator('date', {
-              rules: [],
-              initialValue:
-                _.get(todo, 'date') || util.getTodayStringWithOffset(),
-            })(<Input type="hidden" />)}
-          </Form.Item>
-          <Form.Item className="hidden">
-            {getFieldDecorator('check', {
-              rules: [],
-              initialValue: _.get(todo, 'check') || false,
-            })(<Input type="hidden" />)}
+              rules: [{ required: true, message: 'Date required' }],
+              initialValue: _.get(entry, 'date')
+                ? moment(_.get(entry, 'date'))
+                : moment(),
+            })(
+              // if editing entry, do not allow change date (for now)
+              <DatePicker disabled={!!_.get(entry, 'date')} />
+            )}
           </Form.Item>
           <Button type="primary" htmlType="submit">
             {buttonText}
@@ -146,7 +145,7 @@ class AddTodoFormContainer extends React.Component<
           <Form.Item className="hidden">
             {getFieldDecorator('_id', {
               rules: [],
-              initialValue: _.get(todo, '_id'),
+              initialValue: _.get(entry, '_id'),
             })(<Input type="hidden" />)}
           </Form.Item>
         </Form>
@@ -154,10 +153,10 @@ class AddTodoFormContainer extends React.Component<
     );
   }
 }
-const WrappedAddTodoFormContainer = Form.create()(AddTodoFormContainer);
+const WrappedEntryFormContainer = Form.create()(EntryFormContainer);
 
 export default connect<ReduxProps, {}, Props>((state: ReduxState) => {
   return {
     user: state.user,
   };
-})(WrappedAddTodoFormContainer as any);
+})(WrappedEntryFormContainer as any);
