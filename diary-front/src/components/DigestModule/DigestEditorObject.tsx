@@ -1,7 +1,12 @@
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import './DigestEditorObject.css';
 
-import { ContentState, convertFromHTML, EditorState, convertToRaw } from 'draft-js';
+import {
+  ContentState,
+  convertFromHTML,
+  convertToRaw,
+  EditorState,
+} from 'draft-js';
 import DraftToHtml from 'draftjs-to-html';
 import HtmlToDraft from 'html-to-draftjs';
 import * as React from 'react';
@@ -286,7 +291,9 @@ class Draft extends React.Component<DraftProps, DraftState> {
   }
 
   public componentDidMount() {
-    this.props.onChange!(convertToRaw(this.state.editorState.getCurrentContent()));
+    this.props.onChange!(
+      convertToRaw(this.state.editorState.getCurrentContent())
+    );
   }
 
   public render() {
