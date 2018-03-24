@@ -423,5 +423,7 @@ export default {
   postTodo,
   deleteTodo,
 
+  getDigests,
+  postDigest,
   deleteDigest,
 };

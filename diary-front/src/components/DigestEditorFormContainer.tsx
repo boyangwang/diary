@@ -4,7 +4,7 @@ import DraftToHtml from 'draftjs-to-html';
 import React from 'react';
 
 import DigestEditorObject from 'components/DigestEditorObject';
-import DigestTags from 'components/DigestTags';
+import DigestTagsObject from 'components/DigestTagsObject';
 import { connect } from 'react-redux';
 import { ReduxState, User } from 'reducers';
 
@@ -27,7 +27,7 @@ class FormValues {
   public title: string;
   public content: any;
 }
-class DigestEditorForm extends React.Component<
+class DigestEditorFormContainer extends React.Component<
   Props & PropsDefaults & ReduxProps & FormComponentProps,
   State
 > {
@@ -58,7 +58,7 @@ class DigestEditorForm extends React.Component<
 
     return (
       <Card>
-        <Form onSubmit={this.handleSubmit} className="DigestEditorForm">
+        <Form onSubmit={this.handleSubmit} className="DigestEditorFormContainer">
           <Form.Item>
             {getFieldDecorator('title', {
               rules: [{ required: true, message: 'Title required' }],
@@ -70,7 +70,7 @@ class DigestEditorForm extends React.Component<
               rules: [],
               initialValue: '',
               valuePropName: 'tags',
-            })(<DigestTags />)}
+            })(<DigestTagsObject />)}
           </Form.Item>
           <Form.Item>
             {getFieldDecorator('content', {
@@ -86,9 +86,9 @@ class DigestEditorForm extends React.Component<
     );
   }
 }
-const WrappedDigestEditorForm = Form.create()(DigestEditorForm);
+const WrappedDigestEditorFormContainer = Form.create()(DigestEditorFormContainer);
 export default connect<ReduxProps, {}, Props>((state: ReduxState) => {
   return {
     user: state.user,
   };
-})(WrappedDigestEditorForm as any);
+})(WrappedDigestEditorFormContainer as any);

@@ -11,7 +11,7 @@ class StateDefaults {
   public inputVisible = false;
   public inputValue = '';
 }
-class DigestTags extends React.Component<{}, State> {
+class DigestTagsObject extends React.Component<{}, State> {
   public tags: string[] = [];
   public input: Input | null = null;
 
@@ -101,4 +101,4 @@ class DigestTags extends React.Component<{}, State> {
     );
   }
 }
-export default DigestTags;
+export default DigestTagsObject;

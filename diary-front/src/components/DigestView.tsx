@@ -1,6 +1,6 @@
 import React from 'react';
 
-import DigestEditorForm from 'components/DigestEditorForm';
+import DigestEditorFormContainer from 'components/DigestEditorFormContainer';
 
 class Props {}
 class State {}
@@ -8,7 +8,7 @@ class DigestView extends React.Component<Props, State> {
   public render() {
     return (
       <div className="DigestView">
-        <DigestEditorForm />
+        <DigestEditorFormContainer />
       </div>
     );
   }
