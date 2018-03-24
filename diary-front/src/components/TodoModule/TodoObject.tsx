@@ -157,7 +157,6 @@ class TodoObject extends React.Component<Props & ReduxProps, State> {
     );
   }
 }
-
 export default connect((state: ReduxState) => {
   return {
     user: state.user,

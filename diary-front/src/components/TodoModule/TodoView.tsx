@@ -1,12 +1,6 @@
 import './TodoView.css';
 
-import {
-  Card,
-  Collapse,
-  Icon,
-  List,
-  // message
-} from 'antd';
+import { Card, Collapse, List } from 'antd';
 import React from 'react';
 import { connect } from 'react-redux';
 
@@ -14,12 +8,7 @@ import TodoFormContainer from 'components/TodoModule/TodoFormContainer';
 import TodoObject from 'components/TodoModule/TodoObject';
 import { ReduxState, User } from 'reducers';
 import { dispatch } from 'reducers/store';
-import api, {
-  ErrResponse,
-  GetTodosResponse,
-  // PostTodoResponse,
-  Todo,
-} from 'utils/api';
+import api, { ErrResponse, GetTodosResponse, Todo } from 'utils/api';
 import util from 'utils/util';
 
 class ReduxProps {
@@ -99,15 +88,9 @@ class TodoView extends React.Component<ReduxProps> {
     return (
       <div className="TodoView">
         <Card title="TodoView">
-          {!todos ? (
-            <Icon type="loading" />
-          ) : todos.length === 0 ? (
-            'Empty'
-          ) : (
-            this.renderContent()
-          )}
+          {todos.length === 0 ? 'Empty' : this.renderContent()}
+          <TodoFormContainer />
         </Card>
-        <TodoFormContainer />
       </div>
     );
   }

@@ -1,8 +1,11 @@
 import { Icon, Input, Tag, Tooltip } from 'antd';
 import React from 'react';
 
-class Props {}
+class Props {
+  public onChange?: (tags: string[]) => void;
+}
 class State {
+  public tags: string[];
   public inputVisible: boolean;
   public inputValue: string;
 }
@@ -11,8 +14,10 @@ class StateDefaults {
   public inputVisible = false;
   public inputValue = '';
 }
-class DigestTagsObject extends React.Component<{}, State> {
-  public tags: string[] = [];
+class DigestTagsObject extends React.Component<Props, State> {
+  public static defaultProps: Partial<Props> = {
+    onChange: (tags: string[]) => {}
+  };
   public input: Input | null = null;
 
   constructor(props: Props) {
@@ -21,9 +26,9 @@ class DigestTagsObject extends React.Component<{}, State> {
   }
 
   public handleClose = (removedTag: string) => {
-    const tags = this.tags.filter((tag) => tag !== removedTag);
-    console.log(tags);
-    this.tags = tags;
+    const tags = this.state.tags.filter((tag) => tag !== removedTag);
+    this.setState({ tags });
+    this.props.onChange!(tags);
   };
 
   public showInput = () => {
@@ -40,23 +45,23 @@ class DigestTagsObject extends React.Component<{}, State> {
   public handleInputConfirm = () => {
     const state = this.state;
     const inputValue = state.inputValue;
-    let tags = this.tags;
+    let tags = this.state.tags;
     if (inputValue && tags.indexOf(inputValue) === -1) {
       tags = [...tags, inputValue];
     }
-    console.log(tags);
     this.setState({
+      tags,
       inputVisible: false,
       inputValue: '',
     });
-    this.tags = tags;
+    this.props.onChange!(tags);
   };
 
   public saveInputRef = (input: Input | null) => (this.input = input);
 
   public render() {
     const { inputVisible, inputValue } = this.state;
-    const tags = this.tags;
+    const tags = this.state.tags;
     return (
       <div>
         {tags.map((tag, index) => {

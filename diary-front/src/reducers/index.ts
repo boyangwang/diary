@@ -12,6 +12,7 @@ export class ReduxState {
     [date: string]: Entry[];
   };
   public todos: Todo[];
+  public digests: Todo[];
 }
 const INITIAL_STATE: ReduxState = {
   user: null,
@@ -19,6 +20,7 @@ const INITIAL_STATE: ReduxState = {
   frontendVersion: null,
   entriesDateMap: {},
   todos: [],
+  digests: [],
 };
 export class Action {
   public type: string;
