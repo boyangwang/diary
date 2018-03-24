@@ -4,10 +4,10 @@ import { Button, Layout, Menu, message } from 'antd';
 import React from 'react';
 import { connect } from 'react-redux';
 
-import DiaryDateView from 'components/DiaryDateView';
-import DigestView from 'components/DigestView';
+import EntryView from 'components/EntryModule/EntryView';
+import DigestView from 'components/DigestModule/DigestView';
 import LoginView from 'components/LoginView';
-import TodoView from 'components/TodoView';
+import TodoView from 'components/TodoModule/TodoView';
 import { ReduxState, User } from 'reducers';
 import { dispatch } from 'reducers/store';
 import api, { ApiTestResponse, ErrResponse } from 'utils/api';
@@ -84,7 +84,7 @@ class DiaryApp extends React.Component<ReduxProps> {
           <Layout.Content>
             {user ? (
               <div>
-                <DiaryDateView />
+                <EntryView />
                 <TodoView />
                 <DigestView />
               </div>

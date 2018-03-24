@@ -1,14 +1,14 @@
-.WeekContainer {
+.EntryWeekContainer {
   display: flex;
   justify-content: space-between;
   overflow: scroll;
 }
 
-.WeekContainerCard > .ant-card-body {
+.EntryWeekContainerCard > .ant-card-body {
   padding: 0;
 }
 
-.WeekContainerCard > .ant-card-body
+.EntryWeekContainerCard > .ant-card-body
 .ant-collapse-content > .ant-collapse-content-box {
   max-height: 600px;
   overflow: scroll;

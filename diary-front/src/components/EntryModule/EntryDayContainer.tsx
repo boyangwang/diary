@@ -1,11 +1,11 @@
-import './DayContainer.css';
+import './EntryDayContainer.css';
 
 import { Badge, Card, Icon, message } from 'antd';
 import classnames from 'classnames';
 import React from 'react';
 import { connect } from 'react-redux';
 
-import DayContainerEntryObject from 'components/DayContainerEntryObject';
+import EntryDayContainerEntryObject from 'components/EntryModule/EntryDayObject';
 import ReactDOM from 'react-dom';
 import { ReduxState, User } from 'reducers';
 import { dispatch } from 'reducers/store';
@@ -25,7 +25,7 @@ class ReduxProps {
 class State {
   public err: null | any = null;
 }
-class DayContainer extends React.Component<Props & ReduxProps, State> {
+class EntryDayContainer extends React.Component<Props & ReduxProps, State> {
   public static defaultProps = new Props();
   public selfComponent: React.Component | null = null;
 
@@ -81,15 +81,15 @@ class DayContainer extends React.Component<Props & ReduxProps, State> {
     const { date, entriesDateMap } = this.props;
     if (!entriesDateMap[date]) {
       return (
-        <div className="DayContainerContentDiv">
+        <div className="EntryDayContainerContentDiv">
           <Icon type="loading" />
         </div>
       );
     }
     return (
-      <div className="DayContainerContentDiv">
+      <div className="EntryDayContainerContentDiv">
         {entriesDateMap[date].map((entry) => {
-          return <DayContainerEntryObject entry={entry} key={entry._id} />;
+          return <EntryDayContainerEntryObject entry={entry} key={entry._id} />;
         })}
       </div>
     );
@@ -123,7 +123,7 @@ class DayContainer extends React.Component<Props & ReduxProps, State> {
     return (
       <Card
         ref={(ref) => (this.selfComponent = ref)}
-        className="DayContainer"
+        className="EntryDayContainer"
         title={<div className={dateClassNames}>{date}</div>}
         extra={this.renderSum()}
       >
@@ -138,4 +138,4 @@ export default connect<ReduxProps, {}, Props>((state: ReduxState) => {
     entriesDateMap: state.entriesDateMap,
     user: state.user,
   };
-})(DayContainer as any);
+})(EntryDayContainer as any);

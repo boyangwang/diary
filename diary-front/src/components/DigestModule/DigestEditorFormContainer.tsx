@@ -3,8 +3,8 @@ import { FormComponentProps } from 'antd/lib/form/Form';
 import DraftToHtml from 'draftjs-to-html';
 import React from 'react';
 
-import DigestEditorObject from 'components/DigestEditorObject';
-import DigestTagsObject from 'components/DigestTagsObject';
+import DigestEditorObject from 'components/DigestModule/DigestEditorObject';
+import DigestTagsObject from 'components/DigestModule/DigestTagsObject';
 import { connect } from 'react-redux';
 import { ReduxState, User } from 'reducers';
 

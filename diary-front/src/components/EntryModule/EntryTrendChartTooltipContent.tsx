@@ -60,10 +60,10 @@ class PropsDefaults {
   public labelStyle: {};
 }
 @pureRender
-class DiaryTrendChartTooltipContent extends React.Component<
+class EntryTrendChartTooltipContent extends React.Component<
   Props & PropsDefaults
 > {
-  public static displayName = 'DiaryTrendChartTooltipContent';
+  public static displayName = 'EntryTrendChartTooltipContent';
   public static defaultProps = new PropsDefaults();
 
   public renderContent() {
@@ -162,4 +162,4 @@ class DiaryTrendChartTooltipContent extends React.Component<
   }
 }
 
-export default DiaryTrendChartTooltipContent;
+export default EntryTrendChartTooltipContent;

@@ -1,4 +1,4 @@
-import './DayContainerEntryObject.css';
+import './EntryDayObject.css';
 
 import { Alert, Button, Card, message, Modal } from 'antd';
 import React from 'react';
@@ -18,7 +18,7 @@ class ReduxProps {
 class State {
   public editVisible: boolean = false;
 }
-class DayContainerEntryObject extends React.Component<
+class EntryDayObject extends React.Component<
   Props & ReduxProps,
   State
 > {
@@ -52,7 +52,7 @@ class DayContainerEntryObject extends React.Component<
   public render() {
     const { entry } = this.props;
     return (
-      <Card className="DayContainerEntryObject">
+      <Card className="EntryDayObject">
         <h4 className="title">{entry.title}</h4>
         <div className="_id grey">{entry._id}</div>
         <div className="points">
@@ -114,4 +114,4 @@ export default connect<ReduxProps, {}, Props>((state: ReduxState) => {
   return {
     user: state.user,
   };
-})(DayContainerEntryObject as any);
+})(EntryDayObject as any);

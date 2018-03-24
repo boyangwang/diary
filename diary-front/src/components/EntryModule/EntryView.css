@@ -1,0 +1,8 @@
+.EntryView .ArrowButtonDiv {
+  display: flex;
+  justify-content: center;
+}
+
+.EntryView > .ant-card-body {
+  padding: 0;
+}

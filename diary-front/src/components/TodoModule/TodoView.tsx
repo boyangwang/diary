@@ -10,8 +10,8 @@ import {
 import React from 'react';
 import { connect } from 'react-redux';
 
-import TodoFormContainer from 'components/TodoFormContainer';
-import TodoObject from 'components/TodoObject';
+import TodoFormContainer from 'components/TodoModule/TodoFormContainer';
+import TodoObject from 'components/TodoModule/TodoObject';
 import { ReduxState, User } from 'reducers';
 import { dispatch } from 'reducers/store';
 import api, {

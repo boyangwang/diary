@@ -12,9 +12,9 @@ import {
   YAxis,
 } from 'recharts';
 
-import DiaryTrendChartTooltipContent, {
+import EntryTrendChartTooltipContent, {
   TooltipPayload,
-} from 'components/DiaryTrendChartTooltipContent';
+} from 'components/EntryModule/EntryTrendChartTooltipContent';
 import { ReduxState, User } from 'reducers';
 import { dispatch } from 'reducers/store';
 import api, { Entry, ErrResponse, GetEntriesResponse } from 'utils/api';
@@ -79,7 +79,7 @@ class State {
     .map((offset) => util.getTodayStringWithOffset(-offset))
     .reverse();
 }
-class DiaryTrendChartContainer extends React.Component<ReduxProps, State> {
+class EntryTrendChartContainer extends React.Component<ReduxProps, State> {
   constructor(props: ReduxProps) {
     super(props);
     this.state = new State();
@@ -217,7 +217,7 @@ class DiaryTrendChartContainer extends React.Component<ReduxProps, State> {
     const { entriesDateMap } = this.props;
     const { last14Days, isLoading, err } = this.state;
     if (isLoading) {
-      return <h1>DiaryTrendChartContainer loading...</h1>;
+      return <h1>EntryTrendChartContainer loading...</h1>;
     } else if (err) {
       return util.errComponent;
     }
@@ -257,7 +257,7 @@ class DiaryTrendChartContainer extends React.Component<ReduxProps, State> {
             cursor={true}
             itemSorter={(a: any, b: any) => b.value - a.value}
             content={(props: any) => (
-              <DiaryTrendChartTooltipContent
+              <EntryTrendChartTooltipContent
                 {...props}
                 filter={(data: TooltipPayload) => {
                   if (
@@ -285,4 +285,4 @@ export default connect<ReduxProps, {}, Props>((state: ReduxState) => {
     entriesDateMap: state.entriesDateMap,
     user: state.user,
   };
-})(DiaryTrendChartContainer as any);
+})(EntryTrendChartContainer as any);

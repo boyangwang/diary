@@ -1,6 +1,6 @@
 import React from 'react';
 
-import DigestEditorFormContainer from 'components/DigestEditorFormContainer';
+import DigestEditorFormContainer from 'components/DigestModule/DigestEditorFormContainer';
 
 class Props {}
 class State {}

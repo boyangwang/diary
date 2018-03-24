@@ -1,17 +1,17 @@
-import './DiaryDateView.css';
+import './EntryView.css';
 
 import { Button, Col, Row } from 'antd';
 import React from 'react';
 
-import DiaryTrendChartContainer from 'components/DiaryTrendChartContainer';
-import EntryFormContainer from 'components/EntryFormContainer';
-import WeekContainer from 'components/WeekContainer';
+import EntryTrendChartContainer from 'components/EntryModule/EntryTrendChartContainer';
+import EntryFormContainer from 'components/EntryModule/EntryFormContainer';
+import EntryWeekContainer from 'components/EntryModule/EntryWeekContainer';
 import util from 'utils/util';
 
 class State {
   public offset: number = 0;
 }
-class DiaryDateView extends React.Component<{}, State> {
+class EntryView extends React.Component<{}, State> {
   constructor(props: {}) {
     super(props);
     this.state = new State();
@@ -26,7 +26,7 @@ class DiaryDateView extends React.Component<{}, State> {
   public render() {
     const { offset } = this.state;
     return (
-      <div className="DiaryDateView">
+      <div className="EntryView">
         <Row type="flex" justify="space-between">
           <Col span={2}>
             <div className="ArrowButtonDiv">
@@ -50,10 +50,10 @@ class DiaryDateView extends React.Component<{}, State> {
             </div>
           </Col>
         </Row>
-        <DiaryTrendChartContainer />
-        <WeekContainer date={util.getTodayStringWithOffset(offset * 7)} />
+        <EntryTrendChartContainer />
+        <EntryWeekContainer date={util.getTodayStringWithOffset(offset * 7)} />
       </div>
     );
   }
 }
-export default DiaryDateView;
+export default EntryView;
