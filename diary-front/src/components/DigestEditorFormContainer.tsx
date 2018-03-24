@@ -58,7 +58,10 @@ class DigestEditorFormContainer extends React.Component<
 
     return (
       <Card>
-        <Form onSubmit={this.handleSubmit} className="DigestEditorFormContainer">
+        <Form
+          onSubmit={this.handleSubmit}
+          className="DigestEditorFormContainer"
+        >
           <Form.Item>
             {getFieldDecorator('title', {
               rules: [{ required: true, message: 'Title required' }],
@@ -86,7 +89,9 @@ class DigestEditorFormContainer extends React.Component<
     );
   }
 }
-const WrappedDigestEditorFormContainer = Form.create()(DigestEditorFormContainer);
+const WrappedDigestEditorFormContainer = Form.create()(
+  DigestEditorFormContainer
+);
 export default connect<ReduxProps, {}, Props>((state: ReduxState) => {
   return {
     user: state.user,
