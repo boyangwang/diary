@@ -16,7 +16,7 @@ class StateDefaults {
 }
 class DigestTagsObject extends React.Component<Props, State> {
   public static defaultProps: Partial<Props> = {
-    onChange: (tags: string[]) => {}
+    onChange: (tags: string[]) => {},
   };
   public input: Input | null = null;
 
