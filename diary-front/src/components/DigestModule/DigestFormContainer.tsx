@@ -3,7 +3,9 @@ import { FormComponentProps } from 'antd/lib/form/Form';
 import * as _ from 'lodash';
 import React from 'react';
 
-import DigestEditorObject, { draftToHtml } from 'components/DigestModule/DigestEditorObject';
+import DigestEditorObject, {
+  draftToHtml,
+} from 'components/DigestModule/DigestEditorObject';
 import DigestTagsObject from 'components/DigestModule/DigestTagsObject';
 import { EditorState } from 'draft-js';
 import { connect } from 'react-redux';

@@ -2,12 +2,12 @@ import './DigestObject.css';
 
 import React from 'react';
 
+import { Button, List, message, Modal } from 'antd';
+import DigestFormContainer from 'components/DigestModule/DigestFormContainer';
 import { connect } from 'react-redux';
 import { ReduxState, User } from 'reducers';
-import api, { Digest, DeleteDigestResponse, ErrResponse } from 'utils/api';
-import { message, List, Button, Modal } from 'antd';
 import { dispatch } from 'reducers/store';
-import DigestFormContainer from 'components/DigestModule/DigestFormContainer';
+import api, { DeleteDigestResponse, Digest, ErrResponse } from 'utils/api';
 
 class Props {
   public digest: Digest;
@@ -50,7 +50,8 @@ class DigestObject extends React.Component<Props & ReduxProps, State> {
     const { digest } = this.props;
 
     return (
-      <List.Item className="DigestObject"
+      <List.Item
+        className="DigestObject"
         actions={[
           <Button
             className="editButton"

@@ -255,7 +255,7 @@ class Draft extends React.Component<DraftProps, DraftState> {
   constructor(props: DraftProps) {
     super(props);
     const { editorValue } = this.props;
-    let editorState = editorValue && htmlToDraft(editorValue) || EmptyState;
+    const editorState = (editorValue && htmlToDraft(editorValue)) || EmptyState;
     this.state = { editorState };
     this.props.onChange!(editorState);
   }
