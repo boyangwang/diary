@@ -361,7 +361,7 @@ export class PostDigestResponse {
 }
 const postDigest = (params: PostDigestParams) => {
   return new Promise((resolve, reject) => {
-    fetch(PREFIX + apis.postTodo, {
+    fetch(PREFIX + apis.postDigest, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
