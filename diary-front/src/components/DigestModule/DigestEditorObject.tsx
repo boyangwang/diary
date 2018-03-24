@@ -236,11 +236,15 @@ export interface DraftProps {
       redo: { icon: 'redo'; className?: string };
     }>;
   }>;
+  editorValue?: string;
+  onChange?: (editorState: EditorState) => void;
   /** */
   locale?: string;
   [key: string]: any;
 }
-export interface DraftState {}
+export interface DraftState {
+  editorState: EditorState;
+}
 /**
  * Draft
  *
@@ -248,6 +252,14 @@ export interface DraftState {}
  * @extends {React.Component<DraftProps, DraftState>}
  */
 class Draft extends React.Component<DraftProps, DraftState> {
+  constructor(props: DraftProps) {
+    super(props);
+    const { editorValue } = this.props;
+    let editorState = editorValue && htmlToDraft(editorValue) || EmptyState;
+    this.state = { editorState };
+    this.props.onChange!(editorState);
+  }
+
   public static defaultProps: DraftProps = {
     toolbar: {
       options: [
@@ -276,13 +288,18 @@ class Draft extends React.Component<DraftProps, DraftState> {
   public render() {
     return (
       <Editor
+        {...this.props}
         wrapperClassName="digest-draft-wrapper"
         editorClassName="digest-draft-editor"
         toolbarClassName="digest-draft-toolbar"
         placeholder="Heresy's digest"
         toolbar={this.props.toolbar}
         locale={this.props.locale}
-        {...this.props}
+        editorState={this.state.editorState}
+        onEditorStateChange={(editorState) => {
+          this.setState({ editorState });
+          this.props.onChange!(editorState);
+        }}
       />
     );
   }

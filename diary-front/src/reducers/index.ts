@@ -131,6 +131,43 @@ export default (state: ReduxState = INITIAL_STATE, action: Action) => {
       ...state,
       todos: newTodosArr,
     };
+  } else if (action.type === 'DIGESTS') {
+    return {
+      ...state,
+      ...action.payload,
+    };
+  } else if (action.type === 'POST_DIGEST') {
+    return {
+      ...state,
+      digests: [...state.digests, action.payload.digest],
+    };
+  } else if (action.type === 'UPDATE_DIGEST') {
+    let newDigestsArr = _.isArray(state.digests) ? state.digests.slice() : [];
+    const findIndex = newDigestsArr.findIndex(
+      (digest) => digest._id === action.payload.digest._id
+    );
+    newDigestsArr = [
+      ...newDigestsArr.slice(0, findIndex),
+      action.payload.digest,
+      ...newDigestsArr.slice(findIndex + 1),
+    ];
+    return {
+      ...state,
+      digests: newDigestsArr,
+    };
+  } else if (action.type === 'DELETE_DIGEST') {
+    let newDigestsArr = _.isArray(state.digests) ? state.digests.slice() : [];
+    const findIndex = newDigestsArr.findIndex(
+      (digest) => digest._id === action.payload.digest._id
+    );
+    newDigestsArr = [
+      ...newDigestsArr.slice(0, findIndex),
+      ...newDigestsArr.slice(findIndex + 1),
+    ];
+    return {
+      ...state,
+      digests: newDigestsArr,
+    };
   } else {
     return state;
   }

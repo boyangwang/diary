@@ -1,10 +1,9 @@
 import { Button, Card, Form, Icon, Input, message } from 'antd';
 import { FormComponentProps } from 'antd/lib/form/Form';
-import DraftToHtml from 'draftjs-to-html';
 import * as _ from 'lodash';
 import React from 'react';
 
-import DigestEditorObject from 'components/DigestModule/DigestEditorObject';
+import DigestEditorObject, { draftToHtml } from 'components/DigestModule/DigestEditorObject';
 import DigestTagsObject from 'components/DigestModule/DigestTagsObject';
 import { EditorState } from 'draft-js';
 import { connect } from 'react-redux';
@@ -26,7 +25,7 @@ class ReduxProps {
   public user: User | null;
 }
 class State {
-  public editorState: string;
+  public editorState: EditorState;
 }
 class DigestFormValues {
   public id?: string;
@@ -42,6 +41,11 @@ class DigestFormContainer extends React.Component<
 > {
   public static defaultProps = new PropsDefaults();
 
+  constructor(props: Props & PropsDefaults & ReduxProps & FormComponentProps) {
+    super(props);
+    this.state = new State();
+  }
+
   public handleSubmit = (e: any) => {
     e.preventDefault();
     const { user, onSubmit } = this.props;
@@ -54,7 +58,7 @@ class DigestFormContainer extends React.Component<
         return;
       }
       const digest: Digest = Object.assign({}, values, {
-        content: DraftToHtml(values.content),
+        content: draftToHtml(values.content),
         lastModified: Date.now(),
       });
       api
@@ -113,7 +117,17 @@ class DigestFormContainer extends React.Component<
             {getFieldDecorator('content', {
               rules: [],
               initialValue: _.get(digest, 'content') || '',
+              valuePropName: 'editorValue',
             })(<DigestEditorObject />)}
+          </Form.Item>
+          <Button type="primary" htmlType="submit">
+            {buttonText}
+          </Button>
+          <Form.Item className="hidden">
+            {getFieldDecorator('_id', {
+              rules: [],
+              initialValue: _.get(digest, '_id'),
+            })(<Input type="hidden" />)}
           </Form.Item>
           <Form.Item className="hidden">
             {getFieldDecorator('createTimestamp', {
@@ -121,9 +135,6 @@ class DigestFormContainer extends React.Component<
               initialValue: _.get(digest, 'createTimestamp') || Date.now(),
             })(<Input type="hidden" />)}
           </Form.Item>
-          <Button type="primary" htmlType="submit">
-            {buttonText}
-          </Button>
         </Form>
       </Card>
     );

@@ -2,6 +2,7 @@ import { Icon, Input, Tag, Tooltip } from 'antd';
 import React from 'react';
 
 class Props {
+  public tags?: string[];
   public onChange?: (tags: string[]) => void;
 }
 class State {
@@ -22,7 +23,9 @@ class DigestTagsObject extends React.Component<Props, State> {
 
   constructor(props: Props) {
     super(props);
-    this.state = new StateDefaults();
+    this.state = Object.assign({}, new StateDefaults(), {
+      tags: this.props.tags || [],
+    });
   }
 
   public handleClose = (removedTag: string) => {
@@ -69,7 +72,7 @@ class DigestTagsObject extends React.Component<Props, State> {
           const tagElem = (
             <Tag
               key={tag}
-              closable={index !== 0}
+              closable={true}
               afterClose={() => this.handleClose(tag)}
             >
               {isLongTag ? `${tag.slice(0, 20)}...` : tag}
