@@ -17,11 +17,11 @@ let appInstance, db;
 
 beforeAll(async () => {
   setTestObj({
-    date: '1970-01-01',
-    title: 'test title',
-    content: 'test content',
-    priority: 3,
-    check: false,
+    "createTimestamp": 1521819342901,
+    "lastModified": 1521819342901,
+    "title": "test title",
+    "content": "<p>test</p>",
+    "tags": ["tag1", "tag2", "tag3"],
   });
   db = await MongoClient.connect(mongoUrl);
   appInstance = await require('./server.js')({
@@ -32,41 +32,41 @@ beforeAll(async () => {
 });
 
 describe('api', async () => {
-  test('/api/getTodos require owner params', async () => {
+  test('/api/getDigests require owner params', async () => {
     await expectFetchUrlStatusCodeAndJson({
-      url: `http://localhost:${config.port}/api/getTodos`,
+      url: `http://localhost:${config.port}/api/getDigests`,
       expectStatusCode: 400,
       expectJson: { err: 'Missing param' },
     });
   });
 
-  test('/api/getTodos require owner params legal', async () => {
+  test('/api/getDigests require owner params legal', async () => {
     await expectFetchUrlStatusCodeAndJson({
       url: `http://localhost:${
         config.port
-      }/api/getTodos?owner=_admin&date=1970-01-01`,
+      }/api/getDigests?owner=_admin&date=1970-01-01`,
       expectStatusCode: 400,
       expectJson: { err: 'Illegal param' },
     });
   });
 
-  test('/api/getTodos returns a todo', async () => {
-    const todo = getTestObj();
-    let testOwnerTodoCollection = db.collection(`todo_testOwner`);
-    await testOwnerTodoCollection.insertOne(transformIdToObjectId(todo));
+  test('/api/getDigests returns a digest', async () => {
+    const digest = getTestObj();
+    let testOwnerDigestCollection = db.collection(`digest_testOwner`);
+    await testOwnerDigestCollection.insertOne(transformIdToObjectId(digest));
     await expectFetchUrlStatusCodeAndJson({
       url: `http://localhost:${
         config.port
-      }/api/getTodos?owner=testOwner`,
+      }/api/getDigests?owner=testOwner`,
       expectStatusCode: 200,
-      expectJson: { data: [todo] },
+      expectJson: { data: [digest] },
     });
   });
 
-  test('/api/postTodo needs an owner and an todo in body', async () => {
-    const todo = getTestObj();
+  test('/api/postDigest needs an owner and an digest in body', async () => {
+    const digest = getTestObj();
     await expectFetchUrlStatusCodeAndJson({
-      url: `http://localhost:${config.port}/api/postTodo`,
+      url: `http://localhost:${config.port}/api/postDigest`,
       postBody: { data: { owner: 'testOwner' } },
       method: 'POST',
       expectStatusCode: 400,
@@ -74,8 +74,8 @@ describe('api', async () => {
     });
 
     await expectFetchUrlStatusCodeAndJson({
-      url: `http://localhost:${config.port}/api/postTodo`,
-      postBody: { data: { todo } },
+      url: `http://localhost:${config.port}/api/postDigest`,
+      postBody: { data: { digest } },
       method: 'POST',
       expectStatusCode: 400,
       expectJson: { err: 'Missing param' },
@@ -83,18 +83,18 @@ describe('api', async () => {
 
     expectDbQueryResult({
       db,
-      collection: 'todo_testOwner',
+      collection: 'digest_testOwner',
       query: {},
       expectedResults: [],
     });
   });
 
-  test('/api/postTodo adds an todo', async () => {
-    const todo = getTestObj({ _id: undefined });
+  test('/api/postDigest adds an digest', async () => {
+    const digest = getTestObj({ _id: undefined });
     let res = await expectFetchUrlStatusCodeAndJson({
-      url: `http://localhost:${config.port}/api/postTodo`,
+      url: `http://localhost:${config.port}/api/postDigest`,
       method: 'POST',
-      postBody: { data: { todo, owner: 'testOwner' } },
+      postBody: { data: { digest, owner: 'testOwner' } },
       expectStatusCode: 200,
     });
     /**
@@ -110,101 +110,101 @@ describe('api', async () => {
      */
     expectDbQueryResult({
       db,
-      collection: 'todo_testOwner',
+      collection: 'digest_testOwner',
       query: {},
       expectedResults: [
-        Object.assign({}, todo, {
-          _id: res.data.todo._id,
+        Object.assign({}, digest, {
+          _id: res.data.digest._id,
         }),
       ],
     });
   });
 
-  test("/api/postTodo if update an todo that doesn't exist, give modified 0", async () => {
-    const todo = getTestObj();
+  test("/api/postDigest if update an digest that doesn't exist, give modified 0", async () => {
+    const digest = getTestObj();
     let json = await expectFetchUrlStatusCodeAndJson({
-      url: `http://localhost:${config.port}/api/postTodo`,
+      url: `http://localhost:${config.port}/api/postDigest`,
       method: 'POST',
-      postBody: { data: { todo, owner: 'testOwner' } },
+      postBody: { data: { digest, owner: 'testOwner' } },
       expectStatusCode: 200,
       expectJson: { data: { n: 0, nModified: 0, ok: 1 } },
     });
     expectDbQueryResult({
       db,
-      collection: 'todo_testOwner',
+      collection: 'digest_testOwner',
       query: {},
       expectedResults: [],
     });
   });
 
-  test('/api/postTodo if update an todo that exists, update it', async () => {
-    const todo = getTestObj();
-    let testOwnerTodoCollection = db.collection(`todo_testOwner`);
-    await testOwnerTodoCollection.insertOne(transformIdToObjectId(todo));
-    const todoNew = Object.assign({}, todo, {
+  test('/api/postDigest if update an digest that exists, update it', async () => {
+    const digest = getTestObj();
+    let testOwnerDigestCollection = db.collection(`digest_testOwner`);
+    await testOwnerDigestCollection.insertOne(transformIdToObjectId(digest));
+    const digestNew = Object.assign({}, digest, {
       title: 'updated test title',
       content: 'updated test content',
       priority: 100,
     });
     let json = await expectFetchUrlStatusCodeAndJson({
-      url: `http://localhost:${config.port}/api/postTodo`,
+      url: `http://localhost:${config.port}/api/postDigest`,
       method: 'POST',
-      postBody: { data: { todo: todoNew, owner: 'testOwner' } },
+      postBody: { data: { digest: digestNew, owner: 'testOwner' } },
       expectStatusCode: 200,
       expectJson: { data: { n: 1, nModified: 1, ok: 1 } },
     });
     expectDbQueryResult({
       db,
-      collection: testOwnerTodoCollection,
-      query: { _id: todo._id },
-      expectedResults: [todoNew],
+      collection: testOwnerDigestCollection,
+      query: { _id: digest._id },
+      expectedResults: [digestNew],
     });
   });
 
-  test('/api/postTodo if update an todo that exists, but all same, do nothing', async () => {
-    const todo = getTestObj();
-    let testOwnerTodoCollection = db.collection(`todo_testOwner`);
-    await testOwnerTodoCollection.insertOne(transformIdToObjectId(todo));
+  test('/api/postDigest if update an digest that exists, but all same, do nothing', async () => {
+    const digest = getTestObj();
+    let testOwnerDigestCollection = db.collection(`digest_testOwner`);
+    await testOwnerDigestCollection.insertOne(transformIdToObjectId(digest));
     let json = await expectFetchUrlStatusCodeAndJson({
-      url: `http://localhost:${config.port}/api/postTodo`,
+      url: `http://localhost:${config.port}/api/postDigest`,
       method: 'POST',
-      postBody: { data: { todo, owner: 'testOwner' } },
+      postBody: { data: { digest, owner: 'testOwner' } },
       expectStatusCode: 200,
       expectJson: { data: { n: 1, nModified: 0, ok: 1 } },
     });
     expectDbQueryResult({
       db,
-      collection: testOwnerTodoCollection,
-      query: { _id: todo._id },
-      expectedResults: [todo],
+      collection: testOwnerDigestCollection,
+      query: { _id: digest._id },
+      expectedResults: [digest],
     });
   });
 
-  test('/api/deleteTodo', async () => {
-    const todo = getTestObj();
-    let testOwnerTodoCollection = await db.collection(`todo_testOwner`);
-    await testOwnerTodoCollection.insertOne(transformIdToObjectId(todo));
+  test('/api/deleteDigest', async () => {
+    const digest = getTestObj();
+    let testOwnerDigestCollection = await db.collection(`digest_testOwner`);
+    await testOwnerDigestCollection.insertOne(transformIdToObjectId(digest));
     let json = await expectFetchUrlStatusCodeAndJson({
-      url: `http://localhost:${config.port}/api/deleteTodo`,
+      url: `http://localhost:${config.port}/api/deleteDigest`,
       method: 'POST',
       postBody: {
         data: {
-          todo: { _id: todo._id },
+          digest: { _id: digest._id },
           owner: 'testOwner',
         },
       },
       expectStatusCode: 200,
       expectJson: {
         data: {
-          todo,
+          digest,
         },
       },
     });
 
     expectDbQueryResult({
       db,
-      collection: testOwnerTodoCollection,
-      query: { _id: todo._id },
+      collection: testOwnerDigestCollection,
+      query: { _id: digest._id },
       expectedResults: [],
     });
   });

@@ -17,9 +17,10 @@ const router = require('koa-router')();
 const passport = require('koa-passport');
 // own dependencies
 const auth = require('./auth');
+const errReport = require('./errReport');
 const entry = require('./entry');
 const todo = require('./todo');
-const errReport = require('./errReport');
+const digest = require('./digest');
 // conf
 const config = require('./config');
 const packagejson = require('../package.json');
@@ -104,6 +105,20 @@ const main = async (opt = {}) => {
   router.get('/api/getTodos', todo.getTodos);
   router.post('/api/postTodo', todo.postTodo);
   router.post('/api/deleteTodo', todo.deleteTodo);
+  // entry
+  digest.init(app, db);
+  router.use(
+    ['/api/getDigests', '/api/postDigest', '/api/deleteDigest'],
+    digest.validateParams
+  );
+  router.use(
+    ['/api/getDigests', '/api/postDigest', '/api/deleteDigest'],
+    digest.validateOwner
+  );
+  router.use(['/api/postDigest', '/api/deleteDigest'], digest.validateDigest);
+  router.get('/api/getDigests', digest.getDigests);
+  router.post('/api/postDigest', digest.postDigest);
+  router.post('/api/deleteDigest', digest.deleteDigest);
   // errReport
   errReport.init(app, db);
   router.post('/api/errReport', errReport.post);
