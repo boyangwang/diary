@@ -1,40 +1,43 @@
-import { Tag, Input, Tooltip, Icon } from 'antd';
+import { Icon, Input, Tag, Tooltip } from 'antd';
 import React from 'react';
 
 class Props {}
 class State {
-  inputVisible: boolean;
-  inputValue: string;
+  public inputVisible: boolean;
+  public inputValue: string;
 }
 class StateDefaults {
-  tags = [];
-  inputVisible = false;
-  inputValue = '';
+  public tags = [];
+  public inputVisible = false;
+  public inputValue = '';
 }
 class DigestTags extends React.Component<{}, State> {
   public tags: string[] = [];
-  input: Input | null = null;
+  public input: Input | null = null;
 
   constructor(props: Props) {
     super(props);
     this.state = new StateDefaults();
   }
 
-  handleClose = (removedTag: string) => {
-    const tags = this.tags.filter(tag => tag !== removedTag);
+  public handleClose = (removedTag: string) => {
+    const tags = this.tags.filter((tag) => tag !== removedTag);
     console.log(tags);
     this.tags = tags;
-  }
+  };
 
-  showInput = () => {
-    this.setState({ inputVisible: true }, () => this.input && this.input.focus());
-  }
+  public showInput = () => {
+    this.setState(
+      { inputVisible: true },
+      () => this.input && this.input.focus()
+    );
+  };
 
-  handleInputChange = (e: any) => {
+  public handleInputChange = (e: any) => {
     this.setState({ inputValue: e.target.value });
-  }
+  };
 
-  handleInputConfirm = () => {
+  public handleInputConfirm = () => {
     const state = this.state;
     const inputValue = state.inputValue;
     let tags = this.tags;
@@ -47,11 +50,11 @@ class DigestTags extends React.Component<{}, State> {
       inputValue: '',
     });
     this.tags = tags;
-  }
+  };
 
-  saveInputRef = (input: Input | null) => this.input = input
+  public saveInputRef = (input: Input | null) => (this.input = input);
 
-  render() {
+  public render() {
     const { inputVisible, inputValue } = this.state;
     const tags = this.tags;
     return (
@@ -59,11 +62,21 @@ class DigestTags extends React.Component<{}, State> {
         {tags.map((tag, index) => {
           const isLongTag = tag.length > 20;
           const tagElem = (
-            <Tag key={tag} closable={index !== 0} afterClose={() => this.handleClose(tag)}>
+            <Tag
+              key={tag}
+              closable={index !== 0}
+              afterClose={() => this.handleClose(tag)}
+            >
               {isLongTag ? `${tag.slice(0, 20)}...` : tag}
             </Tag>
           );
-          return isLongTag ? <Tooltip title={tag} key={tag}>{tagElem}</Tooltip> : tagElem;
+          return isLongTag ? (
+            <Tooltip title={tag} key={tag}>
+              {tagElem}
+            </Tooltip>
+          ) : (
+            tagElem
+          );
         })}
         {inputVisible && (
           <Input
@@ -79,9 +92,7 @@ class DigestTags extends React.Component<{}, State> {
         )}
         {!inputVisible && (
           <div onClick={this.showInput}>
-            <Tag
-              style={{ background: '#fff', borderStyle: 'dashed' }}
-            >
+            <Tag style={{ background: '#fff', borderStyle: 'dashed' }}>
               <Icon type="plus" /> New Tag
             </Tag>
           </div>

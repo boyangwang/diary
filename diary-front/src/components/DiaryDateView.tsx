@@ -3,8 +3,8 @@ import './DiaryDateView.css';
 import { Button, Col, Row } from 'antd';
 import React from 'react';
 
-import EntryFormContainer from 'components/EntryFormContainer';
 import DiaryTrendChartContainer from 'components/DiaryTrendChartContainer';
+import EntryFormContainer from 'components/EntryFormContainer';
 import WeekContainer from 'components/WeekContainer';
 import util from 'utils/util';
 

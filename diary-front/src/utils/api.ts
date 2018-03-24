@@ -423,5 +423,5 @@ export default {
   postTodo,
   deleteTodo,
 
-  deleteDigest, 
+  deleteDigest,
 };
