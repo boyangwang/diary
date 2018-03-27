@@ -1,15 +1,11 @@
-.EntryWeekContainer {
+.EntryDaysDiv {
   display: flex;
   justify-content: space-between;
   overflow: scroll;
 }
 
-.EntryWeekContainerCard > .ant-card-body {
-  padding: 0;
-}
-
-.EntryWeekContainerCard > .ant-card-body
-.ant-collapse-content > .ant-collapse-content-box {
+.EntryWeekContainer > .ant-collapse
+.ant-collapse-content-box {
   max-height: 600px;
   overflow: scroll;
 }

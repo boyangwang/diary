@@ -8,6 +8,7 @@
 }
 .DiaryApp .ant-layout-header {
   background-color: transparent;
+  height: 72px;
 }
 .DiaryApp .ant-menu {
   line-height: 64px;

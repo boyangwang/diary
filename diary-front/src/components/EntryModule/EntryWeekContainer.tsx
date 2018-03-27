@@ -1,6 +1,6 @@
 import './EntryWeekContainer.css';
 
-import { Card, Collapse } from 'antd';
+import { Collapse } from 'antd';
 import React from 'react';
 
 import EntryDayContainer from 'components/EntryModule/EntryDayContainer';
@@ -16,10 +16,10 @@ class EntryWeekContainer extends React.Component<Props> {
     const todayString = util.getTodayStringWithOffset();
 
     return (
-      <Card title="EntryWeekContainer" className="EntryWeekContainerCard">
+      <div className="EntryWeekContainer">
         <Collapse>
           <Collapse.Panel header="Weekdays" key="weekdays">
-            <div className="EntryWeekContainer">
+            <div className="EntryDaysDiv">
               {weekdays.map((d) => (
                 <EntryDayContainer
                   key={d}
@@ -30,7 +30,7 @@ class EntryWeekContainer extends React.Component<Props> {
             </div>
           </Collapse.Panel>
         </Collapse>
-      </Card>
+      </div>
     );
   }
 }

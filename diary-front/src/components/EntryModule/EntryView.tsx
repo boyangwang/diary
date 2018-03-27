@@ -1,6 +1,6 @@
 import './EntryView.css';
 
-import { Button, Col, Row } from 'antd';
+import { Button, Col, Row, Card } from 'antd';
 import React from 'react';
 
 import EntryFormContainer from 'components/EntryModule/EntryFormContainer';
@@ -26,9 +26,10 @@ class EntryView extends React.Component<{}, State> {
   public render() {
     const { offset } = this.state;
     return (
-      <div className="EntryView">
+      <Card title="EntryView" className="EntryView">
+        <EntryWeekContainer date={util.getTodayStringWithOffset(offset * 7)} />
         <Row type="flex" justify="space-between">
-          <Col span={2}>
+          <Col span={2} className="ArrowButtonColDiv">
             <div className="ArrowButtonDiv">
               <Button
                 shape="circle"
@@ -40,7 +41,7 @@ class EntryView extends React.Component<{}, State> {
           <Col span={20}>
             <EntryFormContainer />
           </Col>
-          <Col span={2}>
+          <Col span={2} className="ArrowButtonColDiv">
             <div className="ArrowButtonDiv">
               <Button
                 shape="circle"
@@ -51,8 +52,7 @@ class EntryView extends React.Component<{}, State> {
           </Col>
         </Row>
         <EntryTrendChartContainer />
-        <EntryWeekContainer date={util.getTodayStringWithOffset(offset * 7)} />
-      </div>
+      </Card>
     );
   }
 }
