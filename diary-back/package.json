@@ -8,6 +8,7 @@
     "start": "node src/server.js",
     "deploy": "./src/scripts/deploy.sh",
     "flightplan": "export FLIGHTPLAN_KEY_PATH=~/.ssh/id_rsa && fly --flightplan ./flightplan.js",
+    "mongodump-restore": "export FLIGHTPLAN_KEY_PATH=~/.ssh/id_rsa && fly --flightplan ./flightplan.js mongodump:staging && fly --flightplan ./flightplan.js mongorestore:localhost",
     "pretty": "prettier --write --trailing-comma es5 --single-quote --arrow-parens always \"src/**/*.js\" flightplan.js",
     "postinstall": "cd .. && yarn install"
   },
