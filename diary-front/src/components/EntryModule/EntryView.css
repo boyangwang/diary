@@ -3,10 +3,6 @@
   justify-content: center;
 }
 
-.EntryView > .ant-card-body {
-  padding: 0;
-}
-
 .EntryView .ArrowButtonColDiv {
   display: flex;
   justify-content: center;

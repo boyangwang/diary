@@ -21,3 +21,11 @@
 .DiaryApp .ant-menu .ant-menu-item {
   padding: 0 0 0 6px;
 }
+
+.DiaryApp .cardlike {
+  border: 1px solid #e8e8e8;
+  border-bottom: none;
+  color: rgba(0, 0, 0, 0.65);
+  background: #fff;
+  border-radius: 2px;
+}

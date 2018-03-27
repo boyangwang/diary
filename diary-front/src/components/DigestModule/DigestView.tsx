@@ -1,4 +1,4 @@
-import { Card, List } from 'antd';
+import { Collapse, List } from 'antd';
 import React from 'react';
 import { connect } from 'react-redux';
 
@@ -54,12 +54,16 @@ class DigestView extends React.Component<ReduxProps, {}> {
     const { digests } = this.props;
 
     return (
-      <div className="DigestView">
-        <Card title="DigestView">
+      <Collapse bordered={false} defaultActiveKey={['1']} className="cardlike">
+        <Collapse.Panel
+          header={<h2>DigestView</h2>}
+          className="DigestView"
+          key="1"
+        >
           {digests.length === 0 ? 'Empty' : this.renderContent()}
           <DigestFormContainer />
-        </Card>
-      </div>
+        </Collapse.Panel>
+      </Collapse>
     );
   }
 }

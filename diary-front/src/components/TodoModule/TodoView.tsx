@@ -1,6 +1,6 @@
 import './TodoView.css';
 
-import { Card, Collapse, List } from 'antd';
+import { Collapse, List } from 'antd';
 import React from 'react';
 import { connect } from 'react-redux';
 
@@ -86,12 +86,12 @@ class TodoView extends React.Component<ReduxProps> {
     const { todos } = this.props;
 
     return (
-      <div className="TodoView">
-        <Card title="TodoView">
+      <Collapse bordered={false} defaultActiveKey={['1']} className="cardlike">
+        <Collapse.Panel header={<h2>TodoView</h2>} className="TodoView" key="1">
           {todos.length === 0 ? 'Empty' : this.renderContent()}
           <TodoFormContainer />
-        </Card>
-      </div>
+        </Collapse.Panel>
+      </Collapse>
     );
   }
 }

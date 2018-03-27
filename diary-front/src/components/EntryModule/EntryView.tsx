@@ -1,6 +1,6 @@
 import './EntryView.css';
 
-import { Button, Col, Row, Card } from 'antd';
+import { Button, Col, Collapse, Row } from 'antd';
 import React from 'react';
 
 import EntryFormContainer from 'components/EntryModule/EntryFormContainer';
@@ -26,33 +26,41 @@ class EntryView extends React.Component<{}, State> {
   public render() {
     const { offset } = this.state;
     return (
-      <Card title="EntryView" className="EntryView">
-        <EntryWeekContainer date={util.getTodayStringWithOffset(offset * 7)} />
-        <Row type="flex" justify="space-between">
-          <Col span={2} className="ArrowButtonColDiv">
-            <div className="ArrowButtonDiv">
-              <Button
-                shape="circle"
-                icon="left"
-                onClick={this.handleArrowButtonClick('left')}
-              />
-            </div>
-          </Col>
-          <Col span={20}>
-            <EntryFormContainer />
-          </Col>
-          <Col span={2} className="ArrowButtonColDiv">
-            <div className="ArrowButtonDiv">
-              <Button
-                shape="circle"
-                icon="right"
-                onClick={this.handleArrowButtonClick('right')}
-              />
-            </div>
-          </Col>
-        </Row>
-        <EntryTrendChartContainer />
-      </Card>
+      <Collapse bordered={false} defaultActiveKey={['1']} className="cardlike">
+        <Collapse.Panel
+          header={<h2>EntryView</h2>}
+          className="EntryView"
+          key="1"
+        >
+          <EntryWeekContainer
+            date={util.getTodayStringWithOffset(offset * 7)}
+          />
+          <Row type="flex" justify="space-between">
+            <Col span={2} className="ArrowButtonColDiv">
+              <div className="ArrowButtonDiv">
+                <Button
+                  shape="circle"
+                  icon="left"
+                  onClick={this.handleArrowButtonClick('left')}
+                />
+              </div>
+            </Col>
+            <Col span={20}>
+              <EntryFormContainer />
+            </Col>
+            <Col span={2} className="ArrowButtonColDiv">
+              <div className="ArrowButtonDiv">
+                <Button
+                  shape="circle"
+                  icon="right"
+                  onClick={this.handleArrowButtonClick('right')}
+                />
+              </div>
+            </Col>
+          </Row>
+          <EntryTrendChartContainer />
+        </Collapse.Panel>
+      </Collapse>
     );
   }
 }
