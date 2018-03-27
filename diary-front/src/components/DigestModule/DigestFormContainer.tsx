@@ -2,13 +2,13 @@ import { Button, Card, Form, Icon, Input, message } from 'antd';
 import { FormComponentProps } from 'antd/lib/form/Form';
 import * as _ from 'lodash';
 import React from 'react';
-
-import DigestEditorObject, {
-  draftToHtml,
-} from 'components/DigestModule/DigestEditorObject';
-import DigestTagsObject from 'components/DigestModule/DigestTagsObject';
 import { EditorState } from 'draft-js';
 import { connect } from 'react-redux';
+
+import DigestEditorObject, {
+  draftToHtml, htmlToDraft, EmptyState,
+} from 'components/DigestModule/DigestEditorObject';
+import DigestTagsObject from 'components/DigestModule/DigestTagsObject';
 import { ReduxState, User } from 'reducers';
 import { dispatch } from 'reducers/store';
 import api, { Digest, ErrResponse, PostDigestResponse } from 'utils/api';
@@ -28,6 +28,7 @@ class ReduxProps {
 }
 class State {
   public editorState: EditorState;
+  public tags: string[];
 }
 class DigestFormValues {
   public id?: string;
@@ -45,7 +46,11 @@ class DigestFormContainer extends React.Component<
 
   constructor(props: Props & PropsDefaults & ReduxProps & FormComponentProps) {
     super(props);
-    this.state = new State();
+    const editorValue = this.props.digest && this.props.digest.content || '';
+    const editorState = htmlToDraft(editorValue);
+
+    const tags = this.props.digest && this.props.digest.tags || [];
+    this.state = { editorState, tags };
   }
 
   public handleSubmit = (e: any) => {
@@ -89,6 +94,12 @@ class DigestFormContainer extends React.Component<
         )
         .then(() => {
           resetFields();
+          if (!this.props.digest) {
+            this.setState({
+              editorState: EmptyState,
+              tags: [],
+            });
+          }
           onSubmit();
         });
       onSubmit();
@@ -112,15 +123,19 @@ class DigestFormContainer extends React.Component<
             {getFieldDecorator('tags', {
               rules: [],
               initialValue: _.get(digest, 'tags') || [],
-              valuePropName: 'tags',
-            })(<DigestTagsObject />)}
+            })(<DigestTagsObject
+              tags={this.state.tags}
+              onChange={(tags) => { this.setState({ tags }); }}
+            />)}
           </Form.Item>
           <Form.Item>
             {getFieldDecorator('content', {
               rules: [],
               initialValue: _.get(digest, 'content') || '',
-              valuePropName: 'editorValue',
-            })(<DigestEditorObject />)}
+            })(<DigestEditorObject
+              editorState={this.state.editorState}
+              onEditorStateChange={(editorState) => { this.setState({ editorState }); }}
+            />)}
           </Form.Item>
           <Button type="primary" htmlType="submit">
             {buttonText}

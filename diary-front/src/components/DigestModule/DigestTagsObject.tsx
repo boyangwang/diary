@@ -2,16 +2,14 @@ import { Icon, Input, Tag, Tooltip } from 'antd';
 import React from 'react';
 
 class Props {
-  public tags?: string[];
-  public onChange?: (tags: string[]) => void;
+  public tags!: string[];
+  public onChange!: (tags: string[]) => void;
 }
 class State {
-  public tags: string[];
   public inputVisible: boolean;
   public inputValue: string;
 }
 class StateDefaults {
-  public tags = [];
   public inputVisible = false;
   public inputValue = '';
 }
@@ -29,9 +27,8 @@ class DigestTagsObject extends React.Component<Props, State> {
   }
 
   public handleClose = (removedTag: string) => {
-    const tags = this.state.tags.filter((tag) => tag !== removedTag);
-    this.setState({ tags });
-    this.props.onChange!(tags);
+    const tags = this.props.tags.filter((tag) => tag !== removedTag);
+    this.props.onChange(tags);
   };
 
   public showInput = () => {
@@ -48,12 +45,11 @@ class DigestTagsObject extends React.Component<Props, State> {
   public handleInputConfirm = () => {
     const state = this.state;
     const inputValue = state.inputValue;
-    let tags = this.state.tags;
+    let tags = this.props.tags;
     if (inputValue && tags.indexOf(inputValue) === -1) {
       tags = [...tags, inputValue];
     }
     this.setState({
-      tags,
       inputVisible: false,
       inputValue: '',
     });
@@ -64,7 +60,7 @@ class DigestTagsObject extends React.Component<Props, State> {
 
   public render() {
     const { inputVisible, inputValue } = this.state;
-    const tags = this.state.tags;
+    const tags = this.props.tags;
     return (
       <div>
         {tags.map((tag, index) => {
