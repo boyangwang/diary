@@ -1,4 +1,4 @@
-import './DiaryApp.css';
+import 'src/components/DiaryApp.css';
 
 import { Layout, message } from 'antd';
 import React from 'react';
