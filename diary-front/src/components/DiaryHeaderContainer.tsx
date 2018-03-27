@@ -1,10 +1,10 @@
-import { connect } from "react-redux";
-import React from "react";
-import { Menu, Button } from "antd";
+import { Button, Menu } from 'antd';
+import React from 'react';
+import { connect } from 'react-redux';
 
-import { ReduxState, User } from "reducers";
-import api from "utils/api";
-import { dispatch } from "reducers/store";
+import { ReduxState, User } from 'reducers';
+import { dispatch } from 'reducers/store';
+import api from 'utils/api';
 
 class ReduxProps {
   public user: User | null;
@@ -19,7 +19,7 @@ class DiaryHeaderContainer extends React.Component<ReduxProps> {
       });
     });
   }
-  
+
   public render() {
     const { user, backendVersion } = this.props;
     return (
@@ -39,7 +39,7 @@ class DiaryHeaderContainer extends React.Component<ReduxProps> {
                 href="https://github.com/boyangwang/diary/issues/new"
               >
                 Issue
-                  </a>
+              </a>
             </Button>
           </Menu.Item>
           {user && (

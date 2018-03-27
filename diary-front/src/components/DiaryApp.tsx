@@ -4,6 +4,7 @@ import { Layout, message } from 'antd';
 import React from 'react';
 import { connect } from 'react-redux';
 
+import DiaryHeaderContainer from 'components/DiaryHeaderContainer';
 import DiaryLoginView from 'components/DiaryLoginView';
 import DigestView from 'components/DigestModule/DigestView';
 import EntryView from 'components/EntryModule/EntryView';
@@ -12,7 +13,6 @@ import { ReduxState, User } from 'reducers';
 import { dispatch } from 'reducers/store';
 import api, { ApiTestResponse, ErrResponse } from 'utils/api';
 import mylog from 'utils/mylog';
-import DiaryHeaderContainer from 'components/DiaryHeaderContainer';
 
 class ReduxProps {
   public user: User | null;
