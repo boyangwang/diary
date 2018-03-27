@@ -97,13 +97,14 @@ class DigestTagsObject extends React.Component<Props, State> {
             onPressEnter={this.handleInputConfirm}
           />
         )}
-        {!inputVisible && editable && (
-          <div onClick={this.showInput}>
-            <Tag style={{ background: '#fff', borderStyle: 'dashed' }}>
-              <Icon type="plus" /> New Tag
-            </Tag>
-          </div>
-        )}
+        {!inputVisible &&
+          editable && (
+            <div onClick={this.showInput}>
+              <Tag style={{ background: '#fff', borderStyle: 'dashed' }}>
+                <Icon type="plus" /> New Tag
+              </Tag>
+            </div>
+          )}
       </div>
     );
   }

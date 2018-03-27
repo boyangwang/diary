@@ -2,14 +2,16 @@ import './DigestObject.css';
 
 import React from 'react';
 
-import { Button, List, message, Modal, Row, Alert, Col } from 'antd';
+import { Alert, Button, Col, List, message, Modal, Row } from 'antd';
+import DigestEditorObject, {
+  htmlToDraft,
+} from 'components/DigestModule/DigestEditorObject';
 import DigestFormContainer from 'components/DigestModule/DigestFormContainer';
 import { connect } from 'react-redux';
 import { ReduxState, User } from 'reducers';
 import { dispatch } from 'reducers/store';
 import api, { DeleteDigestResponse, Digest, ErrResponse } from 'utils/api';
 import DigestTagsObject from './DigestTagsObject';
-import DigestEditorObject, { htmlToDraft } from 'components/DigestModule/DigestEditorObject';
 
 class Props {
   public digest: Digest;
@@ -105,24 +107,32 @@ class DigestObject extends React.Component<Props & ReduxProps, State> {
         </Modal>
         <Row type="flex" className="DigestRow">
           <div className="createTimestamp">
-            <Alert message={new Date(digest.createTimestamp).toISOString()} type="success" />
+            <Alert
+              message={new Date(digest.createTimestamp).toISOString()}
+              type="success"
+            />
           </div>
           <h3 className="title">{digest.title}</h3>
           <div className="_id grey">{digest._id}</div>
         </Row>
         <Row type="flex" className="DigestRow">
           <div className="lastModified">
-            <Alert message={'Last modified:' + new Date(digest.lastModified).toISOString()} type="success" />
+            <Alert
+              message={
+                'Last modified:' + new Date(digest.lastModified).toISOString()
+              }
+              type="success"
+            />
           </div>
           <DigestTagsObject tags={digest.tags} editable={false} />
         </Row>
         <Row type="flex" className="DigestRow">
           <Col span={24}>
-          <DigestEditorObject
-            editorState={htmlToDraft(digest.content)}
-            readOnly={true}
-            toolbarStyle={{display: 'none'}}
-          />
+            <DigestEditorObject
+              editorState={htmlToDraft(digest.content)}
+              readOnly={true}
+              toolbarStyle={{ display: 'none' }}
+            />
           </Col>
         </Row>
         {/* <code>{JSON.stringify(this.props.digest)}</code> */}
