@@ -1,8 +1,9 @@
-import { Button, Card, Form, Icon, Input, message } from 'antd';
+import { Button, Card, Form, Icon, Input, message, DatePicker } from 'antd';
 import { FormComponentProps } from 'antd/lib/form/Form';
 import { EditorState } from 'draft-js';
 import * as _ from 'lodash';
 import React from 'react';
+import * as moment from 'moment';
 import { connect } from 'react-redux';
 
 import DigestEditorObject, {
@@ -34,7 +35,7 @@ class State {
 }
 class DigestFormValues {
   public id?: string;
-  public createTimestamp: number;
+  public createTimestamp: moment.Moment;
   public lastModified: number;
   public title: string;
   public tags: string[];
@@ -69,6 +70,8 @@ class DigestFormContainer extends React.Component<
       const digest: Digest = Object.assign({}, values, {
         content: draftToHtml(values.content),
         lastModified: Date.now(),
+        // because time picker is only up to second
+        createTimestamp: values.createTimestamp.unix() * 1000,
       });
       api
         .postDigest({ data: { digest, owner: user.username } })
@@ -122,6 +125,12 @@ class DigestFormContainer extends React.Component<
             })(<Input prefix={<Icon type="plus" />} placeholder="Title" />)}
           </Form.Item>
           <Form.Item>
+            {getFieldDecorator('createTimestamp', {
+              rules: [],
+              initialValue: moment(_.get(digest, 'createTimestamp') || Date.now()),
+            })(<DatePicker showTime format="YYYY-MM-DD HH:mm:ss" />)}
+          </Form.Item>
+          <Form.Item>
             {getFieldDecorator('tags', {
               rules: [],
               initialValue: _.get(digest, 'tags') || [],
@@ -154,12 +163,6 @@ class DigestFormContainer extends React.Component<
             {getFieldDecorator('_id', {
               rules: [],
               initialValue: _.get(digest, '_id'),
-            })(<Input type="hidden" />)}
-          </Form.Item>
-          <Form.Item className="hidden">
-            {getFieldDecorator('createTimestamp', {
-              rules: [],
-              initialValue: _.get(digest, 'createTimestamp') || Date.now(),
             })(<Input type="hidden" />)}
           </Form.Item>
         </Form>
