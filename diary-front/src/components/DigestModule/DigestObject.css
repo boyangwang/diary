@@ -1,0 +1,21 @@
+.DigestObject .title {
+}
+
+.DigestObject .ant-list-item-content {
+  flex-wrap: wrap;
+}
+
+.DigestObject .DigestRow {
+  flex: 0 0 100%;
+}
+
+.DigestObject ._id.grey {
+  line-height: 23px;
+}
+
+.DigestObject .lastModified .ant-alert,
+.DigestObject .createTimestamp .ant-alert {
+  display: inline-block;
+  padding: 0 7px;
+  margin-right: 8px;
+}

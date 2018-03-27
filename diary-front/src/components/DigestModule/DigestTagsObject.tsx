@@ -3,7 +3,8 @@ import React from 'react';
 
 class Props {
   public tags!: string[];
-  public onChange!: (tags: string[]) => void;
+  public onChange?: (tags: string[]) => void;
+  public editable?: boolean;
 }
 class State {
   public inputVisible: boolean;
@@ -16,6 +17,7 @@ class StateDefaults {
 class DigestTagsObject extends React.Component<Props, State> {
   public static defaultProps: Partial<Props> = {
     onChange: (tags: string[]) => {},
+    editable: true,
   };
   public input: Input | null = null;
 
@@ -28,7 +30,7 @@ class DigestTagsObject extends React.Component<Props, State> {
 
   public handleClose = (removedTag: string) => {
     const tags = this.props.tags.filter((tag) => tag !== removedTag);
-    this.props.onChange(tags);
+    this.props.onChange!(tags);
   };
 
   public showInput = () => {
@@ -60,7 +62,8 @@ class DigestTagsObject extends React.Component<Props, State> {
 
   public render() {
     const { inputVisible, inputValue } = this.state;
-    const tags = this.props.tags;
+    const { tags, editable } = this.props;
+
     return (
       <div>
         {tags.map((tag, index) => {
@@ -68,10 +71,10 @@ class DigestTagsObject extends React.Component<Props, State> {
           const tagElem = (
             <Tag
               key={tag}
-              closable={true}
+              closable={editable}
               afterClose={() => this.handleClose(tag)}
             >
-              {isLongTag ? `${tag.slice(0, 20)}...` : tag}
+              {isLongTag ? `${tag.slice(0, 40)}...` : tag}
             </Tag>
           );
           return isLongTag ? (
@@ -94,7 +97,7 @@ class DigestTagsObject extends React.Component<Props, State> {
             onPressEnter={this.handleInputConfirm}
           />
         )}
-        {!inputVisible && (
+        {!inputVisible && editable && (
           <div onClick={this.showInput}>
             <Tag style={{ background: '#fff', borderStyle: 'dashed' }}>
               <Icon type="plus" /> New Tag

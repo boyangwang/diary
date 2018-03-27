@@ -241,8 +241,7 @@ export interface DraftProps {
   locale?: string;
   [key: string]: any;
 }
-export interface DraftState {
-}
+export interface DraftState {}
 /**
  * Draft
  *
