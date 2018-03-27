@@ -132,6 +132,7 @@ class DigestObject extends React.Component<Props & ReduxProps, State> {
               editorState={htmlToDraft(digest.content)}
               readOnly={true}
               toolbarStyle={{ display: 'none' }}
+              editorStyle={{ maxHeight: '180px' }}
             />
           </Col>
         </Row>

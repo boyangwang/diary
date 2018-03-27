@@ -1,9 +1,9 @@
-import { Button, Card, Form, Icon, Input, message, DatePicker } from 'antd';
+import { Button, Card, DatePicker, Form, Icon, Input, message } from 'antd';
 import { FormComponentProps } from 'antd/lib/form/Form';
 import { EditorState } from 'draft-js';
 import * as _ from 'lodash';
-import React from 'react';
 import * as moment from 'moment';
+import React from 'react';
 import { connect } from 'react-redux';
 
 import DigestEditorObject, {
@@ -127,7 +127,9 @@ class DigestFormContainer extends React.Component<
           <Form.Item>
             {getFieldDecorator('createTimestamp', {
               rules: [],
-              initialValue: moment(_.get(digest, 'createTimestamp') || Date.now()),
+              initialValue: moment(
+                _.get(digest, 'createTimestamp') || Date.now()
+              ),
             })(<DatePicker showTime format="YYYY-MM-DD HH:mm:ss" />)}
           </Form.Item>
           <Form.Item>
