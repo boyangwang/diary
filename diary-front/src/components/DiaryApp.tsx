@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 
 import DigestView from 'components/DigestModule/DigestView';
 import EntryView from 'components/EntryModule/EntryView';
-import LoginView from 'components/LoginView';
+import DiaryLoginView from 'components/DiaryLoginView';
 import TodoView from 'components/TodoModule/TodoView';
 import { ReduxState, User } from 'reducers';
 import { dispatch } from 'reducers/store';
@@ -89,7 +89,7 @@ class DiaryApp extends React.Component<ReduxProps> {
                 <DigestView />
               </div>
             ) : (
-              <LoginView />
+              <DiaryLoginView />
             )}
           </Layout.Content>
         </Layout>
