@@ -11,7 +11,7 @@ window.onerror = (message, source, lineno, colno, errObj) => {
     errJson = e.toString();
   }
   const errReportObj = {
-    message,
+    message: message.toString(),
     source,
     lineno,
     colno,
