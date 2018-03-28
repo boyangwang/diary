@@ -118,7 +118,11 @@ class DigestFormContainer extends React.Component<
       return;
     }
     // file is File object type
-    form.append('image', file);
+    form.append(
+      'image',
+      file,
+      `${user.username}-digest-${new Date().toISOString()}`
+    );
     return api.uploadImage(form).then(
       (data: any) => {
         if (data.err) {

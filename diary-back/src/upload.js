@@ -9,18 +9,15 @@ const s3 = new aws.S3({
   endpoint: spacesEndpoint,
 });
 const upload = multer({
-  // storage: multerS3({
-  //   s3: s3,
-  //   bucket: 'diary',
-  //   acl: 'public-read',
-  //   key: function (request, file, cb) {
-  //     console.mylog('uploadImage', file);
-  //     cb(null, file.name);
-  //   }
-  // }),
-  // storage: multer.memoryStorage
-  dest: 'uploads/',
-}).single('image');
+  storage: multerS3({
+    s3: s3,
+    bucket: 'diary',
+    acl: 'public-read',
+    key: function(request, file, cb) {
+      cb(null, file.originalname);
+    },
+  }),
+}).array('image', 1);
 
 module.exports = {
   init: (passedApp, passedDb) => {
@@ -28,12 +25,10 @@ module.exports = {
     db = passedDb;
   },
   uploadImage: async (ctx, next) => {
+    await upload(ctx, next);
+    const file = ctx.req.files[0];
     ctx.response.body = {
-      data: {
-        link:
-          'https://img.alicdn.com/tfs/TB1N4A.mfDH8KJjy1XcXXcpdXXa-1392-414.png',
-        filename,
-      },
+      data: { link: file.location },
     };
   },
 };

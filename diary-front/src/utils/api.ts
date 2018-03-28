@@ -415,9 +415,6 @@ const uploadImage = (params: FormData) => {
   return new Promise((resolve, reject) => {
     fetch(PREFIX + apis.uploadImage, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'image/*',
-      },
       credentials: 'same-origin',
       body: params,
     }).then(
