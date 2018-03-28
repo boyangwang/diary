@@ -6,10 +6,7 @@ import mylog from 'utils/mylog';
 
 const dateStringFormat = 'YYYY-MM-DD';
 
-const compare = <T extends {}>(
-  a: T,
-  b: T
-): 0 | 1 | -1 => {
+const compare = <T extends {}>(a: T, b: T): 0 | 1 | -1 => {
   if (_.isNil(a)) {
     // b is bigger
     return -1;
