@@ -18,6 +18,7 @@ const passport = require('koa-passport');
 // own dependencies
 const auth = require('./auth');
 const errReport = require('./errReport');
+const upload = require('./upload');
 const entry = require('./entry');
 const todo = require('./todo');
 const digest = require('./digest');
@@ -72,7 +73,18 @@ const main = async (opt = {}) => {
   });
   if (mergedConfig.useAuth) {
     router.use(
-      ['/api/getEntries', '/api/postEntry', '/api/deleteEntry'],
+      [
+        '/api/getEntries',
+        '/api/postEntry',
+        '/api/deleteEntry',
+        '/api/getTodos',
+        '/api/postTodo',
+        '/api/deleteTodo',
+        '/api/getDigests',
+        '/api/postDigest',
+        '/api/deleteDigest',
+        '/api/uploadImage',
+      ],
       auth.verifyAuthenticated
     );
   }
@@ -119,6 +131,9 @@ const main = async (opt = {}) => {
   router.get('/api/getDigests', digest.getDigests);
   router.post('/api/postDigest', digest.postDigest);
   router.post('/api/deleteDigest', digest.deleteDigest);
+  // uploadImage
+  upload.init(app, db);
+  router.post('/api/uploadImage', upload.uploadImage);
   // errReport
   errReport.init(app, db);
   router.post('/api/errReport', errReport.post);
