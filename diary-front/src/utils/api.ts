@@ -27,6 +27,8 @@ const apis = {
   getDigests: 'api/getDigests',
   postDigest: 'api/postDigest',
   deleteDigest: 'api/deleteDigest',
+
+  uploadImage: 'api/uploadImage',
 };
 
 export class ErrResponse {
@@ -409,6 +411,26 @@ const deleteDigest = (params: DeleteDigestParams) => {
   });
 };
 
+const uploadImage = (params: FormData) => {
+  return new Promise((resolve, reject) => {
+    fetch(PREFIX + apis.uploadImage, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'image/*',
+      },
+      credentials: 'same-origin',
+      body: params,
+    }).then(
+      (res) => {
+        resolve(res.json());
+      },
+      (err) => {
+        reject(err);
+      }
+    );
+  });
+};
+
 export default {
   apiTest,
   login,
@@ -426,4 +448,6 @@ export default {
   getDigests,
   postDigest,
   deleteDigest,
+
+  uploadImage,
 };
