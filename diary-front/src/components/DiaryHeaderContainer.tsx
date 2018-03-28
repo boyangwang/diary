@@ -1,6 +1,6 @@
 import './DiaryHeaderContainer.css';
 
-import { Button, Menu, Layout } from 'antd';
+import { Button, Layout, Menu } from 'antd';
 import React from 'react';
 import { connect } from 'react-redux';
 

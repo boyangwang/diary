@@ -52,6 +52,8 @@ class DigestObject extends React.Component<Props & ReduxProps, State> {
 
   public render() {
     const { digest } = this.props;
+    const shortenedLastModified = new Date(digest.lastModified).toISOString().substring(0, 16);
+    const shortenedCreateTimestamp = new Date(digest.createTimestamp).toISOString().substring(0, 16);
 
     return (
       <List.Item
@@ -108,7 +110,7 @@ class DigestObject extends React.Component<Props & ReduxProps, State> {
         <Row type="flex" className="DigestRow">
           <div className="createTimestamp">
             <Alert
-              message={new Date(digest.createTimestamp).toISOString()}
+              message={shortenedCreateTimestamp}
               type="success"
             />
           </div>
@@ -119,7 +121,7 @@ class DigestObject extends React.Component<Props & ReduxProps, State> {
           <div className="lastModified">
             <Alert
               message={
-                'Last modified:' + new Date(digest.lastModified).toISOString()
+                'Last modified: ' + shortenedLastModified
               }
               type="success"
             />

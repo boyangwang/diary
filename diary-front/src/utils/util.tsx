@@ -6,6 +6,36 @@ import mylog from 'utils/mylog';
 
 const dateStringFormat = 'YYYY-MM-DD';
 
+const compare = <T extends {}>(
+  a: T,
+  b: T
+): 0 | 1 | -1 => {
+  if (_.isNil(a)) {
+    // b is bigger
+    return -1;
+  } else if (_.isNil(b)) {
+    return 1;
+  }
+  if (_.isNumber(a) && _.isNumber(b)) {
+    const res = (a as number) - (b as number);
+    return res > 0 ? 1 : res < 0 ? -1 : 0;
+  } else if (_.isString(a) && _.isString(b)) {
+    const res = (a as string).localeCompare(b as string);
+    return res > 0 ? 1 : res < 0 ? -1 : 0;
+  } else if (moment.isMoment(a) && moment.isMoment(b)) {
+    if (a.isAfter(b)) {
+      return 1;
+    } else if (a.isBefore(b)) {
+      return -1;
+    } else {
+      return 0;
+    }
+  } else {
+    mylog('Error: compare not number nor string?');
+    return 0;
+  }
+};
+
 export default {
   isNumOrStrAndNotNaN: (a: any) => {
     return (_.isNumber(a) || _.isString(a)) && !_.isNaN(a);
@@ -46,27 +76,7 @@ export default {
     return res;
   },
   errComponent: <Icon type="exclamation-circle-o" />,
-  compare: (
-    a: number | string | undefined,
-    b: number | string | undefined
-  ): 0 | 1 | -1 => {
-    if (_.isNil(a)) {
-      // b is bigger
-      return -1;
-    } else if (_.isNil(b)) {
-      return 1;
-    }
-    if (_.isNumber(a)) {
-      const res = (a as number) - (b as number);
-      return res > 0 ? 1 : res < 0 ? -1 : 0;
-    } else if (_.isString(b)) {
-      const res = (a as string).localeCompare(b as string);
-      return res > 0 ? 1 : res < 0 ? -1 : 0;
-    } else {
-      mylog('Error: compare not number nor string?');
-      return 0;
-    }
-  },
+  compare,
   compareDate(
     a: string | undefined,
     b: string | undefined,

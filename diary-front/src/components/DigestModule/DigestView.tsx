@@ -7,6 +7,7 @@ import DigestObject from 'components/DigestModule/DigestObject';
 import { ReduxState, User } from 'reducers';
 import { dispatch } from 'reducers/store';
 import api, { Digest, ErrResponse, GetDigestsResponse } from 'utils/api';
+import util from 'utils/util';
 
 class ReduxProps {
   public digests: Digest[];
@@ -39,11 +40,16 @@ class DigestView extends React.Component<ReduxProps, {}> {
 
   public renderContent() {
     const { digests } = this.props;
+    const sortedByModifiedThenCreated = digests.sort((a, b) => {
+      return (
+        util.compare(a.lastModified, b.lastModified) * -10 +
+        util.compare(a.createTimestamp, b.createTimestamp) * -1
+      );
+    });
     return (
-      <div className="TodosContainer">
+      <div className="DigestsContainer">
         <List
-          locale={{ emptyText: 'Empty' }}
-          dataSource={digests}
+          dataSource={sortedByModifiedThenCreated}
           renderItem={(digest: Digest) => <DigestObject digest={digest} />}
         />
       </div>
