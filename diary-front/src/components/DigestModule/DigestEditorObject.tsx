@@ -249,31 +249,7 @@ export interface DraftState {}
  * @extends {React.Component<DraftProps, DraftState>}
  */
 class Draft extends React.Component<DraftProps, DraftState> {
-  public static defaultProps: DraftProps = {
-    toolbar: {
-      options: [
-        'inline',
-        'colorPicker',
-        'blockType',
-        'fontSize',
-        'link',
-        'list',
-        'textAlign',
-        'remove',
-        'history',
-      ],
-      inline: {
-        options: ['bold', 'italic', 'underline', 'strikethrough'],
-      },
-      fontSize: {
-        options: [10, 12, 14, 18, 24, 30, 36, 48],
-      },
-      list: {
-        options: ['unordered', 'ordered'],
-      },
-    },
-    locale: 'en',
-  };
+  public static defaultProps: DraftProps = {};
 
   constructor(props: DraftProps) {
     super(props);
