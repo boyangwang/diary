@@ -111,13 +111,28 @@ class DigestFormContainer extends React.Component<
     });
   };
 
-  public uploadImage() {
-    return Promise.resolve({
-      data: {
-        link:
-          'https://img.alicdn.com/tfs/TB1N4A.mfDH8KJjy1XcXXcpdXXa-1392-414.png',
+  public uploadImage(file: any) {
+    const form = new FormData();
+    const { user } = this.props;
+    if (!user) {
+      return;
+    }
+    // file is File object type
+    form.append('image', file);
+    return api.uploadImage(form).then(
+      (data: any) => {
+        if (data.err) {
+          message.warn('' + data.err);
+          return Promise.reject(data.err);
+        } else {
+          return Promise.resolve(data);
+        }
       },
-    });
+      (err: any) => {
+        message.warn('' + err);
+        return Promise.reject(err);
+      }
+    );
   }
 
   public render() {
@@ -167,7 +182,7 @@ class DigestFormContainer extends React.Component<
                 editorStyle={{ minHeight: '360px' }}
                 toolbar={{
                   image: {
-                    uploadCallback: this.uploadImage,
+                    uploadCallback: this.uploadImage.bind(this),
                     previewImage: true,
                   },
                 }}
