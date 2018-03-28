@@ -111,6 +111,15 @@ class DigestFormContainer extends React.Component<
     });
   };
 
+  public uploadImage() {
+    return Promise.resolve({
+      data: {
+        link:
+          'https://img.alicdn.com/tfs/TB1N4A.mfDH8KJjy1XcXXcpdXXa-1392-414.png',
+      },
+    });
+  }
+
   public render() {
     const { getFieldDecorator } = this.props.form;
     const { buttonText, digest } = this.props;
@@ -130,7 +139,7 @@ class DigestFormContainer extends React.Component<
               initialValue: moment(
                 _.get(digest, 'createTimestamp') || Date.now()
               ),
-            })(<DatePicker showTime format="YYYY-MM-DD HH:mm:ss" />)}
+            })(<DatePicker showTime={true} format="YYYY-MM-DD HH:mm:ss" />)}
           </Form.Item>
           <Form.Item>
             {getFieldDecorator('tags', {
@@ -154,6 +163,13 @@ class DigestFormContainer extends React.Component<
                 editorState={this.state.editorState}
                 onEditorStateChange={(editorState) => {
                   this.setState({ editorState });
+                }}
+                editorStyle={{ minHeight: '360px' }}
+                toolbar={{
+                  image: {
+                    uploadCallback: this.uploadImage,
+                    previewImage: true,
+                  },
                 }}
               />
             )}

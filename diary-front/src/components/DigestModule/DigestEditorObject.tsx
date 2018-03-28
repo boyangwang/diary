@@ -219,8 +219,9 @@ export interface DraftProps {
       urlEnabled: true;
       uploadEnabled: true;
       alignmentEnabled: false;
-      uploadCallback: undefined;
+      uploadCallback: any;
       defaultSize: { height: 'auto'; width: '100%' };
+      previewImage: true;
     }>;
     remove: Partial<{ icon: 'eraser'; className?: string }>;
     history: Partial<{
@@ -248,7 +249,7 @@ export interface DraftState {}
  * @class Draft
  * @extends {React.Component<DraftProps, DraftState>}
  */
-class Draft extends React.Component<DraftProps, DraftState> {
+class DigestEditorObject extends React.Component<DraftProps, DraftState> {
   public static defaultProps: DraftProps = {};
 
   constructor(props: DraftProps) {
@@ -272,4 +273,4 @@ class Draft extends React.Component<DraftProps, DraftState> {
   }
 }
 
-export default Draft;
+export default DigestEditorObject;
