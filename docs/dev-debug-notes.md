@@ -147,10 +147,30 @@ public componentDidMount() {
 
 小小一个破上传图片, 而且疯狂用既有工具, 结果还是卡了这么多地方. 真是想抽自己. 可能又是困了.
 
-链路:
+#### 链路
 
 - 首先确认请求是对的, CURL感觉根本不对, body被扔了. 如果没有multipart, 就解释了为什么后来uploads没有东西. 但是不记得前端有任何改动? 把握一个对的, 然后基础上改吧
 
 - 后台之前成功过一次(上传成功, 虽然返回值还不太对), 从这个成了的出发一点一点改. 现在看, 有可能是koa-route, 有可能是upload.js结构, 有可能是nginx转发, 之一造成了
 
 - 最后是能不能成功上传到spaces, 还没成功过. 从命令行走一下试试, 上传本地固定文件. 这一步测试容易一点
+
+#### 进展
+
+用koa-router, dest本地, html form, 通了.
+
+尝试上传到spaces, 成功!
+
+后端整体逻辑跑通了!
+
+终于都对了. 一些点:
+
+- 不能设contenttype header! image不行, multipart也不行, 要fetch自动生成
+
+- single的时候file就不对??? 必须array('abc', 1)
+
+- 要用file.originalname, 没有大写
+
+- koa multer各种不对, 用中间件的方式等等. 直接await upload(ctx, next)就行
+
+- form里面啥都不能多, 不然就unexpected field
