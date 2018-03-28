@@ -42,6 +42,15 @@
 
 - Access localhost:14432 from browser (not :3000)
 
+- If need to use upload image functionality, see https://www.digitalocean.com/community/tutorials/how-to-upload-a-file-to-object-storage-with-node-js
+
+```
+~/.aws/credentials:
+[default]
+aws_access_key_id=your_access_key
+aws_secret_access_key=your_secret_key
+```
+
 ### husky hooks
 
 If installed using yarn, install script is ignored. Trigger it mannually by `node node_modules/husky/bin/install.js`
