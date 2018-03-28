@@ -1,0 +1,27 @@
+.DiaryHeaderContainer .DiaryAppTitleDiv {
+  display: flex;
+  width: auto;
+  float: left;
+}
+.DiaryHeaderContainer .DiaryAppTitleDiv h1, .DiaryHeaderContainer .DiaryAppTitleDiv h4 {
+  margin: 0;
+}
+.DiaryHeaderContainer.ant-layout-header {
+  background-color: transparent;
+  height: 72px;
+}
+.DiaryHeaderContainer .ant-menu {
+  line-height: 64px;
+  display: flex;
+  flex-wrap: nowrap;
+  float: right;
+  border: none;
+}
+
+.DiaryHeaderContainer .ant-menu .ant-menu-item {
+  padding: 0 0 0 6px;
+}
+
+.DiaryHeaderContainer .ant-menu .ant-btn {
+  padding: 0 8px;
+}

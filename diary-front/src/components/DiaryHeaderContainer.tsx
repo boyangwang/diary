@@ -1,4 +1,6 @@
-import { Button, Menu } from 'antd';
+import './DiaryHeaderContainer.css';
+
+import { Button, Menu, Layout } from 'antd';
 import React from 'react';
 import { connect } from 'react-redux';
 
@@ -23,7 +25,7 @@ class DiaryHeaderContainer extends React.Component<ReduxProps> {
   public render() {
     const { user, backendVersion } = this.props;
     return (
-      <div>
+      <Layout.Header className="DiaryHeaderContainer">
         <div className="DiaryAppTitleDiv logo">
           <h1>DiaryApp</h1>
           <h4 className="grey">{backendVersion}</h4>
@@ -48,7 +50,7 @@ class DiaryHeaderContainer extends React.Component<ReduxProps> {
             </Menu.Item>
           )}
         </Menu>
-      </div>
+      </Layout.Header>
     );
   }
 }

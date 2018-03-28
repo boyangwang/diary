@@ -46,9 +46,7 @@ class DiaryApp extends React.Component<ReduxProps> {
     return (
       <div className="DiaryApp">
         <Layout>
-          <Layout.Header>
-            <DiaryHeaderContainer />
-          </Layout.Header>
+          <DiaryHeaderContainer />
           <Layout.Content>
             {user ? (
               <div>
