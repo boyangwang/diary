@@ -24,6 +24,7 @@ class DiaryHeaderContainer extends React.Component<ReduxProps> {
 
   public render() {
     const { user, backendVersion } = this.props;
+
     return (
       <Layout.Header className="DiaryHeaderContainer">
         <div className="DiaryAppTitleDiv logo">
@@ -31,6 +32,9 @@ class DiaryHeaderContainer extends React.Component<ReduxProps> {
           <h4 className="grey">{backendVersion}</h4>
         </div>
         <Menu theme="light" mode="horizontal">
+          <Menu.Item key="username">
+            {user && user.username}
+          </Menu.Item>
           <Menu.Item key="sync">
             <Button onClick={() => window.location.reload()}>Sync</Button>
           </Menu.Item>

@@ -53,6 +53,8 @@ aws_secret_access_key=your_secret_key
 
 - There are oauth secrets like GitHub. They are in secrets.js - one that needs to be created per env and maintained. See secrets.js.sample, create `secrets.js` in same location, fill values
 
+- To make oauth work, in hosts file direct deardiary.network to 127.0.0.1
+
 ### husky hooks
 
 If installed using yarn, install script is ignored. Trigger it mannually by `node node_modules/husky/bin/install.js`

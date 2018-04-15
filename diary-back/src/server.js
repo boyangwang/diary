@@ -1,4 +1,5 @@
 // polyfill etc
+require('isomorphic-fetch');
 console.mylog = (...args) => {
   process.stdout.write(new Date().toISOString() + ' | ');
   console.info(...args);
@@ -66,11 +67,9 @@ const main = async (opt = {}) => {
   router.get('/api/apiTest', getApiTest);
   // auth
   router.post('/api/login', auth.authenticateCallback);
-  router.post('/api/logout', async (ctx) => {
-    await ctx.logout();
-    ctx.response.status = 200;
-    ctx.response.body = { data: { user: null } };
-  });
+  router.post('/api/logout', auth.logout);
+  router.get('/api/oauth/github', auth.oauthGithub);
+  router.get('/api/oauth/github/callback', auth.oauthGithubCallback);
   if (mergedConfig.useAuth) {
     router.use(
       [

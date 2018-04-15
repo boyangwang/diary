@@ -30,6 +30,7 @@
     "lodash": "^4.17.5",
     "mongodb": "^2.2.31",
     "multer-s3": "^2.7.0",
+    "passport-github": "^1.1.0",
     "passport-local": "^1.0.0",
     "prettier": "^1.11.1",
     "server-destroy": "^1.0.1"

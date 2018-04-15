@@ -9,12 +9,21 @@ import api, { ErrResponse, LoginResponse } from 'utils/api';
 class Props {
   public form?: any;
 }
+class State {
+  public loading: boolean = false;
+}
 class LoginFormValues {
   public username: string;
   public password: string;
 }
-class NormalLoginForm extends React.Component<Props & FormComponentProps> {
+class NormalLoginForm extends React.Component<Props & FormComponentProps, State> {
+  constructor(props: Props & FormComponentProps) {
+    super(props);
+    this.state = new State();
+  }
+
   public handleSubmit = (e: any) => {
+    this.setState({ loading: true });
     e.preventDefault();
     this.props.form.validateFields(
       (validateErr: any, values: LoginFormValues) => {
@@ -29,9 +38,11 @@ class NormalLoginForm extends React.Component<Props & FormComponentProps> {
                   payload: { user: data.data.user },
                 });
               }
+              this.setState({ loading: false });
             },
             (err) => {
               message.warn('' + err);
+              this.setState({ loading: false });
             }
           );
         }
@@ -41,6 +52,7 @@ class NormalLoginForm extends React.Component<Props & FormComponentProps> {
 
   public render() {
     const { getFieldDecorator } = this.props.form;
+    const { loading } = this.state;
     return (
       <Form onSubmit={this.handleSubmit} className="LoginView">
         <Form.Item>
@@ -79,8 +91,17 @@ class NormalLoginForm extends React.Component<Props & FormComponentProps> {
           >
             Log in
           </Button>
+          <Button
+            className="login-form-button"
+            icon=""
+            href="/api/oauth/github"
+            onClick={() => this.setState({ loading: true })}
+          >
+            <Icon type="github" /> Log in using GitHub {loading && <Icon type="loading" />}
+          </Button>
           {/* Or <a href="">register now!</a> */}
         </Form.Item>
+
       </Form>
     );
   }
