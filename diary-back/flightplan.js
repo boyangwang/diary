@@ -67,6 +67,7 @@ plan.local(['copy-secrets', 'deploy-all'], (local) => {
   local.exec(
     `scp ../secrets.js root@playground.wangboyang.com:${projectsDir}/diary-master/`
   );
+  local.exec('echo DONE copy-secrets `pwd`');
 });
 
 plan.remote(['backend', 'deploy-all'], (remote) => {
