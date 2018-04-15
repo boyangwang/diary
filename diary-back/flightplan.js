@@ -63,6 +63,12 @@ plan.remote(['run-mongod', 'deploy-all'], (remote) => {
   );
 });
 
+plan.local(['copy-secrets', 'deploy-all'], (local) => {
+  local.exec(
+    `scp ../secrets.js root@playground.wangboyang.com:${projectsDir}/diary-master/`
+  );
+});
+
 plan.remote(['backend', 'deploy-all'], (remote) => {
   // backend
   remote.with(`cd ${projectsDir}/diary-master/diary-back`, () => {
