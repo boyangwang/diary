@@ -58,7 +58,7 @@ class EntryView extends React.Component<{}, State> {
               </div>
             </Col>
           </Row>
-          <EntryTrendChartContainer />
+          <EntryTrendChartContainer offset={offset * 7} />
         </Collapse.Panel>
       </Collapse>
     );

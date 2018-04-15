@@ -63,7 +63,9 @@ const chartColorPanel = [
   'rgba(83,123,210,1)',
 ];
 
-class Props {}
+class Props {
+  public offset: number = 0;
+}
 class ReduxProps {
   public entriesDateMap: {
     [date: string]: Entry[];
@@ -73,19 +75,42 @@ class ReduxProps {
 class State {
   public isLoading: boolean = true;
   public err: any;
-  public last14Days: string[] = new Array(14)
-    .fill(0)
-    .map((_, i) => i)
-    .map((offset) => util.getTodayStringWithOffset(-offset))
-    .reverse();
+  public last14Days: string[] = [];
 }
-class EntryTrendChartContainer extends React.Component<ReduxProps, State> {
-  constructor(props: ReduxProps) {
+class EntryTrendChartContainer extends React.Component<
+  Props & ReduxProps,
+  State
+> {
+  constructor(props: Props & ReduxProps) {
     super(props);
-    this.state = new State();
+    this.state = Object.assign({}, new State(), {
+      last14Days: new Array(14)
+        .fill(0)
+        .map((_, i) => i)
+        .map((currentOffset) =>
+          util.getTodayStringWithOffset(-currentOffset + this.props.offset)
+        )
+        .reverse(),
+    });
   }
 
-  public componentDidMount() {
+  public async componentWillReceiveProps(nextProps: Props & ReduxProps) {
+    if (this.props.offset !== nextProps.offset) {
+      await this.setState({
+        last14Days: new Array(14)
+          .fill(0)
+          .map((_, i) => i)
+          .map((currentOffset) =>
+            util.getTodayStringWithOffset(-currentOffset + nextProps.offset)
+          )
+          .reverse(),
+        isLoading: true,
+      });
+      await this.fetchDaysEntries();
+    }
+  }
+
+  public async fetchDaysEntries() {
     const { entriesDateMap, user } = this.props;
     const { last14Days } = this.state;
 
@@ -131,6 +156,10 @@ class EntryTrendChartContainer extends React.Component<ReduxProps, State> {
           this.setState({ err });
         }
       );
+  }
+
+  public async componentDidMount() {
+    await this.fetchDaysEntries();
   }
 
   public getChartDataAndAreasFromDaysAndEntriesDateMap(
