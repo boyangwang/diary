@@ -1,14 +1,15 @@
+const secrets = require('../../secrets.js');
+
 module.exports = {
-  users: [
-    { username: 'diary', password: 'pass' },
-    { username: 'pyc', password: 'pass' },
-  ],
+  users: secrets.users,
   port: 14464,
   dbName: 'diary',
   keys: ['diary'],
   useAuth: true,
   sessionConfig: {
-    key: 'koa:sess:dairy' /** (string) cookie key (default is koa:sess) */,
+    key:
+      secrets.sessionConfig
+        .key /** (string) cookie key (default is koa:sess) */,
     /** (number || 'session') maxAge in ms (default is 1 days) */
     /** 'session' will result in a cookie that expires when session/browser is closed */
     /** Warning: If a session cookie is stolen, this cookie will never expire */
@@ -19,4 +20,6 @@ module.exports = {
     rolling: false /** (boolean) Force a session identifier cookie to be set on every response. The expiration is reset to the original maxAge, resetting the expiration countdown. (default is false) */,
     renew: false /** (boolean) renew session when session is nearly expired, so we can always keep user logged in. (default is false)*/,
   },
+  GITHUB_CLIENT_ID: secrets.GITHUB_CLIENT_ID,
+  GITHUB_CLIENT_SECRET: secrets.GITHUB_CLIENT_SECRET,
 };

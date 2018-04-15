@@ -16,7 +16,10 @@ class LoginFormValues {
   public username: string;
   public password: string;
 }
-class NormalLoginForm extends React.Component<Props & FormComponentProps, State> {
+class NormalLoginForm extends React.Component<
+  Props & FormComponentProps,
+  State
+> {
   constructor(props: Props & FormComponentProps) {
     super(props);
     this.state = new State();
@@ -97,11 +100,11 @@ class NormalLoginForm extends React.Component<Props & FormComponentProps, State>
             href="/api/oauth/github"
             onClick={() => this.setState({ loading: true })}
           >
-            <Icon type="github" /> Log in using GitHub {loading && <Icon type="loading" />}
+            <Icon type="github" /> Log in using GitHub{' '}
+            {loading && <Icon type="loading" />}
           </Button>
           {/* Or <a href="">register now!</a> */}
         </Form.Item>
-
       </Form>
     );
   }
