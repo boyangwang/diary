@@ -12,6 +12,10 @@
 			{
 				"path": "../util/.bashrc",
 				"alias": " 3 util/.bashrc"
+			},
+			{
+				"path": "/private/etc/hosts",
+				"alias": " 4 etc/hosts"
 			}
 		]
 	}
