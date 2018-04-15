@@ -9,11 +9,21 @@ import { dispatch } from 'reducers/store';
 import api, { Digest, ErrResponse, GetDigestsResponse } from 'utils/api';
 import util from 'utils/util';
 
+class State {
+  public currentPage: number = 1;
+  public pageSize: number = 4;
+  public err: any;
+}
 class ReduxProps {
   public digests: Digest[];
   public user: User | null;
 }
-class DigestView extends React.Component<ReduxProps, {}> {
+class DigestView extends React.Component<ReduxProps, State> {
+  constructor(props: ReduxProps) {
+    super(props);
+    this.state = new State();
+  }
+
   public getDigests() {
     const { user } = this.props;
     if (!user) {
@@ -40,18 +50,35 @@ class DigestView extends React.Component<ReduxProps, {}> {
 
   public renderContent() {
     const { digests } = this.props;
+    const { currentPage, pageSize } = this.state;
     const sortedByModifiedThenCreated = digests.sort((a, b) => {
       return (
         util.compare(a.lastModified, b.lastModified) * -10 +
         util.compare(a.createTimestamp, b.createTimestamp) * -1
       );
     });
+    const currentPageDigests = sortedByModifiedThenCreated.slice(
+      (currentPage - 1) * pageSize,
+      currentPage * pageSize
+    );
     return (
       <div className="DigestsContainer">
-        <List
-          dataSource={sortedByModifiedThenCreated}
-          renderItem={(digest: Digest) => <DigestObject digest={digest} />}
-        />
+        <Collapse>
+          <Collapse.Panel header="Digests" key="unchecked">
+            <List
+              dataSource={currentPageDigests}
+              renderItem={(digest: Digest) => <DigestObject digest={digest} />}
+              pagination={{
+                pageSize,
+                current: currentPage,
+                total: sortedByModifiedThenCreated.length,
+                showTotal: (total: number) => `Total ${total} digests`,
+                onChange: (newPage: number) =>
+                  this.setState({ currentPage: newPage }),
+              }}
+            />
+          </Collapse.Panel>
+        </Collapse>
       </div>
     );
   }
