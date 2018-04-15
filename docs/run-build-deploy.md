@@ -51,6 +51,8 @@ aws_access_key_id=your_access_key
 aws_secret_access_key=your_secret_key
 ```
 
+- There are oauth secrets like GitHub. They are in secrets.js - one that needs to be created per env and maintained. See secrets.js.sample, create `secrets.js` in same location, fill values
+
 ### husky hooks
 
 If installed using yarn, install script is ignored. Trigger it mannually by `node node_modules/husky/bin/install.js`
