@@ -29,6 +29,9 @@ class DiaryHeaderContainer extends React.Component<ReduxProps> {
       <Layout.Header className="DiaryHeaderContainer">
         <div className="DiaryAppTitleDiv logo">
           <h1>DiaryApp</h1>
+          <h4 className="grey">
+            {process.env.NODE_ENV === 'production' ? 'PROD' : 'DEV'}
+          </h4>
           <h4 className="grey">{backendVersion}</h4>
         </div>
         <Menu theme="light" mode="horizontal">
