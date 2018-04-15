@@ -174,3 +174,9 @@ public componentDidMount() {
 - koa multer各种不对, 用中间件的方式等等. 直接await upload(ctx, next)就行
 
 - form里面啥都不能多, 不然就unexpected field
+
+## 上传图片不行?
+
+一开始以为是aws credential问题, 确实之前没加现在加了. 还是不行, 去看diary err log, 空的?? 但是access log倒是在打?? 以为在nginx那层截断了, 去找nginx log, 没有相关内容?? 终于在nginx log里面找到线索, 硬盘没空间了... 这样上面的行为都讲得通了
+
+原因是本来就20g, swap 8g, pm2 log 4g, sys journal 2g, 删掉一堆log, 好了
