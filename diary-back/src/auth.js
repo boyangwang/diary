@@ -22,6 +22,14 @@ module.exports = {
 
     passport.use(
       new LocalStrategy(function(username, password, done) {
+        // this way we use boyangwang for local dev, and forbid prod access
+        if (
+          process.env.NODE_ENV === 'production' &&
+          username === 'boyangwang'
+        ) {
+          return done(null, false);
+        }
+
         const user = config.users.find((u) => u.username == username);
         if (user && password == user.password) {
           done(null, { username: user.username });

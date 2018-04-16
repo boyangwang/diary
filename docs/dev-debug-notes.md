@@ -180,3 +180,9 @@ public componentDidMount() {
 一开始以为是aws credential问题, 确实之前没加现在加了. 还是不行, 去看diary err log, 空的?? 但是access log倒是在打?? 以为在nginx那层截断了, 去找nginx log, 没有相关内容?? 终于在nginx log里面找到线索, 硬盘没空间了... 这样上面的行为都讲得通了
 
 原因是本来就20g, swap 8g, pm2 log 4g, sys journal 2g, 删掉一堆log, 好了
+
+## 现在oauth搞好了, 本地开发还得顺回来呀 - 方法就是NODE_ENV判断, 然后直接回个结果吧
+
+最后用了最简单的方式, 加一套localstrategy, 指向boyangwang不就好了
+
+在线上禁用boyangwang

@@ -46,7 +46,6 @@ class DiaryApp extends React.Component<ReduxProps> {
     return (
       <div className="DiaryApp">
         <Layout>
-          <DiaryHeaderContainer />
           <Layout.Content>
             {user ? (
               <div>
@@ -58,6 +57,7 @@ class DiaryApp extends React.Component<ReduxProps> {
               <DiaryLoginView />
             )}
           </Layout.Content>
+          <DiaryHeaderContainer />
         </Layout>
       </div>
     );
