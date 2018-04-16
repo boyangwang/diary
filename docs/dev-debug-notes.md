@@ -186,3 +186,9 @@ public componentDidMount() {
 最后用了最简单的方式, 加一套localstrategy, 指向boyangwang不就好了
 
 在线上禁用boyangwang
+
+## debug了100年一个宽度明明是411, device也是411, 却有横向滚动条的问题??
+
+~线上就没有. 最后发现是chrome的bug, 刚刚的device不是411, 改成411, 有的地方没反应过来, 把移动模式开关一下就好了! 气死~
+
+毛线chrome bug哟, 是因为recharts. 宽度是100%, margin是-20, 阴错阳差就出现了scoll. 可能宽度确实超过屏幕, 只不过没有体现在parent上, 然后我没查到这一层

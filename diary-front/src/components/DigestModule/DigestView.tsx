@@ -87,16 +87,11 @@ class DigestView extends React.Component<ReduxProps, State> {
     const { digests } = this.props;
 
     return (
-      <Collapse bordered={false} defaultActiveKey={['1']} className="cardlike">
-        <Collapse.Panel
-          header={<h2>DigestView</h2>}
-          className="DigestView"
-          key="1"
-        >
-          {digests.length === 0 ? 'Empty' : this.renderContent()}
-          <DigestFormContainer />
-        </Collapse.Panel>
-      </Collapse>
+      <div className="DigestView">
+        <h2>DigestView</h2>
+        {digests.length === 0 ? 'Empty' : this.renderContent()}
+        <DigestFormContainer />
+      </div>
     );
   }
 }

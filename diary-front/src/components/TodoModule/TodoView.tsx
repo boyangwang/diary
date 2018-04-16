@@ -86,12 +86,11 @@ class TodoView extends React.Component<ReduxProps> {
     const { todos } = this.props;
 
     return (
-      <Collapse bordered={false} defaultActiveKey={['1']} className="cardlike">
-        <Collapse.Panel header={<h2>TodoView</h2>} className="TodoView" key="1">
-          {todos.length === 0 ? 'Empty' : this.renderContent()}
-          <TodoFormContainer />
-        </Collapse.Panel>
-      </Collapse>
+      <div className="TodoView">
+        <h2>TodoView</h2>
+        {todos.length === 0 ? 'Empty' : this.renderContent()}
+        <TodoFormContainer />
+      </div>
     );
   }
 }

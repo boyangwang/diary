@@ -73,41 +73,36 @@ class DigestFormContainer extends React.Component<
         // because time picker is only up to second
         createTimestamp: values.createTimestamp.unix() * 1000,
       });
-      api
-        .postDigest({ data: { digest, owner: user.username } })
-        .then(
-          (data: PostDigestResponse & ErrResponse) => {
-            if (data.err) {
-              message.warn('' + data.err);
+      api.postDigest({ data: { digest, owner: user.username } }).then(
+        (data: PostDigestResponse & ErrResponse) => {
+          if (data.err) {
+            message.warn('' + data.err);
+          } else {
+            if (data.data.digest) {
+              dispatch({
+                type: 'POST_DIGEST',
+                payload: { digest: data.data.digest },
+              });
             } else {
-              if (data.data.digest) {
-                dispatch({
-                  type: 'POST_DIGEST',
-                  payload: { digest: data.data.digest },
-                });
-              } else {
-                dispatch({
-                  type: 'UPDATE_DIGEST',
-                  payload: { digest },
-                });
-              }
+              dispatch({
+                type: 'UPDATE_DIGEST',
+                payload: { digest },
+              });
             }
-          },
-          (err) => {
-            message.warn('' + err);
+            resetFields();
+            if (!this.props.digest) {
+              this.setState({
+                editorState: EmptyState,
+                tags: [],
+              });
+            }
+            onSubmit();
           }
-        )
-        .then(() => {
-          resetFields();
-          if (!this.props.digest) {
-            this.setState({
-              editorState: EmptyState,
-              tags: [],
-            });
-          }
-          onSubmit();
-        });
-      onSubmit();
+        },
+        (err) => {
+          message.warn('' + err);
+        }
+      );
     });
   };
 

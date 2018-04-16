@@ -1,3 +1,5 @@
+import './DiaryLoginView.css';
+
 import { Button, Form, Icon, Input, message } from 'antd';
 import React from 'react';
 import { connect } from 'react-redux';
@@ -35,13 +37,13 @@ class NormalLoginForm extends React.Component<
             (data: LoginResponse & ErrResponse) => {
               if (data.err) {
                 message.warn('' + data.err);
+                this.setState({ loading: false });
               } else {
                 dispatch({
                   type: 'LOGIN',
                   payload: { user: data.data.user },
                 });
               }
-              this.setState({ loading: false });
             },
             (err) => {
               message.warn('' + err);

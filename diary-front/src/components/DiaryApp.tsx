@@ -17,7 +17,15 @@ import mylog from 'utils/mylog';
 class ReduxProps {
   public user: User | null;
 }
-class DiaryApp extends React.Component<ReduxProps> {
+class State {
+  public activeTab: string = 'entry';
+}
+class DiaryApp extends React.Component<ReduxProps, State> {
+  public constructor(props: ReduxProps) {
+    super(props);
+    this.state = new State();
+  }
+
   public componentWillMount() {
     api.apiTest().then(
       (data: ApiTestResponse & ErrResponse) => {
@@ -43,21 +51,28 @@ class DiaryApp extends React.Component<ReduxProps> {
 
   public render() {
     const { user } = this.props;
+    const { activeTab } = this.state;
+
     return (
       <div className="DiaryApp">
         <Layout>
+          <DiaryHeaderContainer
+            activeTab={activeTab}
+            onChangeTab={(tab: string) => () => {
+              this.setState({ activeTab: tab });
+            }}
+          />
           <Layout.Content>
             {user ? (
               <div>
-                <EntryView />
-                <TodoView />
-                <DigestView />
+                {activeTab === 'entry' && <EntryView />}
+                {activeTab === 'todo' && <TodoView />}
+                {activeTab === 'digest' && <DigestView />}
               </div>
             ) : (
               <DiaryLoginView />
             )}
           </Layout.Content>
-          <DiaryHeaderContainer />
         </Layout>
       </div>
     );
