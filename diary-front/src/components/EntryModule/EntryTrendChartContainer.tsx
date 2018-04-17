@@ -265,7 +265,11 @@ class EntryTrendChartContainer extends React.Component<
           margin={{ top: 12, right: 16, left: -20, bottom: 12 }}
         >
           <XAxis dataKey="date" padding={{ left: 10, right: 10 }} />
-          <YAxis padding={{ top: 10, bottom: 0 }} />
+          <YAxis
+            padding={{ top: 10, bottom: 0 }}
+            type="number"
+            domain={[0, 20]}
+          />
           <Legend
             wrapperStyle={{
               marginLeft: '20px',
