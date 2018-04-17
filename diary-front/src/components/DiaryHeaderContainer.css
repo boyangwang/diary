@@ -3,7 +3,7 @@
   width: auto;
   float: left;
 }
-.DiaryHeaderContainer .DiaryAppTitleDiv h1, .DiaryHeaderContainer .DiaryAppTitleDiv h4 {
+.DiaryAppTitleDiv h1, .DiaryAppTitleDiv h4 {
   margin: 0;
 }
 .DiaryHeaderContainer.ant-layout-header {
@@ -58,6 +58,14 @@
 .UserMenuContainer .ant-dropdown-menu-item {
   line-height: 42px;
 }
+.UserMenuContainer .usernameItemGroup ul.ant-dropdown-menu-item-group-list {
+  list-style: none;
+  padding-left: 0;
+}
+.UserMenuContainer .usernameItemGroup ul.ant-dropdown-menu-item-group-list .ant-dropdown-menu-item {
+  padding-left: 24px;
+}
 .logo {
   display: flex;
+  align-items: baseline;
 }

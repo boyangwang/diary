@@ -1,6 +1,6 @@
 import './DiaryHeaderContainer.css';
 
-import { Button, Dropdown, Layout, Menu } from 'antd';
+import { Button, Dropdown, Icon, Layout, Menu } from 'antd';
 import React from 'react';
 import { connect } from 'react-redux';
 
@@ -69,7 +69,7 @@ class DiaryHeaderContainer extends React.Component<Props & ReduxProps> {
 
     const userMenuItem = (
       <Menu className="UserMenuContainer">
-        <Menu.Item key="0">
+        <Menu.Item>
           <div className="DiaryAppTitleDiv logo">
             <h1>DiaryApp</h1>
             <h4 className="grey">
@@ -80,21 +80,32 @@ class DiaryHeaderContainer extends React.Component<Props & ReduxProps> {
           </div>
         </Menu.Item>
         <Menu.Divider />
-        <Menu.Item key="username">{user && user.username}</Menu.Item>
-        <Menu.Item key="sync">
-          <a onClick={() => window.location.reload()}>Sync</a>
-        </Menu.Item>
-        <Menu.Item key="issue">
-          <a
-            target="_blank"
-            href="https://github.com/boyangwang/diary/issues/new"
-          >
-            Issue
-          </a>
-        </Menu.Item>
-        <Menu.Item key="logout">
-          <a onClick={this.logout}>Logout</a>
-        </Menu.Item>
+
+        <Menu.ItemGroup
+          title={
+            <div key="username" className="usernameDiv">
+              <Icon type="user" />&nbsp;{user && user.username}
+            </div>
+          }
+          className="usernameItemGroup"
+        >
+          <Menu.Item key="sync">
+            <a onClick={() => window.location.reload()}>Sync</a>
+          </Menu.Item>
+          <Menu.Divider />
+          <Menu.Item key="issue">
+            <a
+              target="_blank"
+              href="https://github.com/boyangwang/diary/issues/new"
+            >
+              Issue
+            </a>
+          </Menu.Item>
+          <Menu.Divider />
+          <Menu.Item key="logout">
+            <a onClick={this.logout}>Logout</a>
+          </Menu.Item>
+        </Menu.ItemGroup>
       </Menu>
     );
 
