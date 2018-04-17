@@ -4,8 +4,16 @@
   align-items: center;
 }
 .DigestSearchBarContainer .DigestSearchDiv {
-  flex: 0 0 80%;
+  margin-left: 24px;
 }
-.DigestSearchContainer.ant-collapse-item > .ant-collapse-header .arrow {
+.DigestSearchContainer.ant-collapse > .ant-collapse-item > .ant-collapse-header .arrow {
   line-height: 56px;
+}
+.highlightDiv .highlight {
+  background-color: #ffd54f;
+}
+.highlightCategoryLabelSpan {
+  margin-left: -24px;
+  font-weight: bold;
+  display: block;
 }

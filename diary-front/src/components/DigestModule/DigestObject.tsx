@@ -15,6 +15,7 @@ import DigestTagsObject from './DigestTagsObject';
 
 class Props {
   public digest: Digest;
+  public highlight?: React.ReactNode;
 }
 class ReduxProps {
   public user: User | null;
@@ -51,7 +52,7 @@ class DigestObject extends React.Component<Props & ReduxProps, State> {
   }
 
   public render() {
-    const { digest } = this.props;
+    const { digest, highlight } = this.props;
     const shortenedLastModified = new Date(digest.lastModified)
       .toISOString()
       .substring(0, 16);
@@ -111,6 +112,11 @@ class DigestObject extends React.Component<Props & ReduxProps, State> {
             }
           />
         </Modal>
+        {highlight && (
+          <Row type="flex" className="DigestRow">
+            <div className="highlight">{highlight}</div>
+          </Row>
+        )}
         <Row type="flex" className="DigestRow">
           <div className="createTimestamp">
             <Alert message={shortenedCreateTimestamp} type="success" />

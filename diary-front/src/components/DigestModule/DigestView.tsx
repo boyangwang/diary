@@ -76,8 +76,8 @@ class DigestView extends React.Component<ReduxProps, State> {
 
     return (
       <div className="DigestsContainer">
+        <DigestSearchContainer digests={digests} />
         <Collapse>
-          <DigestSearchContainer digests={digests} />
           <Collapse.Panel header="All" key="all">
             <List
               dataSource={this.findShouldShowDigests()}

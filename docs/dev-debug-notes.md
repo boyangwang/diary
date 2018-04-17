@@ -192,3 +192,9 @@ public componentDidMount() {
 ~线上就没有. 最后发现是chrome的bug, 刚刚的device不是411, 改成411, 有的地方没反应过来, 把移动模式开关一下就好了! 气死~
 
 毛线chrome bug哟, 是因为recharts. 宽度是100%, margin是-20, 阴错阳差就出现了scoll. 可能宽度确实超过屏幕, 只不过没有体现在parent上, 然后我没查到这一层
+
+## collapse panel 不能是另一个组件, 这个很可能是antd的锅了
+
+解决方式: 和当初首页各个view的处理差不多, 每个人都自建大collapse呗
+
+原来之前遇到的header不能用component的问题也是这个导致的, 可以干掉prefixCls了
