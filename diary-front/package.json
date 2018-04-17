@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@types/draft-js": "^0.10.20",
+    "@types/react-highlight-words": "^0.6.4",
     "@types/recharts": "^1.0.18",
     "antd": "^3.3.0",
     "append-query": "^2.0.1",
@@ -27,6 +28,7 @@
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-draft-wysiwyg": "^1.12.11",
+    "react-highlight-words": "^0.11.0",
     "react-redux": "^5.0.7",
     "react-scripts-ts": "^2.14.0",
     "recharts": "^1.0.0-beta.10",
