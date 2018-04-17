@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import DigestFormContainer from 'components/DigestModule/DigestFormContainer';
 import DigestObject from 'components/DigestModule/DigestObject';
+import DigestSearchContainer from 'components/DigestModule/DigestSearchContainer';
 import { ReduxState, User } from 'reducers';
 import { dispatch } from 'reducers/store';
 import api, { Digest, ErrResponse, GetDigestsResponse } from 'utils/api';
@@ -60,10 +61,12 @@ class DigestView extends React.Component<ReduxProps, State> {
         util.compare(a.createTimestamp, b.createTimestamp) * -1
       );
     });
-    const currentPageDigests = sortedByStickyThenModifiedThenCreated.slice(
-      (currentPage - 1) * pageSize,
-      currentPage * pageSize
+    const currentPageDigests = util.findCurrentPageItems(
+      sortedByStickyThenModifiedThenCreated,
+      pageSize,
+      currentPage
     );
+
     return currentPageDigests;
   }
 
@@ -74,7 +77,8 @@ class DigestView extends React.Component<ReduxProps, State> {
     return (
       <div className="DigestsContainer">
         <Collapse>
-          <Collapse.Panel header="Digests" key="unchecked">
+          <DigestSearchContainer digests={digests} />
+          <Collapse.Panel header="All" key="all">
             <List
               dataSource={this.findShouldShowDigests()}
               renderItem={(digest: Digest) => <DigestObject digest={digest} />}
@@ -99,7 +103,7 @@ class DigestView extends React.Component<ReduxProps, State> {
     return (
       <div className="DigestView">
         <h2>DigestView</h2>
-        {digests.length === 0 ? 'Empty' : this.renderContent()}
+        {digests.length === 0 ? 'Loading or empty...' : this.renderContent()}
         <DigestFormContainer />
       </div>
     );

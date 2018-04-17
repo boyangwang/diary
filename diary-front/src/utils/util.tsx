@@ -106,4 +106,11 @@ export default {
       return res;
     }
   },
+  findCurrentPageItems: (
+    items: any[],
+    pageSize: number,
+    currentPage: number
+  ) => {
+    return items.slice((currentPage - 1) * pageSize, currentPage * pageSize);
+  },
 };
