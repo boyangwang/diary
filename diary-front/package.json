@@ -5,11 +5,11 @@
   "author": "Boyang <wangboyang1991@gmail.com>",
   "scripts": {
     "start": "react-scripts-ts start",
+    "pretty":
+      "prettier --write --trailing-comma es5 --single-quote --arrow-parens always \"{src/**/*.{js,ts,tsx},*.json}\" && tslint --project . --fix",
     "build": "react-scripts-ts build",
     "test": "react-scripts-ts test --env=jsdom",
     "eject": "react-scripts-ts eject",
-    "pretty":
-      "prettier --write --trailing-comma es5 --single-quote --arrow-parens always \"{src/**/*.{js,ts,tsx},*.json}\" && tslint --project . --fix",
     "tslint-check": "tslint-config-prettier-check ./tslint.json",
     "postinstall": "cd .. && yarn install"
   },
