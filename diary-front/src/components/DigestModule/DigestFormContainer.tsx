@@ -15,6 +15,7 @@ import DigestTagsObject from 'components/DigestModule/DigestTagsObject';
 import { ReduxState, User } from 'reducers';
 import { dispatch } from 'reducers/store';
 import api, { Digest, ErrResponse, PostDigestResponse } from 'utils/api';
+import util from 'utils/util';
 
 class Props {
   public digest?: Digest;
@@ -72,6 +73,7 @@ class DigestFormContainer extends React.Component<
         lastModified: Date.now(),
         // because time picker is only up to second
         createTimestamp: values.createTimestamp.unix() * 1000,
+        tags: values.tags.sort(util.compare),
       });
       api.postDigest({ data: { digest, owner: user.username } }).then(
         (data: PostDigestResponse & ErrResponse) => {

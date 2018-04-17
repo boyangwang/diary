@@ -11,7 +11,7 @@ import util from 'utils/util';
 
 class State {
   public currentPage: number = 1;
-  public pageSize: number = 4;
+  public pageSize: number = 6;
   public err: any;
 }
 class ReduxProps {
@@ -48,30 +48,40 @@ class DigestView extends React.Component<ReduxProps, State> {
     this.getDigests();
   }
 
-  public renderContent() {
+  public findShouldShowDigests() {
     const { digests } = this.props;
     const { currentPage, pageSize } = this.state;
-    const sortedByModifiedThenCreated = digests.sort((a, b) => {
+
+    const sortedByStickyThenModifiedThenCreated = digests.sort((a, b) => {
       return (
+        util.compare(a.tags.includes('sticky'), b.tags.includes('sticky')) *
+          -100 +
         util.compare(a.lastModified, b.lastModified) * -10 +
         util.compare(a.createTimestamp, b.createTimestamp) * -1
       );
     });
-    const currentPageDigests = sortedByModifiedThenCreated.slice(
+    const currentPageDigests = sortedByStickyThenModifiedThenCreated.slice(
       (currentPage - 1) * pageSize,
       currentPage * pageSize
     );
+    return currentPageDigests;
+  }
+
+  public renderContent() {
+    const { digests } = this.props;
+    const { currentPage, pageSize } = this.state;
+
     return (
       <div className="DigestsContainer">
         <Collapse>
           <Collapse.Panel header="Digests" key="unchecked">
             <List
-              dataSource={currentPageDigests}
+              dataSource={this.findShouldShowDigests()}
               renderItem={(digest: Digest) => <DigestObject digest={digest} />}
               pagination={{
                 pageSize,
                 current: currentPage,
-                total: sortedByModifiedThenCreated.length,
+                total: digests.length,
                 showTotal: (total: number) => `Total ${total} digests`,
                 onChange: (newPage: number) =>
                   this.setState({ currentPage: newPage }),

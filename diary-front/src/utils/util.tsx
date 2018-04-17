@@ -7,13 +7,24 @@ import mylog from 'utils/mylog';
 const dateStringFormat = 'YYYY-MM-DD';
 
 const compare = <T extends {}>(a: T, b: T): 0 | 1 | -1 => {
+  if (_.isNil(a) && _.isNil(b)) {
+    return 0;
+  }
   if (_.isNil(a)) {
     // b is bigger
     return -1;
   } else if (_.isNil(b)) {
     return 1;
   }
-  if (_.isNumber(a) && _.isNumber(b)) {
+  if (_.isBoolean(a) && _.isBoolean(b)) {
+    if (a === b) {
+      return 0;
+    }
+    if (a) {
+      return 1;
+    }
+    return -1;
+  } else if (_.isNumber(a) && _.isNumber(b)) {
     const res = (a as number) - (b as number);
     return res > 0 ? 1 : res < 0 ? -1 : 0;
   } else if (_.isString(a) && _.isString(b)) {
@@ -28,7 +39,7 @@ const compare = <T extends {}>(a: T, b: T): 0 | 1 | -1 => {
       return 0;
     }
   } else {
-    mylog('Error: compare not number nor string?');
+    mylog('Error: compare not number nor string nor boolean?');
     return 0;
   }
 };
