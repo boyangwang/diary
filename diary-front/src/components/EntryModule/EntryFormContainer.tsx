@@ -1,9 +1,11 @@
+import './EntryFormContainer.css';
+
 import {
+  AutoComplete,
   Button,
   Card,
   DatePicker,
   Form,
-  Icon,
   Input,
   InputNumber,
   message,
@@ -19,6 +21,10 @@ import { dispatch } from 'reducers/store';
 import api, { Entry, ErrResponse, PostEntryResponse } from 'utils/api';
 import util from 'utils/util';
 
+class TitleFrequency {
+  public title: string;
+  public frequency: number;
+}
 class Props {
   public entry?: Entry;
   public buttonText?: string;
@@ -31,6 +37,9 @@ class PropsDefaults {
 }
 class ReduxProps {
   public user: User | null;
+  public entriesDateMap: {
+    [date: string]: Entry[];
+  };
 }
 class EntryFormValues {
   public _id?: string;
@@ -86,9 +95,46 @@ class EntryFormContainer extends React.Component<
     });
   };
 
+  public getTitleSuggestions() {
+    const { entriesDateMap } = this.props;
+    if (!entriesDateMap) {
+      return [];
+    }
+    const titleFrequencyMap = {};
+
+    Object.keys(entriesDateMap).forEach((date) => {
+      const entries = entriesDateMap[date];
+      entries.forEach((entry) => {
+        titleFrequencyMap[entry.title] = titleFrequencyMap[entry.title]
+          ? titleFrequencyMap[entry.title] + 1
+          : 1;
+      });
+    });
+
+    const sortedTitles = Object.keys(titleFrequencyMap)
+      .map((title) => {
+        return { title, frequency: titleFrequencyMap[title] };
+      })
+      .sort((t1: TitleFrequency, t2: TitleFrequency) => {
+        return t2.frequency - t1.frequency;
+      });
+
+    return sortedTitles;
+  }
+
   public render() {
     const { getFieldDecorator } = this.props.form;
     const { buttonText, entry } = this.props;
+
+    const titleSuggestions = this.getTitleSuggestions();
+    const titleSuggestionsReact = titleSuggestions.map((t) => {
+      return (
+        <AutoComplete.Option key={t.title} value={t.title}>
+          <span className="EntryTitleOptionTitle">{t.title}</span>
+          <span className="EntryTitleOptionFrequency">{t.frequency}</span>
+        </AutoComplete.Option>
+      );
+    });
 
     return (
       <Card>
@@ -110,7 +156,16 @@ class EntryFormContainer extends React.Component<
                   return value.toLocaleLowerCase();
                 }
               },
-            })(<Input prefix={<Icon type="plus" />} placeholder="Title" />)}
+            })(
+              // 这里为什么要空的datasource? 因为antd type文件写错了 datasource必须 万幸children会覆盖
+              <AutoComplete
+                placeholder="Title"
+                dataSource={[]}
+                optionLabelProp="value"
+              >
+                {titleSuggestionsReact}
+              </AutoComplete>
+            )}
           </Form.Item>
           <Form.Item>
             {getFieldDecorator('points', {
@@ -154,5 +209,6 @@ const WrappedEntryFormContainer = Form.create()(EntryFormContainer);
 export default connect<ReduxProps, {}, Props>((state: ReduxState) => {
   return {
     user: state.user,
+    entriesDateMap: state.entriesDateMap,
   };
 })(WrappedEntryFormContainer as any);
