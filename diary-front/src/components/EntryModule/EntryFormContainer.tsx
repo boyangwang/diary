@@ -59,34 +59,30 @@ class EntryFormContainer extends React.Component<
       const entry: Entry = Object.assign({}, values, {
         date: values.date.format(util.dateStringFormat),
       });
-      api
-        .postEntry({ data: { entry, owner: user.username } })
-        .then(
-          (data: PostEntryResponse & ErrResponse) => {
-            if (data.err) {
-              message.warn('' + data.err);
+      api.postEntry({ data: { entry, owner: user.username } }).then(
+        (data: PostEntryResponse & ErrResponse) => {
+          if (data.err) {
+            message.warn('' + data.err);
+          } else {
+            if (data.data.entry) {
+              dispatch({
+                type: 'POST_ENTRY',
+                payload: { entry: data.data.entry },
+              });
             } else {
-              if (data.data.entry) {
-                dispatch({
-                  type: 'POST_ENTRY',
-                  payload: { entry: data.data.entry },
-                });
-              } else {
-                dispatch({
-                  type: 'UPDATE_ENTRY',
-                  payload: { entry },
-                });
-              }
+              dispatch({
+                type: 'UPDATE_ENTRY',
+                payload: { entry },
+              });
             }
-          },
-          (err) => {
-            message.warn('' + err);
+            resetFields();
+            onSubmit();
           }
-        )
-        .then(() => {
-          resetFields();
-          onSubmit();
-        });
+        },
+        (err) => {
+          message.warn('' + err);
+        }
+      );
     });
   };
 

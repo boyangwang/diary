@@ -63,34 +63,30 @@ class TodoFormContainer extends React.Component<
           ? values.dueDate.format(util.dateStringFormat)
           : null,
       });
-      api
-        .postTodo({ data: { todo, owner: user.username } })
-        .then(
-          (data: PostTodoResponse & ErrResponse) => {
-            if (data.err) {
-              message.warn('' + data.err);
+      api.postTodo({ data: { todo, owner: user.username } }).then(
+        (data: PostTodoResponse & ErrResponse) => {
+          if (data.err) {
+            message.warn('' + data.err);
+          } else {
+            if (data.data.todo) {
+              dispatch({
+                type: 'POST_TODO',
+                payload: { todo: data.data.todo },
+              });
             } else {
-              if (data.data.todo) {
-                dispatch({
-                  type: 'POST_TODO',
-                  payload: { todo: data.data.todo },
-                });
-              } else {
-                dispatch({
-                  type: 'UPDATE_TODO',
-                  payload: { todo },
-                });
-              }
+              dispatch({
+                type: 'UPDATE_TODO',
+                payload: { todo },
+              });
             }
-          },
-          (err) => {
-            message.warn('' + err);
           }
-        )
-        .then(() => {
           resetFields();
           onSubmit();
-        });
+        },
+        (err) => {
+          message.warn('' + err);
+        }
+      );
     });
   };
 
