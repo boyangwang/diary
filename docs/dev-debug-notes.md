@@ -198,3 +198,9 @@ public componentDidMount() {
 解决方式: 和当初首页各个view的处理差不多, 每个人都自建大collapse呗
 
 原来之前遇到的header不能用component的问题也是这个导致的, 可以干掉prefixCls了
+
+## auth.test.js 不过
+
+一开始以为是加的verifyCorrectUser, 后来又因为attribution跑到login去困惑了一下. 最后才发现是因为我自己的testutil没有考虑过method: 'GET'的情况. 只要给'GET'就报错
+
+还好我没有留下POST的试试, 要不然通过了更困惑了.

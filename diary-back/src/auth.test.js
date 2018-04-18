@@ -28,24 +28,27 @@ describe('login', async () => {
   });
 
   test('401 for all api reqs', async () => {
-    await expectFetchUrlStatusCodeAndJson({
-      url: `http://localhost:${
-        config.port
-      }/api/getEntries?date=1970-01-01&owner=testOwner`,
-      expectStatusCode: 401,
-      expectJson: { err: 'need login' },
-    });
-    await expectFetchUrlStatusCodeAndJson({
-      url: `http://localhost:${config.port}/api/postEntry`,
-      method: 'POST',
-      expectStatusCode: 401,
-      expectJson: { err: 'need login' },
-    });
-    await expectFetchUrlStatusCodeAndJson({
-      url: `http://localhost:${config.port}/api/deleteEntry`,
-      method: 'POST',
-      expectStatusCode: 401,
-      expectJson: { err: 'need login' },
+    const apis = [
+      '/api/getEntries',
+      '/api/postEntry',
+      '/api/deleteEntry',
+      '/api/getTodos',
+      '/api/postTodo',
+      '/api/deleteTodo',
+      '/api/getDigests',
+      '/api/postDigest',
+      '/api/deleteDigest',
+      '/api/uploadImage',
+    ];
+    await apis.forEach(async api => {
+      await expectFetchUrlStatusCodeAndJson({
+        url: `http://localhost:${
+          config.port
+        }${api}`,
+        method: api.includes('get') ? 'GET' : 'POST',
+        expectStatusCode: 401,
+        expectJson: { err: 'need login' },
+      });
     });
   });
 
@@ -58,4 +61,6 @@ describe('login', async () => {
       expectStatusCode: 200,
     });
   });
+
+
 });
