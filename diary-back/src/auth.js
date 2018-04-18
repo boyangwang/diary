@@ -51,13 +51,15 @@ module.exports = {
       'local',
       async (err, user, info, status) => {
         if (user) {
+          await ctx.login(user);
           ctx.status = 200;
           ctx.body = { data: { user } };
-          return ctx.login(user);
+          return;
         } else {
           console.mylog('Login failure', ctx.request.body);
           ctx.status = 401;
-          return (ctx.body = { err: 'Login failure' });
+          ctx.body = { err: 'Login failure' };
+          return;
         }
       }
     )(ctx, next);

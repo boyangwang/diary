@@ -8,12 +8,22 @@ const mongoUrl = `mongodb://localhost:27017/${dbName}`;
 const {
   expectFetchUrlStatusCodeAndJson,
   expectDbQueryResult,
+  setTestObj,
+  getTestObj,
+  getMyCookiesString,
 } = require('./testutils.js');
 let appInstance, db;
 
 beforeAll(async () => {
   db = await MongoClient.connect(mongoUrl);
   appInstance = await require('./server.js')({ dbName, port: config.port });
+
+  await setTestObj({
+    date: '1970-01-01',
+    title: 'test title',
+    content: 'test content',
+    points: 1,
+  });
 });
 
 describe('login', async () => {
@@ -51,14 +61,27 @@ describe('login', async () => {
   });
 
   test('correct login and able to make req', async () => {
-    const loginResponse = (await expectFetchUrlStatusCodeAndJson({
+    let responseAndBody = await expectFetchUrlStatusCodeAndJson({
       url: `http://localhost:${config.port}/api/login`,
       postBody: { username: user.username, password: user.password },
       method: 'POST',
       expectJson: { data: { user: { username: user.username } } },
       expectStatusCode: 200,
-    })).response;
+    });
 
-    console.log('XXX ', loginResponse.headers);
+    const setCookie = responseAndBody.response.headers.get('set-cookie');
+    expect(setCookie).toBeTruthy();
+
+    const cookie = getMyCookiesString(setCookie);
+
+    let entry = getTestObj({ _id: undefined });
+    responseAndBody = await expectFetchUrlStatusCodeAndJson({
+      url: `http://localhost:${config.port}/api/apiTest`,
+      headers: {
+        cookie,
+      },
+      expectStatusCode: 200,
+    });
+    expect(responseAndBody.body.data.user.username).toEqual(user.username);
   });
 });

@@ -204,3 +204,15 @@ public componentDidMount() {
 一开始以为是加的verifyCorrectUser, 后来又因为attribution跑到login去困惑了一下. 最后才发现是因为我自己的testutil没有考虑过method: 'GET'的情况. 只要给'GET'就报错
 
 还好我没有留下POST的试试, 要不然通过了更困惑了.
+
+## auth.test
+
+测试auth确实不容易, 我现在遇到的问题, 我本以为很显然就先登录然后后续请求带cookie就可以. 但是, curl行test里面却不行
+
+会是因为什么呢? 先试试等几秒
+
+~...靠! 还真是等一秒就行了, 所有跟persistence有关系的都要这样吗?? 怪不得node异步模型被人狂喷~
+
+不是. 等一秒也不行. 刚刚以为行了是因为把expectcode改成了401. 实际原来是Set-Cookie和Cookie语法不同! set多了expire, httponly什么的, parse失败, 结果就成了没有cookie
+
+两个lesson... 第一, 早点好好读specs. 第二, 我没有明白地在curl里操作复制, 而是都从chrome复制成curl格式, 结果没发现这个问题

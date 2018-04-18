@@ -1,6 +1,7 @@
 require('isomorphic-fetch');
 const { ObjectId } = require('mongodb');
 const leftPad = require('left-pad');
+const cookie = require('cookie');
 
 let testObj;
 
@@ -31,15 +32,18 @@ module.exports = {
     expectJson,
     method,
     postBody,
+    headers,
   }) => {
     let response;
+    const mergedHeaders = {
+      'Content-Type': 'application/json',
+      ...headers,
+    };
     if (!method) {
       method = 'GET';
     }
     response = await fetch(url, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: mergedHeaders,
       method,
       body: JSON.stringify(postBody),
     });
@@ -63,5 +67,12 @@ module.exports = {
       });
       expect(dbResult).toEqual(expectedResults);
     }, 1000);
+  },
+  getMyCookiesString: (setCookieStr) => {
+    let match = /(dairy=[^;]*;)/.exec(setCookieStr);
+    const cookie1 = match[1];
+    match = /(dairy.sig=[^;]*;)/.exec(setCookieStr);
+    const cookie2 = match[1];
+    return cookie1 + ' ' + cookie2;
   },
 };

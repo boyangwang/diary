@@ -6,7 +6,7 @@
     {
       "label": "pretty",
       "type": "shell",
-      "command": "cd diary-front; npm run pretty",
+      "command": "cd diary-front; npm run pretty; cd ../diary-back; npm run pretty",
       "problemMatcher": [
         "$eslint-compact"
       ]
