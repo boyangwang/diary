@@ -86,6 +86,21 @@ const main = async (opt = {}) => {
       ],
       auth.verifyAuthenticated
     );
+    router.use(
+      [
+        '/api/getEntries',
+        '/api/postEntry',
+        '/api/deleteEntry',
+        '/api/getTodos',
+        '/api/postTodo',
+        '/api/deleteTodo',
+        '/api/getDigests',
+        '/api/postDigest',
+        '/api/deleteDigest',
+        '/api/uploadImage',
+      ],
+      auth.verifyCorrectUser
+    );
   }
   // diary
   entry.init(app, db);

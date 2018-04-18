@@ -70,6 +70,24 @@ module.exports = {
       ctx.body = { err: 'need login' };
     }
   },
+  verifyCorrectUser: async (ctx, next) => {
+    let owner;
+    
+    if (ctx.request.method === 'GET') {
+      owner = ctx.request.query.owner;
+    } else if (ctx.request.method === 'POST') {
+      owner = ctx.request.body.owner || ctx.request.body.data.owner;
+    } else {
+      await next();
+    }
+
+    if (owner !== ctx.state.user.username) {
+      ctx.status = 401;
+      ctx.body = { err: 'wrong owner' };
+    } else {
+      await next();
+    }
+  },
   logout: async (ctx) => {
     await ctx.logout();
     ctx.response.status = 200;
