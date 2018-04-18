@@ -46,7 +46,7 @@ module.exports = {
     expect(response.status).toBe(expectStatusCode);
     let body = await response.json();
     if (expectJson) expect(body).toEqual(expectJson);
-    return body;
+    return { body, response };
   },
   expectDbQueryResult: async ({ db, collection, query, expectedResults }) => {
     if (typeof collection === 'string') collection = db.collection(collection);

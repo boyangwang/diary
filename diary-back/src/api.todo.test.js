@@ -89,12 +89,12 @@ describe('api', async () => {
 
   test('/api/postTodo adds an todo', async () => {
     const todo = getTestObj({ _id: undefined });
-    let res = await expectFetchUrlStatusCodeAndJson({
+    let body = (await expectFetchUrlStatusCodeAndJson({
       url: `http://localhost:${config.port}/api/postTodo`,
       method: 'POST',
       postBody: { data: { todo, owner: 'testOwner' } },
       expectStatusCode: 200,
-    });
+    })).body;
     /**
      * we don't know _id beforehand, so not asserting res
      * format: 
@@ -112,7 +112,7 @@ describe('api', async () => {
       query: {},
       expectedResults: [
         Object.assign({}, todo, {
-          _id: res.data.todo._id,
+          _id: body.data.todo._id,
         }),
       ],
     });
@@ -120,7 +120,7 @@ describe('api', async () => {
 
   test("/api/postTodo if update an todo that doesn't exist, give modified 0", async () => {
     const todo = getTestObj();
-    let json = await expectFetchUrlStatusCodeAndJson({
+    await expectFetchUrlStatusCodeAndJson({
       url: `http://localhost:${config.port}/api/postTodo`,
       method: 'POST',
       postBody: { data: { todo, owner: 'testOwner' } },
@@ -144,7 +144,7 @@ describe('api', async () => {
       content: 'updated test content',
       priority: 100,
     });
-    let json = await expectFetchUrlStatusCodeAndJson({
+    await expectFetchUrlStatusCodeAndJson({
       url: `http://localhost:${config.port}/api/postTodo`,
       method: 'POST',
       postBody: { data: { todo: todoNew, owner: 'testOwner' } },
@@ -163,7 +163,7 @@ describe('api', async () => {
     const todo = getTestObj();
     let testOwnerTodoCollection = db.collection(`todo_testOwner`);
     await testOwnerTodoCollection.insertOne(transformIdToObjectId(todo));
-    let json = await expectFetchUrlStatusCodeAndJson({
+    await expectFetchUrlStatusCodeAndJson({
       url: `http://localhost:${config.port}/api/postTodo`,
       method: 'POST',
       postBody: { data: { todo, owner: 'testOwner' } },
@@ -182,7 +182,7 @@ describe('api', async () => {
     const todo = getTestObj();
     let testOwnerTodoCollection = await db.collection(`todo_testOwner`);
     await testOwnerTodoCollection.insertOne(transformIdToObjectId(todo));
-    let json = await expectFetchUrlStatusCodeAndJson({
+    await expectFetchUrlStatusCodeAndJson({
       url: `http://localhost:${config.port}/api/deleteTodo`,
       method: 'POST',
       postBody: {

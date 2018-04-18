@@ -89,12 +89,12 @@ describe('api', async () => {
 
   test('/api/postDigest adds an digest', async () => {
     const digest = getTestObj({ _id: undefined });
-    let res = await expectFetchUrlStatusCodeAndJson({
+    let body = (await expectFetchUrlStatusCodeAndJson({
       url: `http://localhost:${config.port}/api/postDigest`,
       method: 'POST',
       postBody: { data: { digest, owner: 'testOwner' } },
       expectStatusCode: 200,
-    });
+    })).body;
     /**
      * we don't know _id beforehand, so not asserting res
      * format: 
@@ -112,7 +112,7 @@ describe('api', async () => {
       query: {},
       expectedResults: [
         Object.assign({}, digest, {
-          _id: res.data.digest._id,
+          _id: body.data.digest._id,
         }),
       ],
     });
@@ -120,7 +120,7 @@ describe('api', async () => {
 
   test("/api/postDigest if update an digest that doesn't exist, give modified 0", async () => {
     const digest = getTestObj();
-    let json = await expectFetchUrlStatusCodeAndJson({
+    await expectFetchUrlStatusCodeAndJson({
       url: `http://localhost:${config.port}/api/postDigest`,
       method: 'POST',
       postBody: { data: { digest, owner: 'testOwner' } },
@@ -144,7 +144,7 @@ describe('api', async () => {
       content: 'updated test content',
       priority: 100,
     });
-    let json = await expectFetchUrlStatusCodeAndJson({
+    await expectFetchUrlStatusCodeAndJson({
       url: `http://localhost:${config.port}/api/postDigest`,
       method: 'POST',
       postBody: { data: { digest: digestNew, owner: 'testOwner' } },
@@ -163,7 +163,7 @@ describe('api', async () => {
     const digest = getTestObj();
     let testOwnerDigestCollection = db.collection(`digest_testOwner`);
     await testOwnerDigestCollection.insertOne(transformIdToObjectId(digest));
-    let json = await expectFetchUrlStatusCodeAndJson({
+    await expectFetchUrlStatusCodeAndJson({
       url: `http://localhost:${config.port}/api/postDigest`,
       method: 'POST',
       postBody: { data: { digest, owner: 'testOwner' } },
@@ -182,7 +182,7 @@ describe('api', async () => {
     const digest = getTestObj();
     let testOwnerDigestCollection = await db.collection(`digest_testOwner`);
     await testOwnerDigestCollection.insertOne(transformIdToObjectId(digest));
-    let json = await expectFetchUrlStatusCodeAndJson({
+    await expectFetchUrlStatusCodeAndJson({
       url: `http://localhost:${config.port}/api/deleteDigest`,
       method: 'POST',
       postBody: {

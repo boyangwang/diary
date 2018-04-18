@@ -21,7 +21,7 @@ describe('errReport', async () => {
       _id: 'testid',
       err: 'test',
     };
-    let res = await expectFetchUrlStatusCodeAndJson({
+    await expectFetchUrlStatusCodeAndJson({
       url: `http://localhost:${config.port}/api/errReport`,
       method: 'POST',
       postBody: { err: errEntry },

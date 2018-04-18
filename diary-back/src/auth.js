@@ -72,7 +72,7 @@ module.exports = {
   },
   verifyCorrectUser: async (ctx, next) => {
     let owner;
-    
+
     if (ctx.request.method === 'GET') {
       owner = ctx.request.query.owner;
     } else if (ctx.request.method === 'POST') {

@@ -40,11 +40,9 @@ describe('login', async () => {
       '/api/deleteDigest',
       '/api/uploadImage',
     ];
-    await apis.forEach(async api => {
+    await apis.forEach(async (api) => {
       await expectFetchUrlStatusCodeAndJson({
-        url: `http://localhost:${
-          config.port
-        }${api}`,
+        url: `http://localhost:${config.port}${api}`,
         method: api.includes('get') ? 'GET' : 'POST',
         expectStatusCode: 401,
         expectJson: { err: 'need login' },
@@ -52,15 +50,15 @@ describe('login', async () => {
     });
   });
 
-  test('correct', async () => {
-    await expectFetchUrlStatusCodeAndJson({
+  test('correct login and able to make req', async () => {
+    const loginResponse = (await expectFetchUrlStatusCodeAndJson({
       url: `http://localhost:${config.port}/api/login`,
       postBody: { username: user.username, password: user.password },
       method: 'POST',
       expectJson: { data: { user: { username: user.username } } },
       expectStatusCode: 200,
-    });
+    })).response;
+
+    console.log('XXX ', loginResponse.headers);
   });
-
-
 });
