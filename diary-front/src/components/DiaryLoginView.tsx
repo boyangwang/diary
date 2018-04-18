@@ -66,7 +66,7 @@ class NormalLoginForm extends React.Component<
           })(
             <Input
               prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-              placeholder="Username"
+              placeholder="Username, try 'demo'"
             />
           )}
         </Form.Item>
@@ -77,7 +77,7 @@ class NormalLoginForm extends React.Component<
             <Input
               prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
               type="password"
-              placeholder="Password"
+              placeholder="Password, try 'demo'"
             />
           )}
         </Form.Item>
