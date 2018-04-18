@@ -3,3 +3,7 @@
   right: 24px;
   color: #999;
 }
+
+.FlexFormItem .ant-form-item-children {
+  display: flex;
+}

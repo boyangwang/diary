@@ -122,6 +122,13 @@ class EntryFormContainer extends React.Component<
     return sortedTitles;
   }
 
+  public incrementDecrementDate(offset: number) {
+    const { setFieldsValue, getFieldValue } = this.props.form;
+    setFieldsValue({
+      date: getFieldValue('date').add(offset, 'days'),
+    });
+  }
+
   public render() {
     const { getFieldDecorator } = this.props.form;
     const { buttonText, entry } = this.props;
@@ -179,7 +186,14 @@ class EntryFormContainer extends React.Component<
               initialValue: _.get(entry, 'content'),
             })(<Input placeholder="Content" />)}
           </Form.Item>
-          <Form.Item>
+          <Form.Item className="FlexFormItem">
+            <div className="ArrowButtonDiv">
+              <Button
+                shape="circle"
+                icon="left"
+                onClick={() => this.incrementDecrementDate(-1)}
+              />
+            </div>
             {getFieldDecorator('date', {
               rules: [{ required: true, message: 'Date required' }],
               initialValue: _.get(entry, 'date')
@@ -189,6 +203,13 @@ class EntryFormContainer extends React.Component<
               // if editing entry, do not allow change date (for now)
               <DatePicker disabled={!!_.get(entry, 'date')} />
             )}
+            <div className="ArrowButtonDiv">
+              <Button
+                shape="circle"
+                icon="right"
+                onClick={() => this.incrementDecrementDate(1)}
+              />
+            </div>
           </Form.Item>
           <Button type="primary" htmlType="submit">
             {buttonText}
