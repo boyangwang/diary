@@ -33,16 +33,16 @@ module.exports = {
     postBody,
   }) => {
     let response;
-    if (!method) response = await fetch(url);
-    else if (method === 'POST') {
-      response = await fetch(url, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        method,
-        body: JSON.stringify(postBody),
-      });
+    if (!method) {
+      method = 'GET';
     }
+    response = await fetch(url, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      method,
+      body: JSON.stringify(postBody),
+    });
     expect(response.status).toBe(expectStatusCode);
     let body = await response.json();
     if (expectJson) expect(body).toEqual(expectJson);
