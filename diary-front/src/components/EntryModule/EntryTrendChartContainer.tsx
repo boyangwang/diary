@@ -259,7 +259,7 @@ class EntryTrendChartContainer extends React.Component<
     );
 
     return (
-      <ResponsiveContainer width="98%" height={280}>
+      <ResponsiveContainer width="98%" height={600}>
         <AreaChart
           data={chartData}
           margin={{ top: 12, right: 16, left: -20, bottom: 12 }}
