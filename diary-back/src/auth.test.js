@@ -60,7 +60,7 @@ describe('login', async () => {
     });
   });
 
-  test('correct login and able to make req', async () => {
+  test('correct login and able to make req, but only to own user', async () => {
     let responseAndBody = await expectFetchUrlStatusCodeAndJson({
       url: `http://localhost:${config.port}/api/login`,
       postBody: { username: user.username, password: user.password },
@@ -74,7 +74,6 @@ describe('login', async () => {
 
     const cookie = getMyCookiesString(setCookie);
 
-    let entry = getTestObj({ _id: undefined });
     responseAndBody = await expectFetchUrlStatusCodeAndJson({
       url: `http://localhost:${config.port}/api/apiTest`,
       headers: {
@@ -83,5 +82,27 @@ describe('login', async () => {
       expectStatusCode: 200,
     });
     expect(responseAndBody.body.data.user.username).toEqual(user.username);
+
+    let entry = getTestObj({ _id: undefined });
+    responseAndBody = await expectFetchUrlStatusCodeAndJson({
+      url: `http://localhost:${config.port}/api/postEntry`,
+      headers: {
+        cookie,
+      },
+      method: 'POST',
+      postBody: { data: { entry, owner: 'testOwner' } },
+      expectStatusCode: 200,
+    });
+
+    responseAndBody = await expectFetchUrlStatusCodeAndJson({
+      url: `http://localhost:${config.port}/api/postEntry`,
+      headers: {
+        cookie,
+      },
+      method: 'POST',
+      postBody: { data: { entry, owner: 'demo' } },
+      expectStatusCode: 401,
+      expectJson: { err: 'wrong owner' },
+    });
   });
 });
