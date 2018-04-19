@@ -90,3 +90,13 @@ If installed using yarn, install script is ignored. Trigger it mannually by `nod
 - pm2 start back
 
 - link nginx conf, reload
+
+## all on HTTPS
+
+- Yes, this creates a new genre of prod/dev inconsistency problem, by making it https on prod but not on dev
+
+- nginx listen 443, proxy to 14464, reflected in nginx conf
+
+- cert sign domain, let's encrypt, certbot. Install as per https://certbot.eff.org/lets-encrypt/ubuntutrusty-nginx
+
+- because certbot not readily available on ubuntu 15.04, decided to revamp servers... big project
