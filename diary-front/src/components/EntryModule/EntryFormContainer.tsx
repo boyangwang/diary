@@ -177,7 +177,7 @@ class EntryFormContainer extends React.Component<
           <Form.Item>
             {getFieldDecorator('points', {
               rules: [{ required: true, message: 'Points required' }],
-              initialValue: _.get(entry, 'points') || 2,
+              initialValue: _.get(entry, 'points') || 1,
             })(<InputNumber placeholder="Points" />)}
           </Form.Item>
           <Form.Item>
