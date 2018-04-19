@@ -259,16 +259,17 @@ class EntryTrendChartContainer extends React.Component<
     );
 
     return (
-      <ResponsiveContainer width="98%" height={600}>
+      <ResponsiveContainer width="98%" height={480}>
         <AreaChart
           data={chartData}
           margin={{ top: 12, right: 16, left: -20, bottom: 12 }}
         >
-          <XAxis dataKey="date" padding={{ left: 10, right: 10 }} />
+          <XAxis dataKey="date" padding={{ left: 16, right: 16 }} />
           <YAxis
-            padding={{ top: 10, bottom: 0 }}
+            padding={{ top: 0, bottom: 0 }}
             type="number"
-            domain={[0, 20]}
+            domain={[0, 18]}
+            ticks={[0, 4, 8, 12, 16]}
           />
           <Legend
             wrapperStyle={{
