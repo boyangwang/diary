@@ -91,7 +91,11 @@ If installed using yarn, install script is ignored. Trigger it mannually by `nod
 
 - assume nginx, link nginx conf, reload
 
-## all on HTTPS
+## all about oauth
+
+- if changed url/port/domain, need to update on github side
+
+## all about HTTPS
 
 - Assume certbot ``
 
@@ -102,6 +106,8 @@ If installed using yarn, install script is ignored. Trigger it mannually by `nod
 - cert sign domain, let's encrypt, certbot. Install as per https://certbot.eff.org/lets-encrypt/ubuntutrusty-nginx
 
 - because certbot not readily available on ubuntu 15.04, decided to revamp servers... big project
+
+- certbot all working
 
 ## setup server from scratch (no docker for now, sigh...)
 
@@ -125,3 +131,5 @@ apt-get install -y git wget p7zip-full mongodb-org nodejs nginx python-certbot-n
 ```
 
 - To avoid clash remove default.conf in sites-enabled
+
+- `certbot --nginx certonly` and then update nginx conf

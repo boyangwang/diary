@@ -10,8 +10,7 @@ module.exports = {
         {
           clientID: config.GITHUB_CLIENT_ID,
           clientSecret: config.GITHUB_CLIENT_SECRET,
-          callbackURL:
-            'http://deardiary.network:14432/api/oauth/github/callback',
+          callbackURL: 'https://deardiary.network/api/oauth/github/callback',
         },
         function(accessToken, refreshToken, profile, cb) {
           delete profile.raw;

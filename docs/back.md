@@ -4,14 +4,14 @@
 
 Method | URI | Action
 --- | --- | ---
-GET | http://{hostname}:{port}/api/getEntries?date={date}&owner={owner} | Retrieve list of entries
-POST | http://{hostname}:{port}/api/postEntry | Add a new entry to date, or update an existing entry
-POST | http://{hostname}:{port}/api/deleteEntry | Delete an entry
-GET | http://{hostname}:{port}/api/getTodos?owner={owner} | Return todos for this owner
-POST | http://{hostname}:{port}/api/postTodo | Add a new todo to date, or update an existing todo
-POST | http://{hostname}:{port}/api/deleteTodo | Delete a todo
-POST | http://{hostname}:{port}/api/login | Perform login authentication
-POST | http://{hostname}:{port}/api/errReport | Report error entry
+GET | https://{hostname}:{port}/api/getEntries?date={date}&owner={owner} | Retrieve list of entries
+POST | https://{hostname}:{port}/api/postEntry | Add a new entry to date, or update an existing entry
+POST | https://{hostname}:{port}/api/deleteEntry | Delete an entry
+GET | https://{hostname}:{port}/api/getTodos?owner={owner} | Return todos for this owner
+POST | https://{hostname}:{port}/api/postTodo | Add a new todo to date, or update an existing todo
+POST | https://{hostname}:{port}/api/deleteTodo | Delete a todo
+POST | https://{hostname}:{port}/api/login | Perform login authentication
+POST | https://{hostname}:{port}/api/errReport | Report error entry
 
 **Note:**  
 `{some}` represnets a variable called "some"
