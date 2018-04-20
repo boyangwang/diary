@@ -10,7 +10,7 @@ const {
 } = require('./testutils.js');
 const config = require('./config.js');
 
-config.port = config.port + 3;
+config.port = config.port + 5;
 const dbName = 'diaryTest';
 const mongoUrl = `mongodb://localhost:27017/${dbName}`;
 let appInstance, db;
