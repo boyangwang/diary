@@ -78,7 +78,10 @@ module.exports = {
     if (ctx.request.method === 'GET') {
       owner = ctx.request.query.owner;
     } else if (ctx.request.method === 'POST') {
-      owner = ctx.request.body.owner || ctx.request.body.data.owner;
+      owner =
+        ctx.request.query.owner ||
+        ctx.request.body.owner ||
+        ctx.request.body.data.owner;
     } else {
       await next();
     }

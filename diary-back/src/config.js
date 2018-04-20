@@ -22,4 +22,9 @@ module.exports = {
   },
   GITHUB_CLIENT_ID: secrets.GITHUB_CLIENT_ID,
   GITHUB_CLIENT_SECRET: secrets.GITHUB_CLIENT_SECRET,
+
+  aws: {
+    key: secrets.aws.key,
+    secret: secrets.aws.secret,
+  },
 };

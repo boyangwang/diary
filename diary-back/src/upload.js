@@ -1,12 +1,14 @@
 const aws = require('aws-sdk');
 const multer = require('koa-multer');
 const multerS3 = require('multer-s3');
+const config = require('./config.js');
 
 let app, db;
 
 const spacesEndpoint = new aws.Endpoint('sgp1.digitaloceanspaces.com');
 const s3 = new aws.S3({
   endpoint: spacesEndpoint,
+  credentials: new aws.Credentials(config.aws.key, config.aws.secret),
 });
 const upload = multer({
   storage: multerS3({

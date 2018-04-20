@@ -33,6 +33,18 @@ plan.local(['mongorestore'], (local) => {
   local.exec(`mongorestore ./mongo/mongodump/`);
 });
 
+plan.local(['mongorestore-from-local-backup-to-remote-1'], (local) => {
+  local.exec(
+    `scp -r ./mongo/mongodump root@playground.wangboyang.com:${projectsDir}/`
+  );
+});
+
+plan.remote(['mongorestore-from-local-backup-to-remote-2'], (remote) => {
+  remote.with(`cd ${projectsDir}`, () => {
+    remote.exec(`mongorestore ./mongodump/`);
+  });
+});
+
 plan.remote(['stop-backend', 'deploy-all'], (remote) => {
   remote.with(`cd ${projectsDir}/diary-master/diary-back`, () => {
     remote.exec(`./node_modules/.bin/pm2 stop diary-back`, { failsafe: true });
@@ -57,8 +69,7 @@ plan.remote(['run-mongod', 'deploy-all'], (remote) => {
     failsafe: true,
   });
   remote.exec(
-    `nohup mongod --bind_ip 127.0.0.1 --dbpath ${projectsDir}/diary-data/mongo/data &
-  `,
+    `mongod --bind_ip 127.0.0.1 --fork --dbpath ${projectsDir}/diary-data/mongo/data --logpath ${projectsDir}/diary-data/mongod.log`,
     { failsafe: true }
   );
 });
@@ -101,7 +112,7 @@ plan.local(['build-frontend-and-scp', 'deploy-all'], (local) => {
     local.exec(`yarn run build`);
     local.exec(`chmod -R 755 ./build`);
     local.exec(
-      `scp -r ./build root@playground.wangboyang.com:${projectsDir}/diary-master/diary-front/build`
+      `scp -r ./build/* root@playground.wangboyang.com:${projectsDir}/diary-master/diary-front/build/`
     );
   });
 });
