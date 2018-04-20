@@ -92,7 +92,17 @@ plan.remote(['frontend', 'deploy-all'], (remote) => {
     remote.exec(`nginx -s reload`);
     remote.exec(`mkdir ./build`, { failsafe: true });
     remote.exec(`chmod -R 755 ./build`);
-    remote.exec(`yarn run build`);
+    // remote.exec(`yarn run build`);
+  });
+});
+
+plan.local(['build-frontend-and-scp', 'deploy-all'], (local) => {
+  local.with(`cd ../diary-front`, () => {
+    local.exec(`yarn run build`);
+    local.exec(`chmod -R 755 ./build`);
+    local.exec(
+      `scp -r ./build root@playground.wangboyang.com:${projectsDir}/diary-master/diary-front/build`
+    );
   });
 });
 
