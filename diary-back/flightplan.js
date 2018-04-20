@@ -96,7 +96,7 @@ plan.remote(['backend', 'deploy-all'], (remote) => {
 plan.remote(['frontend', 'deploy-all'], (remote) => {
   // front
   remote.with(`cd ${projectsDir}/diary-master/diary-front`, () => {
-    remote.exec(`yarn install --ignore-engines`);
+    // remote.exec(`yarn install --ignore-engines`);
     remote.exec(
       `ln -sf ${projectsDir}/diary-master/diary-front/config/diary.conf /etc/nginx/sites-enabled/`
     );
