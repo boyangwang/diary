@@ -42,7 +42,7 @@
 
 - Access localhost:14432 from browser (not :3000)
 
-- If need to use upload image functionality, see https://www.digitalocean.com/community/tutorials/how-to-upload-a-file-to-object-storage-with-node-js
+- ~If need to use upload image functionality, see https://www.digitalocean.com/community/tutorials/how-to-upload-a-file-to-object-storage-with-node-js~ No longer needed since it's put in secrets now
 
 ```
 ~/.aws/credentials:
@@ -83,7 +83,7 @@ If installed using yarn, install script is ignored. Trigger it mannually by `nod
   sudo apt-get update && sudo apt-get install yarn
   ```
 
-- go in, run yarn install, yarn build
+- go in, run yarn install, yarn build. Assume g++ build-essential
 
 - pm2 stop prev back
 
@@ -105,7 +105,7 @@ If installed using yarn, install script is ignored. Trigger it mannually by `nod
 
 ## setup server from scratch (no docker for now, sigh...)
 
-```
+```bash
 sudo apt-get update
 
 curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
@@ -121,7 +121,7 @@ sudo add-apt-repository ppa:certbot/certbot
 
 sudo apt-get update
 
-apt-get install -y git wget p7zip-full mongodb-org nodejs nginx python-certbot-nginx 
+apt-get install -y git wget p7zip-full mongodb-org nodejs nginx python-certbot-nginx yarn g++ build-essential
 ```
 
 - To avoid clash remove default.conf in sites-enabled

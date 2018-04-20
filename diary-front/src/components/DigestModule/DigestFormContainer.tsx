@@ -120,7 +120,7 @@ class DigestFormContainer extends React.Component<
       file,
       `${user.username}-digest-${new Date().toISOString()}`
     );
-    return api.uploadImage(form).then(
+    return api.uploadImage(form, user.username).then(
       (data: any) => {
         if (data.err) {
           message.warn('' + data.err);

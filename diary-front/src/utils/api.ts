@@ -411,9 +411,9 @@ const deleteDigest = (params: DeleteDigestParams) => {
   });
 };
 
-const uploadImage = (params: FormData) => {
+const uploadImage = (params: FormData, owner: string) => {
   return new Promise((resolve, reject) => {
-    fetch(PREFIX + apis.uploadImage, {
+    fetch(PREFIX + apis.uploadImage + '?owner=' + owner, {
       method: 'POST',
       credentials: 'same-origin',
       body: params,
