@@ -89,9 +89,11 @@ If installed using yarn, install script is ignored. Trigger it mannually by `nod
 
 - pm2 start back
 
-- link nginx conf, reload
+- assume nginx, link nginx conf, reload
 
 ## all on HTTPS
+
+- Assume certbot ``
 
 - Yes, this creates a new genre of prod/dev inconsistency problem, by making it https on prod but not on dev
 
@@ -100,3 +102,26 @@ If installed using yarn, install script is ignored. Trigger it mannually by `nod
 - cert sign domain, let's encrypt, certbot. Install as per https://certbot.eff.org/lets-encrypt/ubuntutrusty-nginx
 
 - because certbot not readily available on ubuntu 15.04, decided to revamp servers... big project
+
+## setup server from scratch (no docker for now, sigh...)
+
+```
+sudo apt-get update
+
+curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5
+echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.6 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.6.list
+
+curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+
+sudo apt-get install software-properties-common
+sudo add-apt-repository ppa:certbot/certbot
+
+sudo apt-get update
+
+apt-get install -y git wget p7zip-full mongodb-org nodejs nginx python-certbot-nginx 
+```
+
+- To avoid clash remove default.conf in sites-enabled

@@ -216,3 +216,9 @@ public componentDidMount() {
 不是. 等一秒也不行. 刚刚以为行了是因为把expectcode改成了401. 实际原来是Set-Cookie和Cookie语法不同! set多了expire, httponly什么的, parse失败, 结果就成了没有cookie
 
 两个lesson... 第一, 早点好好读specs. 第二, 我没有明白地在curl里操作复制, 而是都从chrome复制成curl格式, 结果没发现这个问题
+
+## ssh上又又又出问题
+
+最后发现果然是因为, rebuild后的droplet不允许keyboard-interactive或password. 一开始奇怪为什么我愿意用但是不让我试, 然后想到ssh client有config, sshd也有config
+
+登进digitalocean的console (手打密码), 改成允许, 把authorized key加上, 再改回来
