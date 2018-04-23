@@ -21,20 +21,22 @@ export default (url: string, opt: any) => {
     (res) => {
       notification.close(key);
       if (!res.ok) {
-        notification.warning({
-          key,
-          message: 'URL: ' + url.replace(/$https?:\/\/[^/]+/, ''),
-          description: 'Error: ' + res.statusText,
+        res.text().then((text) => {
+          return notification.warning({
+            key,
+            message: 'URL: ' + url.replace(/$https?:\/\/[^/]+/, ''),
+            description: 'Error request: ' + res.status + ' ' + text,
+          });
         });
       }
-      return res;
+      return res.json();
     },
     (err) => {
       notification.close(key);
       notification.warning({
         key,
         message: 'URL: ' + url.replace(/$https?:\/\/[^/]+/, ''),
-        description: 'Error: ' + err,
+        description: 'Error network: ' + err,
       });
       throw err;
     }

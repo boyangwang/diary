@@ -43,17 +43,8 @@ export class ApiTestResponse {
   };
 }
 const apiTest = () => {
-  return new Promise((resolve, reject) => {
-    fetch(PREFIX + apis.apiTest, {
-      credentials: 'same-origin',
-    }).then(
-      (res) => {
-        resolve(res.json());
-      },
-      (err) => {
-        reject(err);
-      }
-    );
+  return fetch(PREFIX + apis.apiTest, {
+    credentials: 'same-origin',
   });
 };
 class ErrReportParams {
@@ -66,21 +57,12 @@ class ErrReportParams {
   };
 }
 const errReport = (params: ErrReportParams) => {
-  return new Promise((resolve, reject) => {
-    fetch(PREFIX + apis.errReport, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(params),
-    }).then(
-      (res) => {
-        resolve(res.json());
-      },
-      (err) => {
-        reject(err);
-      }
-    );
+  return fetch(PREFIX + apis.errReport, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(params),
   });
 };
 class LoginParams {
@@ -93,40 +75,22 @@ export class LoginResponse {
   };
 }
 const login = (params: LoginParams) => {
-  return new Promise((resolve, reject) => {
-    fetch(PREFIX + apis.login, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'same-origin',
-      body: JSON.stringify(params),
-    }).then(
-      (res) => {
-        resolve(res.json());
-      },
-      (err) => {
-        reject(err);
-      }
-    );
+  return fetch(PREFIX + apis.login, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    credentials: 'same-origin',
+    body: JSON.stringify(params),
   });
 };
 const logout = () => {
-  return new Promise((resolve, reject) => {
-    fetch(PREFIX + apis.logout, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'same-origin',
-    }).then(
-      (res) => {
-        resolve(res.json());
-      },
-      (err) => {
-        reject(err);
-      }
-    );
+  return fetch(PREFIX + apis.logout, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    credentials: 'same-origin',
   });
 };
 
@@ -149,17 +113,8 @@ const getEntries = (
   options: AppendQueryOptions = {}
 ) => {
   const url = appendQuery(PREFIX + apis.getEntries, params, options);
-  return new Promise((resolve, reject) => {
-    fetch(url, {
-      credentials: 'same-origin',
-    }).then(
-      (res) => {
-        resolve(res.json());
-      },
-      (err) => {
-        reject(err);
-      }
-    );
+  return fetch(url, {
+    credentials: 'same-origin',
   });
 };
 class PostEntryParams {
@@ -177,22 +132,13 @@ export class PostEntryResponse {
   };
 }
 const postEntry = (params: PostEntryParams) => {
-  return new Promise((resolve, reject) => {
-    fetch(PREFIX + apis.postEntry, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'same-origin',
-      body: JSON.stringify(params),
-    }).then(
-      (res) => {
-        resolve(res.json());
-      },
-      (err) => {
-        reject(err);
-      }
-    );
+  return fetch(PREFIX + apis.postEntry, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    credentials: 'same-origin',
+    body: JSON.stringify(params),
   });
 };
 class DeleteEntryParams {
@@ -207,22 +153,13 @@ export class DeleteEntryResponse {
   };
 }
 const deleteEntry = (params: DeleteEntryParams) => {
-  return new Promise((resolve, reject) => {
-    fetch(PREFIX + apis.deleteEntry, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'same-origin',
-      body: JSON.stringify(params),
-    }).then(
-      (res) => {
-        resolve(res.json());
-      },
-      (err) => {
-        reject(err);
-      }
-    );
+  return fetch(PREFIX + apis.deleteEntry, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    credentials: 'same-origin',
+    body: JSON.stringify(params),
   });
 };
 
@@ -243,17 +180,8 @@ export class GetTodosResponse {
 }
 const getTodos = (params: GetTodosParams) => {
   const url = appendQuery(PREFIX + apis.getTodos, params);
-  return new Promise((resolve, reject) => {
-    fetch(url, {
-      credentials: 'same-origin',
-    }).then(
-      (res) => {
-        resolve(res.json());
-      },
-      (err) => {
-        reject(err);
-      }
-    );
+  return fetch(url, {
+    credentials: 'same-origin',
   });
 };
 class PostTodosParams {
@@ -271,22 +199,13 @@ export class PostTodoResponse {
   };
 }
 const postTodo = (params: PostTodosParams) => {
-  return new Promise((resolve, reject) => {
-    fetch(PREFIX + apis.postTodo, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'same-origin',
-      body: JSON.stringify(params),
-    }).then(
-      (res) => {
-        resolve(res.json());
-      },
-      (err) => {
-        reject(err);
-      }
-    );
+  return fetch(PREFIX + apis.postTodo, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    credentials: 'same-origin',
+    body: JSON.stringify(params),
   });
 };
 class DeleteTodoParams {
@@ -301,22 +220,13 @@ export class DeleteTodoResponse {
   };
 }
 const deleteTodo = (params: DeleteTodoParams) => {
-  return new Promise((resolve, reject) => {
-    fetch(PREFIX + apis.deleteTodo, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'same-origin',
-      body: JSON.stringify(params),
-    }).then(
-      (res) => {
-        resolve(res.json());
-      },
-      (err) => {
-        reject(err);
-      }
-    );
+  return fetch(PREFIX + apis.deleteTodo, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    credentials: 'same-origin',
+    body: JSON.stringify(params),
   });
 };
 
@@ -336,17 +246,8 @@ export class GetDigestsResponse {
 }
 const getDigests = (params: GetDigestsParams) => {
   const url = appendQuery(PREFIX + apis.getDigests, params);
-  return new Promise((resolve, reject) => {
-    fetch(url, {
-      credentials: 'same-origin',
-    }).then(
-      (res) => {
-        resolve(res.json());
-      },
-      (err) => {
-        reject(err);
-      }
-    );
+  return fetch(url, {
+    credentials: 'same-origin',
   });
 };
 class PostDigestParams {
@@ -364,22 +265,13 @@ export class PostDigestResponse {
   };
 }
 const postDigest = (params: PostDigestParams) => {
-  return new Promise((resolve, reject) => {
-    fetch(PREFIX + apis.postDigest, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'same-origin',
-      body: JSON.stringify(params),
-    }).then(
-      (res) => {
-        resolve(res.json());
-      },
-      (err) => {
-        reject(err);
-      }
-    );
+  return fetch(PREFIX + apis.postDigest, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    credentials: 'same-origin',
+    body: JSON.stringify(params),
   });
 };
 class DeleteDigestParams {
@@ -394,39 +286,21 @@ export class DeleteDigestResponse {
   };
 }
 const deleteDigest = (params: DeleteDigestParams) => {
-  return new Promise((resolve, reject) => {
-    fetch(PREFIX + apis.deleteDigest, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'same-origin',
-      body: JSON.stringify(params),
-    }).then(
-      (res) => {
-        resolve(res.json());
-      },
-      (err) => {
-        reject(err);
-      }
-    );
+  return fetch(PREFIX + apis.deleteDigest, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    credentials: 'same-origin',
+    body: JSON.stringify(params),
   });
 };
 
 const uploadImage = (params: FormData, owner: string) => {
-  return new Promise((resolve, reject) => {
-    fetch(PREFIX + apis.uploadImage + '?owner=' + owner, {
-      method: 'POST',
-      credentials: 'same-origin',
-      body: params,
-    }).then(
-      (res) => {
-        resolve(res.json());
-      },
-      (err) => {
-        reject(err);
-      }
-    );
+  return fetch(PREFIX + apis.uploadImage + '?owner=' + owner, {
+    method: 'POST',
+    credentials: 'same-origin',
+    body: params,
   });
 };
 
