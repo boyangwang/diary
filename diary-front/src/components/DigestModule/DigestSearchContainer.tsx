@@ -38,7 +38,7 @@ class DigestSearchContainer extends React.Component<Props & ReduxProps, State> {
 
     const matchedDigests: DigestWithHighlight[] = [];
 
-    digests.forEach((d: DigestWithHighlight) => {
+    digests.forEach((d: Digest) => {
       const highlightsByCategory: React.ReactNode[] = [];
 
       const tagResult = d.tags.filter((t) => t.includes(search));
@@ -103,12 +103,14 @@ class DigestSearchContainer extends React.Component<Props & ReduxProps, State> {
       }
 
       if (highlightsByCategory.length) {
-        d.highlight = (
-          <Card bordered={false} className="highlightDiv">
-            {highlightsByCategory}
-          </Card>
-        );
-        matchedDigests.push(d);
+        const newDigest = Object.assign({}, d, {
+          highlight: (
+            <Card bordered={false} className="highlightDiv">
+              {highlightsByCategory}
+            </Card>
+          ),
+        });
+        matchedDigests.push(newDigest);
       }
     });
 
