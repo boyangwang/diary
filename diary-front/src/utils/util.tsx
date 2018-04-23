@@ -249,10 +249,7 @@ export default {
       }
     }
   },
-  frequencyMapToAutoCompleteOptions: (
-    frequencyMap: FrequencyMap,
-    prefixCls = ''
-  ) => {
+  frequencyMapToSuggestionOptions: (frequencyMap: FrequencyMap) => {
     const sorted = Object.keys(frequencyMap)
       .map((title) => {
         return { title, frequency: frequencyMap[title] };
@@ -260,13 +257,6 @@ export default {
       .sort((t1, t2) => {
         return t2.frequency - t1.frequency;
       });
-    return sorted.map((t) => {
-      return (
-        <AutoComplete.Option key={t.title} value={t.title}>
-          <span className={prefixCls + 'Title'}>{t.title}</span>
-          <span className={prefixCls + 'Frequency'}>{t.frequency}</span>
-        </AutoComplete.Option>
-      );
-    });
+    return sorted;
   },
 };
