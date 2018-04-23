@@ -8,6 +8,73 @@ import mylog from 'utils/mylog';
 
 const dateStringFormat = 'YYYY-MM-DD';
 
+const base64Chars = [
+  'A',
+  'B',
+  'C',
+  'D',
+  'E',
+  'F',
+  'G',
+  'H',
+  'I',
+  'J',
+  'K',
+  'L',
+  'M',
+  'N',
+  'O',
+  'P',
+  'Q',
+  'R',
+  'S',
+  'T',
+  'U',
+  'V',
+  'W',
+  'X',
+  'Y',
+  'Z',
+  'a',
+  'b',
+  'c',
+  'd',
+  'e',
+  'f',
+  'g',
+  'h',
+  'i',
+  'j',
+  'k',
+  'l',
+  'm',
+  'n',
+  'o',
+  'p',
+  'q',
+  'r',
+  's',
+  't',
+  'u',
+  'v',
+  'w',
+  'x',
+  'y',
+  'z',
+  '0',
+  '1',
+  '2',
+  '3',
+  '4',
+  '5',
+  '6',
+  '7',
+  '8',
+  '9',
+  '+',
+  '/',
+];
+
 const compare = <T extends {}>(a: T, b: T): 0 | 1 | -1 => {
   if (_.isNil(a) && _.isNil(b)) {
     return 0;
@@ -64,6 +131,18 @@ export default {
       hash |= 0; // Convert to 32bit integer
     }
     return hash;
+  },
+  genRandomString: (digits: number = 6) => {
+    const randValues = window.crypto.getRandomValues(new Uint32Array(digits));
+    if (!randValues) {
+      mylog('window.crypto.getRandomValues returned null');
+      return '';
+    }
+    const result = [];
+    for (let i = 0; i < digits; i++) {
+      result.push(base64Chars[randValues[i] % 64]);
+    }
+    return result.join('');
   },
   dateStringFormat,
   getTodayStringWithOffset: (offset?: number) => {
