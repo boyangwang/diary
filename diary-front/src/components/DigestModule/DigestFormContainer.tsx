@@ -175,7 +175,7 @@ class DigestFormContainer extends React.Component<
             })(
               <DigestTagsObject
                 tags={this.state.tags}
-                onChange={(tags) => {
+                onChange={(tags: string[]) => {
                   this.setState({ tags });
                 }}
               />
