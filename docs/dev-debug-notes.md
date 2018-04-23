@@ -230,3 +230,7 @@ public componentDidMount() {
 我一直写的`ReduxState`, `digests: Todo[]`. 之前怎么就会没有发现呢???
 
 这次修了, 挺好. 之前的一些bug可能, 特别是connect 类型怎么都不对, 可能都跟这个有关... 截取错误信息真是万恶
+
+## 像个脑残一样, 自己把自己之前做过的东西又搞坏了, 还愣了半天
+
+state的default有用, 因为 new State. Props不管用, 要用别的机制
