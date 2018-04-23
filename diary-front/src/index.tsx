@@ -1,4 +1,3 @@
-import 'isomorphic-fetch';
 import 'url-polyfill';
 
 import React from 'react';

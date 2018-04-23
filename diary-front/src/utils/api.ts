@@ -1,6 +1,7 @@
 import appendQuery from 'append-query';
 
 import { User } from 'reducers';
+import fetch from 'utils/fetch';
 
 const PROTOCOL = process.env.REACT_APP_PROTOCOL;
 const DOMAIN = process.env.REACT_APP_DOMAIN;
