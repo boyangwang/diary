@@ -26,3 +26,7 @@
   display: inline-block;
   margin-right: 8px;
 }
+
+.DigestEditFormModal .ant-modal-body {
+  padding: 0;
+}

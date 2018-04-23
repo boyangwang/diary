@@ -62,6 +62,8 @@ class DigestObject extends React.Component<Props & ReduxProps, State> {
       .toISOString()
       .substring(0, 16);
 
+    const modalWidth = Math.min(window.innerWidth - 60, 1200);
+
     return (
       <List.Item
         className="DigestObject"
@@ -95,6 +97,7 @@ class DigestObject extends React.Component<Props & ReduxProps, State> {
         ]}
       >
         <Modal
+          className="DigestEditFormModal"
           visible={this.state.editVisible}
           onCancel={() =>
             this.setState({
@@ -103,6 +106,7 @@ class DigestObject extends React.Component<Props & ReduxProps, State> {
           }
           footer={null}
           closable={false}
+          width={modalWidth}
         >
           <DigestFormContainer
             digest={digest}
@@ -126,7 +130,7 @@ class DigestObject extends React.Component<Props & ReduxProps, State> {
           <div className="createTimestamp">
             {'Created: ' + shortenedCreateTimestamp}
           </div>
-          <div className="_id grey">{digest._id}</div>
+          {/* <div className="_id grey">{digest._id}</div> */}
         </Row>
         <Row type="flex" className="DigestRow">
           <h3 className="title">{digest.title}</h3>
