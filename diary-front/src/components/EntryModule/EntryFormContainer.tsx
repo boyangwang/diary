@@ -110,10 +110,7 @@ class EntryFormContainer extends React.Component<
       });
     });
 
-    return util.frequencyMapToAutoCompleteOptions(
-      titleFrequencyMap,
-      'EntryTitleOption'
-    );
+    return util.frequencyMapToSuggestionOptions(titleFrequencyMap);
   }
 
   public incrementDecrementDate(offset: number) {
@@ -154,7 +151,16 @@ class EntryFormContainer extends React.Component<
                 dataSource={[]}
                 optionLabelProp="value"
               >
-                {this.getTitleSuggestions()}
+                {this.getTitleSuggestions().map((t) => {
+                  return (
+                    <AutoComplete.Option key={t.title} value={t.title}>
+                      <span className="EntryTitleOptionTitle">{t.title}</span>
+                      <span className="EntryTitleOptionFrequency">
+                        {t.frequency}
+                      </span>
+                    </AutoComplete.Option>
+                  );
+                })}
               </AutoComplete>
             )}
           </Form.Item>

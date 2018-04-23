@@ -1,7 +1,8 @@
+import { SelectValue } from 'antd/lib/select';
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { Icon, Input, Tooltip } from 'antd';
+import { Icon, Input, Select, Tooltip } from 'antd';
 
 import { ReduxState } from 'reducers';
 import { Digest, FrequencyMap } from 'utils/api';
@@ -74,7 +75,8 @@ class State {
   public inputValue: string = '';
 }
 class DigestTagsObject extends React.Component<Props & ReduxProps, State> {
-  public input: Input | null = null;
+  public static defaultProps = new Props();
+  public input: Select | null = null;
 
   constructor(props: Props & ReduxProps) {
     super(props);
@@ -95,13 +97,17 @@ class DigestTagsObject extends React.Component<Props & ReduxProps, State> {
     );
   };
 
-  public handleInputChange = (e: any) => {
-    this.setState({ inputValue: e.target.value });
+  public handleInputChange = (value: SelectValue) => {
+    this.setState({ inputValue: value as string });
+  };
+
+  public handleSelect = async (value: SelectValue) => {
+    await this.setState({ inputValue: value as string });
+    this.handleInputConfirm();
   };
 
   public handleInputConfirm = () => {
-    const state = this.state;
-    const inputValue = state.inputValue;
+    const { inputValue } = this.state;
     let tags = this.props.tags;
     if (inputValue && tags.indexOf(inputValue) === -1) {
       tags = [...tags, inputValue];
@@ -113,25 +119,29 @@ class DigestTagsObject extends React.Component<Props & ReduxProps, State> {
     this.props.onChange!(tags);
   };
 
-  public saveInputRef = (input: Input | null) => (this.input = input);
+  public saveInputRef = (input: Select | null) => (this.input = input);
 
-  public getSuggestionsMap(): FrequencyMap {
+  public getSuggestions() {
     const { digests } = this.props;
-    const map = {};
+    const map: FrequencyMap = {};
 
     digests.forEach((d) => {
       d.tags.forEach((t) => {
         map[t] = map[t] ? map[t] + 1 : 1;
       });
     });
-    return map;
+
+    return util.frequencyMapToSuggestionOptions(map).map((sugestion) => (
+      <Select.Option key={sugestion.title}>
+        <span className="DigestTagOptionTitle">{sugestion.title}</span>
+        <span className="DigestTagOptionFrequency">{sugestion.frequency}</span>
+      </Select.Option>
+    ));
   }
 
   public render() {
     const { inputVisible, inputValue } = this.state;
     const { tags, editable } = this.props;
-
-    const suggestionsMap = this.getSuggestionsMap();
 
     return (
       <div className="DigestTagsObject">
@@ -139,7 +149,6 @@ class DigestTagsObject extends React.Component<Props & ReduxProps, State> {
           const isLongTag = tag.length > 20;
           const tagElem = (
             <Tag
-              suggestionsMap={suggestionsMap}
               key={tag}
               closable={editable}
               afterClose={() => this.handleClose(tag)}
@@ -161,16 +170,32 @@ class DigestTagsObject extends React.Component<Props & ReduxProps, State> {
           );
         })}
         {inputVisible && (
-          <Input
+          <Select
+            className="DigestTagsSelect"
+            dropdownClassName="DigestTagsSelectDropDown"
             ref={this.saveInputRef}
-            type="text"
+            mode="combobox"
+            filterOption={true}
             size="small"
-            style={{ width: 78 }}
             value={inputValue}
+            defaultValue=""
+            optionLabelProp="value"
+            onSelect={this.handleSelect}
             onChange={this.handleInputChange}
             onBlur={this.handleInputConfirm}
-            onPressEnter={this.handleInputConfirm}
-          />
+          >
+            {this.getSuggestions()}
+          </Select>
+          // <Input
+          //   ref={this.saveInputRef}
+          //   type="text"
+          //   size="small"
+          //   style={{ width: 78 }}
+          //   value={inputValue}
+          //   onChange={this.handleInputChange}
+          //   onBlur={this.handleInputConfirm}
+          //   onPressEnter={this.handleInputConfirm}
+          // />
         )}
         {!inputVisible &&
           editable && (

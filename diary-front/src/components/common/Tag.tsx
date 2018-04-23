@@ -24,7 +24,6 @@ export interface TagProps {
   /** 动画关闭后的回调 */
   afterClose?: () => void;
   style?: React.CSSProperties;
-  suggestionsMap?: FrequencyMap;
 }
 
 export interface TagState {
@@ -96,7 +95,6 @@ export default class Tag extends React.Component<TagProps, TagState> {
       className,
       children,
       style,
-      suggestionsMap,
       ...otherProps
     } = this.props;
     const closeIcon = closable ? (
