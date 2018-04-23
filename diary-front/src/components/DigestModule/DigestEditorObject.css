@@ -37,7 +37,12 @@
   border-radius: 2px;
 }
 
-.digest-draft-editor .public-DraftStyleDefault-block.public-DraftStyleDefault-ltr {
+.digest-draft-editor .public-DraftStyleDefault-block {
   line-height: 20px;
   margin: 0;
+}
+
+.digest-draft-editor .public-DraftStyleDefault-orderedListItem,
+.digest-draft-editor .public-DraftStyleDefault-unorderedListItem {
+  line-height: 20px;
 }
