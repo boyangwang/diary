@@ -118,19 +118,16 @@ class DigestObject extends React.Component<Props & ReduxProps, State> {
           </Row>
         )}
         <Row type="flex" className="DigestRow">
-          <div className="createTimestamp">
-            <Alert message={shortenedCreateTimestamp} type="success" />
+          <div className="lastModified">
+            {'Last modified: ' + shortenedLastModified}
           </div>
-          <h3 className="title">{digest.title}</h3>
+          <div className="createTimestamp">
+            {'Created: ' + shortenedCreateTimestamp}
+          </div>
           <div className="_id grey">{digest._id}</div>
         </Row>
         <Row type="flex" className="DigestRow">
-          <div className="lastModified">
-            <Alert
-              message={'Last modified: ' + shortenedLastModified}
-              type="success"
-            />
-          </div>
+          <h3 className="title">{digest.title}</h3>
           <DigestTagsObject tags={digest.tags} editable={false} />
         </Row>
         <Row type="flex" className="DigestRow">

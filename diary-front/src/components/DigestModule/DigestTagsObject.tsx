@@ -1,6 +1,60 @@
 import { Icon, Input, Tag, Tooltip } from 'antd';
 import React from 'react';
 
+import util from 'utils/util';
+
+import './DigestTagsObject.css';
+
+const tagColorPanel = [
+  // "magenta",
+  // "red",
+  // "volcano",
+  // "orange",
+  // "gold",
+  // "lime",
+  // "green",
+  // "cyan",
+  // "blue",
+  // "geekblue",
+  // "purple",
+  'rgba(242,122,119,1)',
+  'rgba(119,242,122,1)',
+  'rgba(122,119,242,1)',
+  'rgba(249,145,87,1)',
+  'rgba(249,87,145,1)',
+  'rgba(145,249,87,1)',
+  'rgba(145,87,249,1)',
+  'rgba(87,249,145,1)',
+  'rgba(87,145,249,1)',
+  'rgba(240,192,96,1)',
+  'rgba(240,96,192,1)',
+  'rgba(192,240,96,1)',
+  'rgba(192,96,240,1)',
+  'rgba(96,240,192,1)',
+  'rgba(96,192,240,1)',
+  'rgba(144,192,144,1)',
+  'rgba(144,144,192,1)',
+  'rgba(192,144,144,1)',
+  'rgba(96,192,192,1)',
+  'rgba(192,96,192,1)',
+  'rgba(192,192,96,1)',
+  'rgba(96,144,192,1)',
+  'rgba(96,192,144,1)',
+  'rgba(144,96,192,1)',
+  'rgba(144,192,96,1)',
+  'rgba(192,96,144,1)',
+  'rgba(192,144,96,1)',
+  'rgba(192,144,192,1)',
+  'rgba(192,192,144,1)',
+  'rgba(144,192,192,1)',
+  'rgba(210,123,83,1)',
+  'rgba(210,83,123,1)',
+  'rgba(123,210,83,1)',
+  'rgba(123,83,210,1)',
+  'rgba(83,210,123,1)',
+  'rgba(83,123,210,1)',
+];
+
 class Props {
   public tags!: string[];
   public onChange?: (tags: string[]) => void;
@@ -65,7 +119,7 @@ class DigestTagsObject extends React.Component<Props, State> {
     const { tags, editable } = this.props;
 
     return (
-      <div>
+      <div className="DigestTagsObject">
         {tags.map((tag, index) => {
           const isLongTag = tag.length > 20;
           const tagElem = (
@@ -73,6 +127,11 @@ class DigestTagsObject extends React.Component<Props, State> {
               key={tag}
               closable={editable}
               afterClose={() => this.handleClose(tag)}
+              color={
+                tagColorPanel[
+                  Math.abs(util.stringHashCode(tag)) % tagColorPanel.length
+                ]
+              }
             >
               {isLongTag ? `${tag.slice(0, 40)}...` : tag}
             </Tag>

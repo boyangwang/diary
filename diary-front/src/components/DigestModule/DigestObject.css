@@ -1,5 +1,6 @@
 .DigestObject .title {
-  margin-bottom: 0;
+  margin: 6px;
+  font-size: 24px;
 }
 
 .DigestObject .ant-list-item-content {
@@ -8,15 +9,20 @@
 
 .DigestObject .DigestRow {
   flex: 0 0 100%;
+  align-content: center;
 }
 
 .DigestObject ._id.grey {
-  line-height: 23px;
+  line-height: 22px;
 }
 
-.DigestObject .lastModified .ant-alert,
-.DigestObject .createTimestamp .ant-alert {
-  display: inline-block;
+.DigestObject .lastModified,
+.DigestObject .createTimestamp {
+  line-height: 20px;
+  height: 22px;
   padding: 0 7px;
+  border-radius: 4px;
+  border: 1px solid #eee;
+  display: inline-block;
   margin-right: 8px;
 }
