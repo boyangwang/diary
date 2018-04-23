@@ -47,7 +47,6 @@ class NormalLoginForm extends React.Component<
               }
             },
             (err) => {
-              message.warn('' + err);
               this.setState({ loading: false });
             }
           );

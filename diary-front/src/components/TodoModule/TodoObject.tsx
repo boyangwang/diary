@@ -48,9 +48,7 @@ class TodoObject extends React.Component<Props & ReduxProps, State> {
           });
         }
       },
-      (err) => {
-        message.warn('' + err);
-      }
+      (err) => {}
     );
   }
 
@@ -69,9 +67,7 @@ class TodoObject extends React.Component<Props & ReduxProps, State> {
             this.setState(this.state);
           }
         },
-        (err) => {
-          message.warn('' + err);
-        }
+        (err) => {}
       );
     };
   }

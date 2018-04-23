@@ -40,7 +40,6 @@ class DiaryApp extends React.Component<ReduxProps, State> {
 
     api.apiTest().then(
       (data: ApiTestResponse & ErrResponse) => {
-        mylog('apiTest: ', data);
         if (data.err) {
           message.warn('' + data.err);
         } else {
@@ -54,9 +53,7 @@ class DiaryApp extends React.Component<ReduxProps, State> {
           });
         }
       },
-      (err) => {
-        message.warn('' + err);
-      }
+      (err) => {}
     );
   }
 

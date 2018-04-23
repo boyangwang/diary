@@ -1,6 +1,8 @@
 import 'isomorphic-fetch';
 
 import { notification } from 'antd';
+import api from 'utils/api';
+import mylog from 'utils/mylog';
 
 notification.config({
   placement: 'bottomRight',
@@ -20,25 +22,30 @@ export default (url: string, opt: any) => {
   return fetch(url, opt).then(
     (res) => {
       notification.close(key);
-      if (!res.ok) {
-        res.text().then((text) => {
-          return notification.warning({
+      if (res.ok) {
+        return res.json();
+      } else {
+        return res.text().then((text) => {
+          const err = res.status + ' | ' + text;
+          mylog('fetch err non-network path ' + err);
+          notification.warning({
             key,
             message: 'URL: ' + url.replace(/$https?:\/\/[^/]+/, ''),
-            description: 'Error request: ' + res.status + ' ' + text,
+            description: 'Error non-network: ' + err,
           });
+          throw { data: { err } };
         });
       }
-      return res.json();
     },
     (err) => {
+      mylog('fetch err network path ' + err);
       notification.close(key);
       notification.warning({
         key,
         message: 'URL: ' + url.replace(/$https?:\/\/[^/]+/, ''),
         description: 'Error network: ' + err,
       });
-      throw err;
+      throw { data: { err } };
     }
   );
 };

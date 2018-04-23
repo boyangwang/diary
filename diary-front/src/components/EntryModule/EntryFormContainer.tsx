@@ -89,9 +89,7 @@ class EntryFormContainer extends React.Component<
             onSubmit();
           }
         },
-        (err) => {
-          message.warn('' + err);
-        }
+        (err) => {}
       );
     });
   };

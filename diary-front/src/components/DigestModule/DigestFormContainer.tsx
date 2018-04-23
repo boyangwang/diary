@@ -103,9 +103,7 @@ class DigestFormContainer extends React.Component<
             onSubmit();
           }
         },
-        (err) => {
-          message.warn('' + err);
-        }
+        (err) => {}
       );
     });
   };
@@ -125,14 +123,13 @@ class DigestFormContainer extends React.Component<
       (data: any) => {
         if (data.err) {
           message.warn('' + data.err);
-          return Promise.reject(data.err);
+          throw data.err;
         } else {
-          return Promise.resolve(data);
+          return data;
         }
       },
       (err: any) => {
-        message.warn('' + err);
-        return Promise.reject(err);
+        throw err;
       }
     );
   }

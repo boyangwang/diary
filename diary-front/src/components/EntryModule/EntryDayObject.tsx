@@ -42,9 +42,7 @@ class EntryDayObject extends React.Component<Props & ReduxProps, State> {
           });
         }
       },
-      (err) => {
-        message.warn('' + err);
-      }
+      (err) => {}
     );
   }
 

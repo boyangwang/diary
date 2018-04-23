@@ -84,9 +84,7 @@ class TodoFormContainer extends React.Component<
           resetFields();
           onSubmit();
         },
-        (err) => {
-          message.warn('' + err);
-        }
+        (err) => {}
       );
     });
   };

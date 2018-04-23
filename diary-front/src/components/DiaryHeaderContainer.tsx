@@ -19,12 +19,15 @@ class Props {
 }
 class DiaryHeaderContainer extends React.Component<Props & ReduxProps> {
   public logout() {
-    api.logout().then(() => {
-      dispatch({
-        type: 'LOGOUT',
-        payload: { user: null },
-      });
-    });
+    api.logout().then(
+      () => {
+        dispatch({
+          type: 'LOGOUT',
+          payload: { user: null },
+        });
+      },
+      (err) => {}
+    );
   }
 
   public renderNoLoginHeader() {
