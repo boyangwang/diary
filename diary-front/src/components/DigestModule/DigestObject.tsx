@@ -1,17 +1,19 @@
-import './DigestObject.css';
-
 import React from 'react';
 
 import { Alert, Button, Col, List, message, Modal, Row } from 'antd';
-import DigestEditorObject, {
-  htmlToDraft,
-} from 'components/DigestModule/DigestEditorObject';
-import DigestFormContainer from 'components/DigestModule/DigestFormContainer';
+
 import { connect } from 'react-redux';
 import { ReduxState, User } from 'reducers';
 import { dispatch } from 'reducers/store';
 import api, { DeleteDigestResponse, Digest, ErrResponse } from 'utils/api';
+
+import DigestEditorObject, {
+  htmlToDraft,
+} from 'components/DigestModule/DigestEditorObject';
+import DigestFormContainer from 'components/DigestModule/DigestFormContainer';
 import DigestTagsObject from './DigestTagsObject';
+
+import './DigestObject.css';
 
 class Props {
   public digest: Digest;

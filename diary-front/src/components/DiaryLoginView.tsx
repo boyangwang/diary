@@ -1,12 +1,13 @@
-import './DiaryLoginView.css';
-
-import { Button, Form, Icon, Input, message } from 'antd';
 import React from 'react';
 import { connect } from 'react-redux';
 
+import { Button, Form, Icon, Input, message } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
+
 import { dispatch } from 'reducers/store';
 import api, { ErrResponse, LoginResponse } from 'utils/api';
+
+import './DiaryLoginView.css';
 
 class Props {
   public form?: any;

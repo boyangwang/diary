@@ -1,15 +1,17 @@
-import './TodoView.css';
-
-import { Collapse, List } from 'antd';
 import React from 'react';
 import { connect } from 'react-redux';
 
-import TodoFormContainer from 'components/TodoModule/TodoFormContainer';
-import TodoObject from 'components/TodoModule/TodoObject';
+import { Collapse, List } from 'antd';
+
 import { ReduxState, User } from 'reducers';
 import { dispatch } from 'reducers/store';
 import api, { ErrResponse, GetTodosResponse, Todo } from 'utils/api';
 import util from 'utils/util';
+
+import TodoFormContainer from 'components/TodoModule/TodoFormContainer';
+import TodoObject from 'components/TodoModule/TodoObject';
+
+import './TodoView.css';
 
 class ReduxProps {
   public todos: Todo[];

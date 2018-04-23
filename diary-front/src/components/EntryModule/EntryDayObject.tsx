@@ -1,13 +1,15 @@
-import './EntryDayObject.css';
-
-import { Alert, Button, Card, message, Modal } from 'antd';
 import React from 'react';
 import { connect } from 'react-redux';
+
+import { Alert, Button, Card, message, Modal } from 'antd';
 
 import { ReduxState, User } from 'reducers';
 import { dispatch } from 'reducers/store';
 import api, { DeleteEntryResponse, Entry, ErrResponse } from 'utils/api';
+
 import EntryFormContainer from './EntryFormContainer';
+
+import './EntryDayObject.css';
 
 class Props {
   public entry: Entry;

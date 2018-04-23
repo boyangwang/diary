@@ -8,8 +8,9 @@ import registerServiceWorker from './registerServiceWorker';
 registerServiceWorker();
 import store from 'reducers/store';
 import mylog from 'utils/mylog';
-import DiaryApp from './components/DiaryApp';
 import './utils/errReport';
+
+import DiaryApp from './components/DiaryApp';
 
 import 'antd/dist/antd.css';
 import './index.css';

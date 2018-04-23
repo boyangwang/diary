@@ -1,12 +1,13 @@
-import './DiaryHeaderContainer.css';
-
-import { Button, Dropdown, Icon, Layout, Menu } from 'antd';
 import React from 'react';
 import { connect } from 'react-redux';
+
+import { Button, Dropdown, Icon, Layout, Menu } from 'antd';
 
 import { ReduxState, User } from 'reducers';
 import { dispatch } from 'reducers/store';
 import api from 'utils/api';
+
+import './DiaryHeaderContainer.css';
 
 class ReduxProps {
   public user: User | null;

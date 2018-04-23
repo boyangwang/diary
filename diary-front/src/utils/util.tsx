@@ -1,7 +1,9 @@
-import { Icon } from 'antd';
 import * as _ from 'lodash';
 import * as moment from 'moment';
 import React from 'react';
+
+import { Icon } from 'antd';
+
 import mylog from 'utils/mylog';
 
 const dateStringFormat = 'YYYY-MM-DD';

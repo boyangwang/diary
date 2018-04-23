@@ -1,16 +1,18 @@
-import './EntryDayContainer.css';
-
-import { Badge, Card, Icon, message } from 'antd';
 import classnames from 'classnames';
 import React from 'react';
 import { connect } from 'react-redux';
 
-import EntryDayContainerEntryObject from 'components/EntryModule/EntryDayObject';
+import { Badge, Card, Icon, message } from 'antd';
+
 import ReactDOM from 'react-dom';
 import { ReduxState, User } from 'reducers';
 import { dispatch } from 'reducers/store';
 import api, { Entry, ErrResponse, GetEntriesResponse } from 'utils/api';
 import util from 'utils/util';
+
+import EntryDayContainerEntryObject from 'components/EntryModule/EntryDayObject';
+
+import './EntryDayContainer.css';
 
 class Props {
   public date: string;

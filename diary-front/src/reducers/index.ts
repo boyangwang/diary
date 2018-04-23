@@ -1,4 +1,5 @@
 import * as _ from 'lodash';
+
 import { Entry, Todo } from 'utils/api';
 
 export class User {

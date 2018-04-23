@@ -1,6 +1,7 @@
-import { message } from 'antd';
 import React from 'react';
 import { connect } from 'react-redux';
+
+import { message } from 'antd';
 import {
   Area,
   AreaChart,
@@ -12,13 +13,14 @@ import {
   YAxis,
 } from 'recharts';
 
-import EntryTrendChartTooltipContent, {
-  TooltipPayload,
-} from 'components/EntryModule/EntryTrendChartTooltipContent';
 import { ReduxState, User } from 'reducers';
 import { dispatch } from 'reducers/store';
 import api, { Entry, ErrResponse, GetEntriesResponse } from 'utils/api';
 import util from 'utils/util';
+
+import EntryTrendChartTooltipContent, {
+  TooltipPayload,
+} from 'components/EntryModule/EntryTrendChartTooltipContent';
 
 const barLowValue = 8;
 const barHighValue = 12;

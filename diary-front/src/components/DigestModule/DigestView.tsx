@@ -1,14 +1,16 @@
-import { Collapse, List } from 'antd';
 import React from 'react';
 import { connect } from 'react-redux';
 
-import DigestFormContainer from 'components/DigestModule/DigestFormContainer';
-import DigestObject from 'components/DigestModule/DigestObject';
-import DigestSearchContainer from 'components/DigestModule/DigestSearchContainer';
+import { Collapse, List } from 'antd';
+
 import { ReduxState, User } from 'reducers';
 import { dispatch } from 'reducers/store';
 import api, { Digest, ErrResponse, GetDigestsResponse } from 'utils/api';
 import util from 'utils/util';
+
+import DigestFormContainer from 'components/DigestModule/DigestFormContainer';
+import DigestObject from 'components/DigestModule/DigestObject';
+import DigestSearchContainer from 'components/DigestModule/DigestSearchContainer';
 
 class State {
   public currentPage: number = 1;

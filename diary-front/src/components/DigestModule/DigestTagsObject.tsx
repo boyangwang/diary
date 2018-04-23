@@ -1,5 +1,6 @@
-import { Icon, Input, Tag, Tooltip } from 'antd';
 import React from 'react';
+
+import { Icon, Input, Tag, Tooltip } from 'antd';
 
 import util from 'utils/util';
 

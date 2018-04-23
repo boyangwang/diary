@@ -1,18 +1,20 @@
-import './DiaryApp.css';
-
-import { Layout, message } from 'antd';
 import React from 'react';
 import { connect } from 'react-redux';
+
+import { Layout, message } from 'antd';
+
+import { ReduxState, User } from 'reducers';
+import { dispatch } from 'reducers/store';
+import api, { ApiTestResponse, ErrResponse } from 'utils/api';
+import mylog from 'utils/mylog';
 
 import DiaryHeaderContainer from 'components/DiaryHeaderContainer';
 import DiaryLoginView from 'components/DiaryLoginView';
 import DigestView from 'components/DigestModule/DigestView';
 import EntryView from 'components/EntryModule/EntryView';
 import TodoView from 'components/TodoModule/TodoView';
-import { ReduxState, User } from 'reducers';
-import { dispatch } from 'reducers/store';
-import api, { ApiTestResponse, ErrResponse } from 'utils/api';
-import mylog from 'utils/mylog';
+
+import './DiaryApp.css';
 
 class ReduxProps {
   public user: User | null;

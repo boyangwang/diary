@@ -1,4 +1,5 @@
 import appendQuery from 'append-query';
+
 import { User } from 'reducers';
 
 const PROTOCOL = process.env.REACT_APP_PROTOCOL;

@@ -1,11 +1,12 @@
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import './DigestEditorObject.css';
-
 import { ContentState, convertFromHTML, EditorState } from 'draft-js';
 import DraftToHtml from 'draftjs-to-html';
 import HtmlToDraft from 'html-to-draftjs';
 import * as React from 'react';
+
 import { Editor } from 'react-draft-wysiwyg';
+
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import './DigestEditorObject.css';
 
 /**
  * convert an editor state to html

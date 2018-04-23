@@ -1,4 +1,8 @@
-import './EntryFormContainer.css';
+import { FormComponentProps } from 'antd/lib/form/Form';
+import * as _ from 'lodash';
+import * as moment from 'moment';
+import React from 'react';
+import { connect } from 'react-redux';
 
 import {
   AutoComplete,
@@ -10,16 +14,13 @@ import {
   InputNumber,
   message,
 } from 'antd';
-import { FormComponentProps } from 'antd/lib/form/Form';
-import * as _ from 'lodash';
-import * as moment from 'moment';
-import React from 'react';
-import { connect } from 'react-redux';
 
 import { ReduxState, User } from 'reducers';
 import { dispatch } from 'reducers/store';
 import api, { Entry, ErrResponse, PostEntryResponse } from 'utils/api';
 import util from 'utils/util';
+
+import './EntryFormContainer.css';
 
 class TitleFrequency {
   public title: string;

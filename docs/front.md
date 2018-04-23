@@ -15,13 +15,17 @@ same as component class name, e.g. DiaryApp
 - polyfill
 ---
 - external non-component
+---
 - external component
 ---
 - my non-component
+---
 - my component
 ---
 - external css
 - my css
+
+When one `import` statement imports multiple kinds, e.g. `import Component, { nonComponent } from 'foobar'`, take the highest precedence
 
 ## component boilerplate
 

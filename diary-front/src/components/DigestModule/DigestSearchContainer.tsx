@@ -1,15 +1,17 @@
-import './DigestSearchContainer.css';
-
-import { Card, Collapse, Input, List } from 'antd';
 import React from 'react';
-import Highlighter from 'react-highlight-words';
 import { connect } from 'react-redux';
 
-import DigestObject from 'components/DigestModule/DigestObject';
+import { Card, Collapse, Input, List } from 'antd';
+import Highlighter from 'react-highlight-words';
+
 import { ReduxState } from 'reducers';
-// import { dispatch } from 'reducers/store';
+import { dispatch } from 'reducers/store';
 import { Digest } from 'utils/api';
 import util from 'utils/util';
+
+import DigestObject from 'components/DigestModule/DigestObject';
+
+import './DigestSearchContainer.css';
 
 class DigestWithHighlight extends Digest {
   public highlight: React.ReactNode = null;

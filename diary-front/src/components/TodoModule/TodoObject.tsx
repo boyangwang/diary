@@ -1,8 +1,7 @@
-import './TodoObject.css';
-
-import { Alert, Button, Checkbox, List, message, Modal } from 'antd';
 import React from 'react';
 import { connect } from 'react-redux';
+
+import { Alert, Button, Checkbox, List, message, Modal } from 'antd';
 
 import { ReduxState, User } from 'reducers';
 import { dispatch } from 'reducers/store';
@@ -12,7 +11,10 @@ import api, {
   PostTodoResponse,
   Todo,
 } from 'utils/api';
+
 import TodoFormContainer from './TodoFormContainer';
+
+import './TodoObject.css';
 
 class Props {
   public todo: Todo;

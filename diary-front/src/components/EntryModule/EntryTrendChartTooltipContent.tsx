@@ -1,5 +1,6 @@
 import * as _ from 'lodash';
 import React from 'react';
+
 import util from 'utils/util';
 
 function shallowEqual(a: any, b: any) {

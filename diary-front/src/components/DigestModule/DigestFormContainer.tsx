@@ -1,4 +1,3 @@
-import { Button, Card, DatePicker, Form, Icon, Input, message } from 'antd';
 import { FormComponentProps } from 'antd/lib/form/Form';
 import { EditorState } from 'draft-js';
 import * as _ from 'lodash';
@@ -6,16 +5,19 @@ import * as moment from 'moment';
 import React from 'react';
 import { connect } from 'react-redux';
 
+import { Button, Card, DatePicker, Form, Icon, Input, message } from 'antd';
+
+import { ReduxState, User } from 'reducers';
+import { dispatch } from 'reducers/store';
+import api, { Digest, ErrResponse, PostDigestResponse } from 'utils/api';
+import util from 'utils/util';
+
 import DigestEditorObject, {
   draftToHtml,
   EmptyState,
   htmlToDraft,
 } from 'components/DigestModule/DigestEditorObject';
 import DigestTagsObject from 'components/DigestModule/DigestTagsObject';
-import { ReduxState, User } from 'reducers';
-import { dispatch } from 'reducers/store';
-import api, { Digest, ErrResponse, PostDigestResponse } from 'utils/api';
-import util from 'utils/util';
 
 class Props {
   public digest?: Digest;

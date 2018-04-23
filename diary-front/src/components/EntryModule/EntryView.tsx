@@ -1,12 +1,14 @@
-import './EntryView.css';
+import React from 'react';
 
 import { Button, Col, Row } from 'antd';
-import React from 'react';
+
+import util from 'utils/util';
 
 import EntryFormContainer from 'components/EntryModule/EntryFormContainer';
 import EntryTrendChartContainer from 'components/EntryModule/EntryTrendChartContainer';
 import EntryWeekContainer from 'components/EntryModule/EntryWeekContainer';
-import util from 'utils/util';
+
+import './EntryView.css';
 
 class State {
   public offset: number = 0;
