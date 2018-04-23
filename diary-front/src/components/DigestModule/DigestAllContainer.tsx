@@ -14,6 +14,7 @@ import './DigestAllContainer.css';
 class State {
   public currentPage: number = 1;
   public pageSize: number = 6;
+  public tickedTags: string[] = [];
 }
 class Props {
   public digests: Digest[] = [];
@@ -22,21 +23,22 @@ class ReduxProps {}
 class DigestAllContainer extends React.Component<Props & ReduxProps, State> {
   public constructor(props: Props & ReduxProps) {
     super(props);
-    this.state = new State();
+    this.state = Object.assign({}, new State(), {
+      tickedTags: this.getAllTags(),
+    });
   }
 
   public findShouldShowDigests() {
     const { digests } = this.props;
-    const { currentPage, pageSize } = this.state;
+    const { currentPage, pageSize, tickedTags } = this.state;
 
-    const sortedByStickyThenModifiedThenCreated = digests.sort((a, b) => {
-      return (
-        util.compare(a.tags.includes('sticky'), b.tags.includes('sticky')) *
-          -100 +
-        util.compare(a.lastModified, b.lastModified) * -10 +
-        util.compare(a.createTimestamp, b.createTimestamp) * -1
-      );
-    });
+    const filteredByTags = digests.filter((d) =>
+      d.tags.some((tag) => tickedTags.includes(tag))
+    );
+    const sortedByStickyThenModifiedThenCreated = util.sortDigests(
+      filteredByTags
+    );
+
     const currentPageDigests = util.findCurrentPageItems(
       sortedByStickyThenModifiedThenCreated,
       pageSize,
@@ -46,19 +48,37 @@ class DigestAllContainer extends React.Component<Props & ReduxProps, State> {
     return currentPageDigests;
   }
 
+  public getAllTags() {
+    return [
+      ...new Set([].concat(...(this.props.digests.map((d) => d.tags) as any))),
+    ].sort();
+  }
+
   public render() {
     const { digests } = this.props;
     const { currentPage, pageSize } = this.state;
 
-    return (
-      <Collapse>
-        <Collapse.Panel header="All" key="all">
+    const allTags = this.getAllTags();
+
+    const header = (
+      <div className="DigestAllFilterContainer">
+        <span>All</span>
+        <div onClick={(e) => e.stopPropagation()}>
           <Checkbox.Group
-            options={['a', 'b', 'c']}
+            className="DigestFilterContainer"
+            options={allTags}
+            defaultValue={allTags}
             onChange={(values) => {
-              console.log('checked = ', values);
+              this.setState({ tickedTags: values.map((t) => t + '') });
             }}
           />
+        </div>
+      </div>
+    );
+
+    return (
+      <Collapse className="DigestAllContainer">
+        <Collapse.Panel header={header} key="all" showArrow={false}>
           <List
             dataSource={this.findShouldShowDigests()}
             renderItem={(digest: Digest) => <DigestObject digest={digest} />}

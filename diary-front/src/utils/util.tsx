@@ -4,6 +4,7 @@ import React from 'react';
 
 import { Icon } from 'antd';
 
+import { Digest } from 'utils/api';
 import mylog from 'utils/mylog';
 
 const dateStringFormat = 'YYYY-MM-DD';
@@ -193,6 +194,15 @@ export default {
     currentPage: number
   ) => {
     return items.slice((currentPage - 1) * pageSize, currentPage * pageSize);
+  },
+  sortDigests: (digests: Digest[]) => {
+    return digests.sort((a, b) => {
+      return (
+        compare(a.tags.includes('sticky'), b.tags.includes('sticky')) * -100 +
+        compare(a.lastModified, b.lastModified) * -10 +
+        compare(a.createTimestamp, b.createTimestamp) * -1
+      );
+    });
   },
   syncUrlParamWithState: ({
     urlParamName,

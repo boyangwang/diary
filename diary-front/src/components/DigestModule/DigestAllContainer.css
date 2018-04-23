@@ -1,0 +1,9 @@
+.DigestAllFilterContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.DigestAllFilterContainer .DigestFilterContainer {
+  margin-left: 36px;
+}

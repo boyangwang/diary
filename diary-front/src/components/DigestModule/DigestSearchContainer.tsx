@@ -135,15 +135,16 @@ class DigestSearchContainer extends React.Component<Props & ReduxProps, State> {
     );
 
     const digestsAfterSearch = this.findDigestsAfterSearch();
+    const digestsAfterSort = util.sortDigests(digestsAfterSearch);
     const shouldShowDigests = util.findCurrentPageItems(
-      digestsAfterSearch,
+      digestsAfterSort,
       pageSize,
       currentPage
     );
 
     return (
       <Collapse className="DigestSearchContainer" activeKey={['search']}>
-        <Collapse.Panel header={searchBar} key="search">
+        <Collapse.Panel header={searchBar} key="search" showArrow={false}>
           {!search ? (
             'Search title, tags, content'
           ) : (
