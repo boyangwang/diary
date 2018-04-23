@@ -12,9 +12,6 @@ same as component class name, e.g. DiaryApp
 
 ## import sequence
 
-- external css
-- my css
----
 - polyfill
 ---
 - external non-component
@@ -22,6 +19,9 @@ same as component class name, e.g. DiaryApp
 ---
 - my non-component
 - my component
+---
+- external css
+- my css
 
 ## component boilerplate
 
