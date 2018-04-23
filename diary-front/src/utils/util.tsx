@@ -115,4 +115,49 @@ export default {
   ) => {
     return items.slice((currentPage - 1) * pageSize, currentPage * pageSize);
   },
+  syncUrlParamWithState: ({
+    urlParamName,
+    stateName,
+    isUrlToState,
+    state,
+    setState,
+  }: {
+    urlParamName: string;
+    stateName: string;
+    isUrlToState?: boolean;
+    state: any;
+    setState: (arg: any) => void;
+  }) => {
+    const urlObj = new URL(location.href);
+    const { searchParams } = urlObj;
+    const urlValue = searchParams.get(urlParamName);
+    const stateValue = state[stateName];
+    if (!stateValue && !urlValue) {
+      return;
+    } else if (!stateValue) {
+      setState({
+        [stateName]: urlValue,
+      });
+    } else if (!urlValue) {
+      searchParams.set(urlParamName, stateValue);
+      window.history.replaceState(
+        {},
+        '',
+        `${location.pathname}?${searchParams}`
+      );
+    } else {
+      if (isUrlToState) {
+        setState({
+          [stateName]: urlValue,
+        });
+      } else {
+        searchParams.set(urlParamName, stateValue);
+        window.history.replaceState(
+          {},
+          '',
+          `${location.pathname}?${searchParams}`
+        );
+      }
+    }
+  },
 };

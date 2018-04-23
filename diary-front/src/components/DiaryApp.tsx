@@ -7,6 +7,7 @@ import { ReduxState, User } from 'reducers';
 import { dispatch } from 'reducers/store';
 import api, { ApiTestResponse, ErrResponse } from 'utils/api';
 import mylog from 'utils/mylog';
+import util from 'utils/util';
 
 import DiaryHeaderContainer from 'components/DiaryHeaderContainer';
 import DiaryLoginView from 'components/DiaryLoginView';
@@ -29,6 +30,14 @@ class DiaryApp extends React.Component<ReduxProps, State> {
   }
 
   public componentWillMount() {
+    util.syncUrlParamWithState({
+      urlParamName: 'tab',
+      stateName: 'activeTab',
+      isUrlToState: true,
+      state: this.state,
+      setState: this.setState.bind(this),
+    });
+
     api.apiTest().then(
       (data: ApiTestResponse & ErrResponse) => {
         mylog('apiTest: ', data);
@@ -60,8 +69,14 @@ class DiaryApp extends React.Component<ReduxProps, State> {
         <Layout>
           <DiaryHeaderContainer
             activeTab={activeTab}
-            onChangeTab={(tab: string) => () => {
-              this.setState({ activeTab: tab });
+            onChangeTab={(tab: string) => async () => {
+              await this.setState({ activeTab: tab });
+              util.syncUrlParamWithState({
+                urlParamName: 'tab',
+                stateName: 'activeTab',
+                state: this.state,
+                setState: this.setState.bind(this),
+              });
             }}
           />
           <Layout.Content>
