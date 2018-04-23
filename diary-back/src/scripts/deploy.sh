@@ -15,4 +15,5 @@ yarn run build &
 
 wait
 
+cd ../diary-back
 fly scp-frontend:staging --flightplan ./flightplan.js
