@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 
-import { Entry, Todo } from 'utils/api';
+import { Digest, Entry, Todo } from 'utils/api';
 
 export class User {
   public username: string;
@@ -13,7 +13,7 @@ export class ReduxState {
     [date: string]: Entry[];
   };
   public todos: Todo[];
-  public digests: Todo[];
+  public digests: Digest[];
 }
 const INITIAL_STATE: ReduxState = {
   user: null,
