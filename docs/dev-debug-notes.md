@@ -224,3 +224,9 @@ public componentDidMount() {
 最后发现果然是因为, rebuild后的droplet不允许keyboard-interactive或password. 一开始奇怪为什么我愿意用但是不让我试, 然后想到ssh client有config, sshd也有config
 
 登进digitalocean的console (手打密码), 改成允许, 把authorized key加上, 再改回来
+
+## 真是震惊了, 陈年老bug
+
+我一直写的`ReduxState`, `digests: Todo[]`. 之前怎么就会没有发现呢???
+
+这次修了, 挺好. 之前的一些bug可能, 特别是connect 类型怎么都不对, 可能都跟这个有关... 截取错误信息真是万恶
