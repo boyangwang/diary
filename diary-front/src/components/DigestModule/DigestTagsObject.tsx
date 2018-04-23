@@ -177,7 +177,6 @@ class DigestTagsObject extends React.Component<Props & ReduxProps, State> {
             mode="combobox"
             filterOption={true}
             size="small"
-            value={inputValue}
             defaultValue=""
             optionLabelProp="value"
             onSelect={this.handleSelect}
