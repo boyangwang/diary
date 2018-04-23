@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
-
+echo ---------------------
+echo "TIMER `date`"
+echo ---------------------
 # tagging and git
 cd ../diary-front && yarn version --new-version patch && \
 cd ../diary-back && yarn config set version-git-tag false && \
