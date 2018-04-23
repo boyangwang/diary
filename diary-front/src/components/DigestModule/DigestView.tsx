@@ -1,22 +1,19 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { Collapse, List } from 'antd';
+import { Checkbox, Collapse, List } from 'antd';
 
 import { ReduxState, User } from 'reducers';
 import { dispatch } from 'reducers/store';
 import api, { Digest, ErrResponse, GetDigestsResponse } from 'utils/api';
 import util from 'utils/util';
 
+import DigestAllContainer from 'components/DigestModule/DigestAllContainer';
 import DigestFormContainer from 'components/DigestModule/DigestFormContainer';
 import DigestObject from 'components/DigestModule/DigestObject';
 import DigestSearchContainer from 'components/DigestModule/DigestSearchContainer';
 
-class State {
-  public currentPage: number = 1;
-  public pageSize: number = 6;
-  public err: any;
-}
+class State {}
 class ReduxProps {
   public digests: Digest[];
   public user: User | null;
@@ -24,7 +21,6 @@ class ReduxProps {
 class DigestView extends React.Component<ReduxProps, State> {
   constructor(props: ReduxProps) {
     super(props);
-    this.state = new State();
   }
 
   public getDigests() {
@@ -51,50 +47,13 @@ class DigestView extends React.Component<ReduxProps, State> {
     this.getDigests();
   }
 
-  public findShouldShowDigests() {
-    const { digests } = this.props;
-    const { currentPage, pageSize } = this.state;
-
-    const sortedByStickyThenModifiedThenCreated = digests.sort((a, b) => {
-      return (
-        util.compare(a.tags.includes('sticky'), b.tags.includes('sticky')) *
-          -100 +
-        util.compare(a.lastModified, b.lastModified) * -10 +
-        util.compare(a.createTimestamp, b.createTimestamp) * -1
-      );
-    });
-    const currentPageDigests = util.findCurrentPageItems(
-      sortedByStickyThenModifiedThenCreated,
-      pageSize,
-      currentPage
-    );
-
-    return currentPageDigests;
-  }
-
   public renderContent() {
     const { digests } = this.props;
-    const { currentPage, pageSize } = this.state;
 
     return (
       <div className="DigestsContainer">
         <DigestSearchContainer digests={digests} />
-        <Collapse>
-          <Collapse.Panel header="All" key="all">
-            <List
-              dataSource={this.findShouldShowDigests()}
-              renderItem={(digest: Digest) => <DigestObject digest={digest} />}
-              pagination={{
-                pageSize,
-                current: currentPage,
-                total: digests.length,
-                showTotal: (total: number) => `Total ${total} digests`,
-                onChange: (newPage: number) =>
-                  this.setState({ currentPage: newPage }),
-              }}
-            />
-          </Collapse.Panel>
-        </Collapse>
+        <DigestAllContainer digests={digests} />
       </div>
     );
   }
