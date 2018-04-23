@@ -161,6 +161,19 @@ class DigestFormContainer extends React.Component<
             {getFieldDecorator('tags', {
               rules: [],
               initialValue: _.get(digest, 'tags') || [],
+              normalize: (value: string[]) => {
+                if (value && value.length) {
+                  return value
+                    .map((tag) => tag.toLocaleLowerCase())
+                    .map((tag) => {
+                      let chars = tag.split('');
+                      chars = chars.filter((c) => /^[0-9a-z-]$/.test(c));
+                      return chars.join('');
+                    })
+                    .filter((tag) => tag !== '');
+                }
+                return value;
+              },
             })(
               <DigestTagsObject
                 tags={this.state.tags}
