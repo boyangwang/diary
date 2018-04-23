@@ -36,3 +36,8 @@
   box-sizing: border-box;
   border-radius: 2px;
 }
+
+.digest-draft-editor .public-DraftStyleDefault-block.public-DraftStyleDefault-ltr {
+  line-height: 20px;
+  margin: 0;
+}
