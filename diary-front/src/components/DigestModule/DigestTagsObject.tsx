@@ -1,8 +1,10 @@
 import React from 'react';
 
-import { Icon, Input, Tag, Tooltip } from 'antd';
+import { Icon, Input, Tooltip } from 'antd';
 
 import util from 'utils/util';
+
+import Tag from 'components/common/Tag';
 
 import './DigestTagsObject.css';
 
