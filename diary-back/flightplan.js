@@ -107,15 +107,23 @@ plan.remote(['frontend', 'deploy-all'], (remote) => {
   });
 });
 
-plan.local(['build-frontend-and-scp', 'deploy-all'], (local) => {
-  local.with(`cd ../diary-front`, () => {
-    local.exec(`yarn run build`);
-    local.exec(`chmod -R 755 ./build`);
-    local.exec(
-      `scp -r ./build/* root@playground.wangboyang.com:${projectsDir}/diary-master/diary-front/build/`
-    );
-  });
-});
+plan.local(
+  [
+    'scp-frontend',
+    // don't do built-frontend with deploy-all, because this must wait
+    // 'deploy-all'
+  ],
+  (local) => {
+    local.with(`cd ../diary-front`, () => {
+      // this is the time-consuming step. Do it separately and in parallel
+      // local.exec(`yarn run build`);
+      local.exec(`chmod -R 755 ./build`);
+      local.exec(
+        `scp -r ./build/* root@playground.wangboyang.com:${projectsDir}/diary-master/diary-front/build/`
+      );
+    });
+  }
+);
 
 plan.local(['link-nginx'], (local) => {
   const confAbsolutePath = path.resolve(
