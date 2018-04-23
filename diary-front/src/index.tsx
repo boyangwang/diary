@@ -4,8 +4,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 
-import registerServiceWorker from './registerServiceWorker';
-registerServiceWorker();
+import { unregister } from './registerServiceWorker';
+unregister();
 import store from 'reducers/store';
 import mylog from 'utils/mylog';
 import './utils/errReport';
