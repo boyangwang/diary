@@ -3,3 +3,11 @@
   align-items: center;
   flex-wrap: wrap;
 }
+.DigestTagsSelect.ant-select {
+  width: auto;
+  min-width: 144px;
+}
+.DigestTagsSelectDropDown .ant-select-dropdown-menu-item {
+  display: flex;
+  justify-content: space-between;
+}
