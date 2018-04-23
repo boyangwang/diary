@@ -33,6 +33,10 @@ const apis = {
   uploadImage: 'api/uploadImage',
 };
 
+export class FrequencyMap {
+  [key: string]: number;
+}
+
 export class ErrResponse {
   public err: any;
 }

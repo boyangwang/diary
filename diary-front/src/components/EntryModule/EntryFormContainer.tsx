@@ -110,15 +110,10 @@ class EntryFormContainer extends React.Component<
       });
     });
 
-    const sortedTitles = Object.keys(titleFrequencyMap)
-      .map((title) => {
-        return { title, frequency: titleFrequencyMap[title] };
-      })
-      .sort((t1: TitleFrequency, t2: TitleFrequency) => {
-        return t2.frequency - t1.frequency;
-      });
-
-    return sortedTitles;
+    return util.frequencyMapToAutoCompleteOptions(
+      titleFrequencyMap,
+      'EntryTitleOption'
+    );
   }
 
   public incrementDecrementDate(offset: number) {
@@ -131,16 +126,6 @@ class EntryFormContainer extends React.Component<
   public render() {
     const { getFieldDecorator } = this.props.form;
     const { buttonText, entry } = this.props;
-
-    const titleSuggestions = this.getTitleSuggestions();
-    const titleSuggestionsReact = titleSuggestions.map((t) => {
-      return (
-        <AutoComplete.Option key={t.title} value={t.title}>
-          <span className="EntryTitleOptionTitle">{t.title}</span>
-          <span className="EntryTitleOptionFrequency">{t.frequency}</span>
-        </AutoComplete.Option>
-      );
-    });
 
     return (
       <Card>
@@ -169,7 +154,7 @@ class EntryFormContainer extends React.Component<
                 dataSource={[]}
                 optionLabelProp="value"
               >
-                {titleSuggestionsReact}
+                {this.getTitleSuggestions()}
               </AutoComplete>
             )}
           </Form.Item>

@@ -2,9 +2,9 @@ import * as _ from 'lodash';
 import * as moment from 'moment';
 import React from 'react';
 
-import { Icon } from 'antd';
+import { AutoComplete, Icon } from 'antd';
 
-import { Digest } from 'utils/api';
+import { Digest, FrequencyMap } from 'utils/api';
 import mylog from 'utils/mylog';
 
 const dateStringFormat = 'YYYY-MM-DD';
@@ -248,5 +248,25 @@ export default {
         );
       }
     }
+  },
+  frequencyMapToAutoCompleteOptions: (
+    frequencyMap: FrequencyMap,
+    prefixCls = ''
+  ) => {
+    const sorted = Object.keys(frequencyMap)
+      .map((title) => {
+        return { title, frequency: frequencyMap[title] };
+      })
+      .sort((t1, t2) => {
+        return t2.frequency - t1.frequency;
+      });
+    return sorted.map((t) => {
+      return (
+        <AutoComplete.Option key={t.title} value={t.title}>
+          <span className={prefixCls + 'Title'}>{t.title}</span>
+          <span className={prefixCls + 'Frequency'}>{t.frequency}</span>
+        </AutoComplete.Option>
+      );
+    });
   },
 };

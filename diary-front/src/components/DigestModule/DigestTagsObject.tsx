@@ -1,7 +1,10 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import { Icon, Input, Tooltip } from 'antd';
 
+import { ReduxState } from 'reducers';
+import { Digest, FrequencyMap } from 'utils/api';
 import util from 'utils/util';
 
 import Tag from 'components/common/Tag';
@@ -59,28 +62,23 @@ const tagColorPanel = [
 ];
 
 class Props {
-  public tags!: string[];
-  public onChange?: (tags: string[]) => void;
-  public editable?: boolean;
+  public tags: string[];
+  public editable?: boolean = true;
+  public onChange?: (tags: string[]) => void = (tags: string[]) => {};
+}
+class ReduxProps {
+  public digests: Digest[];
 }
 class State {
-  public inputVisible: boolean;
-  public inputValue: string;
+  public inputVisible: boolean = false;
+  public inputValue: string = '';
 }
-class StateDefaults {
-  public inputVisible = false;
-  public inputValue = '';
-}
-class DigestTagsObject extends React.Component<Props, State> {
-  public static defaultProps: Partial<Props> = {
-    onChange: (tags: string[]) => {},
-    editable: true,
-  };
+class DigestTagsObject extends React.Component<Props & ReduxProps, State> {
   public input: Input | null = null;
 
-  constructor(props: Props) {
+  constructor(props: Props & ReduxProps) {
     super(props);
-    this.state = Object.assign({}, new StateDefaults(), {
+    this.state = Object.assign({}, new State(), {
       tags: this.props.tags || [],
     });
   }
@@ -117,9 +115,23 @@ class DigestTagsObject extends React.Component<Props, State> {
 
   public saveInputRef = (input: Input | null) => (this.input = input);
 
+  public getSuggestionsMap(): FrequencyMap {
+    const { digests } = this.props;
+    const map = {};
+
+    digests.forEach((d) => {
+      d.tags.forEach((t) => {
+        map[t] = map[t] ? map[t] + 1 : 1;
+      });
+    });
+    return map;
+  }
+
   public render() {
     const { inputVisible, inputValue } = this.state;
     const { tags, editable } = this.props;
+
+    const suggestionsMap = this.getSuggestionsMap();
 
     return (
       <div className="DigestTagsObject">
@@ -127,6 +139,7 @@ class DigestTagsObject extends React.Component<Props, State> {
           const isLongTag = tag.length > 20;
           const tagElem = (
             <Tag
+              suggestionsMap={suggestionsMap}
               key={tag}
               closable={editable}
               afterClose={() => this.handleClose(tag)}
@@ -171,4 +184,8 @@ class DigestTagsObject extends React.Component<Props, State> {
     );
   }
 }
-export default DigestTagsObject;
+export default connect<ReduxProps, {}, Props>((state: ReduxState) => {
+  return {
+    digests: state.digests,
+  };
+})(DigestTagsObject as any);
