@@ -4,6 +4,6 @@
   align-items: center;
 }
 
-.DigestAllFilterContainer .DigestFilterContainer {
-  margin-left: 36px;
+.DigestAllFilterContainer .title {
+  padding-right: 36px;
 }

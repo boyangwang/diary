@@ -144,7 +144,12 @@ class DigestSearchContainer extends React.Component<Props & ReduxProps, State> {
 
     return (
       <Collapse className="DigestSearchContainer" activeKey={['search']}>
-        <Collapse.Panel header={searchBar} key="search" showArrow={false}>
+        <Collapse.Panel
+          header={searchBar}
+          key="search"
+          showArrow={false}
+          forceRender={true}
+        >
           {!search ? (
             'Search title, tags, content'
           ) : (

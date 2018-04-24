@@ -28,16 +28,19 @@ class DigestAllContainer extends React.Component<Props & ReduxProps, State> {
     });
   }
 
-  public findShouldShowDigests() {
+  public getDigestsAfterFilter() {
     const { digests } = this.props;
-    const { currentPage, pageSize, tickedTags } = this.state;
+    const { tickedTags } = this.state;
 
-    const filteredByTags = digests.filter((d) =>
+    return digests.filter((d) =>
       d.tags.some((tag) => tickedTags.includes(tag))
     );
-    const sortedByStickyThenModifiedThenCreated = util.sortDigests(
-      filteredByTags
-    );
+  }
+
+  public findShouldShowDigests(digests: Digest[]) {
+    const { currentPage, pageSize } = this.state;
+
+    const sortedByStickyThenModifiedThenCreated = util.sortDigests(digests);
 
     const currentPageDigests = util.findCurrentPageItems(
       sortedByStickyThenModifiedThenCreated,
@@ -59,10 +62,12 @@ class DigestAllContainer extends React.Component<Props & ReduxProps, State> {
     const { currentPage, pageSize } = this.state;
 
     const allTags = this.getAllTags();
+    const digestsAfterFilter = this.getDigestsAfterFilter();
+    const shouldShowDigests = this.findShouldShowDigests(digestsAfterFilter);
 
     const header = (
       <div className="DigestAllFilterContainer">
-        <span>All</span>
+        <span className="title">All</span>
         <div onClick={(e) => e.stopPropagation()}>
           <Checkbox.Group
             className="DigestFilterContainer"
@@ -78,14 +83,19 @@ class DigestAllContainer extends React.Component<Props & ReduxProps, State> {
 
     return (
       <Collapse className="DigestAllContainer">
-        <Collapse.Panel header={header} key="all" showArrow={false}>
+        <Collapse.Panel
+          header={header}
+          key="all"
+          showArrow={false}
+          forceRender={true}
+        >
           <List
-            dataSource={this.findShouldShowDigests()}
+            dataSource={shouldShowDigests}
             renderItem={(digest: Digest) => <DigestObject digest={digest} />}
             pagination={{
               pageSize,
               current: currentPage,
-              total: digests.length,
+              total: digestsAfterFilter.length,
               showTotal: (total: number) => `Total ${total} digests`,
               onChange: (newPage: number) =>
                 this.setState({ currentPage: newPage }),
