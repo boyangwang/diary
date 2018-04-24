@@ -234,3 +234,13 @@ public componentDidMount() {
 ## 像个脑残一样, 自己把自己之前做过的东西又搞坏了, 还愣了半天
 
 state的default有用, 因为 new State. Props不管用, 要用别的机制
+
+## setState on unmounted - no-op, Select
+
+搞清楚了问题原因. 我的onBlur会inputVisible false, 而它会继续到select的onOuterBlur, setOpenState, 因为失去focus应该收起选项
+
+不说Select自己是不是该考虑到这个情况吧. 一开始我想set inputVisible晚点, setTimeout, 结果大部分时候可以但是有时候不行. 肯定不是优雅解法
+
+还有一种方式, 其实不错, 但是改变了当前交互. 那就是让input不要invisible, 有什么可隐藏的, blur就保存tag然后清空input
+
+然后现在又想到一种, 就是invisible的时候不摧毁node只是hide, 应该也是可以的 - 完美解决了!

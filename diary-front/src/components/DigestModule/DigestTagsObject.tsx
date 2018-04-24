@@ -106,16 +106,19 @@ class DigestTagsObject extends React.Component<Props & ReduxProps, State> {
     this.handleInputConfirm();
   };
 
-  public handleInputConfirm = () => {
+  public handleInputConfirm = (e?: any) => {
     const { inputValue } = this.state;
     let tags = this.props.tags;
     if (inputValue && tags.indexOf(inputValue) === -1) {
       tags = [...tags, inputValue];
     }
-    this.setState({
-      inputVisible: false,
-      inputValue: '',
-    });
+    setTimeout(
+      this.setState({
+        inputVisible: false,
+        inputValue: '',
+      }),
+      100
+    );
     this.props.onChange!(tags);
   };
 
@@ -169,33 +172,23 @@ class DigestTagsObject extends React.Component<Props & ReduxProps, State> {
             tagElem
           );
         })}
-        {inputVisible && (
-          <Select
-            className="DigestTagsSelect"
-            dropdownClassName="DigestTagsSelectDropDown"
-            ref={this.saveInputRef}
-            mode="combobox"
-            filterOption={true}
-            size="small"
-            defaultValue=""
-            optionLabelProp="value"
-            onSelect={this.handleSelect}
-            onChange={this.handleInputChange}
-            onBlur={this.handleInputConfirm}
-          >
-            {this.getSuggestions()}
-          </Select>
-          // <Input
-          //   ref={this.saveInputRef}
-          //   type="text"
-          //   size="small"
-          //   style={{ width: 78 }}
-          //   value={inputValue}
-          //   onChange={this.handleInputChange}
-          //   onBlur={this.handleInputConfirm}
-          //   onPressEnter={this.handleInputConfirm}
-          // />
-        )}
+        <Select
+          className="DigestTagsSelect"
+          style={{ display: inputVisible ? 'inline-block' : 'none' }}
+          dropdownClassName="DigestTagsSelectDropDown"
+          ref={this.saveInputRef}
+          mode="combobox"
+          filterOption={true}
+          size="small"
+          value={inputValue}
+          defaultValue=""
+          optionLabelProp="value"
+          onSelect={this.handleSelect}
+          onChange={this.handleInputChange}
+          onBlur={this.handleInputConfirm}
+        >
+          {this.getSuggestions()}
+        </Select>
         {!inputVisible &&
           editable && (
             <div onClick={this.showInput}>
