@@ -37,6 +37,11 @@ const getApiTest = async (ctx, next) => {
     },
   };
 };
+const graphql = async (ctx, next) => {
+  ctx.response.body = {
+    data: {},
+  };
+};
 
 /**
  * when used as a module. opt passed in will take precedence
@@ -65,6 +70,7 @@ const main = async (opt = {}) => {
   });
   // apiTest
   router.get('/api/apiTest', getApiTest);
+  router.post('/api/graphql', graphql);
   // auth
   router.post('/api/login', auth.authenticateCallback);
   router.post('/api/logout', auth.logout);
