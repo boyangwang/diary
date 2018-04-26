@@ -2,7 +2,7 @@ import _ from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { Button, Input } from 'antd';
+import { Button, Form, Input } from 'antd';
 
 import { ReduxState } from 'reducers';
 import { dispatch } from 'reducers/store';
@@ -19,26 +19,26 @@ class State {
   public value = 2;
 }
 class DiaryInputNumber extends React.Component<Props & ReduxProps, State> {
+  public input: Input | null = null;
+
   public constructor(props: Props & ReduxProps) {
     super(props);
     this.state = new State();
   }
 
-  public handleInputChange = (e: any) => {
+  public handleInputChange = (newVal: number) => {
     const { onChange } = this.props;
-    const newVal = +e.target.value;
+
+    this.setState({ value: newVal });
+    newVal = +newVal;
     if (
-      !(
-        _.isNumber(newVal) &&
-        _.isFinite(newVal) &&
-        _.isInteger(newVal) &&
-        newVal >= 1
-      )
+      _.isNumber(newVal) &&
+      _.isFinite(newVal) &&
+      _.isInteger(newVal) &&
+      newVal >= 1
     ) {
-      return;
+      onChange(newVal);
     }
-    this.setState({ value: +newVal });
-    onChange(newVal);
   };
 
   public render() {
@@ -56,9 +56,11 @@ class DiaryInputNumber extends React.Component<Props & ReduxProps, State> {
           />
         </div>
         <Input
+          ref={(ref) => (this.input = ref)}
           size="large"
-          defaultValue={value}
-          onChange={this.handleInputChange}
+          value={value}
+          // defaultValue={value}
+          onChange={(e: any) => this.handleInputChange(e.target.value)}
           addonAfter={suffix}
           addonBefore={prefix}
         />

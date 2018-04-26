@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { message } from 'antd';
+import { message, Row } from 'antd';
 import {
   Area,
   AreaChart,
@@ -18,14 +18,15 @@ import { dispatch } from 'reducers/store';
 import api, { Entry, ErrResponse, GetEntriesResponse } from 'utils/api';
 import util from 'utils/util';
 
+import DiaryInputNumber from 'components/common/InputNumber';
 import EntryTrendChartTooltipContent, {
   TooltipPayload,
 } from 'components/EntryModule/EntryTrendChartTooltipContent';
 
 const barLowValue = 8;
 const barHighValue = 12;
-const barLowColor = '#006600';
-const barHighColor = '#990000';
+const barLowColor = '#990000';
+const barHighColor = '#006600';
 const chartColorPanel = [
   'rgba(242,122,119,1)',
   'rgba(119,242,122,1)',
@@ -65,6 +66,8 @@ const chartColorPanel = [
   'rgba(83,123,210,1)',
 ];
 
+const defaultLastDaysRange = 14;
+
 class Props {
   public offset: number = 0;
 }
@@ -77,7 +80,7 @@ class ReduxProps {
 class State {
   public isLoading: boolean = true;
   public err: any;
-  public last14Days: string[] = [];
+  public lastDaysRange = defaultLastDaysRange;
 }
 class EntryTrendChartContainer extends React.Component<
   Props & ReduxProps,
@@ -85,46 +88,28 @@ class EntryTrendChartContainer extends React.Component<
 > {
   constructor(props: Props & ReduxProps) {
     super(props);
-    this.state = Object.assign({}, new State(), {
-      last14Days: new Array(14)
-        .fill(0)
-        .map((_, i) => i)
-        .map((currentOffset) =>
-          util.getTodayStringWithOffset(-currentOffset + this.props.offset)
-        )
-        .reverse(),
-    });
+    this.state = Object.assign({}, new State());
   }
 
   public async componentWillReceiveProps(nextProps: Props & ReduxProps) {
-    if (this.props.offset !== nextProps.offset) {
-      await this.setState({
-        last14Days: new Array(14)
-          .fill(0)
-          .map((_, i) => i)
-          .map((currentOffset) =>
-            util.getTodayStringWithOffset(-currentOffset + nextProps.offset)
-          )
-          .reverse(),
-        isLoading: true,
-      });
-      await this.fetchDaysEntries();
-    }
+    await this.fetchDaysEntries();
   }
 
   public async fetchDaysEntries() {
-    const { entriesDateMap, user } = this.props;
-    const { last14Days } = this.state;
-
+    const { entriesDateMap, user, offset } = this.props;
+    const { lastDaysRange } = this.state;
     if (!user) {
       return;
     }
-    const missingDays = last14Days.filter(
-      (dateString) => !entriesDateMap[dateString]
-    );
+
+    const lastXxDays = this.getDaysArrFromRangeAndOffset(lastDaysRange, offset);
+    const missingDays = this.getMissingDays(lastXxDays, entriesDateMap);
     if (missingDays.length === 0) {
-      return this.setState({ isLoading: false });
+      return await this.setState({ isLoading: false });
+    } else {
+      await this.setState({ isLoading: true });
     }
+
     api
       .getEntries(
         {
@@ -165,12 +150,14 @@ class EntryTrendChartContainer extends React.Component<
   }
 
   public getChartDataAndAreasFromDaysAndEntriesDateMap(
-    days: string[],
+    offset: number,
+    lastDaysRange: number,
     entriesDateMap: {
       [date: string]: Entry[];
     }
   ): any {
     const allKeys = new Set();
+    const days = this.getDaysArrFromRangeAndOffset(lastDaysRange, offset);
     const chartData = days
       .map((date) => {
         const entries = entriesDateMap[date];
@@ -223,7 +210,7 @@ class EntryTrendChartContainer extends React.Component<
             fill: 'transparent',
             dot: false,
             strokeWidth: 2,
-            strokeDasharray: '5 5',
+            strokeDasharray: '5 4',
             strokeOpacity: 0.8,
             label: false,
           });
@@ -234,7 +221,7 @@ class EntryTrendChartContainer extends React.Component<
             fill: 'transparent',
             dot: false,
             strokeWidth: 2,
-            strokeDasharray: '5 5',
+            strokeDasharray: '5 4',
             strokeOpacity: 0.8,
             label: false,
           });
@@ -244,19 +231,16 @@ class EntryTrendChartContainer extends React.Component<
     return { areas, chartData };
   }
 
-  public render() {
-    const { entriesDateMap } = this.props;
-    const { last14Days, isLoading, err } = this.state;
-    if (isLoading) {
-      return <h1>EntryTrendChartContainer loading...</h1>;
-    } else if (err) {
-      return util.errComponent;
-    }
+  public renderChart() {
+    const { entriesDateMap, offset } = this.props;
+    const { isLoading, err, lastDaysRange } = this.state;
+
     const {
       chartData,
       areas,
     } = this.getChartDataAndAreasFromDaysAndEntriesDateMap(
-      last14Days,
+      offset,
+      lastDaysRange,
       entriesDateMap
     );
 
@@ -312,6 +296,68 @@ class EntryTrendChartContainer extends React.Component<
           {areas}
         </AreaChart>
       </ResponsiveContainer>
+    );
+  }
+
+  public getDaysArrFromRangeAndOffset(range: number, offset: number) {
+    return new Array(range)
+      .fill(0)
+      .map((_, i) => i)
+      .map((currentOffset) =>
+        util.getTodayStringWithOffset(-currentOffset + offset)
+      )
+      .reverse();
+  }
+
+  public getMissingDays(
+    days: string[],
+    entriesDateMap: {
+      [date: string]: Entry[];
+    }
+  ) {
+    return days.filter((dateString) => !entriesDateMap[dateString]);
+  }
+
+  public handleDaysRangeChange = async (newVal: number) => {
+    const { offset, entriesDateMap } = this.props;
+    const newRange = +newVal * 7;
+
+    if (
+      this.getMissingDays(
+        this.getDaysArrFromRangeAndOffset(newRange, offset),
+        entriesDateMap
+      ).length === 0
+    ) {
+      await this.setState({ lastDaysRange: +newVal * 7 });
+    } else {
+      await this.setState({ isLoading: true, lastDaysRange: newRange });
+      this.fetchDaysEntries();
+    }
+  };
+
+  public render() {
+    const { isLoading, err } = this.state;
+
+    return (
+      <div className="EntryTrendChartContainer">
+        <Row
+          type="flex"
+          style={{ justifyContent: 'center', alignItems: 'center' }}
+        >
+          <DiaryInputNumber
+            onChange={this.handleDaysRangeChange}
+            suffix="weeks"
+            prefix="Drawing"
+          />
+        </Row>
+        {isLoading ? (
+          <h1>EntryTrendChartContainer loading...</h1>
+        ) : err ? (
+          util.errComponent
+        ) : (
+          this.renderChart()
+        )}
+      </div>
     );
   }
 }
