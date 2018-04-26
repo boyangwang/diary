@@ -11,7 +11,7 @@ import util from 'utils/util';
 
 import DigestObject from 'components/DigestModule/DigestObject';
 
-import './DigestSearchContainer.css';
+import './DigestSearchListContainer.css';
 
 class DigestWithHighlight extends Digest {
   public highlight: React.ReactNode = null;

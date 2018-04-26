@@ -9,7 +9,7 @@ import util from 'utils/util';
 
 import DigestObject from 'components/DigestModule/DigestObject';
 
-import './DigestAllContainer.css';
+import './DigestAllListContainer.css';
 
 class State {
   public currentPage: number = 1;

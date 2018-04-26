@@ -8,10 +8,10 @@ import { dispatch } from 'reducers/store';
 import api, { Digest, ErrResponse, GetDigestsResponse } from 'utils/api';
 import util from 'utils/util';
 
-import DigestAllContainer from 'components/DigestModule/DigestAllContainer';
+import DigestAllListContainer from 'components/DigestModule/DigestAllListContainer';
 import DigestFormContainer from 'components/DigestModule/DigestFormContainer';
 import DigestObject from 'components/DigestModule/DigestObject';
-import DigestSearchContainer from 'components/DigestModule/DigestSearchContainer';
+import DigestSearchListContainer from 'components/DigestModule/DigestSearchListContainer';
 
 class State {}
 class ReduxProps {
@@ -52,8 +52,8 @@ class DigestView extends React.Component<ReduxProps, State> {
 
     return (
       <div className="DigestsContainer">
-        <DigestSearchContainer digests={digests} />
-        <DigestAllContainer digests={digests} />
+        <DigestSearchListContainer digests={digests} />
+        <DigestAllListContainer digests={digests} />
       </div>
     );
   }
