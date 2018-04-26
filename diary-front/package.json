@@ -17,7 +17,7 @@
     "@types/draft-js": "^0.10.20",
     "@types/react-highlight-words": "^0.6.4",
     "@types/recharts": "^1.0.18",
-    "antd": "^3.3.0",
+    "antd": ">=3.4.2",
     "append-query": "^2.0.1",
     "classnames": "^2.2.5",
     "draft-js": "^0.10.5",
