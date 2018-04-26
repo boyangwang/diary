@@ -27,10 +27,16 @@ class EntryView extends React.Component<{}, State> {
 
   public render() {
     const { offset } = this.state;
+
+    const tipDayString = util.getTodayStringWithOffset(offset * 7);
+
     return (
       <div className="EntryView">
-        <h2>EntryView</h2>
-        <EntryWeekContainer date={util.getTodayStringWithOffset(offset * 7)} />
+        <Row type="flex" style={{ alignItems: 'center' }}>
+          <h2>EntryView</h2>
+          <span>Current tip: {tipDayString}</span>
+        </Row>
+        <EntryWeekContainer date={tipDayString} />
         <Row type="flex" justify="space-between">
           <Col span={2} className="ArrowButtonColDiv">
             <div className="ArrowButtonDiv">
