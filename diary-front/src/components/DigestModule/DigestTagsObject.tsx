@@ -193,7 +193,7 @@ class DigestTagsObject extends React.Component<Props & ReduxProps, State> {
           editable && (
             <div onClick={this.showInput}>
               <Tag style={{ background: '#fff', borderStyle: 'dashed' }}>
-                <Icon type="plus" /> New Tag
+                <a><Icon type="plus" /> New Tag</a>
               </Tag>
             </div>
           )}
