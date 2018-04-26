@@ -17,6 +17,7 @@ class Props {
 class ReduxProps {}
 class State {
   public value = 2;
+  public inputValue = 2;
 }
 class DiaryInputNumber extends React.Component<Props & ReduxProps, State> {
   public input: Input | null = null;
@@ -29,21 +30,37 @@ class DiaryInputNumber extends React.Component<Props & ReduxProps, State> {
   public handleInputChange = (newVal: number) => {
     const { onChange } = this.props;
 
-    this.setState({ value: newVal });
-    newVal = +newVal;
+    const newValNumber = +newVal;
     if (
-      _.isNumber(newVal) &&
-      _.isFinite(newVal) &&
-      _.isInteger(newVal) &&
-      newVal >= 1
+      _.isNumber(newValNumber) &&
+      _.isFinite(newValNumber) &&
+      _.isInteger(newValNumber) &&
+      newValNumber >= 1
     ) {
+      this.setState({
+        value: newValNumber,
+        inputValue: newValNumber,
+      });
       onChange(newVal);
+    } else {
+      this.setState({
+        inputValue: newVal,
+      });
     }
+  };
+
+  public handleArrowClick = (diff: number) => {
+    const newVal = this.state.value + diff;
+    this.setState({
+      value: newVal,
+      inputValue: newVal,
+    });
+    this.props.onChange(newVal);
   };
 
   public render() {
     const { prefix, suffix } = this.props;
-    const { value } = this.state;
+    const { value, inputValue } = this.state;
 
     return (
       <div className="DiaryInputNumber">
@@ -52,14 +69,13 @@ class DiaryInputNumber extends React.Component<Props & ReduxProps, State> {
             disabled={value <= 1}
             shape="circle"
             icon="left"
-            onClick={() => this.handleInputChange(value - 1)}
+            onClick={() => this.handleArrowClick(-1)}
           />
         </div>
         <Input
           ref={(ref) => (this.input = ref)}
           size="large"
-          value={value}
-          // defaultValue={value}
+          value={inputValue}
           onChange={(e: any) => this.handleInputChange(e.target.value)}
           addonAfter={suffix}
           addonBefore={prefix}
@@ -68,7 +84,7 @@ class DiaryInputNumber extends React.Component<Props & ReduxProps, State> {
           <Button
             shape="circle"
             icon="right"
-            onClick={() => this.handleInputChange(value + 1)}
+            onClick={() => this.handleArrowClick(1)}
           />
         </div>
       </div>

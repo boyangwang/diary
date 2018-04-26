@@ -250,3 +250,7 @@ state的default有用, 因为 new State. Props不管用, 要用别的机制
 state更新, range更新, 可能需要发fetch, 这期间可能是loading, 如果是就展示loading, 如果不是就直接render不要一瞬间出loading. 然后fetch回来再render
 
 过程中犯了不少蠢错误还一直觉得是不是async await能解决. 最后解决方式是同一个setState里面发loading: true和range: newRange.
+
+## 然后现在又是左右arrow button和input的冲突, 有什么难的弄两个值不就得了...
+
+完美. 早停下来想想就好了
