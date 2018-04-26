@@ -244,3 +244,9 @@ state的default有用, 因为 new State. Props不管用, 要用别的机制
 还有一种方式, 其实不错, 但是改变了当前交互. 那就是让input不要invisible, 有什么可隐藏的, blur就保存tag然后清空input
 
 然后现在又想到一种, 就是invisible的时候不摧毁node只是hide, 应该也是可以的 - 完美解决了!
+
+## 一个小小的state update, 然后fetch, 怎么render的问题也让我花了半天
+
+state更新, range更新, 可能需要发fetch, 这期间可能是loading, 如果是就展示loading, 如果不是就直接render不要一瞬间出loading. 然后fetch回来再render
+
+过程中犯了不少蠢错误还一直觉得是不是async await能解决. 最后解决方式是同一个setState里面发loading: true和range: newRange.
