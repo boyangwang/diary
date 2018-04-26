@@ -34,7 +34,7 @@ We all hate this, but...
 ```jsx
 import React from 'react';
 import { connect } from 'react-redux';
-import { Collapse, List, Input } from 'antd';
+import { Icon } from 'antd';
 
 import { ReduxState, User } from 'reducers';
 import { dispatch } from 'reducers/store';
@@ -68,5 +68,35 @@ export default connect<ReduxProps, {}, Props>((state: ReduxState) => {
     user: state.user,
     reduxPropFromState: state.reduxPropFromState,
   };
-})(SomeComponent as any);
+})(SomeComponent);
+```
+
+```jsx
+import React from 'react';
+import { connect } from 'react-redux';
+
+import { ReduxState } from 'reducers';
+import { dispatch } from 'reducers/store';
+
+class Props {
+}
+class ReduxProps {
+
+}
+class State {
+
+}
+class TodoCheckedListContainer extends React.Component<Props & ReduxProps, State> {
+  public constructor(props: Props & ReduxProps) {
+    super(props);
+    this.state = new State();
+  }
+
+  public render() {
+    return null;
+  }
+}
+export default connect<ReduxProps, {}, Props>((state: ReduxState) => {
+  return {};
+})(TodoCheckedListContainer);
 ```
