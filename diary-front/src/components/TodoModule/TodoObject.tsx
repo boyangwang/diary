@@ -119,7 +119,7 @@ class TodoObject extends React.Component<Props & ReduxProps, State> {
               <Alert
                 className="priority"
                 message={todo.priority}
-                type="success"
+                type={todo.priority <= 12 ? 'success' : 'error'}
               />
             </div>
           }
