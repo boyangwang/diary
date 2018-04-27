@@ -266,3 +266,5 @@ state更新, range更新, 可能需要发fetch, 这期间可能是loading, 如�
 react的新deprecation给了我思路. 让isLoading=true的那个lifecycle好好过去. 具体说来, 如果daterange变, isLoading 变true (在getDerivedState里面), 然后render, 最后才componentdidupdate (唯一一个还safe的op). 改变了的reduxprop, 最终会触发另一个lifecycle, 那时isLoading变false
 
 真不容易啊, 虽然是个小细节, 也有这么多东西. 怪不得可以有专职前端工程师
+
+entryview restructure done. 最后没有选择不发pending days, 怕一个请求卡死. 小小的重复可以接受, 无非就是不要连点
