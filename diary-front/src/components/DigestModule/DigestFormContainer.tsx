@@ -24,6 +24,7 @@ class Props {
   public buttonText?: string;
   public form?: any;
   public onSubmit?: () => void;
+  public unsavedDraft?: string | null = null;
 }
 class PropsDefaults {
   public buttonText: string = 'Save digest';
@@ -52,7 +53,10 @@ class DigestFormContainer extends React.Component<
 
   constructor(props: Props & PropsDefaults & ReduxProps & FormComponentProps) {
     super(props);
-    const editorValue = (this.props.digest && this.props.digest.content) || '';
+    const editorValue =
+      (this.props.digest && this.props.digest.content) ||
+      this.props.unsavedDraft ||
+      '';
     const editorState = htmlToDraft(editorValue);
 
     const tags = (this.props.digest && this.props.digest.tags) || [];
@@ -93,6 +97,8 @@ class DigestFormContainer extends React.Component<
                 payload: { digest },
               });
             }
+            // clear unsaved draft - because save/update succeeded
+            localStorage.removeItem('diary.digest.unsavedDraft');
             resetFields();
             if (!this.props.digest) {
               this.setState({
@@ -136,7 +142,7 @@ class DigestFormContainer extends React.Component<
 
   public render() {
     const { getFieldDecorator } = this.props.form;
-    const { buttonText, digest } = this.props;
+    const { buttonText, digest, unsavedDraft } = this.props;
 
     return (
       <Card>
@@ -185,6 +191,13 @@ class DigestFormContainer extends React.Component<
             {getFieldDecorator('content', {
               rules: [],
               initialValue: _.get(digest, 'content') || '',
+              // normalize: (value: any, prevValue: any, allValues: any) => {
+              //   localStorage.setItem(
+              //     'diary.digest.unsavedDraft',
+              //     draftToHtml(value)
+              //   );
+              //   return value;
+              // },
             })(
               <DigestEditorObject
                 editorState={this.state.editorState}
