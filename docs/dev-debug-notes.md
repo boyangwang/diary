@@ -268,3 +268,15 @@ react的新deprecation给了我思路. 让isLoading=true的那个lifecycle好好
 真不容易啊, 虽然是个小细节, 也有这么多东西. 怪不得可以有专职前端工程师
 
 entryview restructure done. 最后没有选择不发pending days, 怕一个请求卡死. 小小的重复可以接受, 无非就是不要连点
+
+## 保存digest防丢失
+
+这个不容易, 早上中招了, 自己刷新了. 所以一定要做
+
+定义一些保存事件, 一些清空事件. 只要DigestView首次开机, 有localstorage, 就恢复上去 (目前只恢复到new digest的form).
+
+保存事件: onEditorStateChange
+
+清空事件: 点清空btn, save/update成功
+
+componentdidmount 又帮上忙了, 读文档还是有用
