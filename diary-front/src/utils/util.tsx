@@ -114,6 +114,13 @@ const compare = <T extends {}>(a: T, b: T): 0 | 1 | -1 => {
   }
 };
 
+const getTodayStringWithOffset = (offset?: number) => {
+  offset = offset ? offset : 0;
+  return moment()
+    .add(offset, 'days')
+    .format(dateStringFormat);
+};
+
 export default {
   isNumOrStrAndNotNaN: (a: any) => {
     return (_.isNumber(a) || _.isString(a)) && !_.isNaN(a);
@@ -146,12 +153,7 @@ export default {
     return result.join('');
   },
   dateStringFormat,
-  getTodayStringWithOffset: (offset?: number) => {
-    offset = offset ? offset : 0;
-    return moment()
-      .add(offset, 'days')
-      .format(dateStringFormat);
-  },
+  getTodayStringWithOffset,
   getWeekdaysFromDateString: (date: string) => {
     const firstDay = moment(date).startOf('isoWeek');
     const res = [];
@@ -258,5 +260,14 @@ export default {
         return t2.frequency - t1.frequency;
       });
     return sorted;
+  },
+  getDateStringsFromDateRange: (tipOffset: number, range: number) => {
+    return new Array(range)
+      .fill(0)
+      .map((item, i) => i)
+      .map((currentOffset) =>
+        getTodayStringWithOffset(-currentOffset + tipOffset)
+      )
+      .reverse();
   },
 };
