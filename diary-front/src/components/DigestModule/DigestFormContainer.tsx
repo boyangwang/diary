@@ -190,7 +190,7 @@ class DigestFormContainer extends React.Component<
           <Form.Item>
             {getFieldDecorator('content', {
               rules: [],
-              initialValue: _.get(digest, 'content') || '',
+              initialValue: _.get(digest, 'content') || unsavedDraft || '',
               normalize: (value: any, prevValue: any, allValues: any) => {
                 localStorage.setItem(
                   'diary.digest.unsavedDraft',
