@@ -277,4 +277,4 @@ export default connect<ReduxProps, {}, Props>((state: ReduxState) => {
   return {
     entriesDateMap: state.entriesDateMap,
   };
-})(EntryTrendChartContainer as any);
+})(EntryTrendChartContainer);

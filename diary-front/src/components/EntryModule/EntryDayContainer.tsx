@@ -103,4 +103,4 @@ export default connect<ReduxProps, {}, Props>((state: ReduxState) => {
     entriesDateMap: state.entriesDateMap,
     user: state.user,
   };
-})(EntryDayContainer as any);
+})(EntryDayContainer);

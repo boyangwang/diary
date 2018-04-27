@@ -222,4 +222,4 @@ export default connect<ReduxProps, {}, Props>((state: ReduxState) => {
     user: state.user,
     entriesDateMap: state.entriesDateMap,
   };
-})(WrappedEntryFormContainer as any);
+})(WrappedEntryFormContainer);

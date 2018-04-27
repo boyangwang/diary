@@ -233,4 +233,4 @@ export default connect<ReduxProps, {}, Props>((state: ReduxState) => {
   return {
     user: state.user,
   };
-})(WrappedDigestFormContainer as any);
+})(WrappedDigestFormContainer);

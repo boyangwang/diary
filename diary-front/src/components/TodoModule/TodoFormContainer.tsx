@@ -155,4 +155,4 @@ export default connect<ReduxProps, {}, Props>((state: ReduxState) => {
   return {
     user: state.user,
   };
-})(WrappedTodoFormContainer as any);
+})(WrappedTodoFormContainer);

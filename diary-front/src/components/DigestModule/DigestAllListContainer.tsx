@@ -108,4 +108,4 @@ class DigestAllContainer extends React.Component<Props & ReduxProps, State> {
 }
 export default connect<ReduxProps, {}, Props>((state: ReduxState) => {
   return {};
-})(DigestAllContainer as any);
+})(DigestAllContainer);

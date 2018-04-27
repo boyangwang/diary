@@ -111,4 +111,4 @@ export default connect<ReduxProps, {}, Props>((state: ReduxState) => {
   return {
     user: state.user,
   };
-})(EntryDayObject as any);
+})(EntryDayObject);

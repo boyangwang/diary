@@ -175,4 +175,4 @@ class DigestSearchContainer extends React.Component<Props & ReduxProps, State> {
 }
 export default connect<ReduxProps, {}, Props>((state: ReduxState) => {
   return {};
-})(DigestSearchContainer as any);
+})(DigestSearchContainer);

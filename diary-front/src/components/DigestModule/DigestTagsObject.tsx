@@ -207,4 +207,4 @@ export default connect<ReduxProps, {}, Props>((state: ReduxState) => {
   return {
     digests: state.digests,
   };
-})(DigestTagsObject as any);
+})(DigestTagsObject);
