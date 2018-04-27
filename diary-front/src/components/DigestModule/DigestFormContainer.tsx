@@ -191,13 +191,13 @@ class DigestFormContainer extends React.Component<
             {getFieldDecorator('content', {
               rules: [],
               initialValue: _.get(digest, 'content') || '',
-              // normalize: (value: any, prevValue: any, allValues: any) => {
-              //   localStorage.setItem(
-              //     'diary.digest.unsavedDraft',
-              //     draftToHtml(value)
-              //   );
-              //   return value;
-              // },
+              normalize: (value: any, prevValue: any, allValues: any) => {
+                localStorage.setItem(
+                  'diary.digest.unsavedDraft',
+                  draftToHtml(value)
+                );
+                return value;
+              },
             })(
               <DigestEditorObject
                 editorState={this.state.editorState}
