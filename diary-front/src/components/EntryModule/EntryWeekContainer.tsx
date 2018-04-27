@@ -9,20 +9,19 @@ import EntryDayContainer from 'components/EntryModule/EntryDayContainer';
 import './EntryWeekContainer.css';
 
 class Props {
-  public date: string;
+  public dateRange: string[];
 }
 class EntryWeekContainer extends React.Component<Props> {
   public render() {
-    const { date } = this.props;
-    const weekdays = util.getWeekdaysFromDateString(date);
+    const { dateRange } = this.props;
     const todayString = util.getTodayStringWithOffset();
 
     return (
       <div className="EntryWeekContainer">
         <Collapse>
-          <Collapse.Panel header="Weekdays" key="weekdays">
+          <Collapse.Panel header="Days details" key="details">
             <div className="EntryDaysDiv">
-              {weekdays.map((d) => (
+              {dateRange.map((d) => (
                 <EntryDayContainer
                   key={d}
                   date={d}

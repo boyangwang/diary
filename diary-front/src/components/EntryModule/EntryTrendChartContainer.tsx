@@ -18,7 +18,6 @@ import { dispatch } from 'reducers/store';
 import api, { Entry, ErrResponse, GetEntriesResponse } from 'utils/api';
 import util from 'utils/util';
 
-import DiaryInputNumber from 'components/common/InputNumber';
 import EntryTrendChartTooltipContent, {
   TooltipPayload,
 } from 'components/EntryModule/EntryTrendChartTooltipContent';
@@ -66,10 +65,8 @@ const chartColorPanel = [
   'rgba(83,123,210,1)',
 ];
 
-const defaultLastDaysRange = 14;
-
 class Props {
-  public offset: number = 0;
+  public dateRange: string[];
 }
 class ReduxProps {
   public entriesDateMap: {
@@ -80,34 +77,69 @@ class ReduxProps {
 class State {
   public isLoading: boolean = true;
   public err: any;
-  public lastDaysRange = defaultLastDaysRange;
 }
 class EntryTrendChartContainer extends React.Component<
   Props & ReduxProps,
   State
 > {
+  public static getMissingDays(
+    days: string[],
+    entriesDateMap: {
+      [date: string]: Entry[];
+    }
+  ) {
+    return days.filter((dateString) => !entriesDateMap[dateString]);
+  }
+
+  public static getDerivedStateFromProps(
+    nextProps: Props & ReduxProps,
+    prevState: State
+  ) {
+    const { entriesDateMap, user, dateRange } = nextProps;
+
+    if (
+      EntryTrendChartContainer.getMissingDays(dateRange, entriesDateMap)
+        .length !== 0 &&
+      !prevState.isLoading
+    ) {
+      return { isLoading: true };
+    } else {
+      return null;
+    }
+  }
+
   constructor(props: Props & ReduxProps) {
     super(props);
     this.state = Object.assign({}, new State());
   }
 
-  public async componentWillReceiveProps(nextProps: Props & ReduxProps) {
-    await this.fetchDaysEntries();
+  public async componentDidUpdate(
+    prevProps: Props & ReduxProps,
+    prevState: State,
+    snapshot: any
+  ) {
+    const { entriesDateMap, user, dateRange } = this.props;
+
+    await this.fetchDaysEntries(entriesDateMap, user, dateRange);
   }
 
-  public async fetchDaysEntries() {
-    const { entriesDateMap, user, offset } = this.props;
-    const { lastDaysRange } = this.state;
+  public async fetchDaysEntries(
+    entriesDateMap: {
+      [date: string]: Entry[];
+    },
+    user: User | null,
+    dateRange: string[]
+  ) {
     if (!user) {
       return;
     }
 
-    const lastXxDays = this.getDaysArrFromRangeAndOffset(lastDaysRange, offset);
-    const missingDays = this.getMissingDays(lastXxDays, entriesDateMap);
+    const missingDays = EntryTrendChartContainer.getMissingDays(
+      dateRange,
+      entriesDateMap
+    );
     if (missingDays.length === 0) {
-      return await this.setState({ isLoading: false });
-    } else {
-      await this.setState({ isLoading: true });
+      return;
     }
 
     api
@@ -126,7 +158,7 @@ class EntryTrendChartContainer extends React.Component<
             const newEntriesByDate: {
               [date: string]: Entry[];
             } = {};
-            missingDays.forEach((date) => {
+            missingDays.forEach((date: string) => {
               newEntriesByDate[date] = [];
             });
             data.data.forEach((entry) => {
@@ -146,19 +178,19 @@ class EntryTrendChartContainer extends React.Component<
   }
 
   public async componentDidMount() {
-    await this.fetchDaysEntries();
+    const { entriesDateMap, user, dateRange } = this.props;
+
+    await this.fetchDaysEntries(entriesDateMap, user, dateRange);
   }
 
   public getChartDataAndAreasFromDaysAndEntriesDateMap(
-    offset: number,
-    lastDaysRange: number,
+    dateRange: string[],
     entriesDateMap: {
       [date: string]: Entry[];
     }
   ): any {
     const allKeys = new Set();
-    const days = this.getDaysArrFromRangeAndOffset(lastDaysRange, offset);
-    const chartData = days
+    const chartData = dateRange
       .map((date) => {
         const entries = entriesDateMap[date];
         const res = {
@@ -232,15 +264,14 @@ class EntryTrendChartContainer extends React.Component<
   }
 
   public renderChart() {
-    const { entriesDateMap, offset } = this.props;
-    const { isLoading, err, lastDaysRange } = this.state;
+    const { entriesDateMap, dateRange } = this.props;
+    const { isLoading, err } = this.state;
 
     const {
       chartData,
       areas,
     } = this.getChartDataAndAreasFromDaysAndEntriesDateMap(
-      offset,
-      lastDaysRange,
+      dateRange,
       entriesDateMap
     );
 
@@ -309,47 +340,11 @@ class EntryTrendChartContainer extends React.Component<
       .reverse();
   }
 
-  public getMissingDays(
-    days: string[],
-    entriesDateMap: {
-      [date: string]: Entry[];
-    }
-  ) {
-    return days.filter((dateString) => !entriesDateMap[dateString]);
-  }
-
-  public handleDaysRangeChange = async (newVal: number) => {
-    const { offset, entriesDateMap } = this.props;
-    const newRange = +newVal * 7;
-
-    if (
-      this.getMissingDays(
-        this.getDaysArrFromRangeAndOffset(newRange, offset),
-        entriesDateMap
-      ).length === 0
-    ) {
-      await this.setState({ lastDaysRange: +newVal * 7 });
-    } else {
-      await this.setState({ isLoading: true, lastDaysRange: newRange });
-      this.fetchDaysEntries();
-    }
-  };
-
   public render() {
     const { isLoading, err } = this.state;
 
     return (
       <div className="EntryTrendChartContainer">
-        <Row
-          type="flex"
-          style={{ justifyContent: 'center', alignItems: 'center' }}
-        >
-          <DiaryInputNumber
-            onChange={this.handleDaysRangeChange}
-            suffix="weeks"
-            prefix="Drawing"
-          />
-        </Row>
         {isLoading ? (
           <h1>EntryTrendChartContainer loading...</h1>
         ) : err ? (
