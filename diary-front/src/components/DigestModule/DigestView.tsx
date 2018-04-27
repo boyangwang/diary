@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { Checkbox, Collapse, List } from 'antd';
+import { Button, Checkbox, Collapse, List, Row } from 'antd';
 
 import { ReduxState, User } from 'reducers';
 import { dispatch } from 'reducers/store';
@@ -21,6 +21,7 @@ class ReduxProps {
 class DigestView extends React.Component<ReduxProps, State> {
   constructor(props: ReduxProps) {
     super(props);
+    this.state = new State();
   }
 
   public getDigests() {
@@ -37,9 +38,7 @@ class DigestView extends React.Component<ReduxProps, State> {
           },
         });
       },
-      (err) => {
-        this.setState({ err });
-      }
+      (err) => {}
     );
   }
 
@@ -63,9 +62,20 @@ class DigestView extends React.Component<ReduxProps, State> {
 
     return (
       <div className="DigestView">
-        <h2>DigestView</h2>
+        <Row type="flex" style={{ alignItems: 'center' }}>
+          <h2>DigestView</h2>
+          <Button
+            onClick={() => localStorage.removeItem('diary.digest.unsavedDraft')}
+          >
+            Clear unsaved draft
+          </Button>
+        </Row>
         {digests.length === 0 ? 'Loading or empty...' : this.renderContent()}
-        <DigestFormContainer />
+        <DigestFormContainer
+          unsavedDraft={
+            localStorage.getItem('diary.digest.unsavedDraft') || null
+          }
+        />
       </div>
     );
   }
