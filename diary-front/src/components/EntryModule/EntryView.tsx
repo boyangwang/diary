@@ -25,6 +25,7 @@ class ReduxProps {
     [date: string]: Entry[];
   };
   public user: User | null;
+  public resyncCounter: number;
 }
 class EntryView extends React.Component<ReduxProps, State> {
   constructor(props: ReduxProps) {
@@ -117,7 +118,11 @@ class EntryView extends React.Component<ReduxProps, State> {
       lastDaysRange
     );
 
-    this.fetchDaysEntries(entriesDateMap, user, dateRange);
+    if (this.props.resyncCounter !== prevProps.resyncCounter) {
+      this.fetchDaysEntries({}, user, dateRange);
+    } else {
+      this.fetchDaysEntries(entriesDateMap, user, dateRange);
+    }
   }
 
   public render() {
@@ -189,5 +194,6 @@ export default connect<ReduxProps, {}, {}>((state: ReduxState) => {
   return {
     entriesDateMap: state.entriesDateMap,
     user: state.user,
+    resyncCounter: state.resyncCounter,
   };
 })(EntryView);

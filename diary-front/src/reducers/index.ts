@@ -14,6 +14,7 @@ export class ReduxState {
   };
   public todos: Todo[];
   public digests: Digest[];
+  public resyncCounter: number;
 }
 const INITIAL_STATE: ReduxState = {
   user: null,
@@ -22,6 +23,7 @@ const INITIAL_STATE: ReduxState = {
   entriesDateMap: {},
   todos: [],
   digests: [],
+  resyncCounter: 0,
 };
 export class Action {
   public type: string;
@@ -35,9 +37,7 @@ export default (state: ReduxState = INITIAL_STATE, action: Action) => {
   } else if (action.type === 'SYNC') {
     return {
       ...state,
-      entriesDateMap: {},
-      todos: [],
-      digests: [],
+      resyncCounter: state.resyncCounter + 1,
     };
   } else if (action.type === 'VERSION') {
     return {

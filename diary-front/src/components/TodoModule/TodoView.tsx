@@ -18,8 +18,10 @@ import './TodoView.css';
 class ReduxProps {
   public todos: Todo[];
   public user: User | null;
+  public resyncCounter: number;
 }
-class TodoView extends React.Component<ReduxProps> {
+class State {}
+class TodoView extends React.Component<ReduxProps, State> {
   public getTodos() {
     const { user } = this.props;
     if (!user) {
@@ -77,10 +79,21 @@ class TodoView extends React.Component<ReduxProps> {
       </div>
     );
   }
+
+  public componentDidUpdate(
+    prevProps: ReduxProps,
+    prevState: State,
+    snapshot: any
+  ) {
+    if (this.props.resyncCounter !== prevProps.resyncCounter) {
+      this.getTodos();
+    }
+  }
 }
 export default connect((state: ReduxState) => {
   return {
     todos: state.todos,
     user: state.user,
+    resyncCounter: state.resyncCounter,
   };
 })(TodoView);

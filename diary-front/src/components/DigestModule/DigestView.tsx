@@ -17,6 +17,7 @@ class State {}
 class ReduxProps {
   public digests: Digest[];
   public user: User | null;
+  public resyncCounter: number;
 }
 class DigestView extends React.Component<ReduxProps, State> {
   constructor(props: ReduxProps) {
@@ -79,10 +80,21 @@ class DigestView extends React.Component<ReduxProps, State> {
       </div>
     );
   }
+
+  public componentDidUpdate(
+    prevProps: ReduxProps,
+    prevState: State,
+    snapshot: any
+  ) {
+    if (this.props.resyncCounter !== prevProps.resyncCounter) {
+      this.getDigests();
+    }
+  }
 }
 export default connect((state: ReduxState) => {
   return {
     digests: state.digests,
     user: state.user,
+    resyncCounter: state.resyncCounter,
   };
-})(DigestView as any);
+})(DigestView);
