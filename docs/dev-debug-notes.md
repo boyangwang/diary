@@ -254,3 +254,15 @@ state更新, range更新, 可能需要发fetch, 这期间可能是loading, 如�
 ## 然后现在又是左右arrow button和input的冲突, 有什么难的弄两个值不就得了...
 
 完美. 早停下来想想就好了
+
+## 又是react component lifecycle, componentwillmount vs willupdate vs didupdate, props还是老的
+
+这是在refactor过程中, 把两个箭头都移出来, 太对了, 清爽多了. 但是lifecycle还是出问题
+
+结果要用上之前没用过的lifecycle, getdrivedstate. 其他的不行. 本来想, 在willupdate里面, 用nextprop来判断是不是有missingDay, 如果有, 立刻set isloading true, 结果发现还是不行? 为什么?
+
+终于work了. 之前不对的原因是可以想象的, setState会触发一整个lifecycle, 根据顺序和batching不一样, 行为就unpredictable. 那么一个可能是不要让isLoading当state了. 可是, 这样的话, 改变isLoading又不能触发re-render! 怎么解决呢?
+
+react的新deprecation给了我思路. 让isLoading=true的那个lifecycle好好过去. 具体说来, 如果daterange变, isLoading 变true (在getDerivedState里面), 然后render, 最后才componentdidupdate (唯一一个还safe的op). 改变了的reduxprop, 最终会触发另一个lifecycle, 那时isLoading变false
+
+真不容易啊, 虽然是个小细节, 也有这么多东西. 怪不得可以有专职前端工程师
