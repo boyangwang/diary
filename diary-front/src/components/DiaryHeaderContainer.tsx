@@ -31,7 +31,6 @@ class DiaryHeaderContainer extends React.Component<Props & ReduxProps> {
   }
 
   public sync() {
-    console.log('XXX ');
     dispatch({
       type: 'SYNC',
     });
@@ -51,16 +50,6 @@ class DiaryHeaderContainer extends React.Component<Props & ReduxProps> {
           <h4 className="grey">v{backendVersion}</h4>
         </div>
         <Menu theme="light" mode="horizontal">
-          <Menu.Item key="username">{user && user.username}</Menu.Item>
-          <Menu.Item key="sync">
-            <Button
-              onClick={() => {}}
-              // onClick={this.sync}
-              // onClick={() => window.location.reload()}
-            >
-              Sync
-            </Button>
-          </Menu.Item>
           <Menu.Item key="issue">
             <Button>
               <a
@@ -71,11 +60,6 @@ class DiaryHeaderContainer extends React.Component<Props & ReduxProps> {
               </a>
             </Button>
           </Menu.Item>
-          {user && (
-            <Menu.Item key="logout">
-              <Button onClick={this.logout}>Logout</Button>
-            </Menu.Item>
-          )}
         </Menu>
       </Layout.Header>
     );
@@ -107,7 +91,7 @@ class DiaryHeaderContainer extends React.Component<Props & ReduxProps> {
           className="usernameItemGroup"
         >
           <Menu.Item key="sync">
-            <a onClick={() => window.location.reload()}>Sync</a>
+            <a onClick={this.sync}>Sync</a>
           </Menu.Item>
           <Menu.Divider />
           <Menu.Item key="issue">
