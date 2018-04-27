@@ -30,6 +30,13 @@ class DiaryHeaderContainer extends React.Component<Props & ReduxProps> {
     );
   }
 
+  public sync() {
+    console.log('XXX ');
+    dispatch({
+      type: 'SYNC',
+    });
+  }
+
   public renderNoLoginHeader() {
     const { user, backendVersion } = this.props;
 
@@ -46,7 +53,13 @@ class DiaryHeaderContainer extends React.Component<Props & ReduxProps> {
         <Menu theme="light" mode="horizontal">
           <Menu.Item key="username">{user && user.username}</Menu.Item>
           <Menu.Item key="sync">
-            <Button onClick={() => window.location.reload()}>Sync</Button>
+            <Button
+              onClick={() => {}}
+              // onClick={this.sync}
+              // onClick={() => window.location.reload()}
+            >
+              Sync
+            </Button>
           </Menu.Item>
           <Menu.Item key="issue">
             <Button>

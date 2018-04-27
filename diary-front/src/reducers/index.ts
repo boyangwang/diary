@@ -32,6 +32,13 @@ export default (state: ReduxState = INITIAL_STATE, action: Action) => {
     return { ...state, user: action.payload.user };
   } else if (action.type === 'LOGOUT') {
     return { ...INITIAL_STATE };
+  } else if (action.type === 'SYNC') {
+    return {
+      ...state,
+      entriesDateMap: {},
+      todos: [],
+      digests: [],
+    };
   } else if (action.type === 'VERSION') {
     return {
       ...state,
