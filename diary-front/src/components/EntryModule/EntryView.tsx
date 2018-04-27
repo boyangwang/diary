@@ -1,8 +1,10 @@
 import * as moment from 'moment';
 import React from 'react';
 
-import { Button, Col, Row } from 'antd';
+import { Button, Col, message, Row } from 'antd';
 
+import { ReduxState, User } from 'reducers';
+import api, { Entry, ErrResponse, GetEntriesResponse } from 'utils/api';
 import util from 'utils/util';
 
 import DiaryInputNumber from 'components/common/InputNumber';
@@ -10,16 +12,74 @@ import EntryFormContainer from 'components/EntryModule/EntryFormContainer';
 import EntryTrendChartContainer from 'components/EntryModule/EntryTrendChartContainer';
 import EntryWeekContainer from 'components/EntryModule/EntryWeekContainer';
 
+import { connect } from 'react-redux';
+import { dispatch } from 'reducers/store';
 import './EntryView.css';
 
 class State {
   public tipOffset: number = 0;
   public lastDaysRange: number = 14;
 }
-class EntryView extends React.Component<{}, State> {
-  constructor(props: {}) {
+class ReduxProps {
+  public entriesDateMap: {
+    [date: string]: Entry[];
+  };
+  public user: User | null;
+}
+class EntryView extends React.Component<ReduxProps, State> {
+  constructor(props: ReduxProps) {
     super(props);
     this.state = new State();
+  }
+
+  public async fetchDaysEntries(
+    entriesDateMap: {
+      [date: string]: Entry[];
+    },
+    user: User | null,
+    dateRange: string[]
+  ) {
+    if (!user) {
+      return;
+    }
+
+    const missingDays = dateRange.filter(
+      (dateString) => !entriesDateMap[dateString]
+    );
+    if (missingDays.length === 0) {
+      return;
+    }
+
+    api
+      .getEntries(
+        {
+          owner: user.username,
+          date: missingDays.join(','),
+        },
+        { encodeComponents: false }
+      )
+      .then(
+        (data: GetEntriesResponse & ErrResponse) => {
+          if (data.err) {
+            message.warn('' + data.err);
+          } else {
+            const newEntriesByDate: {
+              [date: string]: Entry[];
+            } = {};
+            missingDays.forEach((date: string) => {
+              newEntriesByDate[date] = [];
+            });
+            data.data.forEach((entry) => {
+              newEntriesByDate[entry.date].push(entry);
+            });
+            dispatch({
+              type: 'ENTRIES_FOR_DATE',
+              payload: newEntriesByDate,
+            });
+          }
+        },
+        (err) => {}
+      );
   }
 
   public handleArrowButtonClick = (direction: 'left' | 'right') => () => {
@@ -31,6 +91,34 @@ class EntryView extends React.Component<{}, State> {
   public handleDaysRangeChange = async (newVal: number) => {
     await this.setState({ lastDaysRange: newVal * 7 });
   };
+
+  public componentDidMount() {
+    const { entriesDateMap, user } = this.props;
+    const { tipOffset, lastDaysRange } = this.state;
+
+    const dateRange = util.getDateStringsFromDateRange(
+      tipOffset,
+      lastDaysRange
+    );
+
+    this.fetchDaysEntries(entriesDateMap, user, dateRange);
+  }
+
+  public componentDidUpdate(
+    prevProps: ReduxProps,
+    prevState: State,
+    snapshot: any
+  ) {
+    const { entriesDateMap, user } = this.props;
+    const { tipOffset, lastDaysRange } = this.state;
+
+    const dateRange = util.getDateStringsFromDateRange(
+      tipOffset,
+      lastDaysRange
+    );
+
+    this.fetchDaysEntries(entriesDateMap, user, dateRange);
+  }
 
   public render() {
     const { tipOffset, lastDaysRange } = this.state;
@@ -49,12 +137,8 @@ class EntryView extends React.Component<{}, State> {
           <h2>EntryView</h2>
         </Row>
         <EntryWeekContainer dateRange={dateRange} />
-        <Row type="flex" justify="space-between">
-          <Col span={24}>
-            <EntryFormContainer />
-          </Col>
-        </Row>
         <Row
+          className="ArrowButtonRowDiv"
           type="flex"
           style={{ justifyContent: 'center', alignItems: 'center' }}
         >
@@ -91,8 +175,19 @@ class EntryView extends React.Component<{}, State> {
           />
         </Row>
         <EntryTrendChartContainer dateRange={dateRange} />
+        <Row type="flex" justify="space-between">
+          <Col span={24}>
+            <EntryFormContainer />
+          </Col>
+        </Row>
       </div>
     );
   }
 }
-export default EntryView;
+
+export default connect<ReduxProps, {}, {}>((state: ReduxState) => {
+  return {
+    entriesDateMap: state.entriesDateMap,
+    user: state.user,
+  };
+})(EntryView);

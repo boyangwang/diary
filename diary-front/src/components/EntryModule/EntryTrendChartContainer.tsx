@@ -13,7 +13,7 @@ import {
   YAxis,
 } from 'recharts';
 
-import { ReduxState, User } from 'reducers';
+import { ReduxState } from 'reducers';
 import { dispatch } from 'reducers/store';
 import api, { Entry, ErrResponse, GetEntriesResponse } from 'utils/api';
 import util from 'utils/util';
@@ -72,116 +72,31 @@ class ReduxProps {
   public entriesDateMap: {
     [date: string]: Entry[];
   };
-  public user: User | null;
 }
-class State {
-  public isLoading: boolean = true;
-  public err: any;
-}
+class State {}
 class EntryTrendChartContainer extends React.Component<
   Props & ReduxProps,
   State
 > {
-  public static getMissingDays(
-    days: string[],
-    entriesDateMap: {
-      [date: string]: Entry[];
-    }
-  ) {
-    return days.filter((dateString) => !entriesDateMap[dateString]);
-  }
-
   public static getDerivedStateFromProps(
     nextProps: Props & ReduxProps,
     prevState: State
   ) {
-    const { entriesDateMap, user, dateRange } = nextProps;
-
-    if (
-      EntryTrendChartContainer.getMissingDays(dateRange, entriesDateMap)
-        .length !== 0 &&
-      !prevState.isLoading
-    ) {
-      return { isLoading: true };
-    } else {
-      return null;
-    }
+    return null;
   }
 
   constructor(props: Props & ReduxProps) {
     super(props);
-    this.state = Object.assign({}, new State());
+    this.state = new State();
   }
 
   public async componentDidUpdate(
     prevProps: Props & ReduxProps,
     prevState: State,
     snapshot: any
-  ) {
-    const { entriesDateMap, user, dateRange } = this.props;
+  ) {}
 
-    await this.fetchDaysEntries(entriesDateMap, user, dateRange);
-  }
-
-  public async fetchDaysEntries(
-    entriesDateMap: {
-      [date: string]: Entry[];
-    },
-    user: User | null,
-    dateRange: string[]
-  ) {
-    if (!user) {
-      return;
-    }
-
-    const missingDays = EntryTrendChartContainer.getMissingDays(
-      dateRange,
-      entriesDateMap
-    );
-    if (missingDays.length === 0) {
-      return;
-    }
-
-    api
-      .getEntries(
-        {
-          owner: user.username,
-          date: missingDays.join(','),
-        },
-        { encodeComponents: false }
-      )
-      .then(
-        (data: GetEntriesResponse & ErrResponse) => {
-          if (data.err) {
-            message.warn('' + data.err);
-          } else {
-            const newEntriesByDate: {
-              [date: string]: Entry[];
-            } = {};
-            missingDays.forEach((date: string) => {
-              newEntriesByDate[date] = [];
-            });
-            data.data.forEach((entry) => {
-              newEntriesByDate[entry.date].push(entry);
-            });
-            dispatch({
-              type: 'ENTRIES_FOR_DATE',
-              payload: newEntriesByDate,
-            });
-            this.setState({ isLoading: false });
-          }
-        },
-        (err) => {
-          this.setState({ err });
-        }
-      );
-  }
-
-  public async componentDidMount() {
-    const { entriesDateMap, user, dateRange } = this.props;
-
-    await this.fetchDaysEntries(entriesDateMap, user, dateRange);
-  }
+  public async componentDidMount() {}
 
   public getChartDataAndAreasFromDaysAndEntriesDateMap(
     dateRange: string[],
@@ -265,7 +180,6 @@ class EntryTrendChartContainer extends React.Component<
 
   public renderChart() {
     const { entriesDateMap, dateRange } = this.props;
-    const { isLoading, err } = this.state;
 
     const {
       chartData,
@@ -341,14 +255,16 @@ class EntryTrendChartContainer extends React.Component<
   }
 
   public render() {
-    const { isLoading, err } = this.state;
+    const { dateRange, entriesDateMap } = this.props;
+    const missingDays = dateRange.filter(
+      (dateString) => !entriesDateMap[dateString]
+    );
+    const isLoading = missingDays.length !== 0;
 
     return (
       <div className="EntryTrendChartContainer">
         {isLoading ? (
-          <h1>EntryTrendChartContainer loading...</h1>
-        ) : err ? (
-          util.errComponent
+          <h3>EntryTrendChartContainer loading...</h3>
         ) : (
           this.renderChart()
         )}
@@ -360,6 +276,5 @@ class EntryTrendChartContainer extends React.Component<
 export default connect<ReduxProps, {}, Props>((state: ReduxState) => {
   return {
     entriesDateMap: state.entriesDateMap,
-    user: state.user,
   };
 })(EntryTrendChartContainer as any);

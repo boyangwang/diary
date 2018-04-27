@@ -36,48 +36,11 @@ class EntryDayContainer extends React.Component<Props & ReduxProps, State> {
     this.state = new State();
   }
 
-  public getEntriesForDate() {
-    const { entriesDateMap, date, user } = this.props;
-    if (!user) {
-      return;
-    }
-    if (!entriesDateMap[date]) {
-      api.getEntries({ date, owner: user.username }).then(
-        (data: GetEntriesResponse & ErrResponse) => {
-          if (data.err) {
-            message.warn('' + data.err);
-          } else {
-            dispatch({
-              type: 'ENTRIES_FOR_DATE',
-              payload: {
-                [date]: data.data,
-              },
-            });
-          }
-        },
-        (err) => {
-          this.setState({ err });
-        }
-      );
-    }
-  }
+  public componentWillMount() {}
 
-  public componentWillMount() {
-    this.getEntriesForDate();
-  }
+  public componentDidMount() {}
 
-  public componentDidMount() {
-    const { highlight } = this.props;
-    if (highlight && this.selfComponent) {
-      (window as any).todayContainer = ReactDOM.findDOMNode(this.selfComponent);
-    }
-  }
-
-  public componentWillReceiveProps(nextProps: Props & ReduxProps) {
-    if (nextProps.date !== this.props.date) {
-      this.getEntriesForDate();
-    }
-  }
+  public componentWillReceiveProps(nextProps: Props & ReduxProps) {}
 
   public renderContent() {
     const { date, entriesDateMap } = this.props;
