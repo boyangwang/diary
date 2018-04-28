@@ -144,8 +144,13 @@ class EntryView extends React.Component<ReduxProps, State> {
           <h2>EntryView</h2>
           <Clock format={'dddd, YYYY-MM-DDTHH:mm:ss'} ticking={true} />
         </Row>
-        <EntrySearchListContainer dateRange={dateRange} />
-        <EntryWeekContainer dateRange={dateRange} />
+
+        <Row type="flex" justify="space-between">
+          <Col span={24}>
+            <EntryFormContainer />
+          </Col>
+        </Row>
+
         <Row
           className="ArrowButtonRowDiv"
           type="flex"
@@ -184,11 +189,8 @@ class EntryView extends React.Component<ReduxProps, State> {
           />
         </Row>
         <EntryTrendChartContainer dateRange={dateRange} />
-        <Row type="flex" justify="space-between">
-          <Col span={24}>
-            <EntryFormContainer />
-          </Col>
-        </Row>
+        <EntryWeekContainer dateRange={dateRange} />
+        <EntrySearchListContainer dateRange={dateRange} />
       </div>
     );
   }

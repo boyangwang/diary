@@ -1,7 +1,7 @@
 .SearchContainer.ant-collapse
 .ant-collapse-content-box {
   max-height: 400px;
-  overflow: scroll;
+  overflow: auto;
   padding: 0;
 }
 

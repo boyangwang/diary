@@ -31,9 +31,10 @@ class DiaryHeaderContainer extends React.Component<Props & ReduxProps> {
   }
 
   public sync() {
-    dispatch({
-      type: 'SYNC',
-    });
+    window.location.reload();
+    // dispatch({
+    //   type: 'SYNC',
+    // });
   }
 
   public renderNoLoginHeader() {

@@ -62,7 +62,6 @@ class TodoView extends React.Component<ReduxProps, State> {
 
     return (
       <div className="TodosContainer">
-        <TodoSearchListContainer todos={todos} />
         <TodoListContainer
           todos={uncheckedTodos}
           headerText="Unchecked todos - sorted by: due date -> priority"
@@ -71,6 +70,7 @@ class TodoView extends React.Component<ReduxProps, State> {
           todos={checkedTodos}
           headerText="Checked todos - sorted by: date"
         />
+        <TodoSearchListContainer todos={todos} />
       </div>
     );
   }
@@ -81,8 +81,10 @@ class TodoView extends React.Component<ReduxProps, State> {
     return (
       <div className="TodoView">
         <h2>TodoView</h2>
-        {todos.length === 0 ? 'Empty' : this.renderContent()}
+
         <TodoFormContainer />
+
+        {todos.length === 0 ? 'Empty' : this.renderContent()}
       </div>
     );
   }

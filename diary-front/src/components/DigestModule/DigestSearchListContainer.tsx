@@ -127,12 +127,14 @@ class DigestSearchContainer extends React.Component<Props & ReduxProps, State> {
       <div className="SearchBarContainer">
         <span>Search</span>
         <Input.Search
+          value={search}
           className="SearchDiv"
           placeholder={searchPlaceholder}
           onSearch={(value: string) => {
             this.setState({ search: value, currentPage: 1 });
           }}
           enterButton={true}
+          suffix="abc"
         />
       </div>
     );

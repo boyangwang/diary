@@ -52,8 +52,8 @@ class DigestView extends React.Component<ReduxProps, State> {
 
     return (
       <div className="DigestsContainer">
-        <DigestSearchListContainer digests={digests} />
         <DigestAllListContainer digests={digests} />
+        <DigestSearchListContainer digests={digests} />
       </div>
     );
   }
@@ -71,12 +71,14 @@ class DigestView extends React.Component<ReduxProps, State> {
             Clear unsaved draft
           </Button>
         </Row>
-        {digests.length === 0 ? 'Loading or empty...' : this.renderContent()}
+
         <DigestFormContainer
           unsavedDraft={
             localStorage.getItem('diary.digest.unsavedDraft') || null
           }
         />
+
+        {digests.length === 0 ? 'Loading or empty...' : this.renderContent()}
       </div>
     );
   }
