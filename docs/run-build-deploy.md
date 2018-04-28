@@ -67,7 +67,7 @@ If installed using yarn, install script is ignored. Trigger it mannually by `nod
 
 - No need to turn off git-tag now. In deploy.sh made second yarn version call fail-safe
 
-### Walkthrough
+### Deploy Walkthrough, ver1
 
 - assume mongodb
 
@@ -90,6 +90,25 @@ If installed using yarn, install script is ignored. Trigger it mannually by `nod
 - pm2 start back
 
 - assume nginx, link nginx conf, reload
+
+### Deploy Walkthrough, ver2
+
+- local tasks...
+
+- start frontend build &
+
+- back &
+  - download zip
+  - start mongo
+  - DISRUPTION
+    - stop pm2
+    - rm all except node_modules on diary-back
+    - extract zip
+    - install
+    - copy secret
+  - start pm2
+
+- scp upload frontend build
 
 ## all about oauth
 

@@ -45,22 +45,11 @@ plan.remote(['mongorestore-from-local-backup-to-remote-2'], (remote) => {
   });
 });
 
-plan.remote(['stop-backend', 'deploy-all'], (remote) => {
-  remote.with(`cd ${projectsDir}/diary-master/diary-back`, () => {
-    remote.exec(`./node_modules/.bin/pm2 stop diary-back`, { failsafe: true });
-  });
-});
-
-plan.remote(['clear-and-download', 'deploy-all'], (remote) => {
-  // download and unzip
+plan.remote(['mkdir and download zip', 'deploy-all'], (remote) => {
   remote.exec(`mkdir ${projectsDir}`, { failsafe: true });
-  remote.with(`cd ${projectsDir}`, () => {
-    remote.exec(
-      `wget https://github.com/boyangwang/diary/archive/master.zip -O master.zip`
-    );
-    remote.exec(`rm -rf ./diary-master && 7z x master.zip -y`);
-    remote.exec(`chmod -R +X .`);
-  });
+  remote.exec(
+    `cd ${projectsDir} && wget https://github.com/boyangwang/diary/archive/master.zip -O master.zip`
+  );
 });
 
 plan.remote(['run-mongod', 'deploy-all'], (remote) => {
@@ -74,6 +63,33 @@ plan.remote(['run-mongod', 'deploy-all'], (remote) => {
   );
 });
 
+plan.remote(['stop-backend', 'deploy-all'], (remote) => {
+  remote.exec(
+    `cd ${projectsDir}/diary-master/diary-back && ./node_modules/.bin/pm2 stop diary-back`,
+    { failsafe: true }
+  );
+});
+
+plan.remote(
+  [
+    'rm all except node_modules, extract zip, install, copy secret',
+    'deploy-all',
+  ],
+  (remote) => {
+    remote.with(`cd ${projectsDir}`, () => {
+      remote.exec(
+        `find ./diary-master/diary-back/ -maxdepth 1 -not -name 'node_modules' -not -name 'diary-back' -print0 | xargs -0 rm -rf -- && 7z x master.zip -y`
+      );
+      remote.exec(
+        `chmod -R +X . && cd ./diary-master/diary-back/ && yarn install --ignore-engines && export NODE_ENV=production`
+      );
+      remote.exec(
+        `./node_modules/.bin/pm2 start ./src/server.js --name diary-back --interpreter=$(which node)`
+      );
+    });
+  }
+);
+
 plan.local(['copy-secrets', 'deploy-all'], (local) => {
   local.exec(
     `scp ../secrets.js root@playground.wangboyang.com:${projectsDir}/diary-master/`
@@ -81,29 +97,17 @@ plan.local(['copy-secrets', 'deploy-all'], (local) => {
   local.exec('echo DONE copy-secrets `pwd`');
 });
 
-plan.remote(['backend', 'deploy-all'], (remote) => {
-  // backend
-  remote.with(`cd ${projectsDir}/diary-master/diary-back`, () => {
-    remote.exec(`yarn install --ignore-engines`);
-    remote.exec(`export NODE_ENV=production`, { failsafe: true });
-    remote.exec(`./node_modules/.bin/pm2 stop diary-back`, { failsafe: true });
-    remote.exec(
-      `./node_modules/.bin/pm2 start ./src/server.js --name diary-back --interpreter=$(which node)`
-    );
-  });
-});
-
-plan.remote(['frontend', 'deploy-all'], (remote) => {
+plan.remote(['frontend-preparation', 'deploy-all'], (remote) => {
   // front
-  remote.with(`cd ${projectsDir}/diary-master/diary-front`, () => {
-    // remote.exec(`yarn install --ignore-engines`);
+  remote.with(`cd ${projectsDir}`, () => {
+    remote.exec(`mkdir -p ./diary-front-build`, {
+      failsafe: true,
+    });
+    remote.exec(`chmod -R 755 ./diary-front-build`);
     remote.exec(
       `ln -sf ${projectsDir}/diary-master/diary-front/config/diary-https.conf /etc/nginx/sites-enabled/`
     );
     remote.exec(`nginx -s reload`);
-    remote.exec(`mkdir ./build`, { failsafe: true });
-    remote.exec(`chmod -R 755 ./build`);
-    // remote.exec(`yarn run build`);
   });
 });
 
@@ -119,7 +123,7 @@ plan.local(
       // local.exec(`yarn run build`);
       local.exec(`chmod -R 755 ./build`);
       local.exec(
-        `scp -r ./build/* root@playground.wangboyang.com:${projectsDir}/diary-master/diary-front/build/`
+        `scp -r ./build/* root@playground.wangboyang.com:${projectsDir}/diary-front-build/`
       );
     });
   }
