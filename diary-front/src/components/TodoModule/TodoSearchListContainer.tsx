@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { Card, Collapse, Input, List } from 'antd';
+import { Button, Card, Collapse, Input, List } from 'antd';
 import Highlighter from 'react-highlight-words';
 
 import { ReduxState } from 'reducers';
@@ -96,6 +96,11 @@ class TodoSearchContainer extends React.Component<Props & ReduxProps, State> {
             this.setState({ search: value });
           }}
           enterButton={true}
+          suffix={
+            <Button onClick={() => this.setState({ search: '' })}>
+              Clear{' '}
+            </Button>
+          }
         />
       </div>
     );

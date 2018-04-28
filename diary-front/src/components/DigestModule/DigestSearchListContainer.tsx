@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { Card, Collapse, Input, List } from 'antd';
+import { Button, Card, Collapse, Input, List } from 'antd';
 import Highlighter from 'react-highlight-words';
 
 import { ReduxState } from 'reducers';
@@ -127,14 +127,17 @@ class DigestSearchContainer extends React.Component<Props & ReduxProps, State> {
       <div className="SearchBarContainer">
         <span>Search</span>
         <Input.Search
-          value={search}
           className="SearchDiv"
           placeholder={searchPlaceholder}
           onSearch={(value: string) => {
             this.setState({ search: value, currentPage: 1 });
           }}
           enterButton={true}
-          suffix="abc"
+          suffix={
+            <Button onClick={() => this.setState({ search: '' })}>
+              Clear{' '}
+            </Button>
+          }
         />
       </div>
     );
