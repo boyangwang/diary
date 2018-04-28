@@ -9,6 +9,8 @@ import { dispatch } from 'reducers/store';
 import { Entry } from 'utils/api';
 import util from 'utils/util';
 
+import EntryWeekContainer from 'components/EntryModule/EntryWeekContainer';
+
 class State {
   public search: string = '';
 }
@@ -33,7 +35,6 @@ class EntrySearchContainer extends React.Component<Props & ReduxProps, State> {
     const matchedDays = dateRange.filter((day) => {
       const entries = entriesDateMap[day] || [];
       const isContainsSearch = entries.some((e) => {
-        console.log('XXX ', e);
         return !!(
           (e.title && e.title.includes(search)) ||
           (e.content && e.content.includes(search))
@@ -75,7 +76,10 @@ class EntrySearchContainer extends React.Component<Props & ReduxProps, State> {
           {!search ? (
             'Search title, content and find matching days'
           ) : (
-            <code>{daysAfterSearch.join(' | ')}</code>
+            <EntryWeekContainer
+              hasCollapsePanel={false}
+              dateRange={daysAfterSearch}
+            />
           )}
         </Collapse.Panel>
       </Collapse>
