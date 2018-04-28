@@ -30,22 +30,56 @@ class EntrySearchContainer extends React.Component<Props & ReduxProps, State> {
     this.state = new State();
   }
 
-  public findEntriesAfterSearch() {
+  public getDaysHighlightsMap() {
     const { dateRange, entriesDateMap } = this.props;
     const { search } = this.state;
 
-    const matchedDays = dateRange.filter((day) => {
+    const daysHighlightsMap = {};
+
+    dateRange.forEach((day) => {
       const entries = entriesDateMap[day] || [];
-      const isContainsSearch = entries.some((e) => {
-        return !!(
-          (e.title && e.title.includes(search)) ||
-          (e.content && e.content.includes(search))
-        );
+      const matches: React.ReactNode[] = [];
+      entries.forEach((e) => {
+        if (e.title && e.title.includes(search)) {
+          matches.push(
+            <div className="highlightCategoryDiv highlightedTitle" key="title">
+              <span className="highlightCategoryLabelSpan">Title: </span>
+              <Highlighter
+                highlightClassName="highlight"
+                searchWords={[search]}
+                autoEscape={true}
+                textToHighlight={e.title}
+              />
+            </div>
+          );
+        }
+        if (e.content && e.content.includes(search)) {
+          matches.push(
+            <div
+              className="highlightCategoryDiv highlightedContent"
+              key="content"
+            >
+              <span className="highlightCategoryLabelSpan">Content: </span>
+              <Highlighter
+                highlightClassName="highlight"
+                searchWords={[search]}
+                autoEscape={true}
+                textToHighlight={e.content}
+              />
+            </div>
+          );
+        }
       });
-      return isContainsSearch;
+      if (matches.length !== 0) {
+        daysHighlightsMap[day] = (
+          <Card bordered={true} className="highlightDiv">
+            {matches}
+          </Card>
+        );
+      }
     });
 
-    return matchedDays;
+    return daysHighlightsMap;
   }
 
   public render() {
@@ -65,7 +99,8 @@ class EntrySearchContainer extends React.Component<Props & ReduxProps, State> {
       </div>
     );
 
-    const daysAfterSearch = this.findEntriesAfterSearch();
+    const daysHighlightsMap = this.getDaysHighlightsMap();
+    const daysAfterSearch = Object.keys(daysHighlightsMap);
 
     return (
       <Collapse className="SearchContainer" activeKey={['search']}>
@@ -83,6 +118,7 @@ class EntrySearchContainer extends React.Component<Props & ReduxProps, State> {
               <EntryWeekContainer
                 hasCollapsePanel={false}
                 dateRange={daysAfterSearch}
+                highlights={daysHighlightsMap}
               />
             </div>
           )}

@@ -16,7 +16,8 @@ import './EntryDayContainer.css';
 
 class Props {
   public date: string;
-  public highlight: boolean = false;
+  public todayMark: boolean = false;
+  public highlight?: React.ReactNode;
 }
 class ReduxProps {
   public entriesDateMap: {
@@ -43,7 +44,7 @@ class EntryDayContainer extends React.Component<Props & ReduxProps, State> {
   public componentWillReceiveProps(nextProps: Props & ReduxProps) {}
 
   public renderContent() {
-    const { date, entriesDateMap } = this.props;
+    const { date, entriesDateMap, highlight } = this.props;
     if (!entriesDateMap[date]) {
       return (
         <div className="EntryDayContainerContentDiv">
@@ -53,6 +54,7 @@ class EntryDayContainer extends React.Component<Props & ReduxProps, State> {
     }
     return (
       <div className="EntryDayContainerContentDiv">
+        {highlight || null}
         {entriesDateMap[date].map((entry) => {
           return <EntryDayContainerEntryObject entry={entry} key={entry._id} />;
         })}
@@ -82,9 +84,9 @@ class EntryDayContainer extends React.Component<Props & ReduxProps, State> {
   }
 
   public render() {
-    const { date, highlight } = this.props;
+    const { date, todayMark } = this.props;
     const isErr = this.state.err;
-    const dateClassNames = classnames('date', { highlight });
+    const dateClassNames = classnames('date', { todayMark });
     return (
       <Card
         ref={(ref) => (this.selfComponent = ref)}

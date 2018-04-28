@@ -180,7 +180,7 @@ class EntryView extends React.Component<ReduxProps, State> {
           <DiaryInputNumber
             onChange={this.handleDaysRangeChange}
             suffix="weeks"
-            prefix="Drawing"
+            prefix="Showing"
           />
         </Row>
         <EntryTrendChartContainer dateRange={dateRange} />
