@@ -84,7 +84,7 @@ plan.remote(
         `chmod -R +X . && cd ./diary-master/diary-back/ && yarn install --ignore-engines && export NODE_ENV=production`
       );
       remote.exec(
-        `./node_modules/.bin/pm2 start ./src/server.js --name diary-back --interpreter=$(which node)`
+        `cd ./diary-master/diary-back/ && ./node_modules/.bin/pm2 start ./src/server.js --name diary-back --interpreter=$(which node)`
       );
     });
   }
