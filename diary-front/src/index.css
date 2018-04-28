@@ -34,3 +34,20 @@ html {
 h2 {
   margin: .5em;
 }
+
+.SearchBarContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.SearchBarContainer .SearchDiv {
+  margin-left: 36px;
+}
+.highlightDiv .highlight {
+  background-color: #ffd54f;
+}
+.highlightCategoryLabelSpan {
+  margin-left: -24px;
+  font-weight: bold;
+  display: block;
+}

@@ -44,8 +44,8 @@ class DigestSearchContainer extends React.Component<Props & ReduxProps, State> {
       const tagResult = d.tags.filter((t) => t.includes(search));
       if (tagResult.length) {
         highlightsByCategory.push(
-          <div className="highlightCategoryDiv tag" key="tag">
-            <span className="highlightCategoryLabelSpan tag">Tag: </span>
+          <div className="highlightCategoryDiv highlightedTag" key="tag">
+            <span className="highlightCategoryLabelSpan">Tag: </span>
             <Highlighter
               highlightClassName="highlight"
               searchWords={[search]}
@@ -59,8 +59,8 @@ class DigestSearchContainer extends React.Component<Props & ReduxProps, State> {
       const titleResult = d.title.includes(search);
       if (titleResult) {
         highlightsByCategory.push(
-          <div className="highlightCategoryDiv title" key="title">
-            <span className="highlightCategoryLabelSpan title">Title: </span>
+          <div className="highlightCategoryDiv highlightedTitle" key="title">
+            <span className="highlightCategoryLabelSpan">Title: </span>
             <Highlighter
               highlightClassName="highlight"
               searchWords={[search]}
@@ -78,10 +78,11 @@ class DigestSearchContainer extends React.Component<Props & ReduxProps, State> {
 
       if (contentResultRange[0] !== -1) {
         highlightsByCategory.push(
-          <div className="highlightCategoryDiv content" key="content">
-            <span className="highlightCategoryLabelSpan content">
-              Content:{' '}
-            </span>
+          <div
+            className="highlightCategoryDiv highlightedContent"
+            key="content"
+          >
+            <span className="highlightCategoryLabelSpan">Content: </span>
             <Highlighter
               highlightClassName="highlight"
               searchWords={[search]}
@@ -121,10 +122,10 @@ class DigestSearchContainer extends React.Component<Props & ReduxProps, State> {
     const { currentPage, pageSize, search } = this.state;
 
     const searchBar = (
-      <div className="DigestSearchBarContainer">
+      <div className="SearchBarContainer">
         <span>Search</span>
         <Input.Search
-          className="DigestSearchDiv"
+          className="SearchDiv"
           placeholder="Search title, tags, content"
           onSearch={(value: string) => {
             this.setState({ search: value, currentPage: 1 });
@@ -143,7 +144,7 @@ class DigestSearchContainer extends React.Component<Props & ReduxProps, State> {
     );
 
     return (
-      <Collapse className="DigestSearchContainer" activeKey={['search']}>
+      <Collapse className="SearchContainer" activeKey={['search']}>
         <Collapse.Panel
           header={searchBar}
           key="search"
