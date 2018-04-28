@@ -13,7 +13,9 @@ import DigestObject from 'components/DigestModule/DigestObject';
 
 import './DigestSearchListContainer.css';
 
-class DigestWithHighlight extends Digest {
+const searchPlaceholder = 'Search title, tags, content';
+
+export class DigestWithHighlight extends Digest {
   public highlight: React.ReactNode = null;
 }
 
@@ -126,7 +128,7 @@ class DigestSearchContainer extends React.Component<Props & ReduxProps, State> {
         <span>Search</span>
         <Input.Search
           className="SearchDiv"
-          placeholder="Search title, tags, content"
+          placeholder={searchPlaceholder}
           onSearch={(value: string) => {
             this.setState({ search: value, currentPage: 1 });
           }}
@@ -152,7 +154,7 @@ class DigestSearchContainer extends React.Component<Props & ReduxProps, State> {
           forceRender={true}
         >
           {!search ? (
-            'Search title, tags, content'
+            searchPlaceholder
           ) : (
             <List
               dataSource={shouldShowDigests}

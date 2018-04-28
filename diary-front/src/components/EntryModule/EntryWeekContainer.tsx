@@ -40,7 +40,11 @@ class EntryWeekContainer extends React.Component<Props> {
     if (hasCollapsePanel) {
       content = (
         <Collapse>
-          <Collapse.Panel header="Days details" key="details">
+          <Collapse.Panel
+            header="Days details"
+            key="details"
+            forceRender={true}
+          >
             {content}
           </Collapse.Panel>
         </Collapse>

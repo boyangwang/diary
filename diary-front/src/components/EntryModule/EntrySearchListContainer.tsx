@@ -13,6 +13,8 @@ import EntryWeekContainer from 'components/EntryModule/EntryWeekContainer';
 
 import './EntrySearchListContainer.css';
 
+const searchPlaceholder = 'Search title, content and find matching days';
+
 class State {
   public search: string = '';
 }
@@ -90,7 +92,7 @@ class EntrySearchContainer extends React.Component<Props & ReduxProps, State> {
         <span>Search</span>
         <Input.Search
           className="SearchDiv"
-          placeholder="Search title, content and find matching days"
+          placeholder={searchPlaceholder}
           onSearch={(value: string) => {
             this.setState({ search: value });
           }}
@@ -111,7 +113,7 @@ class EntrySearchContainer extends React.Component<Props & ReduxProps, State> {
           forceRender={true}
         >
           {!search ? (
-            'Search title, content and find matching days'
+            searchPlaceholder
           ) : (
             <div>
               <span>{daysAfterSearch.join(' | ')}</span>

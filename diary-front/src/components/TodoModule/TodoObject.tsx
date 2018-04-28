@@ -18,6 +18,7 @@ import './TodoObject.css';
 
 class Props {
   public todo: Todo;
+  public highlight?: React.ReactNode;
   public onCheckChange?: (e: any) => void;
 }
 class ReduxProps {
@@ -73,7 +74,7 @@ class TodoObject extends React.Component<Props & ReduxProps, State> {
   }
 
   public render() {
-    const { todo } = this.props;
+    const { todo, highlight } = this.props;
     return (
       <List.Item
         className="TodoObject"
@@ -115,6 +116,7 @@ class TodoObject extends React.Component<Props & ReduxProps, State> {
           avatar={<div className="dueDate">{todo.dueDate || 'No due'}</div>}
           title={
             <div>
+              {highlight || null}
               <h3 className="title">{todo.title}</h3>
               <Alert
                 className="priority"

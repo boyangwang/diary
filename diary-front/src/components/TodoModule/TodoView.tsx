@@ -8,10 +8,10 @@ import { dispatch } from 'reducers/store';
 import api, { ErrResponse, GetTodosResponse, Todo } from 'utils/api';
 import util from 'utils/util';
 
-import TodoCheckedListContainer from 'components/TodoModule/TodoCheckedListContainer';
 import TodoFormContainer from 'components/TodoModule/TodoFormContainer';
+import TodoListContainer from 'components/TodoModule/TodoListContainer';
 import TodoObject from 'components/TodoModule/TodoObject';
-import TodoUncheckedListContainer from 'components/TodoModule/TodoUncheckedListContainer';
+import TodoSearchListContainer from 'components/TodoModule/TodoSearchListContainer';
 
 import './TodoView.css';
 
@@ -62,8 +62,15 @@ class TodoView extends React.Component<ReduxProps, State> {
 
     return (
       <div className="TodosContainer">
-        <TodoUncheckedListContainer todos={uncheckedTodos} />
-        <TodoCheckedListContainer todos={checkedTodos} />
+        <TodoSearchListContainer todos={todos} />
+        <TodoListContainer
+          todos={uncheckedTodos}
+          headerText="Unchecked todos - sorted by: due date -> priority"
+        />
+        <TodoListContainer
+          todos={checkedTodos}
+          headerText="Checked todos - sorted by: date"
+        />
       </div>
     );
   }
