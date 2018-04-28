@@ -24,14 +24,16 @@ class EntryWeekContainer extends React.Component<Props> {
 
     let content = (
       <div className="EntryDaysDiv">
-        {dateRange.map((d) => (
-          <EntryDayContainer
-            key={d}
-            date={d}
-            todayMark={d === todayString}
-            highlight={highlights![d]}
-          />
-        ))}
+        {dateRange.length === 0
+          ? 'Empty data'
+          : dateRange.map((d) => (
+              <EntryDayContainer
+                key={d}
+                date={d}
+                todayMark={d === todayString}
+                highlight={highlights![d]}
+              />
+            ))}
       </div>
     );
 
