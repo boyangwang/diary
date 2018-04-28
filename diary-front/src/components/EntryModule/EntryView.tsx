@@ -1,19 +1,21 @@
 import * as moment from 'moment';
 import React from 'react';
+import { connect } from 'react-redux';
 
 import { Button, Col, message, Row } from 'antd';
+import Clock from 'react-live-clock';
 
 import { ReduxState, User } from 'reducers';
+import { dispatch } from 'reducers/store';
 import api, { Entry, ErrResponse, GetEntriesResponse } from 'utils/api';
 import util from 'utils/util';
 
 import DiaryInputNumber from 'components/common/InputNumber';
 import EntryFormContainer from 'components/EntryModule/EntryFormContainer';
+import EntrySearchListContainer from 'components/EntryModule/EntrySearchListContainer';
 import EntryTrendChartContainer from 'components/EntryModule/EntryTrendChartContainer';
 import EntryWeekContainer from 'components/EntryModule/EntryWeekContainer';
 
-import { connect } from 'react-redux';
-import { dispatch } from 'reducers/store';
 import './EntryView.css';
 
 class State {
@@ -140,7 +142,9 @@ class EntryView extends React.Component<ReduxProps, State> {
       <div className="EntryView">
         <Row type="flex" style={{ alignItems: 'center' }}>
           <h2>EntryView</h2>
+          <Clock format={'dddd, YYYY-MM-DDTHH:mm:ss'} ticking={true} />
         </Row>
+        <EntrySearchListContainer dateRange={dateRange} />
         <EntryWeekContainer dateRange={dateRange} />
         <Row
           className="ArrowButtonRowDiv"
