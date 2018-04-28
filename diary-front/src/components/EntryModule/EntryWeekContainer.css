@@ -7,7 +7,7 @@
 
 .EntryWeekContainer > .ant-collapse
 .ant-collapse-content-box {
-  max-height: 600px;
+  max-height: 400px;
   overflow: scroll;
   padding: 0;
 }

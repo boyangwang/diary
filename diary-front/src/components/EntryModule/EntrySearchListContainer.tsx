@@ -11,6 +11,8 @@ import util from 'utils/util';
 
 import EntryWeekContainer from 'components/EntryModule/EntryWeekContainer';
 
+import './EntrySearchListContainer.css';
+
 class State {
   public search: string = '';
 }
@@ -76,10 +78,13 @@ class EntrySearchContainer extends React.Component<Props & ReduxProps, State> {
           {!search ? (
             'Search title, content and find matching days'
           ) : (
-            <EntryWeekContainer
-              hasCollapsePanel={false}
-              dateRange={daysAfterSearch}
-            />
+            <div>
+              <span>{daysAfterSearch.join(' | ')}</span>
+              <EntryWeekContainer
+                hasCollapsePanel={false}
+                dateRange={daysAfterSearch}
+              />
+            </div>
           )}
         </Collapse.Panel>
       </Collapse>
