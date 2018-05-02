@@ -8,7 +8,6 @@ export class User {
 export class ReduxState {
   public user: null | User;
   public backendVersion: null | string;
-  public frontendVersion: null | string;
   public entriesDateMap: {
     [date: string]: Entry[];
   };
@@ -19,7 +18,6 @@ export class ReduxState {
 const INITIAL_STATE: ReduxState = {
   user: null,
   backendVersion: null,
-  frontendVersion: null,
   entriesDateMap: {},
   todos: [],
   digests: [],
@@ -33,7 +31,10 @@ export default (state: ReduxState = INITIAL_STATE, action: Action) => {
   if (action.type === 'LOGIN') {
     return { ...state, user: action.payload.user };
   } else if (action.type === 'LOGOUT') {
-    return { ...INITIAL_STATE };
+    return {
+      ...INITIAL_STATE,
+      backendVersion: state.backendVersion
+    };
   } else if (action.type === 'SYNC') {
     return {
       ...state,
@@ -43,7 +44,6 @@ export default (state: ReduxState = INITIAL_STATE, action: Action) => {
     return {
       ...state,
       backendVersion: action.payload.backendVersion || state.backendVersion,
-      frontendVersion: action.payload.frontendVersion || state.frontendVersion,
     };
   } else if (action.type === 'ENTRIES_FOR_DATE') {
     return {
