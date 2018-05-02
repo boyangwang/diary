@@ -33,7 +33,7 @@ export default (state: ReduxState = INITIAL_STATE, action: Action) => {
   } else if (action.type === 'LOGOUT') {
     return {
       ...INITIAL_STATE,
-      backendVersion: state.backendVersion
+      backendVersion: state.backendVersion,
     };
   } else if (action.type === 'SYNC') {
     return {

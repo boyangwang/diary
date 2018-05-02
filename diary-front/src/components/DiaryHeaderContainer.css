@@ -10,6 +10,10 @@
   background-color: white;
   height: 72px;
 }
+.DiaryHeaderContainer.ant-layout-header.noLogin {
+  width: 400px;
+  margin: 0 auto;
+}
 .DiaryHeaderContainer.ant-layout-header:not(.noLogin) {
   position: fixed;
   bottom: 0;
