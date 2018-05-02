@@ -32,8 +32,9 @@ class DigestAllContainer extends React.Component<Props & ReduxProps, State> {
     const { digests } = this.props;
     const { tickedTags } = this.state;
 
-    return digests.filter((d) =>
-      d.tags.some((tag) => tickedTags.includes(tag))
+    return digests.filter(
+      (d) =>
+        d.tags.length === 0 || d.tags.some((tag) => tickedTags.includes(tag))
     );
   }
 
