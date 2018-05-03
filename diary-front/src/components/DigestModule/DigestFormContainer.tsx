@@ -50,6 +50,7 @@ class DigestFormContainer extends React.Component<
   State
 > {
   public static defaultProps = new PropsDefaults();
+  public initialEditorState: EditorState;
 
   constructor(props: Props & PropsDefaults & ReduxProps & FormComponentProps) {
     super(props);
@@ -57,10 +58,10 @@ class DigestFormContainer extends React.Component<
       (this.props.digest && this.props.digest.content) ||
       this.props.unsavedDraft ||
       '';
-    const editorState = htmlToDraft(editorValue);
+    this.initialEditorState = htmlToDraft(editorValue);
 
     const tags = (this.props.digest && this.props.digest.tags) || [];
-    this.state = { editorState, tags };
+    this.state = { editorState: this.initialEditorState, tags };
   }
 
   public handleSubmit = (e: any) => {
@@ -216,6 +217,14 @@ class DigestFormContainer extends React.Component<
           </Form.Item>
           <Button type="primary" htmlType="submit">
             {buttonText}
+          </Button>
+          <Button
+            onClick={() => {
+              this.props.form.resetFields();
+              this.setState({ editorState: this.initialEditorState });
+            }}
+          >
+            Reset fields
           </Button>
           <Form.Item className="hidden">
             {getFieldDecorator('_id', {

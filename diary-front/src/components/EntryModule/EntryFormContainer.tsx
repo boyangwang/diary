@@ -204,6 +204,13 @@ class EntryFormContainer extends React.Component<
           <Button type="primary" htmlType="submit">
             {buttonText}
           </Button>
+          <Button
+            onClick={() => {
+              this.props.form.resetFields();
+            }}
+          >
+            Reset fields
+          </Button>
           <Form.Item className="hidden">
             {getFieldDecorator('_id', {
               rules: [],
