@@ -19,7 +19,7 @@ import './index.css';
 ReactDOM.render(
   <Provider store={store}>
     <Router>
-      <Route path="/" component={DiaryApp} />
+      <DiaryApp />
     </Router>
   </Provider>,
   document.getElementById('root')
