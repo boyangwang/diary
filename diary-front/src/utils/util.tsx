@@ -1,6 +1,7 @@
 import * as _ from 'lodash';
 import * as moment from 'moment';
 import React from 'react';
+import { withRouter } from 'react-router';
 
 import { AutoComplete, Icon } from 'antd';
 
@@ -269,5 +270,8 @@ export default {
         getTodayStringWithOffset(-currentOffset + tipOffset)
       )
       .reverse();
+  },
+  wrappedWithRouter: (component: any) => {
+    return withRouter(component);
   },
 };

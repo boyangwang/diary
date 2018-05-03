@@ -1,11 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link, NavLink, withRouter } from 'react-router-dom';
 
 import { Button, Dropdown, Icon, Layout, Menu } from 'antd';
 
 import { ReduxState, User } from 'reducers';
 import { dispatch } from 'reducers/store';
-import api from 'utils/api';
+import api, { CommonPageProps } from 'utils/api';
+import util from 'utils/util';
 
 import './DiaryHeaderContainer.css';
 
@@ -13,11 +15,12 @@ class ReduxProps {
   public user: User | null;
   public backendVersion: null | string;
 }
-class Props {
-  public activeTab: string;
-  public onChangeTab: any = (tab: string) => () => {};
+class Props extends CommonPageProps {
+  public onChangeTab?: any = (tab: string) => () => {};
 }
 class DiaryHeaderContainer extends React.Component<Props & ReduxProps> {
+  public static defaultProps = new Props();
+
   public logout() {
     api.logout().then(
       () => {
@@ -67,7 +70,7 @@ class DiaryHeaderContainer extends React.Component<Props & ReduxProps> {
   }
 
   public renderLoginHeader() {
-    const { user, backendVersion, onChangeTab, activeTab } = this.props;
+    const { user, backendVersion, onChangeTab, match } = this.props;
 
     const userMenuItem = (
       <Menu className="UserMenuContainer">
@@ -114,38 +117,20 @@ class DiaryHeaderContainer extends React.Component<Props & ReduxProps> {
     return (
       <Layout.Header className="DiaryHeaderContainer">
         <Menu theme="light" mode="horizontal">
-          <Menu.Item
-            key="entry"
-            className={
-              'DiaryHeaderMenuItemContainer' +
-              (activeTab === 'entry' ? ' active' : '')
-            }
-          >
-            <Button className="typeButton" onClick={onChangeTab('entry')}>
+          <Menu.Item key="entry" className="DiaryHeaderMenuItemContainer">
+            <NavLink className="NavLink" to="/entry">
               E
-            </Button>
+            </NavLink>
           </Menu.Item>
-          <Menu.Item
-            key="todo"
-            className={
-              'DiaryHeaderMenuItemContainer' +
-              (activeTab === 'todo' ? ' active' : '')
-            }
-          >
-            <Button className="typeButton" onClick={onChangeTab('todo')}>
+          <Menu.Item key="todo" className="DiaryHeaderMenuItemContainer">
+            <NavLink className="NavLink" to="/todo">
               T
-            </Button>
+            </NavLink>
           </Menu.Item>
-          <Menu.Item
-            key="digest"
-            className={
-              'DiaryHeaderMenuItemContainer' +
-              (activeTab === 'digest' ? ' active' : '')
-            }
-          >
-            <Button className="typeButton" onClick={onChangeTab('digest')}>
+          <Menu.Item key="digest" className="DiaryHeaderMenuItemContainer">
+            <NavLink className="NavLink" to="/digest">
               D
-            </Button>
+            </NavLink>
           </Menu.Item>
           <Menu.Item key="user" className="DiaryHeaderMenuItemContainer user">
             <Dropdown
@@ -171,9 +156,11 @@ class DiaryHeaderContainer extends React.Component<Props & ReduxProps> {
   }
 }
 
-export default connect((state: ReduxState) => {
-  return {
-    user: state.user,
-    backendVersion: state.backendVersion,
-  };
-})(DiaryHeaderContainer);
+export default util.wrappedWithRouter(
+  connect<ReduxProps, {}, Props>((state: ReduxState) => {
+    return {
+      user: state.user,
+      backendVersion: state.backendVersion,
+    };
+  })(DiaryHeaderContainer)
+);

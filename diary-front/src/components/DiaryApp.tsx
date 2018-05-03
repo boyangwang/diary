@@ -1,11 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Redirect, Route, Switch, withRouter } from 'react-router-dom';
 
 import { Layout, message } from 'antd';
 
 import { ReduxState, User } from 'reducers';
 import { dispatch } from 'reducers/store';
-import api, { ApiTestResponse, ErrResponse } from 'utils/api';
+import api, { ApiTestResponse, CommonPageProps, ErrResponse } from 'utils/api';
 import mylog from 'utils/mylog';
 import util from 'utils/util';
 
@@ -17,27 +18,22 @@ import TodoView from 'components/TodoModule/TodoView';
 
 import './DiaryApp.css';
 
+class Props extends CommonPageProps {}
 class ReduxProps {
   public user: User | null;
 }
 class State {
   public activeTab: string = 'entry';
 }
-class DiaryApp extends React.Component<ReduxProps, State> {
-  public constructor(props: ReduxProps) {
+class DiaryApp extends React.Component<Props & ReduxProps, State> {
+  public static defaultProps = new Props();
+
+  public constructor(props: Props & ReduxProps) {
     super(props);
     this.state = new State();
   }
 
   public componentWillMount() {
-    util.syncUrlParamWithState({
-      urlParamName: 'tab',
-      stateName: 'activeTab',
-      isUrlToState: true,
-      state: this.state,
-      setState: this.setState.bind(this),
-    });
-
     api.apiTest().then(
       (data: ApiTestResponse & ErrResponse) => {
         if (data.err) {
@@ -64,25 +60,15 @@ class DiaryApp extends React.Component<ReduxProps, State> {
     return (
       <div className="DiaryApp">
         <Layout>
-          <DiaryHeaderContainer
-            activeTab={activeTab}
-            onChangeTab={(tab: string) => async () => {
-              await this.setState({ activeTab: tab });
-              util.syncUrlParamWithState({
-                urlParamName: 'tab',
-                stateName: 'activeTab',
-                state: this.state,
-                setState: this.setState.bind(this),
-              });
-            }}
-          />
+          <DiaryHeaderContainer />
           <Layout.Content>
             {user ? (
-              <div>
-                {activeTab === 'entry' && <EntryView />}
-                {activeTab === 'todo' && <TodoView />}
-                {activeTab === 'digest' && <DigestView />}
-              </div>
+              <Switch>
+                <Redirect from="/" to="/entry" exact={true} push={false} />
+                <Route path="/entry" component={EntryView} />
+                <Route path="/todo" component={TodoView} />
+                <Route path="/digest" component={DigestView} />
+              </Switch>
             ) : (
               <DiaryLoginView />
             )}
@@ -93,8 +79,10 @@ class DiaryApp extends React.Component<ReduxProps, State> {
   }
 }
 
-export default connect((state: ReduxState) => {
-  return {
-    user: state.user,
-  };
-})(DiaryApp);
+export default withRouter(connect<ReduxProps, {}, Props>(
+  (state: ReduxState) => {
+    return {
+      user: state.user,
+    };
+  }
+)(DiaryApp) as any);

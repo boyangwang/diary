@@ -30,17 +30,18 @@
   width: 100%;
   float: unset;
 }
-.DiaryHeaderContainer.ant-layout-header:not(.noLogin) .ant-menu .typeButton,
+.DiaryHeaderContainer.ant-layout-header:not(.noLogin) .ant-menu .NavLink,
 .DiaryHeaderContainer.ant-layout-header:not(.noLogin) .ant-menu .userButton {
   width: 100%;
   height: 100%;
   border-radius: 0;
   border: none;
+  text-align: center;
 }
-.DiaryHeaderContainer.ant-layout-header:not(.noLogin) .ant-menu .typeButton {
+.DiaryHeaderContainer.ant-layout-header:not(.noLogin) .ant-menu .NavLink {
   border-right: 1px solid #ccc;
 }
-.DiaryHeaderContainer.ant-layout-header:not(.noLogin) .DiaryHeaderMenuItemContainer.active > .typeButton {
+.DiaryHeaderContainer.ant-layout-header:not(.noLogin) .DiaryHeaderMenuItemContainer .active.NavLink {
   background-color: rgba(24, 144, 255, 0.3);
 }
 .DiaryHeaderContainer.ant-layout-header:not(.noLogin) .ant-menu .ant-menu-item {

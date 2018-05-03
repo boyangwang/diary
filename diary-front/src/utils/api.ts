@@ -1,4 +1,6 @@
 import appendQuery from 'append-query';
+import * as H from 'history';
+import { RouteComponentProps } from 'react-router-dom';
 
 import { User } from 'reducers';
 import fetch from 'utils/fetch';
@@ -35,6 +37,12 @@ const apis = {
 
 export class FrequencyMap {
   [key: string]: number;
+}
+export class CommonPageProps {
+  public match?: any;
+  public location?: H.Location;
+  public history?: H.History;
+  public staticContext?: any;
 }
 
 export class ErrResponse {
