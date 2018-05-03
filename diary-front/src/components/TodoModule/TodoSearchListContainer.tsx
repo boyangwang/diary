@@ -97,7 +97,7 @@ class TodoSearchContainer extends React.Component<Props & ReduxProps, State> {
           }}
           enterButton={true}
           suffix={
-            <Button onClick={() => this.setState({ search: '' })}>
+            <Button key="clear" onClick={() => this.setState({ search: '' })}>
               Clear{' '}
             </Button>
           }
