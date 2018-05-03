@@ -3,6 +3,7 @@ import 'url-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import { BrowserRouter as Router, Link, Route } from 'react-router-dom';
 
 import { unregister } from './registerServiceWorker';
 unregister();
@@ -17,7 +18,9 @@ import './index.css';
 
 ReactDOM.render(
   <Provider store={store}>
-    <DiaryApp />
+    <Router>
+      <Route path="/" component={DiaryApp} />
+    </Router>
   </Provider>,
   document.getElementById('root')
 );
