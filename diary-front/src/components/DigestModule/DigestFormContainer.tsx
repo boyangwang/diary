@@ -97,9 +97,9 @@ class DigestFormContainer extends React.Component<
                 payload: { digest },
               });
             }
+            resetFields();
             // clear unsaved draft - because save/update succeeded
             localStorage.removeItem('diary.digest.unsavedDraft');
-            resetFields();
             if (!this.props.digest) {
               this.setState({
                 editorState: EmptyState,
