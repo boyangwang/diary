@@ -16,6 +16,7 @@ window.onerror = (message, source, lineno, colno, errObj) => {
     lineno,
     colno,
     errJson,
+    time: new Date().toISOString,
   };
   api.errReport({ err: errReportObj });
   window.alert(JSON.stringify(errReportObj));
