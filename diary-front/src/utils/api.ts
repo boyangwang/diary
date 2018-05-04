@@ -29,6 +29,7 @@ const apis = {
   postTodo: 'api/postTodo',
   deleteTodo: 'api/deleteTodo',
 
+  getDigest: 'api/getDigest',
   getDigests: 'api/getDigests',
   postDigest: 'api/postDigest',
   deleteDigest: 'api/deleteDigest',
@@ -264,9 +265,19 @@ export class Digest {
 class GetDigestsParams {
   public owner: string;
 }
+class GetDigestParams {
+  public owner: string;
+  public _id: string;
+}
 export class GetDigestsResponse {
   public data: Digest[];
 }
+const getDigest = (params: GetDigestParams) => {
+  const url = appendQuery(PREFIX + apis.getDigest, params);
+  return fetch(url, {
+    credentials: 'same-origin',
+  });
+};
 const getDigests = (params: GetDigestsParams) => {
   const url = appendQuery(PREFIX + apis.getDigests, params);
   return fetch(url, {
@@ -342,6 +353,7 @@ export default {
   postTodo,
   deleteTodo,
 
+  getDigest,
   getDigests,
   postDigest,
   deleteDigest,

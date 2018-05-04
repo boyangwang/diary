@@ -5,7 +5,12 @@ import { Alert, Button, Col, List, message, Modal, Row } from 'antd';
 import { connect } from 'react-redux';
 import { ReduxState, User } from 'reducers';
 import { dispatch } from 'reducers/store';
-import api, { DeleteDigestResponse, Digest, ErrResponse } from 'utils/api';
+import api, {
+  DeleteDigestResponse,
+  Digest,
+  ErrResponse,
+  GetDigestsResponse,
+} from 'utils/api';
 
 import DigestEditorObject, {
   htmlToDraft,
@@ -29,6 +34,24 @@ class DigestObject extends React.Component<Props & ReduxProps, State> {
   constructor(props: Props & ReduxProps) {
     super(props);
     this.state = new State();
+  }
+
+  public syncItem(): void {
+    const { digest, user } = this.props;
+
+    api.getDigest({ owner: user!.username, _id: digest._id! }).then(
+      (data: GetDigestsResponse & ErrResponse) => {
+        if (data.data && data.data[0]) {
+          dispatch({
+            type: 'UPDATE_DIGEST',
+            payload: {
+              digest: data.data[0],
+            },
+          });
+        }
+      },
+      (err) => {}
+    );
   }
 
   public deleteDigest() {
@@ -76,6 +99,13 @@ class DigestObject extends React.Component<Props & ReduxProps, State> {
                 editVisible: true,
               })
             }
+          />,
+          <Button
+            className="syncButton"
+            key="sync"
+            icon="reload"
+            size="large"
+            onClick={() => this.syncItem()}
           />,
           <Button
             className="deleteButton"
