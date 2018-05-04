@@ -9,7 +9,7 @@ import api, { DeleteEntryResponse, Entry, ErrResponse } from 'utils/api';
 
 import EntryFormContainer from './EntryFormContainer';
 
-import './EntryDayObject.css';
+import './EntryObject.css';
 
 class Props {
   public entry: Entry;
@@ -20,7 +20,7 @@ class ReduxProps {
 class State {
   public editVisible: boolean = false;
 }
-class EntryDayObject extends React.Component<Props & ReduxProps, State> {
+class EntryObject extends React.Component<Props & ReduxProps, State> {
   constructor(props: Props & ReduxProps) {
     super(props);
     this.state = new State();
@@ -49,7 +49,7 @@ class EntryDayObject extends React.Component<Props & ReduxProps, State> {
   public render() {
     const { entry } = this.props;
     return (
-      <Card className="EntryDayObject">
+      <Card className="EntryObject">
         <h4 className="title">{entry.title}</h4>
         <div className="_id grey">{entry._id}</div>
         <div className="points">
@@ -111,4 +111,4 @@ export default connect<ReduxProps, {}, Props>((state: ReduxState) => {
   return {
     user: state.user,
   };
-})(EntryDayObject);
+})(EntryObject);

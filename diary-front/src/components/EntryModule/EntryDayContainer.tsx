@@ -10,7 +10,7 @@ import { dispatch } from 'reducers/store';
 import api, { Entry, ErrResponse, GetEntriesResponse } from 'utils/api';
 import util from 'utils/util';
 
-import EntryDayContainerEntryObject from 'components/EntryModule/EntryDayObject';
+import EntryObject from 'components/EntryModule/EntryObject';
 
 import './EntryDayContainer.css';
 
@@ -56,7 +56,7 @@ class EntryDayContainer extends React.Component<Props & ReduxProps, State> {
       <div className="EntryDayContainerContentDiv">
         {highlight || null}
         {entriesDateMap[date].map((entry) => {
-          return <EntryDayContainerEntryObject entry={entry} key={entry._id} />;
+          return <EntryObject entry={entry} key={entry._id} />;
         })}
       </div>
     );
