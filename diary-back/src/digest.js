@@ -57,8 +57,27 @@ module.exports = {
     }
   },
   /**
+   * return one digest for this owner, based on _id
+   * @param {*} req req.query._id req.query.owner
+   * @param {*} res
+   */
+  getDigest: async (ctx, next) => {
+    const { _id, owner } = ctx.request.query;
+    if (!_id) {
+      ctx.response.status = 400;
+      ctx.response.body = { err: 'Missing param' };
+      return;
+    }
+    let ownerDigestCollection = db.collection(`digest_${owner}`);
+    const processedId = _id.length === 24 ? ObjectId(_id) : _id;
+    let results = await (await ownerDigestCollection.find({
+      _id: processedId,
+    })).toArray();
+    ctx.response.body = { data: results };
+  },
+  /**
    * return digests for this owner
-   * @param {*} req req.query.date req.query.owner
+   * @param {*} req req.query.owner
    * @param {*} res
    */
   getDigests: async (ctx, next) => {

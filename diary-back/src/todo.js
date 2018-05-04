@@ -63,7 +63,11 @@ module.exports = {
    */
   getTodo: async (ctx, next) => {
     const { _id, owner } = ctx.request.query;
-
+    if (!_id) {
+      ctx.response.status = 400;
+      ctx.response.body = { err: 'Missing param' };
+      return;
+    }
     let ownerTodoCollection = db.collection(`todo_${owner}`);
     const processedId = _id.length === 24 ? ObjectId(_id) : _id;
     let results = await (await ownerTodoCollection.find({

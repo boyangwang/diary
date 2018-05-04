@@ -32,30 +32,53 @@ beforeAll(async () => {
 });
 
 describe('api', async () => {
-  test('/api/getDigests require owner params', async () => {
+  test('/api/getDigests and /api/getDigest require owner params', async () => {
     await expectFetchUrlStatusCodeAndJson({
       url: `http://localhost:${config.port}/api/getDigests`,
       expectStatusCode: 400,
       expectJson: { err: 'Missing param' },
     });
+    await expectFetchUrlStatusCodeAndJson({
+      url: `http://localhost:${config.port}/api/getDigest`,
+      expectStatusCode: 400,
+      expectJson: { err: 'Missing param' },
+    });
   });
 
-  test('/api/getDigests require owner params legal', async () => {
+  test('/api/getDigests and /api/getDigest require owner params legal', async () => {
     await expectFetchUrlStatusCodeAndJson({
-      url: `http://localhost:${
-        config.port
-      }/api/getDigests?owner=_admin&date=1970-01-01`,
+      url: `http://localhost:${config.port}/api/getDigests?owner=_admin`,
+      expectStatusCode: 400,
+      expectJson: { err: 'Illegal param' },
+    });
+    await expectFetchUrlStatusCodeAndJson({
+      url: `http://localhost:${config.port}/api/getDigest?owner=_admin`,
       expectStatusCode: 400,
       expectJson: { err: 'Illegal param' },
     });
   });
 
-  test('/api/getDigests returns a digest', async () => {
+  test('/api/getDigest requires _id', async () => {
+    await expectFetchUrlStatusCodeAndJson({
+      url: `http://localhost:${config.port}/api/getDigest?owner=admin`,
+      expectStatusCode: 400,
+      expectJson: { err: 'Missing param' },
+    });
+  });
+
+  test('/api/getDigests and /api/getDigest returns a digest', async () => {
     const digest = getTestObj();
     let testOwnerDigestCollection = db.collection(`digest_testOwner`);
     await testOwnerDigestCollection.insertOne(transformIdToObjectId(digest));
     await expectFetchUrlStatusCodeAndJson({
       url: `http://localhost:${config.port}/api/getDigests?owner=testOwner`,
+      expectStatusCode: 200,
+      expectJson: { data: [digest] },
+    });
+    await expectFetchUrlStatusCodeAndJson({
+      url: `http://localhost:${config.port}/api/getDigest?owner=testOwner&_id=${
+        digest._id
+      }`,
       expectStatusCode: 200,
       expectJson: { data: [digest] },
     });

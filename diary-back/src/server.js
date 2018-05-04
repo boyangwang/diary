@@ -82,10 +82,13 @@ const main = async (opt = {}) => {
         '/api/getEntries',
         '/api/postEntry',
         '/api/deleteEntry',
+
         '/api/getTodo',
         '/api/getTodos',
         '/api/postTodo',
         '/api/deleteTodo',
+
+        '/api/getDigest',
         '/api/getDigests',
         '/api/postDigest',
         '/api/deleteDigest',
@@ -98,10 +101,13 @@ const main = async (opt = {}) => {
         '/api/getEntries',
         '/api/postEntry',
         '/api/deleteEntry',
+
         '/api/getTodo',
         '/api/getTodos',
         '/api/postTodo',
         '/api/deleteTodo',
+
+        '/api/getDigest',
         '/api/getDigests',
         '/api/postDigest',
         '/api/deleteDigest',
@@ -143,14 +149,25 @@ const main = async (opt = {}) => {
   // entry
   digest.init(app, db);
   router.use(
-    ['/api/getDigests', '/api/postDigest', '/api/deleteDigest'],
+    [
+      '/api/getDigest',
+      '/api/getDigests',
+      '/api/postDigest',
+      '/api/deleteDigest',
+    ],
     digest.validateParams
   );
   router.use(
-    ['/api/getDigests', '/api/postDigest', '/api/deleteDigest'],
+    [
+      '/api/getDigest',
+      '/api/getDigests',
+      '/api/postDigest',
+      '/api/deleteDigest',
+    ],
     digest.validateOwner
   );
   router.use(['/api/postDigest', '/api/deleteDigest'], digest.validateDigest);
+  router.get('/api/getDigest', digest.getDigest);
   router.get('/api/getDigests', digest.getDigests);
   router.post('/api/postDigest', digest.postDigest);
   router.post('/api/deleteDigest', digest.deleteDigest);

@@ -59,6 +59,14 @@ describe('api', async () => {
     });
   });
 
+  test('/api/getTodo requires _id', async () => {
+    await expectFetchUrlStatusCodeAndJson({
+      url: `http://localhost:${config.port}/api/getTodo?owner=admin`,
+      expectStatusCode: 400,
+      expectJson: { err: 'Missing param' },
+    });
+  });
+
   test('/api/getTodos and /api/getTodo returns a todo', async () => {
     const todo = getTestObj();
     let testOwnerTodoCollection = db.collection(`todo_testOwner`);
