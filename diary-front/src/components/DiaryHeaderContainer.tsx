@@ -110,6 +110,16 @@ class DiaryHeaderContainer extends React.Component<Props & ReduxProps> {
           <Menu.Item key="logout">
             <a onClick={this.logout}>Logout</a>
           </Menu.Item>
+          <Menu.Divider />
+          <Menu.Item key="about">
+            <a onClick={() => {
+              try {
+                (window as any).diary.animate();
+              } catch(e) {}
+            }}>
+              About
+            </a>
+          </Menu.Item>
         </Menu.ItemGroup>
       </Menu>
     );
