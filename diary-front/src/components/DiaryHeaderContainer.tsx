@@ -118,10 +118,6 @@ class DiaryHeaderContainer extends React.Component<Props & ReduxProps> {
             </a>
           </Menu.Item>
           <Menu.Divider />
-          <Menu.Item key="logout">
-            <a onClick={this.logout}>Logout</a>
-          </Menu.Item>
-          <Menu.Divider />
           <Menu.Item key="about">
             <a
               onClick={() => {
@@ -132,6 +128,10 @@ class DiaryHeaderContainer extends React.Component<Props & ReduxProps> {
             >
               About
             </a>
+          </Menu.Item>
+          <Menu.Divider />
+          <Menu.Item key="logout">
+            <a onClick={this.logout}>Logout</a>
           </Menu.Item>
         </Menu.ItemGroup>
       </Menu>
