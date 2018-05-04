@@ -8,6 +8,7 @@ import { dispatch } from 'reducers/store';
 import api, {
   DeleteTodoResponse,
   ErrResponse,
+  GetTodosResponse,
   PostTodoResponse,
   Todo,
 } from 'utils/api';
@@ -31,6 +32,22 @@ class TodoObject extends React.Component<Props & ReduxProps, State> {
   constructor(props: Props & ReduxProps) {
     super(props);
     this.state = new State();
+  }
+
+  public syncItem(): void {
+    const { todo, user } = this.props;
+
+    api.getTodo({ owner: user!.username, _id: todo._id! }).then(
+      (data: GetTodosResponse & ErrResponse) => {
+        if (data.data && data.data[0]) {
+          dispatch({
+            type: 'UPDATE_TODO',
+            payload: { todo: data.data[0] },
+          });
+        }
+      },
+      (err) => {}
+    );
   }
 
   public deleteTodo() {
@@ -89,6 +106,13 @@ class TodoObject extends React.Component<Props & ReduxProps, State> {
                 editVisible: true,
               })
             }
+          />,
+          <Button
+            className="syncButton"
+            key="sync"
+            icon="reload"
+            size="large"
+            onClick={() => this.syncItem()}
           />,
           <Button
             className="deleteButton"

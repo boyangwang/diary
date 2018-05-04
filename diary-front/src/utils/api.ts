@@ -24,6 +24,7 @@ const apis = {
   postEntry: 'api/postEntry',
   deleteEntry: 'api/deleteEntry',
 
+  getTodo: 'api/getTodo',
   getTodos: 'api/getTodos',
   postTodo: 'api/postTodo',
   deleteTodo: 'api/deleteTodo',
@@ -187,11 +188,21 @@ export class Todo {
 class GetTodosParams {
   public owner: string;
 }
+class GetTodoParams {
+  public owner: string;
+  public _id: string;
+}
 export class GetTodosResponse {
   public data: Todo[];
 }
 const getTodos = (params: GetTodosParams) => {
   const url = appendQuery(PREFIX + apis.getTodos, params);
+  return fetch(url, {
+    credentials: 'same-origin',
+  });
+};
+const getTodo = (params: GetTodoParams) => {
+  const url = appendQuery(PREFIX + apis.getTodo, params);
   return fetch(url, {
     credentials: 'same-origin',
   });
@@ -326,6 +337,7 @@ export default {
   postEntry,
   deleteEntry,
 
+  getTodo,
   getTodos,
   postTodo,
   deleteTodo,

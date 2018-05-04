@@ -57,8 +57,23 @@ module.exports = {
     }
   },
   /**
+   * return one todo for this owner, based on _id
+   * @param {*} req req.query._id req.query.owner
+   * @param {*} res
+   */
+  getTodo: async (ctx, next) => {
+    const { _id, owner } = ctx.request.query;
+
+    let ownerTodoCollection = db.collection(`todo_${owner}`);
+    const processedId = _id.length === 24 ? ObjectId(_id) : _id;
+    let results = await (await ownerTodoCollection.find({
+      _id: processedId,
+    })).toArray();
+    ctx.response.body = { data: results };
+  },
+  /**
    * return todos for this owner
-   * @param {*} req req.query.date req.query.owner
+   * @param {*} req req.query.owner
    * @param {*} res
    */
   getTodos: async (ctx, next) => {

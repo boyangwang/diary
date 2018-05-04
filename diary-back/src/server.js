@@ -82,6 +82,7 @@ const main = async (opt = {}) => {
         '/api/getEntries',
         '/api/postEntry',
         '/api/deleteEntry',
+        '/api/getTodo',
         '/api/getTodos',
         '/api/postTodo',
         '/api/deleteTodo',
@@ -97,6 +98,7 @@ const main = async (opt = {}) => {
         '/api/getEntries',
         '/api/postEntry',
         '/api/deleteEntry',
+        '/api/getTodo',
         '/api/getTodos',
         '/api/postTodo',
         '/api/deleteTodo',
@@ -126,14 +128,15 @@ const main = async (opt = {}) => {
   // todo
   todo.init(app, db);
   router.use(
-    ['/api/getTodos', '/api/postTodo', '/api/deleteTodo'],
+    ['/api/getTodo', '/api/getTodos', '/api/postTodo', '/api/deleteTodo'],
     todo.validateParams
   );
   router.use(
-    ['/api/getTodos', '/api/postTodo', '/api/deleteTodo'],
+    ['/api/getTodo', '/api/getTodos', '/api/postTodo', '/api/deleteTodo'],
     todo.validateOwner
   );
   router.use(['/api/postTodo', '/api/deleteTodo'], todo.validateTodo);
+  router.get('/api/getTodo', todo.getTodo);
   router.get('/api/getTodos', todo.getTodos);
   router.post('/api/postTodo', todo.postTodo);
   router.post('/api/deleteTodo', todo.deleteTodo);

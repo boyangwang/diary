@@ -32,30 +32,47 @@ beforeAll(async () => {
 });
 
 describe('api', async () => {
-  test('/api/getTodos require owner params', async () => {
+  test('/api/getTodos and /api/getTodo require owner params', async () => {
     await expectFetchUrlStatusCodeAndJson({
       url: `http://localhost:${config.port}/api/getTodos`,
       expectStatusCode: 400,
       expectJson: { err: 'Missing param' },
     });
+
+    await expectFetchUrlStatusCodeAndJson({
+      url: `http://localhost:${config.port}/api/getTodo`,
+      expectStatusCode: 400,
+      expectJson: { err: 'Missing param' },
+    });
   });
 
-  test('/api/getTodos require owner params legal', async () => {
+  test('/api/getTodos and /api/getTodo require owner params legal', async () => {
     await expectFetchUrlStatusCodeAndJson({
-      url: `http://localhost:${
-        config.port
-      }/api/getTodos?owner=_admin&date=1970-01-01`,
+      url: `http://localhost:${config.port}/api/getTodos?owner=_admin`,
+      expectStatusCode: 400,
+      expectJson: { err: 'Illegal param' },
+    });
+    await expectFetchUrlStatusCodeAndJson({
+      url: `http://localhost:${config.port}/api/getTodo?owner=_admin`,
       expectStatusCode: 400,
       expectJson: { err: 'Illegal param' },
     });
   });
 
-  test('/api/getTodos returns a todo', async () => {
+  test('/api/getTodos and /api/getTodo returns a todo', async () => {
     const todo = getTestObj();
     let testOwnerTodoCollection = db.collection(`todo_testOwner`);
     await testOwnerTodoCollection.insertOne(transformIdToObjectId(todo));
     await expectFetchUrlStatusCodeAndJson({
       url: `http://localhost:${config.port}/api/getTodos?owner=testOwner`,
+      expectStatusCode: 200,
+      expectJson: { data: [todo] },
+    });
+
+    await expectFetchUrlStatusCodeAndJson({
+      url: `http://localhost:${config.port}/api/getTodos?owner=testOwner&_id=${
+        todo._id
+      }`,
       expectStatusCode: 200,
       expectJson: { data: [todo] },
     });
