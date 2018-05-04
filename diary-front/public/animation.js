@@ -17,8 +17,8 @@ objs.forEach(function (o, i) {
   scale = 1 - 100 * i / 3000;
 
   // ¯\_(ツ)_/¯
-  if (i > 0) w += 30;
-  else w = (w / 2 - 10);
+  if (i > 0) { w += 30; }
+  else { w = (w / 2 - 10); }
 
   bonesData.push({ w: ~~w, h: ~~h, wHalf: ~~(w / 2), hHalf: ~~(h / 2), scale: scale });
 });

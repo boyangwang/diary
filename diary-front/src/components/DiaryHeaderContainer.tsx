@@ -64,6 +64,17 @@ class DiaryHeaderContainer extends React.Component<Props & ReduxProps> {
               </a>
             </Button>
           </Menu.Item>
+          <Menu.Item key="about">
+            <Button
+              onClick={() => {
+                try {
+                  (window as any).diary.animate();
+                } catch (e) {}
+              }}
+            >
+              About
+            </Button>
+          </Menu.Item>
         </Menu>
       </Layout.Header>
     );
@@ -112,11 +123,13 @@ class DiaryHeaderContainer extends React.Component<Props & ReduxProps> {
           </Menu.Item>
           <Menu.Divider />
           <Menu.Item key="about">
-            <a onClick={() => {
-              try {
-                (window as any).diary.animate();
-              } catch(e) {}
-            }}>
+            <a
+              onClick={() => {
+                try {
+                  (window as any).diary.animate();
+                } catch (e) {}
+              }}
+            >
               About
             </a>
           </Menu.Item>
