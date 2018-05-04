@@ -64,10 +64,11 @@ class DiaryApp extends React.Component<Props & ReduxProps, State> {
           <Layout.Content>
             {user ? (
               <Switch>
-                <Redirect from="/" to="/entry" exact={true} push={false} />
                 <Route path="/entry" component={EntryView} />
                 <Route path="/todo" component={TodoView} />
                 <Route path="/digest" component={DigestView} />
+                <Route path="/digest/:id" component={EntryView} />
+                <Redirect to="/entry" exact={true} push={false} />
               </Switch>
             ) : (
               <DiaryLoginView />
