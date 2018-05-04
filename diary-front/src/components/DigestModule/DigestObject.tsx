@@ -38,8 +38,10 @@ class DigestObject extends React.Component<Props & ReduxProps, State> {
 
   public syncItem(): void {
     const { digest, user } = this.props;
-
-    api.getDigest({ owner: user!.username, _id: digest._id! }).then(
+    if (!user) {
+      return;
+    }
+    api.getDigest({ owner: user.username, _id: digest._id! }).then(
       (data: GetDigestsResponse & ErrResponse) => {
         if (data.data && data.data[0]) {
           dispatch({
