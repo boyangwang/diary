@@ -2,7 +2,7 @@ import classnames from 'classnames';
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { Badge, Card, Icon, message } from 'antd';
+import { Badge, Button, Card, Icon, message } from 'antd';
 
 import ReactDOM from 'react-dom';
 import { ReduxState, User } from 'reducers';
@@ -37,11 +37,37 @@ class EntryDayContainer extends React.Component<Props & ReduxProps, State> {
     this.state = new State();
   }
 
-  public componentWillMount() {}
+  public syncItem(): void {
+    const { date, user } = this.props;
+    if (!user) {
+      return;
+    }
 
-  public componentDidMount() {}
-
-  public componentWillReceiveProps(nextProps: Props & ReduxProps) {}
+    api
+      .getEntries(
+        {
+          owner: user.username,
+          date,
+        },
+        { encodeComponents: false }
+      )
+      .then(
+        (data: GetEntriesResponse & ErrResponse) => {
+          if (data.err) {
+            message.warn('' + data.err);
+          } else {
+            const dateEntries: {
+              [date: string]: Entry[];
+            } = { [date]: data.data };
+            dispatch({
+              type: 'ENTRIES_FOR_DATE',
+              payload: dateEntries,
+            });
+          }
+        },
+        (err) => {}
+      );
+  }
 
   public renderContent() {
     const { date, entriesDateMap, highlight } = this.props;
@@ -92,7 +118,16 @@ class EntryDayContainer extends React.Component<Props & ReduxProps, State> {
         ref={(ref) => (this.selfComponent = ref)}
         className="EntryDayContainer"
         title={<div className={dateClassNames}>{date}</div>}
-        extra={this.renderSum()}
+        extra={
+          <div className="ExtraDiv">
+            {this.renderSum()}
+            <Button
+              icon="reload"
+              size="large"
+              onClick={() => this.syncItem()}
+            />
+          </div>
+        }
       >
         {isErr ? util.errComponent : this.renderContent()}
       </Card>
