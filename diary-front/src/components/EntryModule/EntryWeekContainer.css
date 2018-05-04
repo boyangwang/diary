@@ -5,6 +5,13 @@
   padding: 16px 18px;
 }
 
+.EntryDaysDiv .ant-card-head-title {
+  display: flex;
+  align-items: center;
+  line-height: 20px;
+  font-size: 16px;
+}
+
 .EntryWeekContainer > .ant-collapse
 .ant-collapse-content-box {
   max-height: 400px;

@@ -16,7 +16,8 @@
 }
 
 .EntryDayContainer .sum .ant-badge {
-  margin-left: 24px;
+  margin-left: 12px;
+  margin-right: 12px;
 }
 
 .EntryDayContainer .sum.grey .ant-badge .ant-badge-count {
@@ -29,4 +30,10 @@
 
 .EntryDayContainer .sum.green .ant-badge .ant-badge-count {
   background-color: #52c41a;
+}
+
+.EntryDayContainer .ExtraDiv {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
 }
