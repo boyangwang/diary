@@ -1,3 +1,4 @@
+var frostWyrm = document.getElementById('frostWyrm');
 var path = document.getElementById('path');
 var totalPathLen = ~~(path.getTotalLength());
 var skull = document.getElementById('skull');
@@ -53,15 +54,21 @@ var _animate = function (time) {
   TWEEN.update(time);
 };
 
+var onCompleteOrStop = (animationId) => {
+  frostWyrm.style.display = 'none';
+  window.cancelAnimationFrame(animationId);
+  console.info(new Date().toISOString() + ' | Animation done');
+};
+
 window.diary = {
   animate: function () {
-    document.getElementById('frostWyrm').style.display = 'block';
+    frostWyrm.style.display = 'block';
     tweenObj.length = 0;
     var animationId = requestAnimationFrame(_animate);
     var tween = new TWEEN.Tween(tweenObj).to({ length: totalPathLen }, DURATION)
       .onUpdate(onUpdate)
       .start()
-      .onStop(() => window.cancelAnimationFrame(animationId))
-      .onComplete(() => window.cancelAnimationFrame(animationId));
+      .onStop(() => onCompleteOrStop(animationId))
+      .onComplete(() => onCompleteOrStop(animationId));
   },
 };
