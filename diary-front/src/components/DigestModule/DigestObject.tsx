@@ -103,7 +103,7 @@ class DigestObject extends React.Component<Props & ReduxProps, State> {
             })
           }
           footer={null}
-          closable={false}
+          closable={true}
           width={modalWidth}
         >
           <DigestFormContainer
