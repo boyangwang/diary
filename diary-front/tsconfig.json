@@ -20,5 +20,5 @@
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true
   },
-  "exclude": ["node_modules", "build", "jest"]
+  "exclude": ["node_modules", "build", "jest", "public"]
 }
