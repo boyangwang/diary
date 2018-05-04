@@ -6,6 +6,16 @@
 .DigestObject .ant-list-item-content {
   flex-wrap: wrap;
 }
+.DigestObject .ant-list-item-action {
+  margin: 0 0 0 16px;
+  flex: 0 0 40px;
+}
+.DigestObject .ant-list-item-action > li {
+  display: block;
+  padding-left: 0;
+  padding-right: 0;
+  margin-bottom: 12px;
+}
 
 .DigestObject .DigestRow {
   flex: 0 0 100%;
