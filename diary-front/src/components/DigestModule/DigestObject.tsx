@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Alert, Button, Col, List, message, Modal, Row } from 'antd';
+import { Link } from 'react-router-dom';
 
 import { connect } from 'react-redux';
 import { ReduxState, User } from 'reducers';
@@ -23,6 +24,7 @@ import './DigestObject.css';
 class Props {
   public digest: Digest;
   public highlight?: React.ReactNode;
+  public editorHeight?: string;
 }
 class ReduxProps {
   public user: User | null;
@@ -77,7 +79,7 @@ class DigestObject extends React.Component<Props & ReduxProps, State> {
   }
 
   public render() {
-    const { digest, highlight } = this.props;
+    const { digest, highlight, editorHeight } = this.props;
     const shortenedLastModified = new Date(digest.lastModified)
       .toISOString()
       .substring(0, 16);
@@ -91,6 +93,14 @@ class DigestObject extends React.Component<Props & ReduxProps, State> {
       <List.Item
         className="DigestObject"
         actions={[
+          <Link key="openInSingle" target="_blank" to={'/digest/' + digest._id}>
+            <Button
+              className="openInSingleButton"
+              key="openInSingle"
+              icon="export"
+              size="large"
+            />
+          </Link>,
           <Button
             className="editButton"
             key="edit"
@@ -172,7 +182,7 @@ class DigestObject extends React.Component<Props & ReduxProps, State> {
               editorState={htmlToDraft(digest.content)}
               readOnly={true}
               toolbarStyle={{ display: 'none' }}
-              editorStyle={{ maxHeight: '180px' }}
+              editorStyle={{ maxHeight: editorHeight || '180px' }}
             />
           </Col>
         </Row>
