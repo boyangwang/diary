@@ -154,11 +154,15 @@ export default (state: ReduxState = INITIAL_STATE, action: Action) => {
     const findIndex = newDigestsArr.findIndex(
       (digest) => digest._id === action.payload.digest._id
     );
-    newDigestsArr = [
-      ...newDigestsArr.slice(0, findIndex),
-      action.payload.digest,
-      ...newDigestsArr.slice(findIndex + 1),
-    ];
+    if (findIndex === -1) {
+      newDigestsArr = [...newDigestsArr, action.payload.digest];
+    } else {
+      newDigestsArr = [
+        ...newDigestsArr.slice(0, findIndex),
+        action.payload.digest,
+        ...newDigestsArr.slice(findIndex + 1),
+      ];
+    }
     return {
       ...state,
       digests: newDigestsArr,
