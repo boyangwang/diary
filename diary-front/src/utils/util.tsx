@@ -281,4 +281,11 @@ export default {
     });
     return entriesDateMap;
   },
+  fromEntriesDateMapToEntryList: (entriesDateMap: EntriesDateMap): Entry[] => {
+    let entryList: Entry[] = [];
+    Object.keys(entriesDateMap).forEach((date) => {
+      entryList = entryList.concat(entriesDateMap[date]);
+    });
+    return entryList;
+  },
 };
