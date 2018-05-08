@@ -5,7 +5,7 @@ import { withRouter } from 'react-router';
 
 import { AutoComplete, Icon } from 'antd';
 
-import { Digest, FrequencyMap } from 'utils/api';
+import { Digest, EntriesDateMap, Entry, FrequencyMap } from 'utils/api';
 import mylog from 'utils/mylog';
 
 const dateStringFormat = 'YYYY-MM-DD';
@@ -273,5 +273,12 @@ export default {
   },
   wrappedWithRouter: (component: any) => {
     return withRouter(component);
+  },
+  fromEntryListToEntriesDateMap: (entryList: Entry[]): EntriesDateMap => {
+    const entriesDateMap = {};
+    entryList.forEach((e) => {
+      entriesDateMap[e.date] = [...entriesDateMap[e.date], e] || [e];
+    });
+    return entriesDateMap;
   },
 };
