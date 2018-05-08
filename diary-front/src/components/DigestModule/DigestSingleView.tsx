@@ -46,6 +46,7 @@ class DigestSingleView extends React.Component<Props & ReduxProps, State> {
       (data: GetDigestsResponse & ErrResponse) => {
         if (data.data && data.data[0]) {
           dispatch({
+            // Why not use DIGESTS action? We can, but if it's opened in the same window, it will ease all state.digests arr
             type: 'UPDATE_DIGEST',
             payload: {
               digest: data.data[0],
