@@ -7,6 +7,7 @@ import { AutoComplete, Icon } from 'antd';
 
 import { Digest, EntriesDateMap, Entry, FrequencyMap } from 'utils/api';
 import mylog from 'utils/mylog';
+import { isArray } from 'util';
 
 const dateStringFormat = 'YYYY-MM-DD';
 
@@ -277,7 +278,7 @@ export default {
   fromEntryListToEntriesDateMap: (entryList: Entry[]): EntriesDateMap => {
     const entriesDateMap = {};
     entryList.forEach((e) => {
-      entriesDateMap[e.date] = [...entriesDateMap[e.date], e] || [e];
+      entriesDateMap[e.date] = isArray(entriesDateMap[e.date]) ? [...entriesDateMap[e.date], e] : [e];
     });
     return entriesDateMap;
   },

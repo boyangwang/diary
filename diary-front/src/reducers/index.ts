@@ -1,6 +1,7 @@
 import * as _ from 'lodash';
 
-import { Digest, Entry, Todo } from 'utils/api';
+import { Digest, EntriesDateMap, Entry, Todo } from 'utils/api';
+import util from 'utils/util';
 
 export class User {
   public username: string;
@@ -8,9 +9,7 @@ export class User {
 export class ReduxState {
   public user: null | User;
   public backendVersion: null | string;
-  public entriesDateMap: {
-    [date: string]: Entry[];
-  };
+  public entriesDateMap: EntriesDateMap;
   public todos: Todo[];
   public digests: Digest[];
   public resyncCounter: number;
@@ -65,23 +64,31 @@ export default (state: ReduxState = INITIAL_STATE, action: Action) => {
     };
   } else if (action.type === 'UPDATE_ENTRY') {
     const date = action.payload.entry.date;
-    let newEntriesArr = _.isArray(state.entriesDateMap[date])
-      ? state.entriesDateMap[date].slice()
-      : [];
-    const findIndex = newEntriesArr.findIndex(
+    // here need to account for case of changing date
+    // when update_entry, _id doesn't change and always exist
+    // global match by id, and move across date if necessary
+
+    // now we dissemble entire map and re-assemble. Downside is that all related views re-render
+    // Since update_entry is lower freq op, this is ok
+    // post_entry still only touch the specific day, so it's ok
+    const allEntriesArr = util.fromEntriesDateMapToEntryList(state.entriesDateMap);
+    let newEntriesArr;
+    const findIndex = allEntriesArr.findIndex(
       (entry) => entry._id === action.payload.entry._id
     );
-    newEntriesArr = [
-      ...newEntriesArr.slice(0, findIndex),
-      action.payload.entry,
-      ...newEntriesArr.slice(findIndex + 1),
-    ];
+    if (findIndex === -1) {
+      newEntriesArr = [...allEntriesArr, action.payload.entry];
+    } else {
+      newEntriesArr = [
+        ...allEntriesArr.slice(0, findIndex),
+        action.payload.entry,
+        ...allEntriesArr.slice(findIndex + 1),
+      ];
+    }
+    const entriesDateMap = util.fromEntryListToEntriesDateMap(newEntriesArr);
     return {
       ...state,
-      entriesDateMap: {
-        ...state.entriesDateMap,
-        [date]: newEntriesArr,
-      },
+      entriesDateMap,
     };
   } else if (action.type === 'DELETE_ENTRY') {
     const date = action.payload.entry.date;
@@ -117,11 +124,15 @@ export default (state: ReduxState = INITIAL_STATE, action: Action) => {
     const findIndex = newTodosArr.findIndex(
       (todo) => todo._id === action.payload.todo._id
     );
-    newTodosArr = [
-      ...newTodosArr.slice(0, findIndex),
-      action.payload.todo,
-      ...newTodosArr.slice(findIndex + 1),
-    ];
+    if (findIndex === -1) {
+      newTodosArr = [...newTodosArr, action.payload.todo];
+    } else {
+      newTodosArr = [
+        ...newTodosArr.slice(0, findIndex),
+        action.payload.todo,
+        ...newTodosArr.slice(findIndex + 1),
+      ];
+    }
     return {
       ...state,
       todos: newTodosArr,
@@ -154,6 +165,10 @@ export default (state: ReduxState = INITIAL_STATE, action: Action) => {
     const findIndex = newDigestsArr.findIndex(
       (digest) => digest._id === action.payload.digest._id
     );
+    // this was added first for digest, so that when my digest and my _id doesn't exist in digests,
+    // it will simply append. When will this happen? In single digest view. Digests arr is empty, and only the
+    // requested digest is returned.
+    // It's extended to be applied on todo and entry
     if (findIndex === -1) {
       newDigestsArr = [...newDigestsArr, action.payload.digest];
     } else {

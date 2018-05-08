@@ -17,7 +17,12 @@ import {
 
 import { ReduxState, User } from 'reducers';
 import { dispatch } from 'reducers/store';
-import api, { Entry, ErrResponse, PostEntryResponse } from 'utils/api';
+import api, {
+  EntriesDateMap,
+  Entry,
+  ErrResponse,
+  PostEntryResponse,
+} from 'utils/api';
 import util from 'utils/util';
 
 import './EntryFormContainer.css';
@@ -38,9 +43,7 @@ class PropsDefaults {
 }
 class ReduxProps {
   public user: User | null;
-  public entriesDateMap: {
-    [date: string]: Entry[];
-  };
+  public entriesDateMap: EntriesDateMap;
 }
 class EntryFormValues {
   public _id?: string;
@@ -190,8 +193,11 @@ class EntryFormContainer extends React.Component<
                 ? moment(_.get(entry, 'date'))
                 : moment(),
             })(
-              // if editing entry, do not allow change date (for now)
-              <DatePicker disabled={!!_.get(entry, 'date')} />
+              <DatePicker
+              // if editing entry, we used to not allow change date
+              // now allowed
+              // disabled={!!_.get(entry, 'date')}
+              />
             )}
             <div className="ArrowButtonDiv">
               <Button
