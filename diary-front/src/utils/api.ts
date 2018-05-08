@@ -115,6 +115,9 @@ export class Entry {
   public content: string;
   public points: number;
 }
+export class EntriesDateMap {
+  [date: string]: Entry[];
+}
 class GetEntriesParams {
   public date: string;
   public owner: string;

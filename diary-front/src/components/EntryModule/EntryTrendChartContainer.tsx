@@ -15,7 +15,12 @@ import {
 
 import { ReduxState } from 'reducers';
 import { dispatch } from 'reducers/store';
-import api, { Entry, ErrResponse, GetEntriesResponse } from 'utils/api';
+import api, {
+  EntriesDateMap,
+  Entry,
+  ErrResponse,
+  GetEntriesResponse,
+} from 'utils/api';
 import util from 'utils/util';
 
 import EntryTrendChartTooltipContent, {
@@ -69,9 +74,7 @@ class Props {
   public dateRange: string[];
 }
 class ReduxProps {
-  public entriesDateMap: {
-    [date: string]: Entry[];
-  };
+  public entriesDateMap: EntriesDateMap;
 }
 class State {}
 class EntryTrendChartContainer extends React.Component<
@@ -100,9 +103,7 @@ class EntryTrendChartContainer extends React.Component<
 
   public getChartDataAndAreasFromDaysAndEntriesDateMap(
     dateRange: string[],
-    entriesDateMap: {
-      [date: string]: Entry[];
-    }
+    entriesDateMap: EntriesDateMap
   ): any {
     const allKeys = new Set();
     const chartData = dateRange

@@ -6,7 +6,7 @@ import Highlighter from 'react-highlight-words';
 
 import { ReduxState } from 'reducers';
 import { dispatch } from 'reducers/store';
-import { Entry } from 'utils/api';
+import { EntriesDateMap, Entry } from 'utils/api';
 import util from 'utils/util';
 
 import EntryWeekContainer from 'components/EntryModule/EntryWeekContainer';
@@ -22,9 +22,7 @@ class Props {
   public dateRange: string[];
 }
 class ReduxProps {
-  public entriesDateMap: {
-    [date: string]: Entry[];
-  };
+  public entriesDateMap: EntriesDateMap;
 }
 class EntrySearchContainer extends React.Component<Props & ReduxProps, State> {
   public constructor(props: Props & ReduxProps) {

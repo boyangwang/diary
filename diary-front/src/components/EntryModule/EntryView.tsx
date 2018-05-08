@@ -7,7 +7,12 @@ import Clock from 'react-live-clock';
 
 import { ReduxState, User } from 'reducers';
 import { dispatch } from 'reducers/store';
-import api, { Entry, ErrResponse, GetEntriesResponse } from 'utils/api';
+import api, {
+  EntriesDateMap,
+  Entry,
+  ErrResponse,
+  GetEntriesResponse,
+} from 'utils/api';
 import util from 'utils/util';
 
 import DiaryInputNumber from 'components/common/InputNumber';
@@ -23,9 +28,7 @@ class State {
   public lastDaysRange: number = 14;
 }
 class ReduxProps {
-  public entriesDateMap: {
-    [date: string]: Entry[];
-  };
+  public entriesDateMap: EntriesDateMap;
   public user: User | null;
   public resyncCounter: number;
 }
@@ -36,9 +39,7 @@ class EntryView extends React.Component<ReduxProps, State> {
   }
 
   public async fetchDaysEntries(
-    entriesDateMap: {
-      [date: string]: Entry[];
-    },
+    entriesDateMap: EntriesDateMap,
     user: User | null,
     dateRange: string[]
   ) {
@@ -66,9 +67,7 @@ class EntryView extends React.Component<ReduxProps, State> {
           if (data.err) {
             message.warn('' + data.err);
           } else {
-            const newEntriesByDate: {
-              [date: string]: Entry[];
-            } = {};
+            const newEntriesByDate: EntriesDateMap = {};
             missingDays.forEach((date: string) => {
               newEntriesByDate[date] = [];
             });

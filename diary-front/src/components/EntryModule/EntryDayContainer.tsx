@@ -7,7 +7,12 @@ import { Badge, Button, Card, Icon, message } from 'antd';
 import ReactDOM from 'react-dom';
 import { ReduxState, User } from 'reducers';
 import { dispatch } from 'reducers/store';
-import api, { Entry, ErrResponse, GetEntriesResponse } from 'utils/api';
+import api, {
+  EntriesDateMap,
+  Entry,
+  ErrResponse,
+  GetEntriesResponse,
+} from 'utils/api';
 import util from 'utils/util';
 
 import EntryObject from 'components/EntryModule/EntryObject';
@@ -20,9 +25,7 @@ class Props {
   public highlight?: React.ReactNode;
 }
 class ReduxProps {
-  public entriesDateMap: {
-    [date: string]: Entry[];
-  };
+  public entriesDateMap: EntriesDateMap;
   public user: User | null;
 }
 class State {
@@ -56,12 +59,10 @@ class EntryDayContainer extends React.Component<Props & ReduxProps, State> {
           if (data.err) {
             message.warn('' + data.err);
           } else {
-            const dateEntries: {
-              [date: string]: Entry[];
-            } = { [date]: data.data };
+            const entriesDateMap: EntriesDateMap = { [date]: data.data };
             dispatch({
               type: 'ENTRIES_FOR_DATE',
-              payload: dateEntries,
+              payload: entriesDateMap,
             });
           }
         },
