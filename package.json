@@ -6,7 +6,7 @@
   "husky": {
     "hooks": {
       "pre-commit": "",
-      "pre-push": "echo pre-push && cd diary-front && yarn run pretty && cd ../diary-back && yarn run pretty && cd diary-back && yarn run test"
+      "pre-push": "echo pre-push && cd diary-front && yarn run pretty && cd ../diary-back && yarn run pretty && cd .. && git commit -am \"pretty\" && cd ./diary-back && yarn run test"
     }
   }
 }
