@@ -71,7 +71,9 @@ export default (state: ReduxState = INITIAL_STATE, action: Action) => {
     // now we dissemble entire map and re-assemble. Downside is that all related views re-render
     // Since update_entry is lower freq op, this is ok
     // post_entry still only touch the specific day, so it's ok
-    const allEntriesArr = util.fromEntriesDateMapToEntryList(state.entriesDateMap);
+    const allEntriesArr = util.fromEntriesDateMapToEntryList(
+      state.entriesDateMap
+    );
     let newEntriesArr;
     const findIndex = allEntriesArr.findIndex(
       (entry) => entry._id === action.payload.entry._id
