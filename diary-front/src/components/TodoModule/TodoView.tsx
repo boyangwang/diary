@@ -55,8 +55,8 @@ class TodoView extends React.Component<ReduxProps, State> {
       .reverse();
     const uncheckedTodos = todos.filter((t) => !t.check).sort((a, b) => {
       return (
-        util.compareDate(a.dueDate, b.dueDate) * 10 +
-        util.compare(a.priority, b.priority) * -1
+        util.compare(a.priority, b.priority) * -10 +
+        util.compareDate(a.dueDate, b.dueDate) * 1
       );
     });
 
