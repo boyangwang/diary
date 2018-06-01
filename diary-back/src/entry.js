@@ -82,8 +82,10 @@ module.exports = {
     const titleFrequencyMap = {};
     let ownerEntryCollection = db.collection(`entry_${owner}`);
     let results = await (await ownerEntryCollection.find({})).toArray();
-    results.forEach(entry => {
-      titleFrequencyMap[entry.title] = titleFrequencyMap[entry.title] ? titleFrequencyMap[entry.title] + 1 : 1;
+    results.forEach((entry) => {
+      titleFrequencyMap[entry.title] = titleFrequencyMap[entry.title]
+        ? titleFrequencyMap[entry.title] + 1
+        : 1;
     });
 
     ctx.response.body = { data: titleFrequencyMap };

@@ -121,11 +121,21 @@ const main = async (opt = {}) => {
   // diary
   entry.init(app, db);
   router.use(
-    ['/api/getEntries', '/api/postEntry', '/api/deleteEntry', '/api/getCategoryFrequencyMap'],
+    [
+      '/api/getEntries',
+      '/api/postEntry',
+      '/api/deleteEntry',
+      '/api/getCategoryFrequencyMap',
+    ],
     entry.validateParams
   );
   router.use(
-    ['/api/getEntries', '/api/postEntry', '/api/deleteEntry', '/api/getCategoryFrequencyMap',],
+    [
+      '/api/getEntries',
+      '/api/postEntry',
+      '/api/deleteEntry',
+      '/api/getCategoryFrequencyMap',
+    ],
     entry.validateOwner
   );
   router.use(['/api/getEntries'], entry.validateDate);

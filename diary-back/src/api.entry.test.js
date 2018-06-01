@@ -105,11 +105,15 @@ describe('api', async () => {
     entry3.title = 'anotherTestTitle';
     let testOwnerEntryCollection = db.collection(`entry_testOwner`);
     await testOwnerEntryCollection.insertMany([
-      transformIdToObjectId(entry1), transformIdToObjectId(entry2), transformIdToObjectId(entry3),
+      transformIdToObjectId(entry1),
+      transformIdToObjectId(entry2),
+      transformIdToObjectId(entry3),
     ]);
-    
+
     await expectFetchUrlStatusCodeAndJson({
-      url: `http://localhost:${config.port}/api/getCategoryFrequencyMap?owner=testOwner`,
+      url: `http://localhost:${
+        config.port
+      }/api/getCategoryFrequencyMap?owner=testOwner`,
       expectStatusCode: 200,
       expectJson: { data: { 'test title': 2, anotherTestTitle: 1 } },
     });
