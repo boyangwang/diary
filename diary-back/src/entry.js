@@ -77,18 +77,18 @@ module.exports = {
    * @param {*} res
    */
   getCategoryFrequencyMap: async (ctx, next) => {
-    const { date, owner } = ctx.request.query;
+    const { owner } = ctx.request.query;
 
-    const titleFrequencyMap = {};
+    const categoryFrequencyMap = {};
     let ownerEntryCollection = db.collection(`entry_${owner}`);
     let results = await (await ownerEntryCollection.find({})).toArray();
     results.forEach((entry) => {
-      titleFrequencyMap[entry.title] = titleFrequencyMap[entry.title]
-        ? titleFrequencyMap[entry.title] + 1
+      categoryFrequencyMap[entry.title] = categoryFrequencyMap[entry.title]
+        ? categoryFrequencyMap[entry.title] + 1
         : 1;
     });
 
-    ctx.response.body = { data: titleFrequencyMap };
+    ctx.response.body = { data: categoryFrequencyMap };
   },
   /**
    * returns a list of entries for specified date, or empty
