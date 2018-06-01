@@ -72,6 +72,23 @@ module.exports = {
     }
   },
   /**
+   * returns categoryFrequencyMap for all dates
+   * @param {*} req req.query.owner
+   * @param {*} res
+   */
+  getCategoryFrequencyMap: async (ctx, next) => {
+    const { date, owner } = ctx.request.query;
+
+    const titleFrequencyMap = {};
+    let ownerEntryCollection = db.collection(`entry_${owner}`);
+    let results = await (await ownerEntryCollection.find({})).toArray();
+    results.forEach(entry => {
+      titleFrequencyMap[entry.title] = titleFrequencyMap[entry.title] ? titleFrequencyMap[entry.title] + 1 : 1;
+    });
+
+    ctx.response.body = { data: titleFrequencyMap };
+  },
+  /**
    * returns a list of entries for specified date, or empty
    * @param {*} req req.query.date req.query.owner
    * @param {*} res

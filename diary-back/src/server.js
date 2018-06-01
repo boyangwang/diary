@@ -82,6 +82,7 @@ const main = async (opt = {}) => {
         '/api/getEntries',
         '/api/postEntry',
         '/api/deleteEntry',
+        '/api/getCategoryFrequencyMap',
 
         '/api/getTodo',
         '/api/getTodos',
@@ -101,6 +102,7 @@ const main = async (opt = {}) => {
         '/api/getEntries',
         '/api/postEntry',
         '/api/deleteEntry',
+        '/api/getCategoryFrequencyMap',
 
         '/api/getTodo',
         '/api/getTodos',
@@ -119,16 +121,17 @@ const main = async (opt = {}) => {
   // diary
   entry.init(app, db);
   router.use(
-    ['/api/getEntries', '/api/postEntry', '/api/deleteEntry'],
+    ['/api/getEntries', '/api/postEntry', '/api/deleteEntry', '/api/getCategoryFrequencyMap'],
     entry.validateParams
   );
   router.use(
-    ['/api/getEntries', '/api/postEntry', '/api/deleteEntry'],
+    ['/api/getEntries', '/api/postEntry', '/api/deleteEntry', '/api/getCategoryFrequencyMap',],
     entry.validateOwner
   );
   router.use(['/api/getEntries'], entry.validateDate);
   router.use(['/api/postEntry', '/api/deleteEntry'], entry.validateEntry);
   router.get('/api/getEntries', entry.getEntries);
+  router.get('/api/getCategoryFrequencyMap', entry.getCategoryFrequencyMap);
   router.post('/api/postEntry', entry.postEntry);
   router.post('/api/deleteEntry', entry.deleteEntry);
   // todo

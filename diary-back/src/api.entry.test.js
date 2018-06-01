@@ -98,6 +98,23 @@ describe('api', async () => {
     });
   });
 
+  test('/api/getCategoryFrequencyMap returns categories', async () => {
+    let entry1 = getTestObj({ date: '1970-01-01' });
+    let entry2 = getTestObj({ date: '1970-01-01' });
+    let entry3 = getTestObj({ date: '1970-01-01' });
+    entry3.title = 'anotherTestTitle';
+    let testOwnerEntryCollection = db.collection(`entry_testOwner`);
+    await testOwnerEntryCollection.insertMany([
+      transformIdToObjectId(entry1), transformIdToObjectId(entry2), transformIdToObjectId(entry3),
+    ]);
+    
+    await expectFetchUrlStatusCodeAndJson({
+      url: `http://localhost:${config.port}/api/getCategoryFrequencyMap?owner=testOwner`,
+      expectStatusCode: 200,
+      expectJson: { data: { 'test title': 2, anotherTestTitle: 1 } },
+    });
+  });
+
   test('/api/postEntry needs an owner and an entry in body', async () => {
     let entry = getTestObj();
     await expectFetchUrlStatusCodeAndJson({
