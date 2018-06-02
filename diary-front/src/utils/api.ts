@@ -23,6 +23,7 @@ const apis = {
   getEntries: 'api/getEntries',
   postEntry: 'api/postEntry',
   deleteEntry: 'api/deleteEntry',
+  getCategoryFrequencyMap: 'api/getCategoryFrequencyMap',
 
   getTodo: 'api/getTodo',
   getTodos: 'api/getTodos',
@@ -118,6 +119,21 @@ export class Entry {
 export class EntriesDateMap {
   [date: string]: Entry[];
 }
+class GetCategoryFrequencyMapParams {
+  public owner: string;
+}
+export class GetCategoryFrequencyMapResponse {
+  public data: FrequencyMap;
+}
+const getCategoryFrequencyMap = (
+  params: GetCategoryFrequencyMapParams,
+  options: AppendQueryOptions = {},
+) => {
+  const url = appendQuery(PREFIX + apis.getCategoryFrequencyMap, params, options);
+  return fetch(url, {
+    credentials: 'same-origin',
+  });
+};
 class GetEntriesParams {
   public date: string;
   public owner: string;
@@ -350,6 +366,7 @@ export default {
   getEntries,
   postEntry,
   deleteEntry,
+  getCategoryFrequencyMap,
 
   getTodo,
   getTodos,
