@@ -11,9 +11,9 @@ import api, {
   EntriesDateMap,
   Entry,
   ErrResponse,
-  GetEntriesResponse,
   FrequencyMap,
   GetCategoryFrequencyMapResponse,
+  GetEntriesResponse,
 } from 'utils/api';
 import util from 'utils/util';
 
@@ -45,9 +45,7 @@ class EntryView extends React.Component<ReduxProps, State> {
     if (!user) {
       return;
     }
-    api
-    .getCategoryFrequencyMap({ owner: user.username })
-    .then(
+    api.getCategoryFrequencyMap({ owner: user.username }).then(
       (data: GetCategoryFrequencyMapResponse & ErrResponse) => {
         if (data.err) {
           message.warn('' + data.err);
@@ -171,9 +169,13 @@ class EntryView extends React.Component<ReduxProps, State> {
 
         <Row type="flex" justify="space-between">
           <Col span={24}>
-            <EntryFormContainer categoryFrequencyMap={
-              Object.keys(this.props.entriesCategoryFrequencyMap).length ?
-              this.props.entriesCategoryFrequencyMap : null} />
+            <EntryFormContainer
+              categoryFrequencyMap={
+                Object.keys(this.props.entriesCategoryFrequencyMap).length
+                  ? this.props.entriesCategoryFrequencyMap
+                  : null
+              }
+            />
           </Col>
         </Row>
 

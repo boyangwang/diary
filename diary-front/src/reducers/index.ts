@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 
-import { Digest, EntriesDateMap, Entry, Todo, FrequencyMap } from 'utils/api';
+import { Digest, EntriesDateMap, Entry, FrequencyMap, Todo } from 'utils/api';
 import util from 'utils/util';
 
 export class User {
@@ -117,7 +117,7 @@ export default (state: ReduxState = INITIAL_STATE, action: Action) => {
     return {
       ...state,
       entriesCategoryFrequencyMap: action.payload,
-    }
+    };
   } else if (action.type === 'TODOS') {
     return {
       ...state,

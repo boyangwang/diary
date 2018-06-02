@@ -22,8 +22,8 @@ import api, {
   EntriesDateMap,
   Entry,
   ErrResponse,
-  PostEntryResponse,
   FrequencyMap,
+  PostEntryResponse,
 } from 'utils/api';
 import util from 'utils/util';
 
@@ -60,7 +60,9 @@ class EntryFormContainer extends React.Component<
 > {
   public static defaultProps = new PropsDefaults();
 
-  public constructor(props: Props & ReduxProps & FormComponentProps & PropsDefaults) {
+  public constructor(
+    props: Props & ReduxProps & FormComponentProps & PropsDefaults
+  ) {
     super(props);
     this.state = new State();
   }
@@ -117,7 +119,9 @@ class EntryFormContainer extends React.Component<
     Object.keys(entriesDateMap).forEach((date) => {
       const entries = entriesDateMap[date];
       entries.forEach((entry) => {
-        partialCategoryFrequencyMap[entry.title] = partialCategoryFrequencyMap[entry.title]
+        partialCategoryFrequencyMap[entry.title] = partialCategoryFrequencyMap[
+          entry.title
+        ]
           ? partialCategoryFrequencyMap[entry.title] + 1
           : 1;
       });
@@ -179,8 +183,11 @@ class EntryFormContainer extends React.Component<
             )}
             <Switch
               className="EntriesCategoryShowSwitch"
-              checkedChildren="All" unCheckedChildren="Cur"
-              onChange={(checked) => { this.setState({ useAllCategoryFrequencyMap: checked }); }}
+              checkedChildren="All"
+              unCheckedChildren="Cur"
+              onChange={(checked) => {
+                this.setState({ useAllCategoryFrequencyMap: checked });
+              }}
             />
           </Form.Item>
           <Form.Item>

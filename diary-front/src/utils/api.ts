@@ -127,9 +127,13 @@ export class GetCategoryFrequencyMapResponse {
 }
 const getCategoryFrequencyMap = (
   params: GetCategoryFrequencyMapParams,
-  options: AppendQueryOptions = {},
+  options: AppendQueryOptions = {}
 ) => {
-  const url = appendQuery(PREFIX + apis.getCategoryFrequencyMap, params, options);
+  const url = appendQuery(
+    PREFIX + apis.getCategoryFrequencyMap,
+    params,
+    options
+  );
   return fetch(url, {
     credentials: 'same-origin',
   });
