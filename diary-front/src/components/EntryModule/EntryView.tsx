@@ -12,6 +12,8 @@ import api, {
   Entry,
   ErrResponse,
   GetEntriesResponse,
+  FrequencyMap,
+  GetCategoryFrequencyMapResponse,
 } from 'utils/api';
 import util from 'utils/util';
 
@@ -29,6 +31,7 @@ class State {
 }
 class ReduxProps {
   public entriesDateMap: EntriesDateMap;
+  public entriesCategoryFrequencyMap: FrequencyMap;
   public user: User | null;
   public resyncCounter: number;
 }
@@ -36,6 +39,27 @@ class EntryView extends React.Component<ReduxProps, State> {
   constructor(props: ReduxProps) {
     super(props);
     this.state = new State();
+  }
+
+  public async fetchCategoryFrequencyMap(user: User | null) {
+    if (!user) {
+      return;
+    }
+    api
+    .getCategoryFrequencyMap({ owner: user.username })
+    .then(
+      (data: GetCategoryFrequencyMapResponse & ErrResponse) => {
+        if (data.err) {
+          message.warn('' + data.err);
+        } else {
+          dispatch({
+            type: 'ENTRIES_CATEGORY_FREQUENCY_MAP',
+            payload: data.data,
+          });
+        }
+      },
+      (err) => {}
+    );
   }
 
   public async fetchDaysEntries(
@@ -104,6 +128,7 @@ class EntryView extends React.Component<ReduxProps, State> {
     );
 
     this.fetchDaysEntries(entriesDateMap, user, dateRange);
+    this.fetchCategoryFrequencyMap(user);
   }
 
   public componentDidUpdate(
@@ -146,7 +171,9 @@ class EntryView extends React.Component<ReduxProps, State> {
 
         <Row type="flex" justify="space-between">
           <Col span={24}>
-            <EntryFormContainer />
+            <EntryFormContainer categoryFrequencyMap={
+              Object.keys(this.props.entriesCategoryFrequencyMap).length ?
+              this.props.entriesCategoryFrequencyMap : null} />
           </Col>
         </Row>
 
@@ -200,5 +227,6 @@ export default connect<ReduxProps, {}, {}>((state: ReduxState) => {
     entriesDateMap: state.entriesDateMap,
     user: state.user,
     resyncCounter: state.resyncCounter,
+    entriesCategoryFrequencyMap: state.entriesCategoryFrequencyMap,
   };
 })(EntryView);

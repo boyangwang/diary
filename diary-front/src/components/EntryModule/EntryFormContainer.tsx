@@ -13,6 +13,7 @@ import {
   Input,
   InputNumber,
   message,
+  Switch,
 } from 'antd';
 
 import { ReduxState, User } from 'reducers';
@@ -22,22 +23,20 @@ import api, {
   Entry,
   ErrResponse,
   PostEntryResponse,
+  FrequencyMap,
 } from 'utils/api';
 import util from 'utils/util';
 
 import './EntryFormContainer.css';
 
-class TitleFrequency {
-  public title: string;
-  public frequency: number;
-}
 class Props {
   public entry?: Entry;
   public buttonText?: string;
   public form?: any;
   public onSubmit?: () => void;
+  public categoryFrequencyMap?: FrequencyMap | null;
 }
-class PropsDefaults {
+class PropsDefaults extends Props {
   public buttonText: string = 'Add entry';
   public onSubmit: () => void = () => {};
 }
@@ -52,11 +51,19 @@ class EntryFormValues {
   public content: string;
   public points: number;
 }
+class State {
+  public useAllCategoryFrequencyMap: boolean = false;
+}
 class EntryFormContainer extends React.Component<
   Props & PropsDefaults & ReduxProps & FormComponentProps,
-  {}
+  State
 > {
   public static defaultProps = new PropsDefaults();
+
+  public constructor(props: Props & ReduxProps & FormComponentProps & PropsDefaults) {
+    super(props);
+    this.state = new State();
+  }
 
   public handleSubmit = (e: any) => {
     e.preventDefault();
@@ -97,23 +104,26 @@ class EntryFormContainer extends React.Component<
     });
   };
 
-  public getTitleSuggestions() {
-    const { entriesDateMap } = this.props;
+  public getCategorySuggestions() {
+    const { entriesDateMap, categoryFrequencyMap } = this.props;
     if (!entriesDateMap) {
       return [];
     }
-    const titleFrequencyMap = {};
+    if (categoryFrequencyMap && this.state.useAllCategoryFrequencyMap) {
+      return util.frequencyMapToSuggestionOptions(categoryFrequencyMap);
+    }
+    const partialCategoryFrequencyMap = {};
 
     Object.keys(entriesDateMap).forEach((date) => {
       const entries = entriesDateMap[date];
       entries.forEach((entry) => {
-        titleFrequencyMap[entry.title] = titleFrequencyMap[entry.title]
-          ? titleFrequencyMap[entry.title] + 1
+        partialCategoryFrequencyMap[entry.title] = partialCategoryFrequencyMap[entry.title]
+          ? partialCategoryFrequencyMap[entry.title] + 1
           : 1;
       });
     });
 
-    return util.frequencyMapToSuggestionOptions(titleFrequencyMap);
+    return util.frequencyMapToSuggestionOptions(partialCategoryFrequencyMap);
   }
 
   public incrementDecrementDate(offset: number) {
@@ -130,7 +140,7 @@ class EntryFormContainer extends React.Component<
     return (
       <Card>
         <Form onSubmit={this.handleSubmit} className="EntryFormContainer">
-          <Form.Item>
+          <Form.Item className="EntryFormCategoryRow">
             {getFieldDecorator('title', {
               rules: [{ required: true, message: 'Title required' }],
               initialValue: _.get(entry, 'title'),
@@ -150,11 +160,12 @@ class EntryFormContainer extends React.Component<
             })(
               // 这里为什么要空的datasource? 因为antd type文件写错了 datasource必须 万幸children会覆盖
               <AutoComplete
+                className="EntriesCategoryShowAutoComplete"
                 placeholder="Title"
                 dataSource={[]}
                 optionLabelProp="value"
               >
-                {this.getTitleSuggestions().map((t) => {
+                {this.getCategorySuggestions().map((t) => {
                   return (
                     <AutoComplete.Option key={t.title} value={t.title}>
                       <span className="EntryTitleOptionTitle">{t.title}</span>
@@ -166,6 +177,11 @@ class EntryFormContainer extends React.Component<
                 })}
               </AutoComplete>
             )}
+            <Switch
+              className="EntriesCategoryShowSwitch"
+              checkedChildren="All" unCheckedChildren="Cur"
+              onChange={(checked) => { this.setState({ useAllCategoryFrequencyMap: checked }); }}
+            />
           </Form.Item>
           <Form.Item>
             {getFieldDecorator('points', {
