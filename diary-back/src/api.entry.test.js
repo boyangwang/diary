@@ -156,7 +156,7 @@ describe('api', async () => {
     });
   });
 
-  test.only('/api/getHistoricalStreaks returns correct streaks', async () => {
+  test('/api/getHistoricalStreaks returns correct streaks', async () => {
     // today is 01 04, yester is 01 03 last streak 01 01
     let entry5 = getTestObj({ date: '1970-01-03' });
     let entry1 = getTestObj({ date: '1970-01-02' });
