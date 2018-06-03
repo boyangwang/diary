@@ -116,9 +116,10 @@ const compare = <T extends {}>(a: T, b: T): 0 | 1 | -1 => {
   }
 };
 
-const getTodayStringWithOffset = (offset?: number) => {
+const getDateStringWithOffset = (offset?: number, date?: string) => {
   offset = offset ? offset : 0;
-  return moment()
+  let baseDate = date ? moment(date) : moment();
+  return baseDate
     .add(offset, 'days')
     .format(dateStringFormat);
 };
@@ -155,7 +156,7 @@ export default {
     return result.join('');
   },
   dateStringFormat,
-  getTodayStringWithOffset,
+  getDateStringWithOffset,
   getWeekdaysFromDateString: (date: string) => {
     const firstDay = moment(date).startOf('isoWeek');
     const res = [];
@@ -268,7 +269,7 @@ export default {
       .fill(0)
       .map((item, i) => i)
       .map((currentOffset) =>
-        getTodayStringWithOffset(-currentOffset + tipOffset)
+        getDateStringWithOffset(-currentOffset + tipOffset)
       )
       .reverse();
   },

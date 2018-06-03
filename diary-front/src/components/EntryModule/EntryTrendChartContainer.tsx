@@ -250,7 +250,7 @@ class EntryTrendChartContainer extends React.Component<
       .fill(0)
       .map((_, i) => i)
       .map((currentOffset) =>
-        util.getTodayStringWithOffset(-currentOffset + offset)
+        util.getDateStringWithOffset(-currentOffset + offset)
       )
       .reverse();
   }

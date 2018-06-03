@@ -20,7 +20,7 @@ class EntryWeekContainer extends React.Component<Props> {
 
   public render() {
     const { dateRange, hasCollapsePanel, highlights } = this.props;
-    const todayString = util.getTodayStringWithOffset();
+    const todayString = util.getDateStringWithOffset();
 
     let content = (
       <div className="EntryDaysDiv">
