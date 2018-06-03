@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 
-import { Digest, EntriesDateMap, Entry, FrequencyMap, Todo } from 'utils/api';
+import { Digest, EntriesDateMap, Entry, FrequencyMap, Todo, EntriesDateStreaksMap } from 'utils/api';
 import util from 'utils/util';
 
 export class User {
@@ -11,6 +11,7 @@ export class ReduxState {
   public backendVersion: null | string;
   public entriesDateMap: EntriesDateMap;
   public entriesCategoryFrequencyMap: FrequencyMap;
+  public entriesDateStreaksMap: EntriesDateStreaksMap;
   public todos: Todo[];
   public digests: Digest[];
   public resyncCounter: number;
@@ -20,6 +21,7 @@ const INITIAL_STATE: ReduxState = {
   backendVersion: null,
   entriesDateMap: {},
   entriesCategoryFrequencyMap: {},
+  entriesDateStreaksMap: {},
   todos: [],
   digests: [],
   resyncCounter: 0,
@@ -117,6 +119,14 @@ export default (state: ReduxState = INITIAL_STATE, action: Action) => {
     return {
       ...state,
       entriesCategoryFrequencyMap: action.payload,
+    };
+  } else if (action.type === 'ENTRIES_STREAKS') {
+    return {
+      ...state,
+      entriesDateStreaksMap: {
+        ...state.entriesDateStreaksMap,
+        ...action.payload,
+      },
     };
   } else if (action.type === 'TODOS') {
     return {

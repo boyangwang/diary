@@ -14,6 +14,8 @@ import api, {
   FrequencyMap,
   GetCategoryFrequencyMapResponse,
   GetEntriesResponse,
+  GetStreaksResponse,
+  EntriesDateStreaksMap,
 } from 'utils/api';
 import util from 'utils/util';
 
@@ -32,6 +34,7 @@ class State {
 class ReduxProps {
   public entriesDateMap: EntriesDateMap;
   public entriesCategoryFrequencyMap: FrequencyMap;
+  public entriesDateStreaksMap: EntriesDateStreaksMap;
   public user: User | null;
   public resyncCounter: number;
 }
@@ -39,6 +42,33 @@ class EntryView extends React.Component<ReduxProps, State> {
   constructor(props: ReduxProps) {
     super(props);
     this.state = new State();
+  }
+
+  public async fetchStreaks(user: User | null, ) {
+    if (!user) {
+      return;
+    }
+    // in streaks calculation, baseDate is today
+    // Should display the streaks, that is working on yesterday and can be extended on today
+    // To check whether it's actually fulfilled on today, we do it on frontend - since needed info is already here
+    // How about today? It's special because it can change - actually any day can change, and therefore streaks changes
+    // We re-calc and re-fetch on any post/update, to ensure consistency
+    const baseDate = util.getDateStringWithOffset();
+    api.getStreaks({ owner: user.username, date: baseDate }).then(
+      (data: GetStreaksResponse & ErrResponse) => {
+        if (data.err) {
+          message.warn('' + data.err);
+        } else {
+          dispatch({
+            type: 'ENTRIES_STREAKS',
+            payload: {
+              [baseDate]: data.data,
+            },
+          });
+        }
+      },
+      (err) => {}
+    );
   }
 
   public async fetchCategoryFrequencyMap(user: User | null) {
@@ -151,7 +181,7 @@ class EntryView extends React.Component<ReduxProps, State> {
 
   public render() {
     const { tipOffset, lastDaysRange } = this.state;
-    const tipDayString = util.getTodayStringWithOffset(tipOffset);
+    const tipDayString = util.getDateStringWithOffset(tipOffset);
     const tailDayString = moment(tipDayString)
       .add(-(lastDaysRange - 1), 'days')
       .format(util.dateStringFormat);
@@ -177,6 +207,12 @@ class EntryView extends React.Component<ReduxProps, State> {
               }
             />
           </Col>
+        </Row>
+
+        <Row type="flex">
+          <div>
+            Streaks {JSON.stringify(this.props.entriesDateStreaksMap)}
+          </div>
         </Row>
 
         <Row
@@ -230,5 +266,6 @@ export default connect<ReduxProps, {}, {}>((state: ReduxState) => {
     user: state.user,
     resyncCounter: state.resyncCounter,
     entriesCategoryFrequencyMap: state.entriesCategoryFrequencyMap,
+    entriesDateStreaksMap: state.entriesDateStreaksMap,
   };
 })(EntryView);
