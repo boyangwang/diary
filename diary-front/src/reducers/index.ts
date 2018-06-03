@@ -4,10 +4,10 @@ import {
   Digest,
   EntriesDateMap,
   EntriesDateStreaksMap,
+  EntriesHistoricalStreaksMap,
   Entry,
   FrequencyMap,
   Todo,
-  EntriesHistoricalStreaksMap,
 } from 'utils/api';
 import util from 'utils/util';
 

@@ -126,8 +126,7 @@ module.exports = {
         } else if (startDate && allMyEntries[i].date === endDate) {
           // this means we have 2 same category records on same day, no-op
         } else {
-          if (startDate)
-            myEntryStreaks.push({ startDate, endDate, streaks });
+          if (startDate) myEntryStreaks.push({ startDate, endDate, streaks });
           startDate = allMyEntries[i].date;
           endDate = allMyEntries[i].date;
           nextDayStr = nextDayString(startDate);

@@ -15,8 +15,8 @@ import api, {
   FrequencyMap,
   GetCategoryFrequencyMapResponse,
   GetEntriesResponse,
-  GetStreaksResponse,
   GetHistoricalStreaksResponse,
+  GetStreaksResponse,
 } from 'utils/api';
 import util from 'utils/util';
 

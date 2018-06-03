@@ -125,9 +125,9 @@ export class EntriesDateStreaksMap {
   [date: string]: FrequencyMap;
 }
 export class Streak {
-  startDate: string;
-  endDate: string;
-  streaks: number;
+  public startDate: string;
+  public endDate: string;
+  public streaks: number;
 }
 export class EntriesHistoricalStreaksMap {
   [category: string]: Streak[];

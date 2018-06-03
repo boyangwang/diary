@@ -5,7 +5,12 @@ import { Card, Table, Tag } from 'antd';
 
 import { ReduxState } from 'reducers';
 import { dispatch } from 'reducers/store';
-import { EntriesDateMap, EntriesDateStreaksMap, EntriesHistoricalStreaksMap, Streak } from 'utils/api';
+import {
+  EntriesDateMap,
+  EntriesDateStreaksMap,
+  EntriesHistoricalStreaksMap,
+  Streak,
+} from 'utils/api';
 import util from 'utils/util';
 
 import './EntryStreaksContainer.css';
@@ -18,20 +23,22 @@ const columns = [
   {
     title: 'Streaks',
     dataIndex: 'streaks',
-
   },
   {
     title: 'Longest historical record',
     dataIndex: 'longest',
     render: (streak: Streak) => {
-      if (!streak)
-        return null;
-      return <div className="StreakObject">
-        <span>{streak.streaks}</span>
-        <span> | </span>
-        <span>{streak.startDate} - {streak.endDate}</span>
-      </div>;
-    }
+      if (!streak) { return null; }
+      return (
+        <div className="StreakObject">
+          <span>{streak.streaks}</span>
+          <span> | </span>
+          <span>
+            {streak.startDate} - {streak.endDate}
+          </span>
+        </div>
+      );
+    },
   },
   {
     title: 'TodayFulfilled',
@@ -58,7 +65,7 @@ class ReduxProps {
   public entriesHistoricalStreaksMap: EntriesHistoricalStreaksMap;
 }
 class State {
-  showHistoricalStreaks: boolean = false;
+  public showHistoricalStreaks: boolean = false;
 }
 class EntryStreaksContainer extends React.Component<Props & ReduxProps, State> {
   public constructor(props: Props & ReduxProps) {
@@ -67,7 +74,12 @@ class EntryStreaksContainer extends React.Component<Props & ReduxProps, State> {
   }
 
   public getStreaksDataSource(): any[] {
-    const { entriesDateMap, entriesDateStreaksMap, date, entriesHistoricalStreaksMap } = this.props;
+    const {
+      entriesDateMap,
+      entriesDateStreaksMap,
+      date,
+      entriesHistoricalStreaksMap,
+    } = this.props;
     const todayStreaksMap = entriesDateStreaksMap[date];
     if (!todayStreaksMap) {
       return [];
@@ -76,8 +88,7 @@ class EntryStreaksContainer extends React.Component<Props & ReduxProps, State> {
       .map((category) => {
         let longest: Streak | null = null;
         (entriesHistoricalStreaksMap[category] || []).forEach((streak) => {
-          if (!longest || streak.streaks > longest.streaks)
-            longest = streak;
+          if (!longest || streak.streaks > longest.streaks) { longest = streak; }
         });
         return {
           streaks: todayStreaksMap[category],
@@ -114,11 +125,19 @@ class EntryStreaksContainer extends React.Component<Props & ReduxProps, State> {
         />
         <a
           className="ToggleHistoricalStreaksLink"
-          onClick={() => this.setState({ showHistoricalStreaks: !this.state.showHistoricalStreaks })}
-        >Toggle historical streaks</a>
-        {this.state.showHistoricalStreaks && <pre className="HistoricalStreaksContainer">
-          {JSON.stringify(entriesHistoricalStreaksMap, null, 2)}
-        </pre>}
+          onClick={() =>
+            this.setState({
+              showHistoricalStreaks: !this.state.showHistoricalStreaks,
+            })
+          }
+        >
+          Toggle historical streaks
+        </a>
+        {this.state.showHistoricalStreaks && (
+          <pre className="HistoricalStreaksContainer">
+            {JSON.stringify(entriesHistoricalStreaksMap, null, 2)}
+          </pre>
+        )}
       </div>
     );
   }

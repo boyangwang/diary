@@ -189,7 +189,22 @@ describe('api', async () => {
         config.port
       }/api/getHistoricalStreaks?owner=testOwner`,
       expectStatusCode: 200,
-      expectJson: {"data": {"1streak": [{"endDate": "1970-01-03", "startDate": "1970-01-03", "streaks": 1}], "3streak": [{"endDate": "1970-01-03", "startDate": "1970-01-01", "streaks": 3}], "alsonostreak": [{"endDate": "1970-01-02", "startDate": "1970-01-02", "streaks": 1}], "noStreak": [{"endDate": "1970-01-01", "startDate": "1970-01-01", "streaks": 1}]}},
+      expectJson: {
+        data: {
+          '1streak': [
+            { endDate: '1970-01-03', startDate: '1970-01-03', streaks: 1 },
+          ],
+          '3streak': [
+            { endDate: '1970-01-03', startDate: '1970-01-01', streaks: 3 },
+          ],
+          alsonostreak: [
+            { endDate: '1970-01-02', startDate: '1970-01-02', streaks: 1 },
+          ],
+          noStreak: [
+            { endDate: '1970-01-01', startDate: '1970-01-01', streaks: 1 },
+          ],
+        },
+      },
     });
   });
 
