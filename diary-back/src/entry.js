@@ -97,12 +97,49 @@ module.exports = {
    * @param {*} res
    */
   getHistoricalStreaks: async (ctx, next) => {
+    const nextDayString = (dateString) => {
+      return moment(dateString)
+        .add(1, 'days')
+        .format('YYYY-MM-DD');
+    };
     const { owner, date } = ctx.request.query;
 
     // structure:
-    // { someCategory: [{startDate: '1970-01-01', endDate: '1970-01-30' or null, length: 30}, {...}] }
+    // { someCategory: [{startDate: '1970-01-01', endDate: '1970-01-30' or null, streaks: 30}, {...}] }
     const streaksMap = {};
     let ownerEntryCollection = db.collection(`entry_${owner}`);
+    let entries = await (await ownerEntryCollection.find({})).toArray();
+    let categories = new Set();
+
+    entries.forEach((entry) => categories.add(entry.title));
+    Array.from(categories).forEach((category) => {
+      let allMyEntries = entries.filter((entry) => entry.title === category);
+      allMyEntries.sort((a, b) => a.date.localeCompare(b.date));
+      if (!allMyEntries.length) return;
+      let myEntryStreaks = [];
+      let startDate, endDate, streaks, nextDayStr;
+      for (let i = 0; i < allMyEntries.length; i++) {
+        if (startDate && allMyEntries[i].date === nextDayStr) {
+          streaks++;
+          endDate = nextDayStr;
+          nextDayStr = nextDayString(nextDayStr);
+        } else {
+          if (startDate)
+            myEntryStreaks.push({ startDate, endDate, streaks });
+          startDate = allMyEntries[i].date;
+          endDate = allMyEntries[i].date;
+          nextDayStr = nextDayString(startDate);
+          streaks = 1;
+        }
+      }
+      // we always have a non-ended streak (because length == 0 case already handled)
+      myEntryStreaks.push({ startDate, endDate, streaks });
+      streaksMap[category] = myEntryStreaks;
+    });
+
+    ctx.response.body = {
+      data: streaksMap,
+    };
   },
   /**
    * returns all continuous streaks for this owner
@@ -112,8 +149,8 @@ module.exports = {
   getStreaks: async (ctx, next) => {
     const yesterdayString = (dateString) => {
       return moment(dateString)
-      .add(-1, 'days')
-      .format('YYYY-MM-DD');
+        .add(-1, 'days')
+        .format('YYYY-MM-DD');
     };
 
     const { owner, date } = ctx.request.query;
@@ -125,13 +162,15 @@ module.exports = {
     // first get all from yesterday - they are the only possible streak candidates
     // TODO use common util front&back
     const baseDateYesterday = yesterdayString(date);
-    let yesterdayEntries = entries.filter(e => e.date === baseDateYesterday);
+    let yesterdayEntries = entries.filter((e) => e.date === baseDateYesterday);
     for (let yesterdayEntry of yesterdayEntries) {
-      let streakOn = true, streaks = 1;
+      let streakOn = true,
+        streaks = 1;
       let currentCheckDate = yesterdayString(baseDateYesterday);
       while (streakOn) {
-        streakOn = entries.some(e =>
-          e.date === currentCheckDate && e.title === yesterdayEntry.title);
+        streakOn = entries.some(
+          (e) => e.date === currentCheckDate && e.title === yesterdayEntry.title
+        );
         if (streakOn) {
           streaks++;
           currentCheckDate = yesterdayString(currentCheckDate);

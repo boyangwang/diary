@@ -84,6 +84,7 @@ const main = async (opt = {}) => {
         '/api/deleteEntry',
         '/api/getCategoryFrequencyMap',
         '/api/getStreaks',
+        '/api/getHistoricalStreaks',
 
         '/api/getTodo',
         '/api/getTodos',
@@ -105,6 +106,7 @@ const main = async (opt = {}) => {
         '/api/deleteEntry',
         '/api/getCategoryFrequencyMap',
         '/api/getStreaks',
+        '/api/getHistoricalStreaks',
 
         '/api/getTodo',
         '/api/getTodos',
@@ -129,6 +131,7 @@ const main = async (opt = {}) => {
       '/api/deleteEntry',
       '/api/getCategoryFrequencyMap',
       '/api/getStreaks',
+      '/api/getHistoricalStreaks',
     ],
     entry.validateParams
   );
@@ -139,6 +142,7 @@ const main = async (opt = {}) => {
       '/api/deleteEntry',
       '/api/getCategoryFrequencyMap',
       '/api/getStreaks',
+      '/api/getHistoricalStreaks',
     ],
     entry.validateOwner
   );
@@ -148,6 +152,7 @@ const main = async (opt = {}) => {
   router.get('/api/getEntries', entry.getEntries);
   router.get('/api/getCategoryFrequencyMap', entry.getCategoryFrequencyMap);
   router.get('/api/getStreaks', entry.getStreaks);
+  router.get('/api/getHistoricalStreaks', entry.getHistoricalStreaks);
   router.post('/api/postEntry', entry.postEntry);
   router.post('/api/deleteEntry', entry.deleteEntry);
   // todo
