@@ -92,6 +92,19 @@ module.exports = {
     ctx.response.body = { data: categoryFrequencyMap };
   },
   /**
+   * returns all historical streaks for this owner
+   * @param {*} req req.query.owner
+   * @param {*} res
+   */
+  getHistoricalStreaks: async (ctx, next) => {
+    const { owner, date } = ctx.request.query;
+
+    // structure:
+    // { someCategory: [{startDate: '1970-01-01', endDate: '1970-01-30' or null, length: 30}, {...}] }
+    const streaksMap = {};
+    let ownerEntryCollection = db.collection(`entry_${owner}`);
+  },
+  /**
    * returns all continuous streaks for this owner
    * @param {*} req req.query.owner req.query.date
    * @param {*} res
