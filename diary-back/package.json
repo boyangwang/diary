@@ -1,6 +1,6 @@
 {
   "name": "diary-back",
-  "version": "1.4.17",
+  "version": "1.4.18",
   "private": true,
   "author": "Boyang <wangboyang1991@gmail.com>",
   "scripts": {
@@ -30,8 +30,8 @@
     "koa2-cors": "^2.0.5",
     "left-pad": "^1.2.0",
     "lodash": "^4.17.5",
-    "mongodb": "^2.2.31",
     "moment": "^2.21.0",
+    "mongodb": "^2.2.31",
     "multer-s3": "^2.7.0",
     "omit.js": "^1.0.0",
     "passport-github": "^1.1.0",
