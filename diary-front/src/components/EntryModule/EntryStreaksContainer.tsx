@@ -28,7 +28,9 @@ const columns = [
     title: 'Longest historical record',
     dataIndex: 'longest',
     render: (streak: Streak) => {
-      if (!streak) { return null; }
+      if (!streak) {
+        return null;
+      }
       return (
         <div className="StreakObject">
           <span>{streak.streaks}</span>
@@ -88,7 +90,9 @@ class EntryStreaksContainer extends React.Component<Props & ReduxProps, State> {
       .map((category) => {
         let longest: Streak | null = null;
         (entriesHistoricalStreaksMap[category] || []).forEach((streak) => {
-          if (!longest || streak.streaks > longest.streaks) { longest = streak; }
+          if (!longest || streak.streaks > longest.streaks) {
+            longest = streak;
+          }
         });
         return {
           streaks: todayStreaksMap[category],
