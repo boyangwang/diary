@@ -5,26 +5,36 @@ import { Card, Table, Tag } from 'antd';
 
 import { ReduxState } from 'reducers';
 import { dispatch } from 'reducers/store';
-import { EntriesDateStreaksMap, EntriesDateMap } from 'utils/api';
+import { EntriesDateMap, EntriesDateStreaksMap } from 'utils/api';
 import util from 'utils/util';
 
 import './EntryStreaksContainer.css';
 
-const columns = [{
-  title: 'Category',
-  dataIndex: 'category',
-}, {
-  title: 'Streaks',
-  dataIndex: 'streaks',
-}, {
-  title: 'TodayFulfilled',
-  dataIndex: 'todayfulfilled',
-  render: (isYes: boolean) => {
-    return isYes ?
-      <span><Tag color="#87d068">Yes</Tag></span>
-      : <span><Tag color="Silver">No</Tag></span>
-  }
-}];
+const columns = [
+  {
+    title: 'Category',
+    dataIndex: 'category',
+  },
+  {
+    title: 'Streaks',
+    dataIndex: 'streaks',
+  },
+  {
+    title: 'TodayFulfilled',
+    dataIndex: 'todayfulfilled',
+    render: (isYes: boolean) => {
+      return isYes ? (
+        <span>
+          <Tag color="#87d068">Yes</Tag>
+        </span>
+      ) : (
+        <span>
+          <Tag color="Silver">No</Tag>
+        </span>
+      );
+    },
+  },
+];
 class Props {
   public date: string;
 }
@@ -32,9 +42,7 @@ class ReduxProps {
   public entriesDateMap: EntriesDateMap;
   public entriesDateStreaksMap: EntriesDateStreaksMap;
 }
-class State {
-
-}
+class State {}
 class EntryStreaksContainer extends React.Component<Props & ReduxProps, State> {
   public constructor(props: Props & ReduxProps) {
     super(props);
@@ -42,34 +50,41 @@ class EntryStreaksContainer extends React.Component<Props & ReduxProps, State> {
   }
 
   public getStreaksDataSource(): any[] {
-    const {entriesDateMap, entriesDateStreaksMap, date} = this.props;
-    let todayStreaksMap = entriesDateStreaksMap[date];
+    const { entriesDateMap, entriesDateStreaksMap, date } = this.props;
+    const todayStreaksMap = entriesDateStreaksMap[date];
     if (!todayStreaksMap) {
       return [];
     }
-    let streaks = Object.keys(todayStreaksMap).map(category => {
-      return {
-        streaks: todayStreaksMap[category],
-        category,
-        todayfulfilled: (entriesDateMap[date] || []).some(entry => entry.title === category),
-      };
-    }).sort((a, b) => {
-      return (
-        util.compare(a.streaks, b.streaks) * -100 +
-        util.compare(a.todayfulfilled, b.todayfulfilled) * -10 +
-        util.compare(a.category, b.category) * 1
-      );
-    });
+    const streaks = Object.keys(todayStreaksMap)
+      .map((category) => {
+        return {
+          streaks: todayStreaksMap[category],
+          category,
+          todayfulfilled: (entriesDateMap[date] || []).some(
+            (entry) => entry.title === category
+          ),
+        };
+      })
+      .sort((a, b) => {
+        return (
+          util.compare(a.streaks, b.streaks) * -100 +
+          util.compare(a.todayfulfilled, b.todayfulfilled) * -10 +
+          util.compare(a.category, b.category) * 1
+        );
+      });
 
     return streaks;
   }
 
   public render() {
-    let dataSource = this.getStreaksDataSource();
+    const dataSource = this.getStreaksDataSource();
     return (
       <div className="EntryStreaksContainer">
         <Table
-          columns={columns} dataSource={dataSource} size="small" pagination={false}
+          columns={columns}
+          dataSource={dataSource}
+          size="small"
+          pagination={false}
         />
       </div>
     );

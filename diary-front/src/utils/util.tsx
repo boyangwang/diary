@@ -118,10 +118,8 @@ const compare = <T extends {}>(a: T, b: T): 0 | 1 | -1 => {
 
 const getDateStringWithOffset = (offset?: number, date?: string) => {
   offset = offset ? offset : 0;
-  let baseDate = date ? moment(date) : moment();
-  return baseDate
-    .add(offset, 'days')
-    .format(dateStringFormat);
+  const baseDate = date ? moment(date) : moment();
+  return baseDate.add(offset, 'days').format(dateStringFormat);
 };
 
 export default {

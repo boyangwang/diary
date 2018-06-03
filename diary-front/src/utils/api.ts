@@ -121,7 +121,7 @@ export class EntriesDateMap {
   [date: string]: Entry[];
 }
 export class EntriesDateStreaksMap {
-  [date: string]: FrequencyMap,
+  [date: string]: FrequencyMap;
 }
 class GetStreaksParams {
   public owner: string;
@@ -134,11 +134,7 @@ const getStreaks = (
   params: GetStreaksParams,
   options: AppendQueryOptions = {}
 ) => {
-  const url = appendQuery(
-    PREFIX + apis.getStreaks,
-    params,
-    options
-  );
+  const url = appendQuery(PREFIX + apis.getStreaks, params, options);
   return fetch(url, {
     credentials: 'same-origin',
   });
@@ -396,7 +392,7 @@ export default {
   deleteEntry,
   getCategoryFrequencyMap,
   getStreaks,
-  
+
   getTodo,
   getTodos,
   postTodo,

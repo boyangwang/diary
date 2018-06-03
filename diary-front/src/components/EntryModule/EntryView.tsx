@@ -9,22 +9,22 @@ import { ReduxState, User } from 'reducers';
 import { dispatch } from 'reducers/store';
 import api, {
   EntriesDateMap,
+  EntriesDateStreaksMap,
   Entry,
   ErrResponse,
   FrequencyMap,
   GetCategoryFrequencyMapResponse,
   GetEntriesResponse,
   GetStreaksResponse,
-  EntriesDateStreaksMap,
 } from 'utils/api';
 import util from 'utils/util';
 
 import DiaryInputNumber from 'components/common/InputNumber';
 import EntryFormContainer from 'components/EntryModule/EntryFormContainer';
 import EntrySearchListContainer from 'components/EntryModule/EntrySearchListContainer';
+import EntryStreaksContainer from 'components/EntryModule/EntryStreaksContainer';
 import EntryTrendChartContainer from 'components/EntryModule/EntryTrendChartContainer';
 import EntryWeekContainer from 'components/EntryModule/EntryWeekContainer';
-import EntryStreaksContainer from 'components/EntryModule/EntryStreaksContainer';
 
 import './EntryView.css';
 

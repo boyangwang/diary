@@ -1,6 +1,13 @@
 import * as _ from 'lodash';
 
-import { Digest, EntriesDateMap, Entry, FrequencyMap, Todo, EntriesDateStreaksMap } from 'utils/api';
+import {
+  Digest,
+  EntriesDateMap,
+  EntriesDateStreaksMap,
+  Entry,
+  FrequencyMap,
+  Todo,
+} from 'utils/api';
 import util from 'utils/util';
 
 export class User {
