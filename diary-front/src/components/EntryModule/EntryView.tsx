@@ -16,6 +16,7 @@ import api, {
   GetCategoryFrequencyMapResponse,
   GetEntriesResponse,
   GetStreaksResponse,
+  GetHistoricalStreaksResponse,
 } from 'utils/api';
 import util from 'utils/util';
 
@@ -43,6 +44,25 @@ class EntryView extends React.Component<ReduxProps, State> {
   constructor(props: ReduxProps) {
     super(props);
     this.state = new State();
+  }
+
+  public async fetchHistoricalStreaks(user: User | null) {
+    if (!user) {
+      return;
+    }
+    api.getHistoricalStreaks({ owner: user.username }).then(
+      (data: GetHistoricalStreaksResponse & ErrResponse) => {
+        if (data.err) {
+          message.warn('' + data.err);
+        } else {
+          dispatch({
+            type: 'ENTRIES_HISTORICAL_STREAKS',
+            payload: data.data,
+          });
+        }
+      },
+      (err) => {}
+    );
   }
 
   public async fetchStreaks(user: User | null, date: string) {
@@ -158,6 +178,7 @@ class EntryView extends React.Component<ReduxProps, State> {
     this.fetchDaysEntries(entriesDateMap, user, dateRange);
     this.fetchCategoryFrequencyMap(user);
     this.fetchStreaks(user, util.getDateStringWithOffset());
+    this.fetchHistoricalStreaks(user);
   }
 
   public componentDidUpdate(

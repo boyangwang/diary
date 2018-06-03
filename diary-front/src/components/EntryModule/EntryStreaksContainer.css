@@ -1,3 +1,16 @@
 .EntryStreaksContainer {
   width: 100%;
 }
+
+.EntryStreaksContainer .StreakObject span {
+  
+}
+
+.EntryStreaksContainer .ToggleHistoricalStreaksLink {
+  position: absolute;
+  right: 20px;
+}
+
+.EntryStreaksContainer .HistoricalStreaksContainer {
+  max-height: 360px;
+}

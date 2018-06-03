@@ -7,6 +7,7 @@ import {
   Entry,
   FrequencyMap,
   Todo,
+  EntriesHistoricalStreaksMap,
 } from 'utils/api';
 import util from 'utils/util';
 
@@ -19,6 +20,7 @@ export class ReduxState {
   public entriesDateMap: EntriesDateMap;
   public entriesCategoryFrequencyMap: FrequencyMap;
   public entriesDateStreaksMap: EntriesDateStreaksMap;
+  public entriesHistoricalStreaksMap: EntriesHistoricalStreaksMap;
   public todos: Todo[];
   public digests: Digest[];
   public resyncCounter: number;
@@ -29,6 +31,7 @@ const INITIAL_STATE: ReduxState = {
   entriesDateMap: {},
   entriesCategoryFrequencyMap: {},
   entriesDateStreaksMap: {},
+  entriesHistoricalStreaksMap: {},
   todos: [],
   digests: [],
   resyncCounter: 0,
@@ -134,6 +137,11 @@ export default (state: ReduxState = INITIAL_STATE, action: Action) => {
         ...state.entriesDateStreaksMap,
         ...action.payload,
       },
+    };
+  } else if (action.type === 'ENTRIES_HISTORICAL_STREAKS') {
+    return {
+      ...state,
+      entriesHistoricalStreaksMap: action.payload,
     };
   } else if (action.type === 'TODOS') {
     return {

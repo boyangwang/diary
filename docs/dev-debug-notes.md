@@ -287,4 +287,8 @@ componentdidmount 又帮上忙了, 读文档还是有用
 
 ## noLoginHeader..........
 
-我靠, 浪费老子时间...
+我靠, 浪费老子时间... 就是查了半天为什么改动不生效, 才发现自己有nologinheader和loginheader两个版本
+
+## historical streak, 发现streak被断掉. 原来是同一天有可能有多个的问题, 我只check了nextDayStr
+
+这个要不是想出来了, 就会有点难排查

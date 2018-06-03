@@ -25,6 +25,7 @@ const apis = {
   deleteEntry: 'api/deleteEntry',
   getCategoryFrequencyMap: 'api/getCategoryFrequencyMap',
   getStreaks: 'api/getStreaks',
+  getHistoricalStreaks: 'api/getHistoricalStreaks',
 
   getTodo: 'api/getTodo',
   getTodos: 'api/getTodos',
@@ -123,6 +124,29 @@ export class EntriesDateMap {
 export class EntriesDateStreaksMap {
   [date: string]: FrequencyMap;
 }
+export class Streak {
+  startDate: string;
+  endDate: string;
+  streaks: number;
+}
+export class EntriesHistoricalStreaksMap {
+  [category: string]: Streak[];
+}
+class GetHistoricalStreaksParams {
+  public owner: string;
+}
+export class GetHistoricalStreaksResponse {
+  public data: EntriesHistoricalStreaksMap;
+}
+const getHistoricalStreaks = (
+  params: GetHistoricalStreaksParams,
+  options: AppendQueryOptions = {}
+) => {
+  const url = appendQuery(PREFIX + apis.getHistoricalStreaks, params, options);
+  return fetch(url, {
+    credentials: 'same-origin',
+  });
+};
 class GetStreaksParams {
   public owner: string;
   public date: string;
@@ -392,6 +416,7 @@ export default {
   deleteEntry,
   getCategoryFrequencyMap,
   getStreaks,
+  getHistoricalStreaks,
 
   getTodo,
   getTodos,
