@@ -44,8 +44,8 @@ class EntryView extends React.Component<ReduxProps, State> {
     this.state = new State();
   }
 
-  public async fetchStreaks(user: User | null, ) {
-    if (!user) {
+  public async fetchStreaks(user: User | null, date: string) {
+    if (!user || this.props.entriesDateStreaksMap[date] !== undefined) {
       return;
     }
     // in streaks calculation, baseDate is today
@@ -53,8 +53,7 @@ class EntryView extends React.Component<ReduxProps, State> {
     // To check whether it's actually fulfilled on today, we do it on frontend - since needed info is already here
     // How about today? It's special because it can change - actually any day can change, and therefore streaks changes
     // We re-calc and re-fetch on any post/update, to ensure consistency
-    const baseDate = util.getDateStringWithOffset();
-    api.getStreaks({ owner: user.username, date: baseDate }).then(
+    api.getStreaks({ owner: user.username, date }).then(
       (data: GetStreaksResponse & ErrResponse) => {
         if (data.err) {
           message.warn('' + data.err);
@@ -62,7 +61,7 @@ class EntryView extends React.Component<ReduxProps, State> {
           dispatch({
             type: 'ENTRIES_STREAKS',
             payload: {
-              [baseDate]: data.data,
+              [date]: data.data,
             },
           });
         }
@@ -157,6 +156,7 @@ class EntryView extends React.Component<ReduxProps, State> {
 
     this.fetchDaysEntries(entriesDateMap, user, dateRange);
     this.fetchCategoryFrequencyMap(user);
+    this.fetchStreaks(user, util.getDateStringWithOffset());
   }
 
   public componentDidUpdate(
@@ -177,6 +177,7 @@ class EntryView extends React.Component<ReduxProps, State> {
     } else {
       this.fetchDaysEntries(entriesDateMap, user, dateRange);
     }
+    this.fetchStreaks(user, dateRange[dateRange.length - 1]);
   }
 
   public render() {
