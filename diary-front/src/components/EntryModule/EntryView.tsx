@@ -24,6 +24,7 @@ import EntryFormContainer from 'components/EntryModule/EntryFormContainer';
 import EntrySearchListContainer from 'components/EntryModule/EntrySearchListContainer';
 import EntryTrendChartContainer from 'components/EntryModule/EntryTrendChartContainer';
 import EntryWeekContainer from 'components/EntryModule/EntryWeekContainer';
+import EntryStreaksContainer from 'components/EntryModule/EntryStreaksContainer';
 
 import './EntryView.css';
 
@@ -211,9 +212,7 @@ class EntryView extends React.Component<ReduxProps, State> {
         </Row>
 
         <Row type="flex">
-          <div>
-            Streaks {JSON.stringify(this.props.entriesDateStreaksMap)}
-          </div>
+          <EntryStreaksContainer date={tipDayString} />
         </Row>
 
         <Row
