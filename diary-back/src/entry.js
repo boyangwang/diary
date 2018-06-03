@@ -1,3 +1,4 @@
+const moment = require('moment');
 const { ObjectId } = require('mongodb').ObjectId;
 
 let app, db;
@@ -89,6 +90,45 @@ module.exports = {
     });
 
     ctx.response.body = { data: categoryFrequencyMap };
+  },
+  /**
+   * returns all continuous streaks for this owner
+   * @param {*} req req.query.owner req.query.date
+   * @param {*} res
+   */
+  getStreaks: async (ctx, next) => {
+    const yesterdayString = (dateString) => {
+      return moment(dateString)
+      .add(-1, 'days')
+      .format('YYYY-MM-DD');
+    };
+
+    const { owner, date } = ctx.request.query;
+
+    const streaksMap = {};
+    let ownerEntryCollection = db.collection(`entry_${owner}`);
+    let entries = await (await ownerEntryCollection.find({})).toArray();
+
+    // first get all from yesterday - they are the only possible streak candidates
+    // TODO use common util front&back
+    const baseDateYesterday = yesterdayString(date);
+    let yesterdayEntries = entries.filter(e => e.date === baseDateYesterday);
+    for (let yesterdayEntry of yesterdayEntries) {
+      let streakOn = true, streaks = 1;
+      let currentCheckDate = yesterdayString(baseDateYesterday);
+      while (streakOn) {
+        streakOn = entries.some(e =>
+          e.date === currentCheckDate && e.title === yesterdayEntry.title);
+        if (streakOn) {
+          streaks++;
+          currentCheckDate = yesterdayString(currentCheckDate);
+        }
+      }
+      streaksMap[yesterdayEntry.title] = streaks;
+    }
+    ctx.response.body = {
+      data: streaksMap,
+    };
   },
   /**
    * returns a list of entries for specified date, or empty

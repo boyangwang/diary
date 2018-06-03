@@ -119,6 +119,43 @@ describe('api', async () => {
     });
   });
 
+  test.only('/api/getStreaks returns correct streaks', async () => {
+    // today is 01 04, yester is 01 03 last streak 01 01
+    let entry5 = getTestObj({ date: '1970-01-03' });
+    let entry1 = getTestObj({ date: '1970-01-02' });
+    let entry2 = getTestObj({ date: '1970-01-01' });
+
+    let entry3 = getTestObj({ date: '1970-01-02' });
+    let entry4 = getTestObj({ date: '1970-01-01' });
+    
+    let entry6 = getTestObj({ date: '1970-01-03' });
+
+    entry1.title = entry2.title = entry5.title = '3streak';
+
+    entry3.title = 'alsonostreak';
+    entry4.title = 'noStreak';
+
+    entry6.title = '1streak';
+
+    let testOwnerEntryCollection = db.collection(`entry_testOwner`);
+    await testOwnerEntryCollection.insertMany([
+      transformIdToObjectId(entry1),
+      transformIdToObjectId(entry2),
+      transformIdToObjectId(entry3),
+      transformIdToObjectId(entry4),
+      transformIdToObjectId(entry5),
+      transformIdToObjectId(entry6),
+    ]);
+
+    await expectFetchUrlStatusCodeAndJson({
+      url: `http://localhost:${
+        config.port
+      }/api/getStreaks?owner=testOwner&date=1970-01-04`,
+      expectStatusCode: 200,
+      expectJson: {"data": {"1streak": 1, "3streak": 3}},
+    });
+  });
+
   test('/api/postEntry needs an owner and an entry in body', async () => {
     let entry = getTestObj();
     await expectFetchUrlStatusCodeAndJson({

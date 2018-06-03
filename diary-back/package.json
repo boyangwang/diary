@@ -31,6 +31,7 @@
     "left-pad": "^1.2.0",
     "lodash": "^4.17.5",
     "mongodb": "^2.2.31",
+    "moment": "^2.21.0",
     "multer-s3": "^2.7.0",
     "omit.js": "^1.0.0",
     "passport-github": "^1.1.0",
