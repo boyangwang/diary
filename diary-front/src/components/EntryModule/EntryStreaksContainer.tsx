@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { Card, Table, Tag } from 'antd';
+import { Card, Table, Tag, Row } from 'antd';
 
 import { ReduxState } from 'reducers';
 import { dispatch } from 'reducers/store';
@@ -127,16 +127,18 @@ class EntryStreaksContainer extends React.Component<Props & ReduxProps, State> {
           size="small"
           pagination={false}
         />
-        <a
-          className="ToggleHistoricalStreaksLink"
-          onClick={() =>
-            this.setState({
-              showHistoricalStreaks: !this.state.showHistoricalStreaks,
-            })
-          }
-        >
-          Toggle historical streaks
-        </a>
+        <Row type="flex" justify="end">
+          <a
+            className="ToggleHistoricalStreaksLink"
+            onClick={() =>
+              this.setState({
+                showHistoricalStreaks: !this.state.showHistoricalStreaks,
+              })
+            }
+          >
+            Toggle historical streaks
+          </a>
+        </Row>
         {this.state.showHistoricalStreaks && (
           <pre className="HistoricalStreaksContainer">
             {JSON.stringify(entriesHistoricalStreaksMap, null, 2)}
