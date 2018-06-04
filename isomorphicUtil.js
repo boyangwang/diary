@@ -1,9 +1,14 @@
-const moment = require('moment');
+const moment = require('./diary-front/node_modules/moment');
 
-export const dateStringFormat = 'YYYY-MM-DD';
+const dateStringFormat = 'YYYY-MM-DD';
 
-export const getDateStringWithOffset = (offset, date) => {
+const getDateStringWithOffset = (offset, date) => {
   offset = offset ? offset : 0;
   const baseDate = date ? moment(date) : moment();
   return baseDate.add(offset, 'days').format(dateStringFormat);
+};
+
+module.exports = {
+  dateStringFormat,
+  getDateStringWithOffset,
 };

@@ -1,4 +1,4 @@
-const moment = require('moment');
+const isomorphicUtil = require('../../isomorphicUtil');
 const { ObjectId } = require('mongodb').ObjectId;
 
 let app, db;
@@ -97,11 +97,6 @@ module.exports = {
    * @param {*} res
    */
   getHistoricalStreaks: async (ctx, next) => {
-    const nextDayString = (dateString) => {
-      return moment(dateString)
-        .add(1, 'days')
-        .format('YYYY-MM-DD');
-    };
     const { owner, date } = ctx.request.query;
 
     // structure:
@@ -122,14 +117,14 @@ module.exports = {
         if (startDate && allMyEntries[i].date === nextDayStr) {
           streaks++;
           endDate = nextDayStr;
-          nextDayStr = nextDayString(nextDayStr);
+          nextDayStr = isomorphicUtil.getDateStringWithOffset(1, nextDayStr);
         } else if (startDate && allMyEntries[i].date === endDate) {
           // this means we have 2 same category records on same day, no-op
         } else {
           if (startDate) myEntryStreaks.push({ startDate, endDate, streaks });
           startDate = allMyEntries[i].date;
           endDate = allMyEntries[i].date;
-          nextDayStr = nextDayString(startDate);
+          nextDayStr = isomorphicUtil.getDateStringWithOffset(1, startDate);
           streaks = 1;
         }
       }
@@ -148,12 +143,6 @@ module.exports = {
    * @param {*} res
    */
   getStreaks: async (ctx, next) => {
-    const yesterdayString = (dateString) => {
-      return moment(dateString)
-        .add(-1, 'days')
-        .format('YYYY-MM-DD');
-    };
-
     const { owner, date } = ctx.request.query;
 
     const streaksMap = {};
@@ -161,20 +150,19 @@ module.exports = {
     let entries = await (await ownerEntryCollection.find({})).toArray();
 
     // first get all from yesterday - they are the only possible streak candidates
-    // TODO use common util front&back
-    const baseDateYesterday = yesterdayString(date);
+    const baseDateYesterday = isomorphicUtil.getDateStringWithOffset(-1, date);
     let yesterdayEntries = entries.filter((e) => e.date === baseDateYesterday);
     for (let yesterdayEntry of yesterdayEntries) {
       let streakOn = true,
         streaks = 1;
-      let currentCheckDate = yesterdayString(baseDateYesterday);
+      let currentCheckDate = isomorphicUtil.getDateStringWithOffset(-1, baseDateYesterday);
       while (streakOn) {
         streakOn = entries.some(
           (e) => e.date === currentCheckDate && e.title === yesterdayEntry.title
         );
         if (streakOn) {
           streaks++;
-          currentCheckDate = yesterdayString(currentCheckDate);
+          currentCheckDate = isomorphicUtil.getDateStringWithOffset(-1, currentCheckDate);
         }
       }
       streaksMap[yesterdayEntry.title] = streaks;
