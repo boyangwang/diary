@@ -232,10 +232,6 @@ class EntryView extends React.Component<ReduxProps, State> {
           </Col>
         </Row>
 
-        <Row type="flex">
-          <EntryStreaksContainer date={tipDayString} />
-        </Row>
-
         <Row
           className="ArrowButtonRowDiv"
           type="flex"
@@ -274,6 +270,9 @@ class EntryView extends React.Component<ReduxProps, State> {
           />
         </Row>
         <EntryTrendChartContainer dateRange={dateRange} />
+        <Row type="flex">
+          <EntryStreaksContainer date={tipDayString} />
+        </Row>
         <EntryWeekContainer dateRange={dateRange} />
         <EntrySearchListContainer dateRange={dateRange} />
       </div>
