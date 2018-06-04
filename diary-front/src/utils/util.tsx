@@ -5,11 +5,10 @@ import { withRouter } from 'react-router';
 
 import { AutoComplete, Icon } from 'antd';
 
+import { dateStringFormat, getDateStringWithOffset } from 'utils/isomorphicUtils';
 import { isArray } from 'util';
 import { Digest, EntriesDateMap, Entry, FrequencyMap } from 'utils/api';
 import mylog from 'utils/mylog';
-
-const dateStringFormat = 'YYYY-MM-DD';
 
 const base64Chars = [
   'A',
@@ -114,12 +113,6 @@ const compare = <T extends {}>(a: T, b: T): 0 | 1 | -1 => {
     mylog('Error: compare not number nor string nor boolean?');
     return 0;
   }
-};
-
-const getDateStringWithOffset = (offset?: number, date?: string) => {
-  offset = offset ? offset : 0;
-  const baseDate = date ? moment(date) : moment();
-  return baseDate.add(offset, 'days').format(dateStringFormat);
 };
 
 export default {
