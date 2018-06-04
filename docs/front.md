@@ -100,3 +100,11 @@ export default connect<ReduxProps, {}, Props>((state: ReduxState) => {
   return {};
 })(TodoCheckedListContainer);
 ```
+
+## isomorphicUtils sharedUtils 问题
+
+```
+Module not found: You attempted to import ../../../isomorphicUtils which falls outside of the project src/ directory. Relative imports outside of src/ are not supported. You can either move it inside src/, or add a symlink to it from project's node_modules/
+```
+
+So add a symlink from outer to front/src. This might make it incompatible with Windows. We see how...
