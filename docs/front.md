@@ -108,3 +108,7 @@ Module not found: You attempted to import ../../../isomorphicUtils which falls o
 ```
 
 So add a symlink from outer to front/src. This might make it incompatible with Windows. We see how...
+
+整体来说还是有点问题, 先后解决的步骤:
+- 不允许src/以外, 是因为CRA只处理src/里面的代码(比如babel), 这很合理, 但我需要eject
+- dep问题, isomorphicUtil里面怎么require. 最后直接写路径找了front的moment, 这样后端又可以暂时不加moment
