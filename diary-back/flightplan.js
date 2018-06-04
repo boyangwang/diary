@@ -105,7 +105,7 @@ plan.remote(['frontend-preparation', 'deploy-all'], (remote) => {
     });
     remote.exec(`chmod -R 755 ./diary-front-build`);
     remote.exec(
-      `ln -sf ${projectsDir}/diary-master/diary-front/apache-config/diary-https.conf /etc/nginx/sites-enabled/`
+      `ln -sf ${projectsDir}/diary-master/diary-front/nginx-config/diary-https.conf /etc/nginx/sites-enabled/`
     );
     remote.exec(`nginx -s reload`);
   });
@@ -131,7 +131,7 @@ plan.local(
 
 plan.local(['link-nginx'], (local) => {
   const confAbsolutePath = path.resolve(
-    '../diary-front/apache-config/diary.local.conf'
+    '../diary-front/nginx-config/diary.local.conf'
   );
   local.exec(`ln -sf ${confAbsolutePath} /usr/local/etc/nginx/servers/`);
   local.exec(`nginx -s reload`);
