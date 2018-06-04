@@ -1,4 +1,4 @@
-const moment = require('./diary-front/node_modules/moment');
+const moment = require('./diary-back/node_modules/moment');
 
 const dateStringFormat = 'YYYY-MM-DD';
 

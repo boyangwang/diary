@@ -111,4 +111,4 @@ So add a symlink from outer to front/src. This might make it incompatible with W
 
 整体来说还是有点问题, 先后解决的步骤:
 - 不允许src/以外, 是因为CRA只处理src/里面的代码(比如babel), 这很合理, 但我需要eject
-- dep问题, isomorphicUtil里面怎么require. 最后直接写路径找了front的moment, 这样后端又可以暂时不加moment
+- dep问题, isomorphicUtil里面怎么require. ~~~最后直接写路径找了front的moment, 这样后端又可以暂时不加moment~~~ 我在想什么东西呀线上没有front只有back... 也不做front install. 必须用back
