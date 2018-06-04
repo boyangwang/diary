@@ -155,14 +155,20 @@ module.exports = {
     for (let yesterdayEntry of yesterdayEntries) {
       let streakOn = true,
         streaks = 1;
-      let currentCheckDate = isomorphicUtil.getDateStringWithOffset(-1, baseDateYesterday);
+      let currentCheckDate = isomorphicUtil.getDateStringWithOffset(
+        -1,
+        baseDateYesterday
+      );
       while (streakOn) {
         streakOn = entries.some(
           (e) => e.date === currentCheckDate && e.title === yesterdayEntry.title
         );
         if (streakOn) {
           streaks++;
-          currentCheckDate = isomorphicUtil.getDateStringWithOffset(-1, currentCheckDate);
+          currentCheckDate = isomorphicUtil.getDateStringWithOffset(
+            -1,
+            currentCheckDate
+          );
         }
       }
       streaksMap[yesterdayEntry.title] = streaks;

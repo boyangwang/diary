@@ -5,10 +5,13 @@ import { withRouter } from 'react-router';
 
 import { AutoComplete, Icon } from 'antd';
 
-import { dateStringFormat, getDateStringWithOffset } from '../../../isomorphicUtil';
 import { isArray } from 'util';
 import { Digest, EntriesDateMap, Entry, FrequencyMap } from 'utils/api';
 import mylog from 'utils/mylog';
+import {
+  dateStringFormat,
+  getDateStringWithOffset,
+} from '../../../isomorphicUtil';
 
 const base64Chars = [
   'A',
