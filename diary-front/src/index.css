@@ -51,3 +51,14 @@ h2 {
   font-weight: bold;
   display: block;
 }
+
+.ant-table-tbody>tr>td, .ant-table-thead>tr>th {
+  word-wrap: break-word !important;
+  word-break: normal !important;
+}
+
+.ant-list-item-content {
+  overflow-wrap: break-word !important;
+  max-width: 90% !important;
+  flex: 0 0 auto;
+}
