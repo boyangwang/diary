@@ -21,37 +21,15 @@ class ReduxProps {
 }
 class State {}
 class ReminderView extends React.Component<ReduxProps, State> {
-  public getReminders() {
-    const { user } = this.props;
-    if (!user) {
-      return;
-    }
-    api.getReminders({ owner: user.username }).then(
-      (data: GetRemindersResponse & ErrResponse) => {
-        dispatch({
-          type: 'REMINDERS',
-          payload: {
-            reminders: data.data,
-          },
-        });
-      },
-      (err) => {
-        this.setState({ err });
-      }
-    );
-  }
-
-  public componentWillMount() {
-    this.getReminders();
-  }
-
   public renderContent() {
     const { reminders } = this.props;
 
     return (
       <div className="RemindersContainer">
         <ReminderListContainer
-          reminders={reminders}
+          reminders={reminders.sort((a, b) => {
+            return a.title.localeCompare(b.title);
+          })}
           headerText="Reminders - sorted by title"
         />
       </div>
@@ -69,16 +47,6 @@ class ReminderView extends React.Component<ReduxProps, State> {
         {reminders.length === 0 ? 'Empty' : this.renderContent()}
       </div>
     );
-  }
-
-  public componentDidUpdate(
-    prevProps: ReduxProps,
-    prevState: State,
-    snapshot: any
-  ) {
-    if (this.props.resyncCounter !== prevProps.resyncCounter) {
-      this.getReminders();
-    }
   }
 }
 export default connect((state: ReduxState) => {

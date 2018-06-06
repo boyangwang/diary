@@ -16,6 +16,7 @@ import DigestSingleView from 'components/DigestModule/DigestSingleView';
 import DigestView from 'components/DigestModule/DigestView';
 import EntryView from 'components/EntryModule/EntryView';
 import ReminderView from 'components/ReminderModule/ReminderView';
+import ReminderTriggeredContainer from 'components/ReminderModule/ReminderTriggeredContainer';
 import TodoView from 'components/TodoModule/TodoView';
 
 import './DiaryApp.css';
@@ -64,6 +65,7 @@ class DiaryApp extends React.Component<Props & ReduxProps, State> {
         <Layout>
           <DiaryHeaderContainer />
           <Layout.Content>
+            {user && <ReminderTriggeredContainer />}
             {user ? (
               <Switch>
                 <Route path="/entry" component={EntryView} />
