@@ -1,6 +1,6 @@
+import * as moment from 'moment';
 import React from 'react';
 import { connect } from 'react-redux';
-import * as moment from 'moment';
 
 import { List } from 'antd';
 
@@ -11,8 +11,8 @@ import util from 'utils/util';
 
 import ReminderMiniObject from 'components/ReminderModule/ReminderMiniObject';
 
-import './ReminderTriggeredContainer.css';
 import mylog from 'utils/mylog';
+import './ReminderTriggeredContainer.css';
 
 class ReduxProps {
   public reminders: Reminder[];
@@ -46,18 +46,20 @@ class ReminderTriggeredContainer extends React.Component<ReduxProps, State> {
   }
 
   public filterTriggeredReminders(reminders: Reminder[]) {
-    let today = moment();
+    const today = moment();
     return reminders.filter((reminder) => {
       if (reminder.cycleType === 'year') {
-        let todayAndNextTwoDays = [
+        const todayAndNextTwoDays = [
           util.getDateStringWithOffset().substring(5),
           util.getDateStringWithOffset(1).substring(5),
           util.getDateStringWithOffset(2).substring(5),
         ];
         return todayAndNextTwoDays.includes(reminder.cycleTime);
       } else if (reminder.cycleType === 'month') {
-        return today.format('D') === reminder.cycleTime
-          || (today.daysInMonth() + 1 + +reminder.cycleTime) === +today.format('D');
+        return (
+          today.format('D') === reminder.cycleTime ||
+          today.daysInMonth() + 1 + +reminder.cycleTime === +today.format('D')
+        );
       } else if (reminder.cycleType === 'week') {
         return today.format('E') === reminder.cycleTime;
       } else {
@@ -75,8 +77,9 @@ class ReminderTriggeredContainer extends React.Component<ReduxProps, State> {
     });
     return (
       <div className="ReminderTriggeredContainer">
-        {triggeredReminders.map((reminder) =>
-          <ReminderMiniObject reminder={reminder} />)}
+        {triggeredReminders.map((reminder) => (
+          <ReminderMiniObject reminder={reminder} />
+        ))}
       </div>
     );
   }

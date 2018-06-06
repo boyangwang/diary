@@ -15,8 +15,8 @@ import DiaryLoginView from 'components/DiaryLoginView';
 import DigestSingleView from 'components/DigestModule/DigestSingleView';
 import DigestView from 'components/DigestModule/DigestView';
 import EntryView from 'components/EntryModule/EntryView';
-import ReminderView from 'components/ReminderModule/ReminderView';
 import ReminderTriggeredContainer from 'components/ReminderModule/ReminderTriggeredContainer';
+import ReminderView from 'components/ReminderModule/ReminderView';
 import TodoView from 'components/TodoModule/TodoView';
 
 import './DiaryApp.css';
