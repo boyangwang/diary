@@ -62,7 +62,11 @@ class TodoCheckedListContainer extends React.Component<
     if (hasCollapsePanel) {
       content = (
         <Collapse>
-          <Collapse.Panel header={headerText} key="reminders" forceRender={true}>
+          <Collapse.Panel
+            header={headerText}
+            key="reminders"
+            forceRender={true}
+          >
             {content}
           </Collapse.Panel>
         </Collapse>

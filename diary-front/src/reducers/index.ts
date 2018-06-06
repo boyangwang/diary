@@ -7,8 +7,8 @@ import {
   EntriesHistoricalStreaksMap,
   Entry,
   FrequencyMap,
-  Todo,
   Reminder,
+  Todo,
 } from 'utils/api';
 import util from 'utils/util';
 
@@ -157,7 +157,9 @@ export default (state: ReduxState = INITIAL_STATE, action: Action) => {
       reminders: [...state.reminders, action.payload.reminder],
     };
   } else if (action.type === 'UPDATE_REMINDER') {
-    let newRemindersArr = _.isArray(state.reminders) ? state.reminders.slice() : [];
+    let newRemindersArr = _.isArray(state.reminders)
+      ? state.reminders.slice()
+      : [];
     const findIndex = newRemindersArr.findIndex(
       (reminder) => reminder._id === action.payload.reminder._id
     );
@@ -175,7 +177,9 @@ export default (state: ReduxState = INITIAL_STATE, action: Action) => {
       reminders: newRemindersArr,
     };
   } else if (action.type === 'DELETE_REMINDER') {
-    let newRemindersArr = _.isArray(state.reminders) ? state.reminders.slice() : [];
+    let newRemindersArr = _.isArray(state.reminders)
+      ? state.reminders.slice()
+      : [];
     const findIndex = newRemindersArr.findIndex(
       (reminder) => reminder._id === action.payload.reminder._id
     );

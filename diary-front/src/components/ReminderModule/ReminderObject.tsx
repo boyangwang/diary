@@ -110,10 +110,13 @@ class ReminderObject extends React.Component<Props & ReduxProps, State> {
         ]}
       >
         <List.Item.Meta
-          avatar={<div className="createTimestamp">{
-            new Date(reminder.createTimestamp)
-              .toISOString()
-              .substring(0, 10)}</div>}
+          avatar={
+            <div className="createTimestamp">
+              {new Date(reminder.createTimestamp)
+                .toISOString()
+                .substring(0, 10)}
+            </div>
+          }
           title={
             <div>
               <h3 className="title">{reminder.title}</h3>

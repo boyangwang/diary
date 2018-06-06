@@ -184,14 +184,27 @@ const main = async (opt = {}) => {
   // reminder
   reminder.init(app, db);
   router.use(
-    ['/api/getReminder', '/api/getReminders', '/api/postReminder', '/api/deleteReminder'],
+    [
+      '/api/getReminder',
+      '/api/getReminders',
+      '/api/postReminder',
+      '/api/deleteReminder',
+    ],
     reminder.validateParams
   );
   router.use(
-    ['/api/getReminder', '/api/getReminders', '/api/postReminder', '/api/deleteReminder'],
+    [
+      '/api/getReminder',
+      '/api/getReminders',
+      '/api/postReminder',
+      '/api/deleteReminder',
+    ],
     reminder.validateOwner
   );
-  router.use(['/api/postReminder', '/api/deleteReminder'], reminder.validateReminder);
+  router.use(
+    ['/api/postReminder', '/api/deleteReminder'],
+    reminder.validateReminder
+  );
   router.get('/api/getReminder', reminder.getReminder);
   router.get('/api/getReminders', reminder.getReminders);
   router.post('/api/postReminder', reminder.postReminder);

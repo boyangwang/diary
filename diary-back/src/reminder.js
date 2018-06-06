@@ -109,7 +109,8 @@ module.exports = {
   deleteReminder: async (ctx, next) => {
     let { owner, reminder } = ctx.request.body.data;
     let ownerReminderCollection = db.collection(`reminder_${owner}`);
-    const processedId = reminder._id.length === 24 ? ObjectId(reminder._id) : reminder._id;
+    const processedId =
+      reminder._id.length === 24 ? ObjectId(reminder._id) : reminder._id;
     let result = await ownerReminderCollection.findOneAndDelete({
       _id: processedId,
     });

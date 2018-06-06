@@ -5,7 +5,7 @@ import { Collapse, List } from 'antd';
 
 import { ReduxState, User } from 'reducers';
 import { dispatch } from 'reducers/store';
-import api, { ErrResponse, Reminder, GetRemindersResponse, } from 'utils/api';
+import api, { ErrResponse, GetRemindersResponse, Reminder } from 'utils/api';
 import util from 'utils/util';
 
 import ReminderFormContainer from 'components/ReminderModule/ReminderFormContainer';

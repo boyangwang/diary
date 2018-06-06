@@ -7,10 +7,8 @@ import util from 'utils/util';
 
 import './TodoReminderContainer.css';
 
-class Props {
-}
-class ReduxProps {
-}
+class Props {}
+class ReduxProps {}
 class State {
   public showReminderView: boolean = false;
 }
@@ -21,15 +19,9 @@ class TodoReminderContainer extends React.Component<Props & ReduxProps, State> {
   }
 
   public render() {
-
-    return (
-      <div className="TodoReminderContainer">
-        
-      </div>
-    );
+    return <div className="TodoReminderContainer" />;
   }
 }
 export default connect<ReduxProps, {}, Props>((state: ReduxState) => {
-  return {
-  };
+  return {};
 })(TodoReminderContainer);

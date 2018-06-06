@@ -17,7 +17,7 @@ let appInstance, db;
 
 beforeAll(async () => {
   setTestObj({
-    "createTimestamp": 1521819342901,
+    createTimestamp: 1521819342901,
     title: 'test title',
     content: 'test content',
     cycleType: '',
@@ -38,7 +38,8 @@ describe('api', async () => {
     reminder2.title = 'anothertitle';
     let testOwnerReminderCollection = db.collection(`reminder_testOwner`);
     await testOwnerReminderCollection.insertMany([
-      transformIdToObjectId(reminder), transformIdToObjectId(reminder2)
+      transformIdToObjectId(reminder),
+      transformIdToObjectId(reminder2),
     ]);
     await expectFetchUrlStatusCodeAndJson({
       url: `http://localhost:${config.port}/api/getReminders?owner=testOwner`,
@@ -47,9 +48,9 @@ describe('api', async () => {
     });
 
     await expectFetchUrlStatusCodeAndJson({
-      url: `http://localhost:${config.port}/api/getReminder?owner=testOwner&_id=${
-        reminder._id
-      }`,
+      url: `http://localhost:${
+        config.port
+      }/api/getReminder?owner=testOwner&_id=${reminder._id}`,
       expectStatusCode: 200,
       expectJson: { data: [reminder] },
     });
@@ -79,7 +80,9 @@ describe('api', async () => {
   test('/api/postReminder if update an reminder that exists, update it', async () => {
     const reminder = getTestObj();
     let testOwnerReminderCollection = db.collection(`reminder_testOwner`);
-    await testOwnerReminderCollection.insertOne(transformIdToObjectId(reminder));
+    await testOwnerReminderCollection.insertOne(
+      transformIdToObjectId(reminder)
+    );
     const reminderNew = Object.assign({}, reminder, {
       title: 'updated test title',
       content: 'updated test content',
@@ -104,7 +107,9 @@ describe('api', async () => {
   test('/api/deleteReminder', async () => {
     const reminder = getTestObj();
     let testOwnerReminderCollection = await db.collection(`reminder_testOwner`);
-    await testOwnerReminderCollection.insertOne(transformIdToObjectId(reminder));
+    await testOwnerReminderCollection.insertOne(
+      transformIdToObjectId(reminder)
+    );
     await expectFetchUrlStatusCodeAndJson({
       url: `http://localhost:${config.port}/api/deleteReminder`,
       method: 'POST',

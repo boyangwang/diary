@@ -97,9 +97,7 @@ class ReminderFormContainer extends React.Component<
           </Form.Item>
           <Form.Item>
             {getFieldDecorator('cycleType', {
-              rules: [
-                { required: true, message: 'cycleType required' },
-              ],
+              rules: [{ required: true, message: 'cycleType required' }],
               initialValue: _.get(reminder, 'cycleType'),
             })(
               <Select placeholder="cycleType">
@@ -113,33 +111,50 @@ class ReminderFormContainer extends React.Component<
             {getFieldDecorator('cycleTime', {
               rules: [
                 { required: true, message: 'cycleTime required' },
-                { validator: (rule: any, value: any, callback: any) => {
-                  let cycleType = this.props.form.getFieldValue('cycleType');
-                  switch(cycleType) {
-                    case 'year':
-                      if (!/^(0[1-9]|1[0-2])-(0[1-9]|1[0-9]|2[0-9]|3[0-1])$/.test(value)) {
-                        callback('Invalid. Year cycleTime should be like 01-01 12-31');
-                      }
-                      break;
-                    case 'month':
-                      if (!/^-?([1-9]|1[0-9]|2[0-9]|3[0-1])$/.test(value)) {
-                        callback('Invalid. Month cycleTime should be like -1 -10 30 5');
-                      }
-                      break;
-                    case 'week':
-                      if (!/^[1-7]$/.test(value)) {
-                        callback('Invalid. Week cycleTime should be like 1 2 3 4');
-                      }
-                      break;
-                  }
-                  callback();
-                }},
+                {
+                  validator: (rule: any, value: any, callback: any) => {
+                    const cycleType = this.props.form.getFieldValue(
+                      'cycleType'
+                    );
+                    switch (cycleType) {
+                      case 'year':
+                        if (
+                          !/^(0[1-9]|1[0-2])-(0[1-9]|1[0-9]|2[0-9]|3[0-1])$/.test(
+                            value
+                          )
+                        ) {
+                          callback(
+                            'Invalid. Year cycleTime should be like 01-01 12-31'
+                          );
+                        }
+                        break;
+                      case 'month':
+                        if (!/^-?([1-9]|1[0-9]|2[0-9]|3[0-1])$/.test(value)) {
+                          callback(
+                            'Invalid. Month cycleTime should be like -1 -10 30 5'
+                          );
+                        }
+                        break;
+                      case 'week':
+                        if (!/^[1-7]$/.test(value)) {
+                          callback(
+                            'Invalid. Week cycleTime should be like 1 2 3 4'
+                          );
+                        }
+                        break;
+                      default:
+                    }
+                    callback();
+                  },
+                },
               ],
               initialValue: _.get(reminder, 'cycleTime'),
-            })(<Input.TextArea
-              placeholder={`Year: 01-01 12-31\nMonth: 1 30 31 -1\nWeek: 1 7\n`}
-              autosize={{ minRows: 3, maxRows: 3 }}
-            />)}
+            })(
+              <Input.TextArea
+                placeholder={`Year: 01-01 12-31\nMonth: 1 30 31 -1\nWeek: 1 7\n`}
+                autosize={{ minRows: 3, maxRows: 3 }}
+              />
+            )}
           </Form.Item>
           <Form.Item>
             {getFieldDecorator('createTimestamp', {
