@@ -27,7 +27,7 @@ class Props {
   public onSubmit?: () => void;
 }
 class PropsDefaults {
-  public buttonText: string = 'Add entry';
+  public buttonText: string = 'Add todo';
   public onSubmit: () => void = () => {};
 }
 class ReduxProps {

@@ -32,6 +32,11 @@ const apis = {
   postTodo: 'api/postTodo',
   deleteTodo: 'api/deleteTodo',
 
+  getReminder: 'api/getReminder',
+  getReminders: 'api/getReminders',
+  postReminder: 'api/postReminder',
+  deleteReminder: 'api/deleteReminder',
+
   getDigest: 'api/getDigest',
   getDigests: 'api/getDigests',
   postDigest: 'api/postDigest',
@@ -321,6 +326,82 @@ const deleteTodo = (params: DeleteTodoParams) => {
   });
 };
 
+export class Reminder {
+  public _id?: string;
+  public createTimestamp: number;
+  public title: string;
+  public content: string;
+  public cycleType: 'year' | 'month' | 'week';
+  public cycleTime: string;
+}
+class GetRemindersParams {
+  public owner: string;
+}
+class GetReminderParams {
+  public owner: string;
+  public _id: string;
+}
+export class GetRemindersResponse {
+  public data: Reminder[];
+}
+const getReminders = (params: GetRemindersParams) => {
+  const url = appendQuery(PREFIX + apis.getReminders, params);
+  return fetch(url, {
+    credentials: 'same-origin',
+  });
+};
+const getReminder = (params: GetReminderParams) => {
+  const url = appendQuery(PREFIX + apis.getReminder, params);
+  return fetch(url, {
+    credentials: 'same-origin',
+  });
+};
+class PostReminderParams {
+  public data: {
+    owner: string;
+    reminder: Reminder;
+  };
+}
+export class PostReminderResponse {
+  public data: {
+    reminder?: Reminder;
+    n?: number;
+    nModified?: number;
+    ok?: number;
+  };
+}
+const postReminder = (params: PostReminderParams) => {
+  return fetch(PREFIX + apis.postReminder, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    credentials: 'same-origin',
+    body: JSON.stringify(params),
+  });
+};
+class DeleteReminderParams {
+  public data: {
+    owner: string;
+    reminder: Reminder;
+  };
+}
+export class DeleteReminderResponse {
+  public data: {
+    reminder: Reminder;
+  };
+}
+const deleteReminder = (params: DeleteReminderParams) => {
+  return fetch(PREFIX + apis.deleteReminder, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    credentials: 'same-origin',
+    body: JSON.stringify(params),
+  });
+};
+
 export class Digest {
   public _id?: string;
   public createTimestamp: number;
@@ -422,6 +503,11 @@ export default {
   getTodos,
   postTodo,
   deleteTodo,
+
+  getReminder,
+  getReminders,
+  postReminder,
+  deleteReminder,
 
   getDigest,
   getDigests,

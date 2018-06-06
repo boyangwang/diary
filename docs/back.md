@@ -236,7 +236,7 @@ Performs login authentication
 
 - Success Response:
     - Code: 200 
-    - Content: `{ "data" : { "user": { "username": "xxx" } } }`
+    - Content: `{ "data" : { "user": { "username": "some username" } } }`
     
 - Error Response:
     - Code: `401`

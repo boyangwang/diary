@@ -8,6 +8,7 @@ import {
   Entry,
   FrequencyMap,
   Todo,
+  Reminder,
 } from 'utils/api';
 import util from 'utils/util';
 
@@ -22,6 +23,7 @@ export class ReduxState {
   public entriesDateStreaksMap: EntriesDateStreaksMap;
   public entriesHistoricalStreaksMap: EntriesHistoricalStreaksMap;
   public todos: Todo[];
+  public reminders: Reminder[];
   public digests: Digest[];
   public resyncCounter: number;
 }
@@ -33,6 +35,7 @@ const INITIAL_STATE: ReduxState = {
   entriesDateStreaksMap: {},
   entriesHistoricalStreaksMap: {},
   todos: [],
+  reminders: [],
   digests: [],
   resyncCounter: 0,
 };
@@ -142,6 +145,47 @@ export default (state: ReduxState = INITIAL_STATE, action: Action) => {
     return {
       ...state,
       entriesHistoricalStreaksMap: action.payload,
+    };
+  } else if (action.type === 'REMINDERS') {
+    return {
+      ...state,
+      ...action.payload,
+    };
+  } else if (action.type === 'POST_REMINDER') {
+    return {
+      ...state,
+      reminders: [...state.reminders, action.payload.reminder],
+    };
+  } else if (action.type === 'UPDATE_REMINDER') {
+    let newRemindersArr = _.isArray(state.reminders) ? state.reminders.slice() : [];
+    const findIndex = newRemindersArr.findIndex(
+      (reminder) => reminder._id === action.payload.reminder._id
+    );
+    if (findIndex === -1) {
+      newRemindersArr = [...newRemindersArr, action.payload.reminder];
+    } else {
+      newRemindersArr = [
+        ...newRemindersArr.slice(0, findIndex),
+        action.payload.reminder,
+        ...newRemindersArr.slice(findIndex + 1),
+      ];
+    }
+    return {
+      ...state,
+      reminders: newRemindersArr,
+    };
+  } else if (action.type === 'DELETE_REMINDER') {
+    let newRemindersArr = _.isArray(state.reminders) ? state.reminders.slice() : [];
+    const findIndex = newRemindersArr.findIndex(
+      (reminder) => reminder._id === action.payload.reminder._id
+    );
+    newRemindersArr = [
+      ...newRemindersArr.slice(0, findIndex),
+      ...newRemindersArr.slice(findIndex + 1),
+    ];
+    return {
+      ...state,
+      reminders: newRemindersArr,
     };
   } else if (action.type === 'TODOS') {
     return {

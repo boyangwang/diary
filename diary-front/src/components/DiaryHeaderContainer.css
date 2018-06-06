@@ -24,7 +24,7 @@
   padding: 0;
 }
 .DiaryHeaderContainer.ant-layout-header:not(.noLogin) .DiaryHeaderMenuItemContainer {
-  flex: 0 0 25%;
+  flex: 0 0 20%;
 }
 .DiaryHeaderContainer.ant-layout-header:not(.noLogin) .ant-menu {
   width: 100%;

@@ -150,6 +150,11 @@ class DiaryHeaderContainer extends React.Component<Props & ReduxProps> {
               T
             </NavLink>
           </Menu.Item>
+          <Menu.Item key="reminder" className="DiaryHeaderMenuItemContainer">
+            <NavLink className="NavLink" to="/reminder">
+              R
+            </NavLink>
+          </Menu.Item>
           <Menu.Item key="digest" className="DiaryHeaderMenuItemContainer">
             <NavLink className="NavLink" to="/digest">
               D
