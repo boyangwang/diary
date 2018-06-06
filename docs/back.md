@@ -39,6 +39,20 @@ Example for an `{todo}` object that will be used in the following
 }
 ```
 
+Example for an `{reminder}` object that will be used in the following
+```json
+{
+  "createTimestamp": 1521819342901,
+  "title": "test title",
+  "content": "<p>test</p>",
+  "_id": "5aae5d46c53c46492ce1086a",
+  "cycleType": "year",
+  "cycleTime": "01-01", // 12-31
+  // "month": "month_1" "month_30" "month_31" "month_-1"
+  // "week": "week_1" "week_7"
+}
+```
+
 Example for an `{digest}` object that will be used in the following
 ```json
 {

@@ -1,7 +1,7 @@
 require('isomorphic-fetch');
 const { MongoClient } = require('mongodb');
 const config = require('./config.js');
-config.port = config.port + 5;
+config.port = config.port + 6;
 const user = config.users[0];
 const dbName = 'diaryTest';
 const mongoUrl = `mongodb://localhost:27017/${dbName}`;

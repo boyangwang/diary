@@ -9,6 +9,7 @@ import api, { ErrResponse, GetTodosResponse, Todo } from 'utils/api';
 import util from 'utils/util';
 
 import TodoFormContainer from 'components/TodoModule/TodoFormContainer';
+import TodoRemindersContainer from 'components/TodoModule/TodoReminderContainer';
 import TodoListContainer from 'components/TodoModule/TodoListContainer';
 import TodoObject from 'components/TodoModule/TodoObject';
 import TodoSearchListContainer from 'components/TodoModule/TodoSearchListContainer';
@@ -83,7 +84,7 @@ class TodoView extends React.Component<ReduxProps, State> {
         <h2>TodoView</h2>
 
         <TodoFormContainer />
-
+        <TodoRemindersContainer />
         {todos.length === 0 ? 'Empty' : this.renderContent()}
       </div>
     );

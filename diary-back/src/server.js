@@ -22,6 +22,7 @@ const errReport = require('./errReport');
 const upload = require('./upload');
 const entry = require('./entry');
 const todo = require('./todo');
+const reminder = require('./reminder');
 const digest = require('./digest');
 // conf
 const config = require('./config');
@@ -91,6 +92,11 @@ const main = async (opt = {}) => {
         '/api/postTodo',
         '/api/deleteTodo',
 
+        '/api/getReminder',
+        '/api/getReminders',
+        '/api/postReminder',
+        '/api/deleteReminder',
+
         '/api/getDigest',
         '/api/getDigests',
         '/api/postDigest',
@@ -112,6 +118,11 @@ const main = async (opt = {}) => {
         '/api/getTodos',
         '/api/postTodo',
         '/api/deleteTodo',
+
+        '/api/getReminder',
+        '/api/getReminders',
+        '/api/postReminder',
+        '/api/deleteReminder',
 
         '/api/getDigest',
         '/api/getDigests',
@@ -170,6 +181,21 @@ const main = async (opt = {}) => {
   router.get('/api/getTodos', todo.getTodos);
   router.post('/api/postTodo', todo.postTodo);
   router.post('/api/deleteTodo', todo.deleteTodo);
+  // reminder
+  reminder.init(app, db);
+  router.use(
+    ['/api/getReminder', '/api/getReminders', '/api/postReminder', '/api/deleteReminder'],
+    reminder.validateParams
+  );
+  router.use(
+    ['/api/getReminder', '/api/getReminders', '/api/postReminder', '/api/deleteReminder'],
+    reminder.validateOwner
+  );
+  router.use(['/api/postReminder', '/api/deleteReminder'], reminder.validateReminder);
+  router.get('/api/getReminder', reminder.getReminder);
+  router.get('/api/getReminders', reminder.getReminders);
+  router.post('/api/postReminder', reminder.postReminder);
+  router.post('/api/deleteReminder', reminder.deleteReminder);
   // entry
   digest.init(app, db);
   router.use(
