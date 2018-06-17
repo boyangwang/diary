@@ -1,6 +1,6 @@
+import * as moment from 'moment';
 import React from 'react';
 import { connect } from 'react-redux';
-import * as moment from "moment";
 
 import { Alert, Button, Checkbox, List, message, Modal } from 'antd';
 
@@ -123,7 +123,14 @@ class ReminderObject extends React.Component<Props & ReduxProps, State> {
               <h3 className="title">{reminder.title}</h3>
               <Alert
                 className="cycleInfo"
-                message={(reminder.cycleType !== 'since' ? '' : moment().diff(reminder.cycleTime, 'days') + ' days ') + reminder.cycleType + ' | ' + reminder.cycleTime}
+                message={
+                  (reminder.cycleType !== 'since'
+                    ? ''
+                    : moment().diff(reminder.cycleTime, 'days') + ' days ') +
+                  reminder.cycleType +
+                  ' | ' +
+                  reminder.cycleTime
+                }
                 type="success"
               />
             </div>

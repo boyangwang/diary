@@ -63,7 +63,11 @@ class ReminderTriggeredContainer extends React.Component<ReduxProps, State> {
       } else if (reminder.cycleType === 'week') {
         return today.format('E') === reminder.cycleTime;
       } else if (reminder.cycleType === 'since') {
-        return (util.getDateStringWithOffset().substring(5) === reminder.cycleTime.substring(5)) || moment().diff(reminder.cycleTime, 'days') % 100 === 0;
+        return (
+          util.getDateStringWithOffset().substring(5) ===
+            reminder.cycleTime.substring(5) ||
+          moment().diff(reminder.cycleTime, 'days') % 100 === 0
+        );
       } else {
         mylog('Corrupted reminder - cycleType invalid');
       }
