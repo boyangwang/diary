@@ -298,3 +298,11 @@ componentdidmount 又帮上忙了, 读文档还是有用
 确实不是generic啊。。。最后才发现， 3.x版本redux换了type。3.x配2.2， 4.x配2.3. 自动thunk升到2.3去了
 
 ## flightplan用很旧的fibers。 这个fibers不支持node10. 降级node
+
+## 多个set-cookie header的问题。。。
+
+找不到.sig cookie， 原来是在另一个set-cookie里。见https://stackoverflow.com/questions/6045579/problem-in-multiple-set-cookies-in-httpwebrequest-header
+
+Note: Headers.getAll used to have this functionality, with Headers.get returning only the first value added to the Headers object. The latest spec has removed getAll(), and updated get() to return all values.
+
+就知道！koa还在用旧的

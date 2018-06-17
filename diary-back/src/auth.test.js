@@ -69,7 +69,8 @@ describe('login', async () => {
       expectStatusCode: 200,
     });
 
-    const setCookie = responseAndBody.response.headers.get('set-cookie');
+    // const setCookie = responseAndBody.response.headers.get('set-cookie');
+    const setCookie = responseAndBody.response.headers.getAll('set-cookie');
     expect(setCookie).toBeTruthy();
 
     const cookie = getMyCookiesString(setCookie);
