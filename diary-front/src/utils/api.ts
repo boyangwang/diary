@@ -331,7 +331,7 @@ export class Reminder {
   public createTimestamp: number;
   public title: string;
   public content: string;
-  public cycleType: 'year' | 'month' | 'week';
+  public cycleType: 'year' | 'month' | 'week' | 'since';
   public cycleTime: string;
 }
 class GetRemindersParams {

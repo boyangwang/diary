@@ -104,6 +104,7 @@ class ReminderFormContainer extends React.Component<
                 <Select.Option value="year">Year</Select.Option>
                 <Select.Option value="month">Month</Select.Option>
                 <Select.Option value="week">Week</Select.Option>
+                <Select.Option value="since">Since</Select.Option>
               </Select>
             )}
           </Form.Item>
@@ -142,6 +143,12 @@ class ReminderFormContainer extends React.Component<
                           );
                         }
                         break;
+                      case 'since':
+                        if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+                          callback(
+                            'Invalid. Since cycleTime should be YYYY-DD-MM'
+                          );
+                        }
                       default:
                     }
                     callback();
@@ -151,8 +158,8 @@ class ReminderFormContainer extends React.Component<
               initialValue: _.get(reminder, 'cycleTime'),
             })(
               <Input.TextArea
-                placeholder={`Year: 01-01 12-31\nMonth: 1 30 31 -1\nWeek: 1 7\n`}
-                autosize={{ minRows: 3, maxRows: 3 }}
+                placeholder={`Year: 01-01 12-31\nMonth: 1 30 31 -1\nWeek: 1 7\nSince: 1970-01-01`}
+                autosize={{ minRows: 4, maxRows: 4 }}
               />
             )}
           </Form.Item>

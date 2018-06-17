@@ -29,6 +29,9 @@ class ReminderMiniObject extends React.Component<Props & ReduxProps, State> {
         <span className="cycle">
           {reminder.cycleType + ' | ' + reminder.cycleTime}
         </span>
+        {reminder.cycleType === 'since' && <span className="cycle">
+          {moment().diff(reminder.cycleTime, 'days') + 'Days'}
+        </span>}
         <span className="content">{reminder.content}</span>
       </div>
     );

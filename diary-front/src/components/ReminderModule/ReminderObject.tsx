@@ -125,6 +125,11 @@ class ReminderObject extends React.Component<Props & ReduxProps, State> {
                 message={reminder.cycleType + ' | ' + reminder.cycleTime}
                 type="success"
               />
+              {reminder.cycleType === 'since' && <Alert
+                className="cycleInfo"
+                message={moment().diff(reminder.cycleTime, 'days') + 'Days'}
+                type="success"
+              />}
             </div>
           }
           description={
