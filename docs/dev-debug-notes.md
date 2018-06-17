@@ -292,3 +292,9 @@ componentdidmount 又帮上忙了, 读文档还是有用
 ## historical streak, 发现streak被断掉. 原来是同一天有可能有多个的问题, 我只check了nextDayStr
 
 这个要不是想出来了, 就会有点难排查
+
+## react-thunk middleware is not a generic
+
+确实不是generic啊。。。最后才发现， 3.x版本redux换了type。3.x配2.2， 4.x配2.3. 自动thunk升到2.3去了
+
+## flightplan用很旧的fibers。 这个fibers不支持node10. 降级node
