@@ -3,11 +3,15 @@
   font-size: 24px;
 }
 
+.DigestObject.ant-list-item-action {
+  flex-wrap: nowrap;
+}
+
 .DigestObject .ant-list-item-content {
   flex-wrap: wrap;
 }
 .DigestObject .ant-list-item-action {
-  margin: 0 0 0 16px;
+  margin: 0 0 0 8px;
   flex: 0 0 40px;
 }
 .DigestObject .ant-list-item-action > li {
