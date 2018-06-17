@@ -136,3 +136,11 @@ plan.local(['link-nginx'], (local) => {
   local.exec(`ln -sf ${confAbsolutePath} /usr/local/etc/nginx/servers/`);
   local.exec(`nginx -s reload`);
 });
+
+plan.local(['link-nginx-ubuntu'], (local) => {
+  const confAbsolutePath = path.resolve(
+    '../diary-front/nginx-config/diary.local.conf'
+  );
+  local.exec(`ln -sf ${confAbsolutePath} /etc/nginx/sites-enabled/`);
+  local.exec(`nginx -s reload`);
+});
