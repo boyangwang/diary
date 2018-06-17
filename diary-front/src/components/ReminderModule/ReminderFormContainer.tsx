@@ -149,6 +149,7 @@ class ReminderFormContainer extends React.Component<
                             'Invalid. Since cycleTime should be YYYY-DD-MM'
                           );
                         }
+                        break;
                       default:
                     }
                     callback();

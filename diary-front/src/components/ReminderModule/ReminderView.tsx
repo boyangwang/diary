@@ -34,9 +34,9 @@ class ReminderView extends React.Component<ReduxProps, State> {
       <div className="RemindersContainer">
         <ReminderListContainer
           reminders={sinceReminders.sort((a, b) => {
-            return a.title.localeCompare(b.title);
+            return -1 * a.cycleTime.localeCompare(b.cycleTime);
           })}
-          headerText="Since Reminders - sorted by title"
+          headerText="Since Reminders - sorted by first day"
         />
         <ReminderListContainer
           reminders={nonSinceReminders.sort((a, b) => {

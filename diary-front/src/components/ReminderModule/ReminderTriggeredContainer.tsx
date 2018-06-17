@@ -47,13 +47,13 @@ class ReminderTriggeredContainer extends React.Component<ReduxProps, State> {
 
   public filterTriggeredReminders(reminders: Reminder[]) {
     const today = moment();
+    const todayAndNextTwoDays = [
+      util.getDateStringWithOffset().substring(5),
+      util.getDateStringWithOffset(1).substring(5),
+      util.getDateStringWithOffset(2).substring(5),
+    ];
     return reminders.filter((reminder) => {
       if (reminder.cycleType === 'year') {
-        const todayAndNextTwoDays = [
-          util.getDateStringWithOffset().substring(5),
-          util.getDateStringWithOffset(1).substring(5),
-          util.getDateStringWithOffset(2).substring(5),
-        ];
         return todayAndNextTwoDays.includes(reminder.cycleTime);
       } else if (reminder.cycleType === 'month') {
         return (
@@ -63,7 +63,7 @@ class ReminderTriggeredContainer extends React.Component<ReduxProps, State> {
       } else if (reminder.cycleType === 'week') {
         return today.format('E') === reminder.cycleTime;
       } else if (reminder.cycleType === 'since') {
-        return false;
+        return (util.getDateStringWithOffset().substring(5) === reminder.cycleTime.substring(5)) || moment().diff(reminder.cycleTime, 'days') % 100 === 0;
       } else {
         mylog('Corrupted reminder - cycleType invalid');
       }
@@ -80,7 +80,7 @@ class ReminderTriggeredContainer extends React.Component<ReduxProps, State> {
     return (
       <div className="ReminderTriggeredContainer">
         {triggeredReminders.map((reminder) => (
-          <ReminderMiniObject reminder={reminder} />
+          <ReminderMiniObject reminder={reminder} key={reminder._id} />
         ))}
       </div>
     );
