@@ -130,7 +130,7 @@ plan.local(
       // local.exec(`yarn run build`);
       local.exec(`chmod -R 755 ./build`);
       local.exec(
-        `scp -r ./build/* root@playground.wangboyang.com:${projectsDir}/diary-front-build/`
+        `scp -r -v ./build/* root@playground.wangboyang.com:${projectsDir}/diary-front-build/`
       );
     });
   }
