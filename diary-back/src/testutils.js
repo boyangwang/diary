@@ -71,7 +71,7 @@ module.exports = {
   getMyCookiesString: (setCookieStr) => {
     let match = /(dairy=[^;]*;)/.exec(setCookieStr);
     const cookie1 = match[1];
-    match = /(dairy.sig=[^;]*;)/.exec(setCookieStr);
+    match = /(dairy.sig=[^;]*)/.exec(setCookieStr);
     const cookie2 = match[1];
     return cookie1 + ' ' + cookie2;
   },

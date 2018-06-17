@@ -4,7 +4,7 @@ module.exports = {
   users: secrets.users,
   port: 14464,
   dbName: 'diary',
-  keys: ['diary'],
+  keys: secrets.keys,
   useAuth: true,
   sessionConfig: {
     key:
