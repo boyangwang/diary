@@ -50,6 +50,7 @@ Example for an `{reminder}` object that will be used in the following
   "cycleTime": "01-01", // 12-31
   // "month": "month_1" "month_30" "month_31" "month_-1"
   // "week": "week_1" "week_7"
+  // "since": YYYY-MM-DD
 }
 ```
 
