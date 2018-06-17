@@ -1,12 +1,11 @@
 {
   "name": "diary-front",
-  "version": "1.4.25",
+  "version": "1.4.26",
   "private": true,
   "author": "Boyang <wangboyang1991@gmail.com>",
   "scripts": {
     "start": "node scripts/start.js",
-    "pretty":
-      "prettier --write --trailing-comma es5 --single-quote --arrow-parens always \"{src/**/*.{js,ts,tsx},*.json}\" && tslint --project . --fix",
+    "pretty": "prettier --write --trailing-comma es5 --single-quote --arrow-parens always \"{src/**/*.{js,ts,tsx},*.json}\" && tslint --project . --fix",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom",
     "tslint-check": "tslint-config-prettier-check ./tslint.json",
@@ -88,8 +87,12 @@
     "tslint-react": "^3.5.1"
   },
   "jest": {
-    "collectCoverageFrom": ["src/**/*.{js,jsx,ts,tsx}"],
-    "setupFiles": ["<rootDir>/config/polyfills.js"],
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx,ts,tsx}"
+    ],
+    "setupFiles": [
+      "<rootDir>/config/polyfills.js"
+    ],
     "testMatch": [
       "<rootDir>/src/**/__tests__/**/*.(j|t)s?(x)",
       "<rootDir>/src/**/?(*.)(spec|test).(j|t)s?(x)"
@@ -100,8 +103,7 @@
       "^.+\\.(js|jsx|mjs)$": "<rootDir>/node_modules/babel-jest",
       "^.+\\.tsx?$": "<rootDir>/config/jest/typescriptTransform.js",
       "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
-      "^(?!.*\\.(js|jsx|mjs|css|json)$)":
-        "<rootDir>/config/jest/fileTransform.js"
+      "^(?!.*\\.(js|jsx|mjs|css|json)$)": "<rootDir>/config/jest/fileTransform.js"
     },
     "transformIgnorePatterns": [
       "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs|ts|tsx)$"
@@ -124,13 +126,14 @@
     ],
     "globals": {
       "ts-jest": {
-        "tsConfigFile":
-          "/Users/junlin/Projects/diary/diary-front/tsconfig.test.json"
+        "tsConfigFile": "/Users/junlin/Projects/diary/diary-front/tsconfig.test.json"
       }
     }
   },
   "babel": {
-    "presets": ["react-app"]
+    "presets": [
+      "react-app"
+    ]
   },
   "eslintConfig": {
     "extends": "react-app"
