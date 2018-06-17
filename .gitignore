@@ -1,6 +1,9 @@
 # dependencies
 /node_modules
 
+# mongodb
+/diary-data
+
 # misc
 .DS_Store
 .env.local
