@@ -52,7 +52,7 @@ plan.remote(['mkdir and download zip', 'deploy-all'], (remote) => {
   );
 });
 
-plan.local(['run-mongod'], (local) => {
+plan.local(['run-mongod-local'], (local) => {
   local.exec(`mkdir -p ~/Projects/diary/diary-data/mongo/data`);
   local.exec(
   `mongod --fork --bind_ip 127.0.0.1 --dbpath ~/Projects/diary/diary-data/mongo/data --logpath ~/Projects/diary/diary-data/mongod.log`);
