@@ -3,8 +3,8 @@
   font-size: 24px;
 }
 
-.DigestObject.ant-list-item-action {
-  flex-wrap: nowrap;
+.DigestObject.ant-list-item {
+  flex-wrap: nowrap !important;
 }
 
 .DigestObject .ant-list-item-content {
