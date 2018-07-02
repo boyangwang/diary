@@ -306,3 +306,7 @@ componentdidmount 又帮上忙了, 读文档还是有用
 Note: Headers.getAll used to have this functionality, with Headers.get returning only the first value added to the Headers object. The latest spec has removed getAll(), and updated get() to return all values.
 
 就知道！koa还在用旧的
+
+## nginx certbot renew. 说找不到server block
+
+实际需要加上default_server和server_name, 可能共同生效
