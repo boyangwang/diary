@@ -9,7 +9,7 @@ if (!process.env.FLIGHTPLAN_KEY_PATH) {
 }
 
 plan.target('staging', {
-  host: 'playground.wangboyang.com',
+  host: 'deardiary.network',
   port: 22,
   username: 'root',
   privateKey: process.env.FLIGHTPLAN_KEY_PATH,
@@ -28,14 +28,14 @@ plan.remote(['mongodump'], (remote) => {
 
 plan.local(['mongorestore'], (local) => {
   local.exec(
-    `scp -r root@playground.wangboyang.com:${projectsDir}/mongodump/ ./mongo/`
+    `scp -r root@deardiary.network:${projectsDir}/mongodump/ ./mongo/`
   );
   local.exec(`mongorestore ./mongo/mongodump/`);
 });
 
 plan.local(['mongorestore-from-local-backup-to-remote-1'], (local) => {
   local.exec(
-    `scp -r ./mongo/mongodump root@playground.wangboyang.com:${projectsDir}/`
+    `scp -r ./mongo/mongodump root@deardiary.network:${projectsDir}/`
   );
 });
 
@@ -99,7 +99,7 @@ plan.remote(
 
 plan.local(['copy-secrets', 'deploy-all'], (local) => {
   local.exec(
-    `scp ../secrets.js root@playground.wangboyang.com:${projectsDir}/diary-master/`
+    `scp ../secrets.js root@deardiary.network:${projectsDir}/diary-master/`
   );
   local.exec('echo DONE copy-secrets `pwd`');
 });
@@ -130,7 +130,7 @@ plan.local(
       // local.exec(`yarn run build`);
       local.exec(`chmod -R 755 ./build`);
       local.exec(
-        `scp -r -v ./build/* root@playground.wangboyang.com:${projectsDir}/diary-front-build/`
+        `scp -r -v ./build/* root@deardiary.network:${projectsDir}/diary-front-build/`
       );
     });
   }
