@@ -38,10 +38,10 @@
     "passport-local": "^1.0.0",
     "prettier": "^1.11.1",
     "rc-animate": "^2.4.4",
-    "server-destroy": "^1.0.1"
+    "server-destroy": "^1.0.1",
+    "pm2": "^2.10.1"
   },
   "devDependencies": {
-    "flightplan": "^0.6.17",
-    "pm2": "^2.10.1"
+    "flightplan": "^0.6.17"
   }
 }
