@@ -34,9 +34,7 @@ plan.local(['mongorestore'], (local) => {
 });
 
 plan.local(['mongorestore-from-local-backup-to-remote-1'], (local) => {
-  local.exec(
-    `scp -r ./mongo/mongodump root@deardiary.network:${projectsDir}/`
-  );
+  local.exec(`scp -r ./mongo/mongodump root@deardiary.network:${projectsDir}/`);
 });
 
 plan.remote(['mongorestore-from-local-backup-to-remote-2'], (remote) => {
