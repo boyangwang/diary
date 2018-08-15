@@ -1,6 +1,6 @@
 {
   "name": "diary-back",
-  "version": "1.4.29",
+  "version": "1.4.30",
   "private": true,
   "author": "Boyang <wangboyang1991@gmail.com>",
   "scripts": {
@@ -36,10 +36,10 @@
     "omit.js": "^1.0.0",
     "passport-github": "^1.1.0",
     "passport-local": "^1.0.0",
+    "pm2": "^2.10.1",
     "prettier": "^1.11.1",
     "rc-animate": "^2.4.4",
-    "server-destroy": "^1.0.1",
-    "pm2": "^2.10.1"
+    "server-destroy": "^1.0.1"
   },
   "devDependencies": {
     "flightplan": "^0.6.17"
