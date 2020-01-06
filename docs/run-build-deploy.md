@@ -1,5 +1,12 @@
 # run-build-deploy
 
+## 2019-Jan-06 Update Forensics on Aliyun ECS
+```bash
+export projectsDir=/var/www/diary_project; mongod --bind_ip 127.0.0.1 --fork --dbpath ${projectsDir}/diary-data/mongo/data --logpath ${projectsDir}/diary-data/mongod.log
+
+./node_modules/.bin/pm2 start ./src/server.js --name diary-back --interpreter=$(which node)
+```
+
 ## Run and devleop
 
 ### Windows
