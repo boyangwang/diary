@@ -2,7 +2,7 @@ import { FormComponentProps } from 'antd/lib/form/Form';
 import * as _ from 'lodash';
 import * as moment from 'moment';
 import React from 'react';
-import { connect } from 'umi';
+import { connect } from 'react-redux';
 
 import {
   AutoComplete,

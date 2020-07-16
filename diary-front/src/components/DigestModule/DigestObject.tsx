@@ -3,7 +3,7 @@ import React from 'react';
 import { Alert, Button, Col, List, message, Modal, Row } from 'antd';
 import { Link } from 'react-router-dom';
 
-import { connect } from 'umi';
+import { connect } from 'react-redux';
 import { ReduxState, User } from 'reducers';
 import { dispatch } from 'reducers/store';
 import api, {
@@ -15,8 +15,8 @@ import api, {
 
 import DigestEditorObject, {
   htmlToDraft,
-} from '@/pages/Lanting/DigestEditorObject';
-import DigestFormContainer from '@/pages/Lanting/DigestFormContainer';
+} from 'components/DigestModule/DigestEditorObject';
+import DigestFormContainer from 'components/DigestModule/DigestFormContainer';
 import DigestTagsObject from './DigestTagsObject';
 
 import './DigestObject.css';

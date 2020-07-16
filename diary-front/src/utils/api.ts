@@ -66,7 +66,7 @@ export class ApiTestResponse {
 }
 const apiTest = () => {
   return fetch(PREFIX + apis.apiTest, {
-    credentials: 'include',
+    credentials: 'same-origin',
   });
 };
 class ErrReportParams {
@@ -102,7 +102,7 @@ const login = (params: LoginParams) => {
     headers: {
       'Content-Type': 'application/json',
     },
-    credentials: 'include',
+    credentials: 'same-origin',
     body: JSON.stringify(params),
   });
 };
@@ -112,7 +112,7 @@ const logout = () => {
     headers: {
       'Content-Type': 'application/json',
     },
-    credentials: 'include',
+    credentials: 'same-origin',
   });
 };
 
@@ -149,7 +149,7 @@ const getHistoricalStreaks = (
 ) => {
   const url = appendQuery(PREFIX + apis.getHistoricalStreaks, params, options);
   return fetch(url, {
-    credentials: 'include',
+    credentials: 'same-origin',
   });
 };
 class GetStreaksParams {
@@ -165,7 +165,7 @@ const getStreaks = (
 ) => {
   const url = appendQuery(PREFIX + apis.getStreaks, params, options);
   return fetch(url, {
-    credentials: 'include',
+    credentials: 'same-origin',
   });
 };
 class GetCategoryFrequencyMapParams {
@@ -184,7 +184,7 @@ const getCategoryFrequencyMap = (
     options
   );
   return fetch(url, {
-    credentials: 'include',
+    credentials: 'same-origin',
   });
 };
 class GetEntriesParams {
@@ -200,7 +200,7 @@ const getEntries = (
 ) => {
   const url = appendQuery(PREFIX + apis.getEntries, params, options);
   return fetch(url, {
-    credentials: 'include',
+    credentials: 'same-origin',
   });
 };
 class PostEntryParams {
@@ -223,7 +223,7 @@ const postEntry = (params: PostEntryParams) => {
     headers: {
       'Content-Type': 'application/json',
     },
-    credentials: 'include',
+    credentials: 'same-origin',
     body: JSON.stringify(params),
   });
 };
@@ -244,7 +244,7 @@ const deleteEntry = (params: DeleteEntryParams) => {
     headers: {
       'Content-Type': 'application/json',
     },
-    credentials: 'include',
+    credentials: 'same-origin',
     body: JSON.stringify(params),
   });
 };
@@ -271,13 +271,13 @@ export class GetTodosResponse {
 const getTodos = (params: GetTodosParams) => {
   const url = appendQuery(PREFIX + apis.getTodos, params);
   return fetch(url, {
-    credentials: 'include',
+    credentials: 'same-origin',
   });
 };
 const getTodo = (params: GetTodoParams) => {
   const url = appendQuery(PREFIX + apis.getTodo, params);
   return fetch(url, {
-    credentials: 'include',
+    credentials: 'same-origin',
   });
 };
 class PostTodosParams {
@@ -300,7 +300,7 @@ const postTodo = (params: PostTodosParams) => {
     headers: {
       'Content-Type': 'application/json',
     },
-    credentials: 'include',
+    credentials: 'same-origin',
     body: JSON.stringify(params),
   });
 };
@@ -321,7 +321,7 @@ const deleteTodo = (params: DeleteTodoParams) => {
     headers: {
       'Content-Type': 'application/json',
     },
-    credentials: 'include',
+    credentials: 'same-origin',
     body: JSON.stringify(params),
   });
 };
@@ -347,13 +347,13 @@ export class GetRemindersResponse {
 const getReminders = (params: GetRemindersParams) => {
   const url = appendQuery(PREFIX + apis.getReminders, params);
   return fetch(url, {
-    credentials: 'include',
+    credentials: 'same-origin',
   });
 };
 const getReminder = (params: GetReminderParams) => {
   const url = appendQuery(PREFIX + apis.getReminder, params);
   return fetch(url, {
-    credentials: 'include',
+    credentials: 'same-origin',
   });
 };
 class PostReminderParams {
@@ -376,7 +376,7 @@ const postReminder = (params: PostReminderParams) => {
     headers: {
       'Content-Type': 'application/json',
     },
-    credentials: 'include',
+    credentials: 'same-origin',
     body: JSON.stringify(params),
   });
 };
@@ -397,7 +397,7 @@ const deleteReminder = (params: DeleteReminderParams) => {
     headers: {
       'Content-Type': 'application/json',
     },
-    credentials: 'include',
+    credentials: 'same-origin',
     body: JSON.stringify(params),
   });
 };
@@ -423,13 +423,13 @@ export class GetDigestsResponse {
 const getDigest = (params: GetDigestParams) => {
   const url = appendQuery(PREFIX + apis.getDigest, params);
   return fetch(url, {
-    credentials: 'include',
+    credentials: 'same-origin',
   });
 };
 const getDigests = (params: GetDigestsParams) => {
   const url = appendQuery(PREFIX + apis.getDigests, params);
   return fetch(url, {
-    credentials: 'include',
+    credentials: 'same-origin',
   });
 };
 class PostDigestParams {
@@ -452,7 +452,7 @@ const postDigest = (params: PostDigestParams) => {
     headers: {
       'Content-Type': 'application/json',
     },
-    credentials: 'include',
+    credentials: 'same-origin',
     body: JSON.stringify(params),
   });
 };
@@ -473,7 +473,7 @@ const deleteDigest = (params: DeleteDigestParams) => {
     headers: {
       'Content-Type': 'application/json',
     },
-    credentials: 'include',
+    credentials: 'same-origin',
     body: JSON.stringify(params),
   });
 };
@@ -481,7 +481,7 @@ const deleteDigest = (params: DeleteDigestParams) => {
 const uploadImage = (params: FormData, owner: string) => {
   return fetch(PREFIX + apis.uploadImage + '?owner=' + owner, {
     method: 'POST',
-    credentials: 'include',
+    credentials: 'same-origin',
     body: params,
   });
 };

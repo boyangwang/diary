@@ -61,9 +61,6 @@ const main = async (opt = {}) => {
     })
   );
   app.use(koaBody());
-  app.use(cors({
-    credentials: true,
-  }));
   app.use(session(mergedConfig.sessionConfig, app));
   app.use(passport.initialize());
   auth.init();

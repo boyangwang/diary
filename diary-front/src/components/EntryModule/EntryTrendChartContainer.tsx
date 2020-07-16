@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'umi';
+import { connect } from 'react-redux';
 
 import { message, Row } from 'antd';
 import {

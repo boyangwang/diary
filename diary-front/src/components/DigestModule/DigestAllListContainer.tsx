@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'umi';
+import { connect } from 'react-redux';
 
 import { Card, Checkbox, Collapse, Input, List } from 'antd';
 
@@ -7,7 +7,7 @@ import { ReduxState } from 'reducers';
 import { Digest } from 'utils/api';
 import util from 'utils/util';
 
-import DigestObject from '@/pages/Lanting/DigestObject';
+import DigestObject from 'components/DigestModule/DigestObject';
 
 import './DigestAllListContainer.css';
 

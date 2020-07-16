@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'umi';
+import { connect } from 'react-redux';
 import { Redirect, Route, Switch, withRouter } from 'react-router-dom';
 
 import { Layout, message } from 'antd';
@@ -12,8 +12,8 @@ import util from 'utils/util';
 
 import DiaryHeaderContainer from 'components/DiaryHeaderContainer';
 import DiaryLoginView from 'components/DiaryLoginView';
-import DigestSingleView from '@/pages/Lanting/DigestSingleView';
-import DigestView from '@/pages/Lanting/DigestView';
+import DigestSingleView from 'components/DigestModule/DigestSingleView';
+import DigestView from 'components/DigestModule/DigestView';
 import EntryView from 'components/EntryModule/EntryView';
 import ReminderTriggeredContainer from 'components/ReminderModule/ReminderTriggeredContainer';
 import ReminderView from 'components/ReminderModule/ReminderView';

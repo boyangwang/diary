@@ -1,6 +1,6 @@
 import * as moment from 'moment';
 import React from 'react';
-import { connect } from 'umi';
+import { connect } from 'react-redux';
 
 import { Alert, Button, Checkbox, List, message, Modal } from 'antd';
 

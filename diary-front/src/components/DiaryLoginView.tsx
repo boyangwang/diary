@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'umi';
+import { connect } from 'react-redux';
 
 import { Button, Form, Icon, Input, message } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
