@@ -1,5 +1,19 @@
 # Product
 
+## lanting 兰亭需求
+
+### 导入现有兰亭
+
+parse成结构化数据
+lanting的CRUD (和digest合并?)
+存markdown渲染进表格算了? 还是写
+
+### 抓取兰亭原文 (evernote-clipper?)
+
+### 浏览搜索筛选过滤兰亭
+
+### 写一篇兰亭, 保存
+
 ## Modules
 
 - Entry (diary)
