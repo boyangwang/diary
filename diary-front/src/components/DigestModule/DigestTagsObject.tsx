@@ -1,6 +1,6 @@
 import { SelectValue } from 'antd/lib/select';
 import React from 'react';
-import { connect } from 'react-redux';
+import { connect } from 'umi';
 
 import { Icon, Input, Select, Tooltip } from 'antd';
 

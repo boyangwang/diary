@@ -33,7 +33,7 @@ We all hate this, but...
 
 ```jsx
 import React from 'react';
-import { connect } from 'react-redux';
+import { connect } from 'umi';
 import { Icon } from 'antd';
 
 import { ReduxState, User } from 'reducers';
@@ -73,7 +73,7 @@ export default connect<ReduxProps, {}, Props>((state: ReduxState) => {
 
 ```jsx
 import React from 'react';
-import { connect } from 'react-redux';
+import { connect } from 'umi';
 
 import { ReduxState } from 'reducers';
 import { dispatch } from 'reducers/store';

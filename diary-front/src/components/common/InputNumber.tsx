@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import React from 'react';
-import { connect } from 'react-redux';
+import { connect } from 'umi';
 
 import { Button, Form, Input } from 'antd';
 

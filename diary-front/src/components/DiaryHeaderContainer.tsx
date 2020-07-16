@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { connect } from 'umi';
 import { Link, NavLink, withRouter } from 'react-router-dom';
 
 import { Button, Dropdown, Icon, Layout, Menu } from 'antd';

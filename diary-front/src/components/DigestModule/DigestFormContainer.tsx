@@ -3,7 +3,7 @@ import { EditorState } from 'draft-js';
 import * as _ from 'lodash';
 import * as moment from 'moment';
 import React from 'react';
-import { connect } from 'react-redux';
+import { connect } from 'umi';
 
 import { Button, Card, DatePicker, Form, Icon, Input, message } from 'antd';
 
@@ -16,8 +16,8 @@ import DigestEditorObject, {
   draftToHtml,
   EmptyState,
   htmlToDraft,
-} from 'components/DigestModule/DigestEditorObject';
-import DigestTagsObject from 'components/DigestModule/DigestTagsObject';
+} from '@/pages/Lanting/DigestEditorObject';
+import DigestTagsObject from '@/pages/Lanting/DigestTagsObject';
 
 class Props {
   public digest?: Digest;

@@ -1,6 +1,6 @@
 import classnames from 'classnames';
 import React from 'react';
-import { connect } from 'react-redux';
+import { connect } from 'umi';
 
 import { Badge, Button, Card, Icon, message } from 'antd';
 

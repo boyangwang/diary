@@ -1,6 +1,6 @@
 import * as moment from 'moment';
 import React from 'react';
-import { connect } from 'react-redux';
+import { connect } from 'umi';
 
 import { Button, Col, message, Row } from 'antd';
 import Clock from 'react-live-clock';

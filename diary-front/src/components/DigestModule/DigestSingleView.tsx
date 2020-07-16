@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { connect } from 'umi';
 
 import { Button, Checkbox, Collapse, List, Row } from 'antd';
 
@@ -13,10 +13,10 @@ import api, {
 } from 'utils/api';
 import util from 'utils/util';
 
-import DigestAllListContainer from 'components/DigestModule/DigestAllListContainer';
-import DigestFormContainer from 'components/DigestModule/DigestFormContainer';
-import DigestObject from 'components/DigestModule/DigestObject';
-import DigestSearchListContainer from 'components/DigestModule/DigestSearchListContainer';
+import DigestAllListContainer from '@/pages/Lanting/DigestAllListContainer';
+import DigestFormContainer from '@/pages/Lanting/DigestFormContainer';
+import DigestObject from '@/pages/Lanting/DigestObject';
+import DigestSearchListContainer from '@/pages/Lanting/DigestSearchListContainer';
 
 class Props extends CommonPageProps {}
 class State {}

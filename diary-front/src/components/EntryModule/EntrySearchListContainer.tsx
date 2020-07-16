@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { connect } from 'umi';
 
 import { Button, Card, Collapse, Input, List } from 'antd';
 import Highlighter from 'react-highlight-words';

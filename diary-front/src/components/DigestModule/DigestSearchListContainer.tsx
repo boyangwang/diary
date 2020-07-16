@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { connect } from 'umi';
 
 import { Button, Card, Collapse, Input, List } from 'antd';
 import Highlighter from 'react-highlight-words';
@@ -9,7 +9,7 @@ import { dispatch } from 'reducers/store';
 import { Digest } from 'utils/api';
 import util from 'utils/util';
 
-import DigestObject from 'components/DigestModule/DigestObject';
+import DigestObject from '@/pages/Lanting/DigestObject';
 
 import './DigestSearchListContainer.css';
 

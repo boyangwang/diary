@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { connect } from 'umi';
 
 import { Alert, Button, Checkbox, List, message, Modal } from 'antd';
 
