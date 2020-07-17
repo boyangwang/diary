@@ -1,0 +1,21 @@
+{
+  "umi_pro.autoGenerateSagaEffectsCommands": true,
+  "editor.detectIndentation": false,
+  "eslint.trace.server": "messages",
+  "eslint.packageManager": "yarn",
+  "editor.tabSize": 2,
+  "files.insertFinalNewline": true,
+  "cSpell.words": [
+    "dida",
+    "hosting",
+    "image",
+    "option",
+    "repos",
+    "ticktick",
+    "yuque"
+  ],
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  }
+}

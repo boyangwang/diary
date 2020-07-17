@@ -10,7 +10,7 @@ lanting的CRUD (和digest合并?)
 
 ### 抓取兰亭原文 (evernote-clipper?)
 
-### 浏览搜索筛选过滤兰亭
+### 浏览搜索筛选过滤兰亭 (readonly, 写死的sqlite就行吧? 不一定, 因为clip很大)
 
 ### 写一篇兰亭, 保存
 
