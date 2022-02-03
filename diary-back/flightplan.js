@@ -20,8 +20,9 @@ const config = {
       agent: process.env.SSH_AUTH_SOCK,
     },
     conf: {
-      projectDir: /*'/var/www/diary_project',*/ '/data/server-apps/diary_project',
-    }
+      projectDir:
+        /*'/var/www/diary_project',*/ '/data/server-apps/diary_project',
+    },
   },
 };
 
@@ -50,14 +51,20 @@ plan.remote(['mongodump', 'mongorestore'], (remote) => {
 
 plan.local(['mongorestore'], (local) => {
   local.exec(
-    `scp -r root@${config[plan.runtime.target].conn.host}:${config[plan.runtime.target].conf.projectDir}/mongodump/ ./mongo/`
+    `scp -r root@${config[plan.runtime.target].conn.host}:${
+      config[plan.runtime.target].conf.projectDir
+    }/mongodump/ ./mongo/`
   );
   local.exec(`yarn run-mongo`);
   local.exec(`mongorestore ./mongo/mongodump/`);
 });
 
 plan.local(['mongorestore-from-local-backup-to-remote-1'], (local) => {
-  local.exec(`scp -r ./mongo/mongodump root@deardiary.network:${config[plan.runtime.target].conf.projectDir}/`);
+  local.exec(
+    `scp -r ./mongo/mongodump root@deardiary.network:${
+      config[plan.runtime.target].conf.projectDir
+    }/`
+  );
 });
 
 plan.remote(['mongorestore-from-local-backup-to-remote-2'], (remote) => {
@@ -67,26 +74,41 @@ plan.remote(['mongorestore-from-local-backup-to-remote-2'], (remote) => {
 });
 
 plan.remote(['mkdir and download zip', 'deploy-all'], (remote) => {
-  remote.exec(`mkdir ${config[plan.runtime.target].conf.projectDir}`, { failsafe: true });
+  remote.exec(`mkdir ${config[plan.runtime.target].conf.projectDir}`, {
+    failsafe: true,
+  });
   remote.exec(
-    `cd ${config[plan.runtime.target].conf.projectDir} && wget https://github.com/boyangwang/diary/archive/master.zip -O master.zip`
+    `cd ${
+      config[plan.runtime.target].conf.projectDir
+    } && wget https://github.com/boyangwang/diary/archive/master.zip -O master.zip`
   );
 });
 
 plan.remote(['run-mongod', 'deploy-all'], (remote) => {
   // run mongod if not running
-  remote.exec(`mkdir -p ${config[plan.runtime.target].conf.projectDir}/diary-data/mongo/data`, {
-    failsafe: true,
-  });
   remote.exec(
-    `mongod --bind_ip 127.0.0.1 --fork --dbpath ${config[plan.runtime.target].conf.projectDir}/diary-data/mongo/data --logpath ${config[plan.runtime.target].conf.projectDir}/diary-data/mongod.log`,
+    `mkdir -p ${
+      config[plan.runtime.target].conf.projectDir
+    }/diary-data/mongo/data`,
+    {
+      failsafe: true,
+    }
+  );
+  remote.exec(
+    `mongod --bind_ip 127.0.0.1 --fork --dbpath ${
+      config[plan.runtime.target].conf.projectDir
+    }/diary-data/mongo/data --logpath ${
+      config[plan.runtime.target].conf.projectDir
+    }/diary-data/mongod.log`,
     { failsafe: true }
   );
 });
 
 plan.remote(['stop-backend', 'deploy-all'], (remote) => {
   remote.exec(
-    `cd ${config[plan.runtime.target].conf.projectDir}/diary-master/diary-back && ./node_modules/.bin/pm2 stop diary-back`,
+    `cd ${
+      config[plan.runtime.target].conf.projectDir
+    }/diary-master/diary-back && ./node_modules/.bin/pm2 stop diary-back`,
     { failsafe: true }
   );
 });
@@ -113,7 +135,9 @@ plan.remote(
 
 plan.local(['copy-secrets', 'deploy-all'], (local) => {
   local.exec(
-    `scp ../secrets.js root@deardiary.network:${config[plan.runtime.target].conf.projectDir}/diary-master/`
+    `scp ../secrets.js root@deardiary.network:${
+      config[plan.runtime.target].conf.projectDir
+    }/diary-master/`
   );
   local.exec('echo DONE copy-secrets `pwd`');
 });
@@ -126,7 +150,9 @@ plan.remote(['frontend-preparation', 'deploy-all'], (remote) => {
     });
     remote.exec(`chmod -R 755 ./diary-front-build`);
     remote.exec(
-      `ln -sf ${config[plan.runtime.target].conf.projectDir}/diary-master/diary-front/nginx-config/diary-https.conf /etc/nginx/sites-enabled/`
+      `ln -sf ${
+        config[plan.runtime.target].conf.projectDir
+      }/diary-master/diary-front/nginx-config/diary-https.conf /etc/nginx/sites-enabled/`
     );
     remote.exec(`nginx -s reload`);
   });
@@ -144,7 +170,9 @@ plan.local(
       // local.exec(`yarn run build`);
       local.exec(`chmod -R 755 ./build`);
       local.exec(
-        `scp -r -v ./build/* root@deardiary.network:${config[plan.runtime.target].conf.projectDir}/diary-front-build/`
+        `scp -r -v ./build/* root@deardiary.network:${
+          config[plan.runtime.target].conf.projectDir
+        }/diary-front-build/`
       );
     });
   }
