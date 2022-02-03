@@ -323,3 +323,7 @@ Note: Headers.getAll used to have this functionality, with Headers.get returning
 看了node-gyp是啥, 其他不通的案例
 看了看flightplan这个项目dead的说明
 最后灵机一动, 删掉node_modules里面的fibers, 重新install, 好了
+
+## 4.4版本的mongo不能启动4.0版本的db
+
+重新restore一下好了
