@@ -310,3 +310,9 @@ Note: Headers.getAll used to have this functionality, with Headers.get returning
 ## nginx certbot renew. 说找不到server block
 
 实际需要加上default_server和server_name, 可能共同生效
+
+## json套引号
+看看下面
+"mongod --fork --dbpath ./mongo/data/db --logpath ./mongo/log && jest --forceExit --runInBand && (mongo --eval 'db.getSiblingDB('admin').shutdownServer()' || true)"
+
+是啥问题? 单引号没套对. json里面搞对引号嵌套不是人类该干的工作
