@@ -316,3 +316,10 @@ Note: Headers.getAll used to have this functionality, with Headers.get returning
 "mongod --fork --dbpath ./mongo/data/db --logpath ./mongo/log && jest --forceExit --runInBand && (mongo --eval 'db.getSiblingDB('admin').shutdownServer()' || true)"
 
 是啥问题? 单引号没套对. json里面搞对引号嵌套不是人类该干的工作
+
+## 部署 / mongo操作 - flightplan - node-fibers - node-gyp
+
+太搞笑了, 又down the rabbit hole了. 一个一个rpg 任务. come on只是想在服务器上跑俩命令而已
+看了node-gyp是啥, 其他不通的案例
+看了看flightplan这个项目dead的说明
+最后灵机一动, 删掉node_modules里面的fibers, 重新install, 好了
