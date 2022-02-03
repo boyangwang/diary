@@ -60,7 +60,9 @@ const main = async (opt = {}) => {
       console.mylog(...args);
     })
   );
-  app.use(koaBody());
+  app.use(koaBody({
+      enableTypes: ['json', 'form', 'text']
+  }));
   app.use(cors({
     credentials: true,
   }));
