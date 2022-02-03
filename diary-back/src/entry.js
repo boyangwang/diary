@@ -187,11 +187,13 @@ module.exports = {
 
     let ownerEntryCollection = db.collection(`entry_${owner}`);
     const dates = date.split(',');
-    let results = await (await ownerEntryCollection.find({
-      $or: dates.map((date) => {
-        return { date };
-      }),
-    })).toArray();
+    let results = await (
+      await ownerEntryCollection.find({
+        $or: dates.map((date) => {
+          return { date };
+        }),
+      })
+    ).toArray();
     ctx.response.body = { data: results };
   },
   /**

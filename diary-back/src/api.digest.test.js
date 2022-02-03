@@ -76,9 +76,7 @@ describe('api', async () => {
       expectJson: { data: [digest] },
     });
     await expectFetchUrlStatusCodeAndJson({
-      url: `http://localhost:${config.port}/api/getDigest?owner=testOwner&_id=${
-        digest._id
-      }`,
+      url: `http://localhost:${config.port}/api/getDigest?owner=testOwner&_id=${digest._id}`,
       expectStatusCode: 200,
       expectJson: { data: [digest] },
     });
@@ -112,12 +110,14 @@ describe('api', async () => {
 
   test('/api/postDigest adds an digest', async () => {
     const digest = getTestObj({ _id: undefined });
-    let body = (await expectFetchUrlStatusCodeAndJson({
-      url: `http://localhost:${config.port}/api/postDigest`,
-      method: 'POST',
-      postBody: { data: { digest, owner: 'testOwner' } },
-      expectStatusCode: 200,
-    })).body;
+    let body = (
+      await expectFetchUrlStatusCodeAndJson({
+        url: `http://localhost:${config.port}/api/postDigest`,
+        method: 'POST',
+        postBody: { data: { digest, owner: 'testOwner' } },
+        expectStatusCode: 200,
+      })
+    ).body;
     /**
      * we don't know _id beforehand, so not asserting res
      * format: 

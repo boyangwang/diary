@@ -4,7 +4,8 @@
   "private": true,
   "author": "Boyang <wangboyang1991@gmail.com>",
   "scripts": {
-    "start": "REACT_APP_PROTOCOL=http REACT_APP_DOMAIN=local.deardiary.network REACT_APP_PORT=14464 node scripts/start.js",
+    "start":
+      "REACT_APP_PROTOCOL=http REACT_APP_DOMAIN=local.deardiary.network REACT_APP_PORT=14464 node scripts/start.js",
     "pretty":
       "prettier --write --trailing-comma es5 --single-quote --arrow-parens always \"{src/**/*.{js,ts,tsx},*.json}\" && tslint --project . --fix",
     "build": "node scripts/build.js",

@@ -60,12 +60,16 @@ const main = async (opt = {}) => {
       console.mylog(...args);
     })
   );
-  app.use(koaBody({
-      enableTypes: ['json', 'form', 'text']
-  }));
-  app.use(cors({
-    credentials: true,
-  }));
+  app.use(
+    koaBody({
+      enableTypes: ['json', 'form', 'text'],
+    })
+  );
+  app.use(
+    cors({
+      credentials: true,
+    })
+  );
   app.use(session(mergedConfig.sessionConfig, app));
   app.use(passport.initialize());
   auth.init();

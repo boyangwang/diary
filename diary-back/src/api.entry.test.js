@@ -53,17 +53,13 @@ describe('api', async () => {
 
   test('/api/getEntries require date and owner params legal', async () => {
     await expectFetchUrlStatusCodeAndJson({
-      url: `http://localhost:${
-        config.port
-      }/api/getEntries?owner=_admin&date=1970-01-01`,
+      url: `http://localhost:${config.port}/api/getEntries?owner=_admin&date=1970-01-01`,
       expectStatusCode: 400,
       expectJson: { err: 'Illegal param' },
     });
 
     await expectFetchUrlStatusCodeAndJson({
-      url: `http://localhost:${
-        config.port
-      }/api/getEntries?owner=testOwner&date=1234`,
+      url: `http://localhost:${config.port}/api/getEntries?owner=testOwner&date=1234`,
       expectStatusCode: 400,
       expectJson: { err: 'Illegal param' },
     });
@@ -74,9 +70,7 @@ describe('api', async () => {
     let testOwnerEntryCollection = db.collection(`entry_testOwner`);
     await testOwnerEntryCollection.insertOne(transformIdToObjectId(entry));
     await expectFetchUrlStatusCodeAndJson({
-      url: `http://localhost:${config.port}/api/getEntries?date=${
-        entry.date
-      }&owner=testOwner`,
+      url: `http://localhost:${config.port}/api/getEntries?date=${entry.date}&owner=testOwner`,
       expectStatusCode: 200,
       expectJson: { data: [entry] },
     });
@@ -111,9 +105,7 @@ describe('api', async () => {
     ]);
 
     await expectFetchUrlStatusCodeAndJson({
-      url: `http://localhost:${
-        config.port
-      }/api/getCategoryFrequencyMap?owner=testOwner`,
+      url: `http://localhost:${config.port}/api/getCategoryFrequencyMap?owner=testOwner`,
       expectStatusCode: 200,
       expectJson: { data: { 'test title': 2, anotherTestTitle: 1 } },
     });
@@ -148,9 +140,7 @@ describe('api', async () => {
     ]);
 
     await expectFetchUrlStatusCodeAndJson({
-      url: `http://localhost:${
-        config.port
-      }/api/getStreaks?owner=testOwner&date=1970-01-04`,
+      url: `http://localhost:${config.port}/api/getStreaks?owner=testOwner&date=1970-01-04`,
       expectStatusCode: 200,
       expectJson: { data: { '1streak': 1, '3streak': 3 } },
     });
@@ -185,9 +175,7 @@ describe('api', async () => {
     ]);
 
     await expectFetchUrlStatusCodeAndJson({
-      url: `http://localhost:${
-        config.port
-      }/api/getHistoricalStreaks?owner=testOwner`,
+      url: `http://localhost:${config.port}/api/getHistoricalStreaks?owner=testOwner`,
       expectStatusCode: 200,
       expectJson: {
         data: {
@@ -236,12 +224,14 @@ describe('api', async () => {
 
   test('/api/postEntry adds an entry', async () => {
     let entry = getTestObj({ _id: undefined });
-    let body = (await expectFetchUrlStatusCodeAndJson({
-      url: `http://localhost:${config.port}/api/postEntry`,
-      method: 'POST',
-      postBody: { data: { entry, owner: 'testOwner' } },
-      expectStatusCode: 200,
-    })).body;
+    let body = (
+      await expectFetchUrlStatusCodeAndJson({
+        url: `http://localhost:${config.port}/api/postEntry`,
+        method: 'POST',
+        postBody: { data: { entry, owner: 'testOwner' } },
+        expectStatusCode: 200,
+      })
+    ).body;
     /**
      * we don't know _id beforehand, so not asserting res
      * format: 

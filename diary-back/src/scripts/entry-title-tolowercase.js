@@ -9,7 +9,10 @@ const mongoUrl = `mongodb://localhost:27017/diary`;
 
   let results = await (await ownerEntryCollection.find({})).toArray();
 
-  console.info('results', results.map((r) => r.title));
+  console.info(
+    'results',
+    results.map((r) => r.title)
+  );
 
   let res;
   results.forEach(async (doc) => {

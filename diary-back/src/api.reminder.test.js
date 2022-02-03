@@ -48,9 +48,7 @@ describe('api', async () => {
     });
 
     await expectFetchUrlStatusCodeAndJson({
-      url: `http://localhost:${
-        config.port
-      }/api/getReminder?owner=testOwner&_id=${reminder._id}`,
+      url: `http://localhost:${config.port}/api/getReminder?owner=testOwner&_id=${reminder._id}`,
       expectStatusCode: 200,
       expectJson: { data: [reminder] },
     });
@@ -58,12 +56,14 @@ describe('api', async () => {
 
   test('/api/postReminder adds an reminder', async () => {
     const reminder = getTestObj({ _id: undefined });
-    let body = (await expectFetchUrlStatusCodeAndJson({
-      url: `http://localhost:${config.port}/api/postReminder`,
-      method: 'POST',
-      postBody: { data: { reminder, owner: 'testOwner' } },
-      expectStatusCode: 200,
-    })).body;
+    let body = (
+      await expectFetchUrlStatusCodeAndJson({
+        url: `http://localhost:${config.port}/api/postReminder`,
+        method: 'POST',
+        postBody: { data: { reminder, owner: 'testOwner' } },
+        expectStatusCode: 200,
+      })
+    ).body;
 
     expectDbQueryResult({
       db,

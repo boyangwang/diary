@@ -70,9 +70,11 @@ module.exports = {
     }
     let ownerDigestCollection = db.collection(`digest_${owner}`);
     const processedId = _id.length === 24 ? ObjectId(_id) : _id;
-    let results = await (await ownerDigestCollection.find({
-      _id: processedId,
-    })).toArray();
+    let results = await (
+      await ownerDigestCollection.find({
+        _id: processedId,
+      })
+    ).toArray();
     ctx.response.body = { data: results };
   },
   /**
