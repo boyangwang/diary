@@ -4,7 +4,7 @@
   "private": true,
   "author": "Boyang <wangboyang1991@gmail.com>",
   "scripts": {
-    "test": "mongod --fork --dbpath ./mongo/data/db --logpath ./mongo/log && jest --forceExit --runInBand && mongo --eval 'db.getSiblingDB('admin').shutdownServer()'",
+    "test": "mongod --fork --dbpath ./mongo/data/db --logpath ./mongo/log && jest --forceExit --runInBand && (mongo --eval 'db.getSiblingDB('admin').shutdownServer()' || true)",
     "start": "node src/server.js",
     "deploy": "time ./src/scripts/deploy.sh",
     "flightplan": "export FLIGHTPLAN_KEY_PATH=~/.ssh/id_rsa && fly --flightplan ./flightplan.js",
