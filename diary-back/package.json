@@ -4,15 +4,19 @@
   "private": true,
   "author": "Boyang <wangboyang1991@gmail.com>",
   "scripts": {
-    "test": " (mongo --eval \"db.getSiblingDB('admin').shutdownServer()\" || true) && mongod --fork --dbpath ./mongo/data/db --logpath ./mongo/log && jest --forceExit --runInBand && (mongo --eval \"db.getSiblingDB('admin').shutdownServer()\" || true)",
+    "test": "yarn run-mongo && jest --forceExit --runInBand && yarn stop-mongo-safe",
     "start": "node src/server.js",
     "deploy": "time ./src/scripts/deploy.sh",
     "flightplan": "export FLIGHTPLAN_KEY_PATH=~/.ssh/id_rsa && fly --flightplan ./flightplan.js",
-    "mongodump-restore": "export FLIGHTPLAN_KEY_PATH=~/.ssh/id_rsa && fly --flightplan ./flightplan.js mongodump:staging && fly --flightplan ./flightplan.js mongorestore:localhost",
+
+    "mongodump-restore": "export FLIGHTPLAN_KEY_PATH=~/.ssh/id_rsa && fly --flightplan ./flightplan.js mongodump:staging && fly --flightplan ./flightplan.js mongorestore:staging",
     "mongodump-restore-remote": "export FLIGHTPLAN_KEY_PATH=~/.ssh/id_rsa && fly --flightplan ./flightplan.js mongorestore-from-local-backup-to-remote-1:localhost && fly --flightplan ./flightplan.js mongorestore-from-local-backup-to-remote-2:staging",
+
     "pretty": "prettier --write --trailing-comma es5 --single-quote --arrow-parens always \"src/**/*.js\" flightplan.js",
     "postinstall": "cd .. && yarn install",
-    "run-mongo": "mongod --dbpath ./mongo/data/db"
+    
+    "run-mongo": "yarn stop-mongo-safe && mongod --fork --dbpath ./mongo/data/db --logpath ./mongo/log",
+    "stop-mongo-safe": "mongo --eval \"db.getSiblingDB('admin').shutdownServer()\" || true"
   },
   "main": "src/server.js",
   "dependencies": {
