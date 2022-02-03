@@ -4,14 +4,15 @@
   "private": true,
   "author": "Boyang <wangboyang1991@gmail.com>",
   "scripts": {
-    "test": "jest --forceExit --runInBand",
+    "test": "mongod --fork --dbpath ./mongo/data/db --logpath ./mongo/log && jest --forceExit --runInBand && mongo --eval 'db.getSiblingDB('admin').shutdownServer()'",
     "start": "node src/server.js",
     "deploy": "time ./src/scripts/deploy.sh",
     "flightplan": "export FLIGHTPLAN_KEY_PATH=~/.ssh/id_rsa && fly --flightplan ./flightplan.js",
     "mongodump-restore": "export FLIGHTPLAN_KEY_PATH=~/.ssh/id_rsa && fly --flightplan ./flightplan.js mongodump:staging && fly --flightplan ./flightplan.js mongorestore:localhost",
     "mongodump-restore-remote": "export FLIGHTPLAN_KEY_PATH=~/.ssh/id_rsa && fly --flightplan ./flightplan.js mongorestore-from-local-backup-to-remote-1:localhost && fly --flightplan ./flightplan.js mongorestore-from-local-backup-to-remote-2:staging",
     "pretty": "prettier --write --trailing-comma es5 --single-quote --arrow-parens always \"src/**/*.js\" flightplan.js",
-    "postinstall": "cd .. && yarn install"
+    "postinstall": "cd .. && yarn install",
+    "run-mongo": "mongod --dbpath ./mongo/data/db"
   },
   "main": "src/server.js",
   "dependencies": {
