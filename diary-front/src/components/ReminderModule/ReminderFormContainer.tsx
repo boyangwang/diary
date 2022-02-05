@@ -5,16 +5,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { Icon } from '@ant-design/compatible';
-import {
-  Button,
-  Card,
-  DatePicker,
-  Form,
-  Input,
-  InputNumber,
-  message,
-  Select,
-} from 'antd';
+import { Button, Card, DatePicker, Form, Input, InputNumber, message, Select } from 'antd';
 
 import { ReduxState, User } from 'reducers';
 import { dispatch } from 'reducers/store';
@@ -34,10 +25,7 @@ class PropsDefaults {
 class ReduxProps {
   public user: User | null;
 }
-class ReminderFormContainer extends React.Component<
-  Props & PropsDefaults & ReduxProps & FormComponentProps,
-  {}
-> {
+class ReminderFormContainer extends React.Component<Props & PropsDefaults & ReduxProps & FormComponentProps, {}> {
   public static defaultProps = new PropsDefaults();
 
   public handleSubmit = (e: any) => {
@@ -114,40 +102,26 @@ class ReminderFormContainer extends React.Component<
                 { required: true, message: 'cycleTime required' },
                 {
                   validator: (rule: any, value: any, callback: any) => {
-                    const cycleType = this.props.form.getFieldValue(
-                      'cycleType'
-                    );
+                    const cycleType = this.props.form.getFieldValue('cycleType');
                     switch (cycleType) {
                       case 'year':
-                        if (
-                          !/^(0[1-9]|1[0-2])-(0[1-9]|1[0-9]|2[0-9]|3[0-1])$/.test(
-                            value
-                          )
-                        ) {
-                          callback(
-                            'Invalid. Year cycleTime should be like 01-01 12-31'
-                          );
+                        if (!/^(0[1-9]|1[0-2])-(0[1-9]|1[0-9]|2[0-9]|3[0-1])$/.test(value)) {
+                          callback('Invalid. Year cycleTime should be like 01-01 12-31');
                         }
                         break;
                       case 'month':
                         if (!/^-?([1-9]|1[0-9]|2[0-9]|3[0-1])$/.test(value)) {
-                          callback(
-                            'Invalid. Month cycleTime should be like -1 -10 30 5'
-                          );
+                          callback('Invalid. Month cycleTime should be like -1 -10 30 5');
                         }
                         break;
                       case 'week':
                         if (!/^[1-7]$/.test(value)) {
-                          callback(
-                            'Invalid. Week cycleTime should be like 1 2 3 4'
-                          );
+                          callback('Invalid. Week cycleTime should be like 1 2 3 4');
                         }
                         break;
                       case 'since':
                         if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) {
-                          callback(
-                            'Invalid. Since cycleTime should be YYYY-DD-MM'
-                          );
+                          callback('Invalid. Since cycleTime should be YYYY-DD-MM');
                         }
                         break;
                       default:
@@ -167,9 +141,7 @@ class ReminderFormContainer extends React.Component<
           <Form.Item>
             {getFieldDecorator('createTimestamp', {
               rules: [],
-              initialValue: moment(
-                _.get(reminder, 'createTimestamp') || Date.now()
-              ),
+              initialValue: moment(_.get(reminder, 'createTimestamp') || Date.now()),
             })(<DatePicker showTime={true} format="YYYY-MM-DD HH:mm:ss" />)}
           </Form.Item>
           <Button type="primary" htmlType="submit">

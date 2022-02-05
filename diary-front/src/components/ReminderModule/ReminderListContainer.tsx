@@ -20,10 +20,7 @@ class State {
   public currentPage: number = 1;
   public pageSize: number = 12;
 }
-class TodoCheckedListContainer extends React.Component<
-  Props & ReduxProps,
-  State
-> {
+class TodoCheckedListContainer extends React.Component<Props & ReduxProps, State> {
   public static defaultProps = new Props();
 
   public constructor(props: Props & ReduxProps) {
@@ -35,26 +32,19 @@ class TodoCheckedListContainer extends React.Component<
     const { reminders, headerText, hasCollapsePanel } = this.props;
     const { currentPage, pageSize } = this.state;
 
-    const currentPageReminders = util.findCurrentPageItems(
-      reminders,
-      pageSize,
-      currentPage
-    );
+    const currentPageReminders = util.findCurrentPageItems(reminders, pageSize, currentPage);
 
     let content = (
       <List
         locale={{ emptyText: 'Empty' }}
         dataSource={currentPageReminders}
-        renderItem={(reminder: Reminder) => (
-          <ReminderObject reminder={reminder} />
-        )}
+        renderItem={(reminder: Reminder) => <ReminderObject reminder={reminder} />}
         pagination={{
           pageSize,
           current: currentPage,
           total: reminders.length,
           showTotal: (total: number) => `Total ${total} reminders`,
-          onChange: (newPage: number) =>
-            this.setState({ currentPage: newPage }),
+          onChange: (newPage: number) => this.setState({ currentPage: newPage }),
         }}
       />
     );
@@ -62,11 +52,7 @@ class TodoCheckedListContainer extends React.Component<
     if (hasCollapsePanel) {
       content = (
         <Collapse>
-          <Collapse.Panel
-            header={headerText}
-            key="reminders"
-            forceRender={true}
-          >
+          <Collapse.Panel header={headerText} key="reminders" forceRender={true}>
             {content}
           </Collapse.Panel>
         </Collapse>

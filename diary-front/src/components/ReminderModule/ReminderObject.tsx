@@ -86,13 +86,7 @@ class ReminderObject extends React.Component<Props & ReduxProps, State> {
               })
             }
           />,
-          <Button
-            className="syncButton"
-            key="sync"
-            icon="reload"
-            size="large"
-            onClick={() => this.syncItem()}
-          />,
+          <Button className="syncButton" key="sync" icon="reload" size="large" onClick={() => this.syncItem()} />,
           <Button
             className="deleteButton"
             key="delete"
@@ -112,11 +106,7 @@ class ReminderObject extends React.Component<Props & ReduxProps, State> {
       >
         <List.Item.Meta
           avatar={
-            <div className="createTimestamp">
-              {new Date(reminder.createTimestamp)
-                .toISOString()
-                .substring(0, 10)}
-            </div>
+            <div className="createTimestamp">{new Date(reminder.createTimestamp).toISOString().substring(0, 10)}</div>
           }
           title={
             <div>
@@ -124,9 +114,7 @@ class ReminderObject extends React.Component<Props & ReduxProps, State> {
               <Alert
                 className="cycleInfo"
                 message={
-                  (reminder.cycleType !== 'since'
-                    ? ''
-                    : moment().diff(reminder.cycleTime, 'days') + ' days ') +
+                  (reminder.cycleType !== 'since' ? '' : moment().diff(reminder.cycleTime, 'days') + ' days ') +
                   reminder.cycleType +
                   ' | ' +
                   reminder.cycleTime

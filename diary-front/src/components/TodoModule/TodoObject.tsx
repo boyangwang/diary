@@ -5,13 +5,7 @@ import { Alert, Button, Checkbox, List, message, Modal } from 'antd';
 
 import { ReduxState, User } from 'reducers';
 import { dispatch } from 'reducers/store';
-import api, {
-  DeleteTodoResponse,
-  ErrResponse,
-  GetTodosResponse,
-  PostTodoResponse,
-  Todo,
-} from 'utils/api';
+import api, { DeleteTodoResponse, ErrResponse, GetTodosResponse, PostTodoResponse, Todo } from 'utils/api';
 
 import TodoFormContainer from './TodoFormContainer';
 
@@ -107,13 +101,7 @@ class TodoObject extends React.Component<Props & ReduxProps, State> {
               })
             }
           />,
-          <Button
-            className="syncButton"
-            key="sync"
-            icon="reload"
-            size="large"
-            onClick={() => this.syncItem()}
-          />,
+          <Button className="syncButton" key="sync" icon="reload" size="large" onClick={() => this.syncItem()} />,
           <Button
             className="deleteButton"
             key="delete"
@@ -129,11 +117,7 @@ class TodoObject extends React.Component<Props & ReduxProps, State> {
               });
             }}
           />,
-          <Checkbox
-            key="check"
-            checked={todo.check}
-            onChange={this.onCheckChange(todo)}
-          />,
+          <Checkbox key="check" checked={todo.check} onChange={this.onCheckChange(todo)} />,
         ]}
       >
         <List.Item.Meta
@@ -142,11 +126,7 @@ class TodoObject extends React.Component<Props & ReduxProps, State> {
             <div>
               {highlight || null}
               <h3 className="title">{todo.title}</h3>
-              <Alert
-                className="priority"
-                message={todo.priority}
-                type={todo.priority <= 12 ? 'success' : 'error'}
-              />
+              <Alert className="priority" message={todo.priority} type={todo.priority <= 12 ? 'success' : 'error'} />
             </div>
           }
           description={

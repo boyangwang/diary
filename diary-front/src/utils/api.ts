@@ -8,11 +8,7 @@ import fetch from 'utils/fetch';
 const PROTOCOL = process.env.REACT_APP_PROTOCOL;
 const DOMAIN = process.env.REACT_APP_DOMAIN;
 const PORT = process.env.REACT_APP_PORT;
-const PREFIX =
-  (PROTOCOL ? PROTOCOL + '://' : '') +
-  (DOMAIN ? DOMAIN : '') +
-  (PORT ? ':' + PORT : '') +
-  '/';
+const PREFIX = (PROTOCOL ? PROTOCOL + '://' : '') + (DOMAIN ? DOMAIN : '') + (PORT ? ':' + PORT : '') + '/';
 const apis = {
   apiTest: 'api/apiTest',
   errReport: 'api/errReport',
@@ -143,10 +139,7 @@ class GetHistoricalStreaksParams {
 export class GetHistoricalStreaksResponse {
   public data: EntriesHistoricalStreaksMap;
 }
-const getHistoricalStreaks = (
-  params: GetHistoricalStreaksParams,
-  options: AppendQueryOptions = {}
-) => {
+const getHistoricalStreaks = (params: GetHistoricalStreaksParams, options: AppendQueryOptions = {}) => {
   const url = appendQuery(PREFIX + apis.getHistoricalStreaks, params, options);
   return fetch(url, {
     credentials: 'include',
@@ -159,10 +152,7 @@ class GetStreaksParams {
 export class GetStreaksResponse {
   public data: EntriesDateStreaksMap;
 }
-const getStreaks = (
-  params: GetStreaksParams,
-  options: AppendQueryOptions = {}
-) => {
+const getStreaks = (params: GetStreaksParams, options: AppendQueryOptions = {}) => {
   const url = appendQuery(PREFIX + apis.getStreaks, params, options);
   return fetch(url, {
     credentials: 'include',
@@ -174,15 +164,8 @@ class GetCategoryFrequencyMapParams {
 export class GetCategoryFrequencyMapResponse {
   public data: FrequencyMap;
 }
-const getCategoryFrequencyMap = (
-  params: GetCategoryFrequencyMapParams,
-  options: AppendQueryOptions = {}
-) => {
-  const url = appendQuery(
-    PREFIX + apis.getCategoryFrequencyMap,
-    params,
-    options
-  );
+const getCategoryFrequencyMap = (params: GetCategoryFrequencyMapParams, options: AppendQueryOptions = {}) => {
+  const url = appendQuery(PREFIX + apis.getCategoryFrequencyMap, params, options);
   return fetch(url, {
     credentials: 'include',
   });
@@ -194,10 +177,7 @@ class GetEntriesParams {
 export class GetEntriesResponse {
   public data: Entry[];
 }
-const getEntries = (
-  params: GetEntriesParams,
-  options: AppendQueryOptions = {}
-) => {
+const getEntries = (params: GetEntriesParams, options: AppendQueryOptions = {}) => {
   const url = appendQuery(PREFIX + apis.getEntries, params, options);
   return fetch(url, {
     credentials: 'include',

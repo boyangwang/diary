@@ -85,10 +85,8 @@ class DiaryApp extends React.Component<Props & ReduxProps, State> {
   }
 }
 
-export default withRouter(connect<ReduxProps, {}, Props>(
-  (state: ReduxState) => {
-    return {
-      user: state.user,
-    };
-  }
-)(DiaryApp) as any);
+export default withRouter(connect<ReduxProps, {}, Props>((state: ReduxState) => {
+  return {
+    user: state.user,
+  };
+})(DiaryApp) as any);

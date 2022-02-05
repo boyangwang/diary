@@ -32,10 +32,7 @@ class DigestAllContainer extends React.Component<Props & ReduxProps, State> {
     const { digests } = this.props;
     const { tickedTags } = this.state;
 
-    return digests.filter(
-      (d) =>
-        d.tags.length === 0 || d.tags.some((tag) => tickedTags.includes(tag))
-    );
+    return digests.filter((d) => d.tags.length === 0 || d.tags.some((tag) => tickedTags.includes(tag)));
   }
 
   public findShouldShowDigests(digests: Digest[]) {
@@ -43,19 +40,13 @@ class DigestAllContainer extends React.Component<Props & ReduxProps, State> {
 
     const sortedByStickyThenModifiedThenCreated = util.sortDigests(digests);
 
-    const currentPageDigests = util.findCurrentPageItems(
-      sortedByStickyThenModifiedThenCreated,
-      pageSize,
-      currentPage
-    );
+    const currentPageDigests = util.findCurrentPageItems(sortedByStickyThenModifiedThenCreated, pageSize, currentPage);
 
     return currentPageDigests;
   }
 
   public getAllTags() {
-    return [
-      ...new Set([].concat(...(this.props.digests.map((d) => d.tags) as any))),
-    ].sort();
+    return [...new Set([].concat(...(this.props.digests.map((d) => d.tags) as any)))].sort();
   }
 
   public render() {
@@ -84,12 +75,7 @@ class DigestAllContainer extends React.Component<Props & ReduxProps, State> {
 
     return (
       <Collapse className="DigestAllContainer">
-        <Collapse.Panel
-          header={header}
-          key="all"
-          showArrow={false}
-          forceRender={true}
-        >
+        <Collapse.Panel header={header} key="all" showArrow={false} forceRender={true}>
           <List
             dataSource={shouldShowDigests}
             renderItem={(digest: Digest) => <DigestObject digest={digest} />}
@@ -98,8 +84,7 @@ class DigestAllContainer extends React.Component<Props & ReduxProps, State> {
               current: currentPage,
               total: digestsAfterFilter.length,
               showTotal: (total: number) => `Total ${total} digests`,
-              onChange: (newPage: number) =>
-                this.setState({ currentPage: newPage }),
+              onChange: (newPage: number) => this.setState({ currentPage: newPage }),
             }}
           />
         </Collapse.Panel>

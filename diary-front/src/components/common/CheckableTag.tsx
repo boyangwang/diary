@@ -16,12 +16,7 @@ export default class CheckableTag extends React.Component<CheckableTagProps> {
     }
   };
   public render() {
-    const {
-      prefixCls = 'ant-tag',
-      className,
-      checked,
-      ...restProps
-    } = this.props;
+    const { prefixCls = 'ant-tag', className, checked, ...restProps } = this.props;
     const cls = classnames(
       prefixCls,
       {
@@ -32,8 +27,6 @@ export default class CheckableTag extends React.Component<CheckableTagProps> {
     );
 
     delete (restProps as any).onChange; // TypeScript cannot check delete now.
-    return (
-      <div {...restProps as any} className={cls} onClick={this.handleClick} />
-    );
+    return <div {...restProps as any} className={cls} onClick={this.handleClick} />;
   }
 }

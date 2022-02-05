@@ -65,29 +65,17 @@ class DigestView extends React.Component<ReduxProps, State> {
       <div className="DigestView">
         <Row type="flex" style={{ alignItems: 'center' }}>
           <h2>DigestView</h2>
-          <Button
-            onClick={() => localStorage.removeItem('diary.digest.unsavedDraft')}
-          >
-            Clear unsaved draft
-          </Button>
+          <Button onClick={() => localStorage.removeItem('diary.digest.unsavedDraft')}>Clear unsaved draft</Button>
         </Row>
 
-        <DigestFormContainer
-          unsavedDraft={
-            localStorage.getItem('diary.digest.unsavedDraft') || null
-          }
-        />
+        <DigestFormContainer unsavedDraft={localStorage.getItem('diary.digest.unsavedDraft') || null} />
 
         {digests.length === 0 ? 'Loading or empty...' : this.renderContent()}
       </div>
     );
   }
 
-  public componentDidUpdate(
-    prevProps: ReduxProps,
-    prevState: State,
-    snapshot: any
-  ) {
+  public componentDidUpdate(prevProps: ReduxProps, prevState: State, snapshot: any) {
     if (this.props.resyncCounter !== prevProps.resyncCounter) {
       this.getDigests();
     }

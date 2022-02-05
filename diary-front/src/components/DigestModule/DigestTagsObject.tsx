@@ -92,10 +92,7 @@ class DigestTagsObject extends React.Component<Props & ReduxProps, State> {
   };
 
   public showInput = () => {
-    this.setState(
-      { inputVisible: true },
-      () => this.input && this.input.focus()
-    );
+    this.setState({ inputVisible: true }, () => this.input && this.input.focus());
   };
 
   public handleInputChange = (value: SelectValue) => {
@@ -156,11 +153,7 @@ class DigestTagsObject extends React.Component<Props & ReduxProps, State> {
               key={tag}
               closable={editable}
               afterClose={() => this.handleClose(tag)}
-              color={
-                tagColorPanel[
-                  Math.abs(util.stringHashCode(tag)) % tagColorPanel.length
-                ]
-              }
+              color={tagColorPanel[Math.abs(util.stringHashCode(tag)) % tagColorPanel.length]}
             >
               {isLongTag ? `${tag.slice(0, 40)}...` : tag}
             </Tag>

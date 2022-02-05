@@ -88,20 +88,8 @@ export default class Tag extends React.Component<TagProps, TagState> {
   }
 
   public render() {
-    const {
-      prefixCls,
-      closable,
-      color,
-      className,
-      children,
-      style,
-      ...otherProps
-    } = this.props;
-    const closeIcon = closable ? (
-      <Icon type="cross" onClick={this.close} />
-    ) : (
-      ''
-    );
+    const { prefixCls, closable, color, className, children, style, ...otherProps } = this.props;
+    const closeIcon = closable ? <Icon type="cross" onClick={this.close} /> : '';
     const isPresetColor = this.isPresetColor(color);
     const classString = classnames(
       prefixCls,
@@ -119,12 +107,7 @@ export default class Tag extends React.Component<TagProps, TagState> {
       ...style,
     };
     const tag = this.state.closed ? null : (
-      <div
-        data-show={!this.state.closing}
-        {...divProps}
-        className={classString}
-        style={tagStyle}
-      >
+      <div data-show={!this.state.closing} {...divProps} className={classString} style={tagStyle}>
         {children}
         {closeIcon}
       </div>

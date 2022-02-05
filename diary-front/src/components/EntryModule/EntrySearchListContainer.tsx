@@ -55,10 +55,7 @@ class EntrySearchContainer extends React.Component<Props & ReduxProps, State> {
         }
         if (e.content && e.content.includes(search)) {
           matches.push(
-            <div
-              className="highlightCategoryDiv highlightedContent"
-              key="content"
-            >
+            <div className="highlightCategoryDiv highlightedContent" key="content">
               <span className="highlightCategoryLabelSpan">Content: </span>
               <Highlighter
                 highlightClassName="highlight"
@@ -109,22 +106,13 @@ class EntrySearchContainer extends React.Component<Props & ReduxProps, State> {
 
     return (
       <Collapse className="SearchContainer" activeKey={['search']}>
-        <Collapse.Panel
-          header={searchBar}
-          key="search"
-          showArrow={false}
-          forceRender={true}
-        >
+        <Collapse.Panel header={searchBar} key="search" showArrow={false} forceRender={true}>
           {!search ? (
             searchPlaceholder
           ) : (
             <div>
               <span>{daysAfterSearch.join(' | ')}</span>
-              <EntryWeekContainer
-                hasCollapsePanel={false}
-                dateRange={daysAfterSearch}
-                highlights={daysHighlightsMap}
-              />
+              <EntryWeekContainer hasCollapsePanel={false} dateRange={daysAfterSearch} highlights={daysHighlightsMap} />
             </div>
           )}
         </Collapse.Panel>

@@ -54,22 +54,13 @@ class TodoView extends React.Component<ReduxProps, State> {
       .sort()
       .reverse();
     const uncheckedTodos = todos.filter((t) => !t.check).sort((a, b) => {
-      return (
-        util.compare(a.priority, b.priority) * -10 +
-        util.compareDate(a.dueDate, b.dueDate) * 1
-      );
+      return util.compare(a.priority, b.priority) * -10 + util.compareDate(a.dueDate, b.dueDate) * 1;
     });
 
     return (
       <div className="TodosContainer">
-        <TodoListContainer
-          todos={uncheckedTodos}
-          headerText="Unchecked todos - sorted by: due date -> priority"
-        />
-        <TodoListContainer
-          todos={checkedTodos}
-          headerText="Checked todos - sorted by: date"
-        />
+        <TodoListContainer todos={uncheckedTodos} headerText="Unchecked todos - sorted by: due date -> priority" />
+        <TodoListContainer todos={checkedTodos} headerText="Checked todos - sorted by: date" />
         <TodoSearchListContainer todos={todos} />
       </div>
     );
@@ -88,11 +79,7 @@ class TodoView extends React.Component<ReduxProps, State> {
     );
   }
 
-  public componentDidUpdate(
-    prevProps: ReduxProps,
-    prevState: State,
-    snapshot: any
-  ) {
+  public componentDidUpdate(prevProps: ReduxProps, prevState: State, snapshot: any) {
     if (this.props.resyncCounter !== prevProps.resyncCounter) {
       this.getTodos();
     }

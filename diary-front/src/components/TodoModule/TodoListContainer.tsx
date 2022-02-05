@@ -21,10 +21,7 @@ class State {
   public currentPage: number = 1;
   public pageSize: number = 12;
 }
-class TodoCheckedListContainer extends React.Component<
-  Props & ReduxProps,
-  State
-> {
+class TodoCheckedListContainer extends React.Component<Props & ReduxProps, State> {
   public static defaultProps = new Props();
 
   public constructor(props: Props & ReduxProps) {
@@ -36,26 +33,19 @@ class TodoCheckedListContainer extends React.Component<
     const { todos, headerText, hasCollapsePanel } = this.props;
     const { currentPage, pageSize } = this.state;
 
-    const currentPageTodos = util.findCurrentPageItems(
-      todos,
-      pageSize,
-      currentPage
-    );
+    const currentPageTodos = util.findCurrentPageItems(todos, pageSize, currentPage);
 
     let content = (
       <List
         locale={{ emptyText: 'Empty' }}
         dataSource={currentPageTodos}
-        renderItem={(todo: TodoWithHighlight) => (
-          <TodoObject todo={todo} highlight={todo.highlight} />
-        )}
+        renderItem={(todo: TodoWithHighlight) => <TodoObject todo={todo} highlight={todo.highlight} />}
         pagination={{
           pageSize,
           current: currentPage,
           total: todos.length,
           showTotal: (total: number) => `Total ${total} todos`,
-          onChange: (newPage: number) =>
-            this.setState({ currentPage: newPage }),
+          onChange: (newPage: number) => this.setState({ currentPage: newPage }),
         }}
       />
     );

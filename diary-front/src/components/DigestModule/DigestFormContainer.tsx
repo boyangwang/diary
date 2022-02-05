@@ -13,11 +13,7 @@ import { dispatch } from 'reducers/store';
 import api, { Digest, ErrResponse, PostDigestResponse } from 'utils/api';
 import util from 'utils/util';
 
-import DigestEditorObject, {
-  draftToHtml,
-  EmptyState,
-  htmlToDraft,
-} from 'components/DigestModule/DigestEditorObject';
+import DigestEditorObject, { draftToHtml, EmptyState, htmlToDraft } from 'components/DigestModule/DigestEditorObject';
 import DigestTagsObject from 'components/DigestModule/DigestTagsObject';
 
 class Props {
@@ -46,19 +42,13 @@ class DigestFormValues {
   public tags: string[];
   public content: EditorState;
 }
-class DigestFormContainer extends React.Component<
-  Props & PropsDefaults & ReduxProps & FormComponentProps,
-  State
-> {
+class DigestFormContainer extends React.Component<Props & PropsDefaults & ReduxProps & FormComponentProps, State> {
   public static defaultProps = new PropsDefaults();
   public initialEditorState: EditorState;
 
   constructor(props: Props & PropsDefaults & ReduxProps & FormComponentProps) {
     super(props);
-    const editorValue =
-      (this.props.digest && this.props.digest.content) ||
-      this.props.unsavedDraft ||
-      '';
+    const editorValue = (this.props.digest && this.props.digest.content) || this.props.unsavedDraft || '';
     this.initialEditorState = htmlToDraft(editorValue);
 
     const tags = (this.props.digest && this.props.digest.tags) || [];
@@ -122,9 +112,7 @@ class DigestFormContainer extends React.Component<
     if (!user) {
       return;
     }
-    const filename = `digest-${
-      user.username
-    }-${new Date().toISOString()}-${util.genRandomString()}`;
+    const filename = `digest-${user.username}-${new Date().toISOString()}-${util.genRandomString()}`;
     // file is File object type
     form.append('image', file, filename);
     return api.uploadImage(form, user.username).then(
@@ -158,9 +146,7 @@ class DigestFormContainer extends React.Component<
           <Form.Item>
             {getFieldDecorator('createTimestamp', {
               rules: [],
-              initialValue: moment(
-                _.get(digest, 'createTimestamp') || Date.now()
-              ),
+              initialValue: moment(_.get(digest, 'createTimestamp') || Date.now()),
             })(<DatePicker showTime={true} format="YYYY-MM-DD HH:mm:ss" />)}
           </Form.Item>
           <Form.Item>
@@ -194,10 +180,7 @@ class DigestFormContainer extends React.Component<
               rules: [],
               initialValue: _.get(digest, 'content') || unsavedDraft || '',
               normalize: (value: any, prevValue: any, allValues: any) => {
-                localStorage.setItem(
-                  'diary.digest.unsavedDraft',
-                  draftToHtml(value)
-                );
+                localStorage.setItem('diary.digest.unsavedDraft', draftToHtml(value));
                 return value;
               },
             })(

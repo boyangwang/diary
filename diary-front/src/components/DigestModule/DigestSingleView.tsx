@@ -5,12 +5,7 @@ import { Button, Checkbox, Collapse, List, Row } from 'antd';
 
 import { ReduxState, User } from 'reducers';
 import { dispatch } from 'reducers/store';
-import api, {
-  CommonPageProps,
-  Digest,
-  ErrResponse,
-  GetDigestsResponse,
-} from 'utils/api';
+import api, { CommonPageProps, Digest, ErrResponse, GetDigestsResponse } from 'utils/api';
 import util from 'utils/util';
 
 import DigestAllListContainer from 'components/DigestModule/DigestAllListContainer';
@@ -86,22 +81,14 @@ class DigestSingleView extends React.Component<Props & ReduxProps, State> {
       <div className="DigestView">
         <Row type="flex" style={{ alignItems: 'center' }}>
           <h2>DigestView</h2>
-          <Button
-            onClick={() => localStorage.removeItem('diary.digest.unsavedDraft')}
-          >
-            Clear unsaved draft
-          </Button>
+          <Button onClick={() => localStorage.removeItem('diary.digest.unsavedDraft')}>Clear unsaved draft</Button>
         </Row>
         {digests.length === 0 ? 'Loading or empty...' : this.renderContent()}
       </div>
     );
   }
 
-  public componentDidUpdate(
-    prevProps: ReduxProps,
-    prevState: State,
-    snapshot: any
-  ) {
+  public componentDidUpdate(prevProps: ReduxProps, prevState: State, snapshot: any) {
     if (this.props.resyncCounter !== prevProps.resyncCounter) {
       this.getDigest();
     }

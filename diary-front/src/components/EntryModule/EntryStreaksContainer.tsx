@@ -5,12 +5,7 @@ import { Card, Row, Table, Tag } from 'antd';
 
 import { ReduxState } from 'reducers';
 import { dispatch } from 'reducers/store';
-import {
-  EntriesDateMap,
-  EntriesDateStreaksMap,
-  EntriesHistoricalStreaksMap,
-  Streak,
-} from 'utils/api';
+import { EntriesDateMap, EntriesDateStreaksMap, EntriesHistoricalStreaksMap, Streak } from 'utils/api';
 import util from 'utils/util';
 
 import './EntryStreaksContainer.css';
@@ -76,12 +71,7 @@ class EntryStreaksContainer extends React.Component<Props & ReduxProps, State> {
   }
 
   public getStreaksDataSource(): any[] {
-    const {
-      entriesDateMap,
-      entriesDateStreaksMap,
-      date,
-      entriesHistoricalStreaksMap,
-    } = this.props;
+    const { entriesDateMap, entriesDateStreaksMap, date, entriesHistoricalStreaksMap } = this.props;
     const todayStreaksMap = entriesDateStreaksMap[date];
     if (!todayStreaksMap) {
       return [];
@@ -97,9 +87,7 @@ class EntryStreaksContainer extends React.Component<Props & ReduxProps, State> {
         return {
           streaks: todayStreaksMap[category],
           category,
-          todayfulfilled: (entriesDateMap[date] || []).some(
-            (entry) => entry.title === category
-          ),
+          todayfulfilled: (entriesDateMap[date] || []).some((entry) => entry.title === category),
           longest,
         };
       })
@@ -120,13 +108,7 @@ class EntryStreaksContainer extends React.Component<Props & ReduxProps, State> {
 
     return (
       <div className="EntryStreaksContainer">
-        <Table
-          rowKey="category"
-          columns={columns}
-          dataSource={dataSource}
-          size="small"
-          pagination={false}
-        />
+        <Table rowKey="category" columns={columns} dataSource={dataSource} size="small" pagination={false} />
         <Row type="flex" justify="end">
           <a
             className="ToggleHistoricalStreaksLink"
@@ -140,9 +122,7 @@ class EntryStreaksContainer extends React.Component<Props & ReduxProps, State> {
           </a>
         </Row>
         {this.state.showHistoricalStreaks && (
-          <pre className="HistoricalStreaksContainer">
-            {JSON.stringify(entriesHistoricalStreaksMap, null, 2)}
-          </pre>
+          <pre className="HistoricalStreaksContainer">{JSON.stringify(entriesHistoricalStreaksMap, null, 2)}</pre>
         )}
       </div>
     );

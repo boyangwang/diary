@@ -6,16 +6,9 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { ReduxState, User } from 'reducers';
 import { dispatch } from 'reducers/store';
-import api, {
-  DeleteDigestResponse,
-  Digest,
-  ErrResponse,
-  GetDigestsResponse,
-} from 'utils/api';
+import api, { DeleteDigestResponse, Digest, ErrResponse, GetDigestsResponse } from 'utils/api';
 
-import DigestEditorObject, {
-  htmlToDraft,
-} from 'components/DigestModule/DigestEditorObject';
+import DigestEditorObject, { htmlToDraft } from 'components/DigestModule/DigestEditorObject';
 import DigestFormContainer from 'components/DigestModule/DigestFormContainer';
 import DigestTagsObject from './DigestTagsObject';
 
@@ -80,12 +73,8 @@ class DigestObject extends React.Component<Props & ReduxProps, State> {
 
   public render() {
     const { digest, highlight, editorHeight } = this.props;
-    const shortenedLastModified = new Date(digest.lastModified)
-      .toISOString()
-      .substring(0, 16);
-    const shortenedCreateTimestamp = new Date(digest.createTimestamp)
-      .toISOString()
-      .substring(0, 16);
+    const shortenedLastModified = new Date(digest.lastModified).toISOString().substring(0, 16);
+    const shortenedCreateTimestamp = new Date(digest.createTimestamp).toISOString().substring(0, 16);
 
     const modalWidth = Math.min(window.innerWidth - 60, 1200);
 
@@ -94,12 +83,7 @@ class DigestObject extends React.Component<Props & ReduxProps, State> {
         className="DigestObject"
         actions={[
           <Link key="openInSingle" target="_blank" to={'/digest/' + digest._id}>
-            <Button
-              className="openInSingleButton"
-              key="openInSingle"
-              icon="export"
-              size="large"
-            />
+            <Button className="openInSingleButton" key="openInSingle" icon="export" size="large" />
           </Link>,
           <Button
             className="editButton"
@@ -112,13 +96,7 @@ class DigestObject extends React.Component<Props & ReduxProps, State> {
               })
             }
           />,
-          <Button
-            className="syncButton"
-            key="sync"
-            icon="reload"
-            size="large"
-            onClick={() => this.syncItem()}
-          />,
+          <Button className="syncButton" key="sync" icon="reload" size="large" onClick={() => this.syncItem()} />,
           <Button
             className="deleteButton"
             key="delete"
@@ -164,12 +142,8 @@ class DigestObject extends React.Component<Props & ReduxProps, State> {
           </Row>
         )}
         <Row type="flex" className="DigestRow">
-          <div className="lastModified">
-            {'Last modified: ' + shortenedLastModified}
-          </div>
-          <div className="createTimestamp">
-            {'Created: ' + shortenedCreateTimestamp}
-          </div>
+          <div className="lastModified">{'Last modified: ' + shortenedLastModified}</div>
+          <div className="createTimestamp">{'Created: ' + shortenedCreateTimestamp}</div>
           {/* <div className="_id grey">{digest._id}</div> */}
         </Row>
         <Row type="flex" className="DigestRow">

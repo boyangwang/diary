@@ -2,30 +2,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { message, Row } from 'antd';
-import {
-  Area,
-  AreaChart,
-  CartesianGrid,
-  Legend,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from 'recharts';
+import { Area, AreaChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
 import { ReduxState } from 'reducers';
 import { dispatch } from 'reducers/store';
-import api, {
-  EntriesDateMap,
-  Entry,
-  ErrResponse,
-  GetEntriesResponse,
-} from 'utils/api';
+import api, { EntriesDateMap, Entry, ErrResponse, GetEntriesResponse } from 'utils/api';
 import util from 'utils/util';
 
-import EntryTrendChartTooltipContent, {
-  TooltipPayload,
-} from 'components/EntryModule/EntryTrendChartTooltipContent';
+import EntryTrendChartTooltipContent, { TooltipPayload } from 'components/EntryModule/EntryTrendChartTooltipContent';
 
 const barLowValue = 8;
 const barHighValue = 12;
@@ -77,14 +61,8 @@ class ReduxProps {
   public entriesDateMap: EntriesDateMap;
 }
 class State {}
-class EntryTrendChartContainer extends React.Component<
-  Props & ReduxProps,
-  State
-> {
-  public static getDerivedStateFromProps(
-    nextProps: Props & ReduxProps,
-    prevState: State
-  ) {
+class EntryTrendChartContainer extends React.Component<Props & ReduxProps, State> {
+  public static getDerivedStateFromProps(nextProps: Props & ReduxProps, prevState: State) {
     return null;
   }
 
@@ -93,18 +71,11 @@ class EntryTrendChartContainer extends React.Component<
     this.state = new State();
   }
 
-  public async componentDidUpdate(
-    prevProps: Props & ReduxProps,
-    prevState: State,
-    snapshot: any
-  ) {}
+  public async componentDidUpdate(prevProps: Props & ReduxProps, prevState: State, snapshot: any) {}
 
   public async componentDidMount() {}
 
-  public getChartDataAndAreasFromDaysAndEntriesDateMap(
-    dateRange: string[],
-    entriesDateMap: EntriesDateMap
-  ): any {
+  public getChartDataAndAreasFromDaysAndEntriesDateMap(dateRange: string[], entriesDateMap: EntriesDateMap): any {
     const allKeys = new Set();
     const chartData = dateRange
       .map((date) => {
@@ -117,9 +88,7 @@ class EntryTrendChartContainer extends React.Component<
         };
         entries.forEach((entry) => {
           allKeys.add(entry.title);
-          res[entry.title] = res[entry.title]
-            ? res[entry.title] + entry.points
-            : entry.points;
+          res[entry.title] = res[entry.title] ? res[entry.title] + entry.points : entry.points;
         });
         return res;
       })
@@ -129,80 +98,63 @@ class EntryTrendChartContainer extends React.Component<
         });
         return dataPoint;
       });
-    const areas = [...allKeys.keys(), '_barLow', '_barHigh']
-      .sort()
-      .map((key) => {
-        const colorIdx =
-          Math.abs(util.stringHashCode(key)) % chartColorPanel.length;
-        const props = {
-          type: 'linear' as 'linear',
-          dataKey: key,
-          stackId: '3',
-          stroke: chartColorPanel[colorIdx],
-          fill: util.setOpacity(chartColorPanel[colorIdx], 0.36),
-          dot: false,
-          label: {
-            formatter: (label: number | string) => {
-              if (+label === 0) {
-                return null;
-              }
-              return +label;
-            },
-            position: 'right',
+    const areas = [...allKeys.keys(), '_barLow', '_barHigh'].sort().map((key) => {
+      const colorIdx = Math.abs(util.stringHashCode(key)) % chartColorPanel.length;
+      const props = {
+        type: 'linear' as 'linear',
+        dataKey: key,
+        stackId: '3',
+        stroke: chartColorPanel[colorIdx],
+        fill: util.setOpacity(chartColorPanel[colorIdx], 0.36),
+        dot: false,
+        label: {
+          formatter: (label: number | string) => {
+            if (+label === 0) {
+              return null;
+            }
+            return +label;
           },
-        };
-        if (key === '_barLow') {
-          Object.assign(props, {
-            stackId: '1',
-            stroke: barLowColor,
-            fill: 'transparent',
-            dot: false,
-            strokeWidth: 2,
-            strokeDasharray: '5 4',
-            strokeOpacity: 0.8,
-            label: false,
-          });
-        } else if (key === '_barHigh') {
-          Object.assign(props, {
-            stackId: '2',
-            stroke: barHighColor,
-            fill: 'transparent',
-            dot: false,
-            strokeWidth: 2,
-            strokeDasharray: '5 4',
-            strokeOpacity: 0.8,
-            label: false,
-          });
-        }
-        return <Area key={key} {...props} />;
-      });
+          position: 'right',
+        },
+      };
+      if (key === '_barLow') {
+        Object.assign(props, {
+          stackId: '1',
+          stroke: barLowColor,
+          fill: 'transparent',
+          dot: false,
+          strokeWidth: 2,
+          strokeDasharray: '5 4',
+          strokeOpacity: 0.8,
+          label: false,
+        });
+      } else if (key === '_barHigh') {
+        Object.assign(props, {
+          stackId: '2',
+          stroke: barHighColor,
+          fill: 'transparent',
+          dot: false,
+          strokeWidth: 2,
+          strokeDasharray: '5 4',
+          strokeOpacity: 0.8,
+          label: false,
+        });
+      }
+      return <Area key={key} {...props} />;
+    });
     return { areas, chartData };
   }
 
   public renderChart() {
     const { entriesDateMap, dateRange } = this.props;
 
-    const {
-      chartData,
-      areas,
-    } = this.getChartDataAndAreasFromDaysAndEntriesDateMap(
-      dateRange,
-      entriesDateMap
-    );
+    const { chartData, areas } = this.getChartDataAndAreasFromDaysAndEntriesDateMap(dateRange, entriesDateMap);
 
     return (
       <ResponsiveContainer width="98%" height={480}>
-        <AreaChart
-          data={chartData}
-          margin={{ top: 12, right: 16, left: -20, bottom: 12 }}
-        >
+        <AreaChart data={chartData} margin={{ top: 12, right: 16, left: -20, bottom: 12 }}>
           <XAxis dataKey="date" padding={{ left: 16, right: 16 }} />
-          <YAxis
-            padding={{ top: 0, bottom: 0 }}
-            type="number"
-            domain={[0, 18]}
-            ticks={[0, 4, 8, 12, 16]}
-          />
+          <YAxis padding={{ top: 0, bottom: 0 }} type="number" domain={[0, 18]} ticks={[0, 4, 8, 12, 16]} />
           <Legend
             wrapperStyle={{
               marginLeft: '20px',
@@ -226,11 +178,7 @@ class EntryTrendChartContainer extends React.Component<
               <EntryTrendChartTooltipContent
                 {...props}
                 filter={(data: TooltipPayload) => {
-                  if (
-                    data.name === '_barLow' ||
-                    data.name === '_barHigh' ||
-                    data.value === 0
-                  ) {
+                  if (data.name === '_barLow' || data.name === '_barHigh' || data.value === 0) {
                     return false;
                   }
                   return true;
@@ -249,26 +197,18 @@ class EntryTrendChartContainer extends React.Component<
     return new Array(range)
       .fill(0)
       .map((_, i) => i)
-      .map((currentOffset) =>
-        util.getDateStringWithOffset(-currentOffset + offset)
-      )
+      .map((currentOffset) => util.getDateStringWithOffset(-currentOffset + offset))
       .reverse();
   }
 
   public render() {
     const { dateRange, entriesDateMap } = this.props;
-    const missingDays = dateRange.filter(
-      (dateString) => !entriesDateMap[dateString]
-    );
+    const missingDays = dateRange.filter((dateString) => !entriesDateMap[dateString]);
     const isLoading = missingDays.length !== 0;
 
     return (
       <div className="EntryTrendChartContainer">
-        {isLoading ? (
-          <h3>EntryTrendChartContainer loading...</h3>
-        ) : (
-          this.renderChart()
-        )}
+        {isLoading ? <h3>EntryTrendChartContainer loading...</h3> : this.renderChart()}
       </div>
     );
   }

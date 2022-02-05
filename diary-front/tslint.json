@@ -13,12 +13,7 @@
     "jsx-no-lambda": false,
     "jsx-no-multiline-js": false,
     "label-position": true,
-    "member-ordering": [
-      true,
-      "public-before-private",
-      "static-before-instance",
-      "variables-before-functions"
-    ],
+    "member-ordering": [true, "public-before-private", "static-before-instance", "variables-before-functions"],
     "no-any": false,
     "no-arg": true,
     "no-bitwise": false,
@@ -38,20 +33,11 @@
     "trailing-comma": [false],
     "triple-equals": [true, "allow-null-check"],
     "typedef": [true, "parameter", "property-declaration"],
-    "variable-name": [
-      true,
-      "ban-keywords",
-      "check-format",
-      "allow-leading-underscore",
-      "allow-pascal-case"
-    ],
+    "variable-name": [true, "ban-keywords", "check-format", "allow-leading-underscore", "allow-pascal-case"],
     "object-literal-sort-keys": false,
     "ordered-imports": true,
     "max-classes-per-file": false,
-    "max-line-length": [
-      true,
-      120
-    ]
+    "max-line-length": [true, 120]
   },
   "jsRules": {
     "no-empty": false,

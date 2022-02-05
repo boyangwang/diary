@@ -4,27 +4,11 @@ import * as moment from 'moment';
 import React from 'react';
 import { connect } from 'react-redux';
 
-import {
-  AutoComplete,
-  Button,
-  Card,
-  DatePicker,
-  Form,
-  Input,
-  InputNumber,
-  message,
-  Switch,
-} from 'antd';
+import { AutoComplete, Button, Card, DatePicker, Form, Input, InputNumber, message, Switch } from 'antd';
 
 import { ReduxState, User } from 'reducers';
 import { dispatch } from 'reducers/store';
-import api, {
-  EntriesDateMap,
-  Entry,
-  ErrResponse,
-  FrequencyMap,
-  PostEntryResponse,
-} from 'utils/api';
+import api, { EntriesDateMap, Entry, ErrResponse, FrequencyMap, PostEntryResponse } from 'utils/api';
 import util from 'utils/util';
 
 import './EntryFormContainer.css';
@@ -54,15 +38,10 @@ class EntryFormValues {
 class State {
   public useAllCategoryFrequencyMap: boolean = false;
 }
-class EntryFormContainer extends React.Component<
-  Props & PropsDefaults & ReduxProps & FormComponentProps,
-  State
-> {
+class EntryFormContainer extends React.Component<Props & PropsDefaults & ReduxProps & FormComponentProps, State> {
   public static defaultProps = new PropsDefaults();
 
-  public constructor(
-    props: Props & ReduxProps & FormComponentProps & PropsDefaults
-  ) {
+  public constructor(props: Props & ReduxProps & FormComponentProps & PropsDefaults) {
     super(props);
     this.state = new State();
   }
@@ -119,9 +98,7 @@ class EntryFormContainer extends React.Component<
     Object.keys(entriesDateMap).forEach((date) => {
       const entries = entriesDateMap[date];
       entries.forEach((entry) => {
-        partialCategoryFrequencyMap[entry.title] = partialCategoryFrequencyMap[
-          entry.title
-        ]
+        partialCategoryFrequencyMap[entry.title] = partialCategoryFrequencyMap[entry.title]
           ? partialCategoryFrequencyMap[entry.title] + 1
           : 1;
       });
@@ -148,11 +125,7 @@ class EntryFormContainer extends React.Component<
             {getFieldDecorator('title', {
               rules: [{ required: true, message: 'Title required' }],
               initialValue: _.get(entry, 'title'),
-              normalize: (
-                value: string,
-                prevValue: string,
-                allValues: string[]
-              ) => {
+              normalize: (value: string, prevValue: string, allValues: string[]) => {
                 if (!value) {
                   return '';
                 } else if (!_.isString(value)) {
@@ -173,9 +146,7 @@ class EntryFormContainer extends React.Component<
                   return (
                     <AutoComplete.Option key={t.title} value={t.title}>
                       <span className="EntryTitleOptionTitle">{t.title}</span>
-                      <span className="EntryTitleOptionFrequency">
-                        {t.frequency}
-                      </span>
+                      <span className="EntryTitleOptionFrequency">{t.frequency}</span>
                     </AutoComplete.Option>
                   );
                 })}
@@ -204,17 +175,11 @@ class EntryFormContainer extends React.Component<
           </Form.Item>
           <Form.Item className="FlexFormItem">
             <div className="ArrowButtonDiv">
-              <Button
-                shape="circle"
-                icon="left"
-                onClick={() => this.incrementDecrementDate(-1)}
-              />
+              <Button shape="circle" icon="left" onClick={() => this.incrementDecrementDate(-1)} />
             </div>
             {getFieldDecorator('date', {
               rules: [{ required: true, message: 'Date required' }],
-              initialValue: _.get(entry, 'date')
-                ? moment(_.get(entry, 'date'))
-                : moment(),
+              initialValue: _.get(entry, 'date') ? moment(_.get(entry, 'date')) : moment(),
             })(
               <DatePicker
               // if editing entry, we used to not allow change date
@@ -223,11 +188,7 @@ class EntryFormContainer extends React.Component<
               />
             )}
             <div className="ArrowButtonDiv">
-              <Button
-                shape="circle"
-                icon="right"
-                onClick={() => this.incrementDecrementDate(1)}
-              />
+              <Button shape="circle" icon="right" onClick={() => this.incrementDecrementDate(1)} />
             </div>
           </Form.Item>
           <Button type="primary" htmlType="submit">

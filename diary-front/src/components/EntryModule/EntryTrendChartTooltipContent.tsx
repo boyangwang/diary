@@ -5,10 +5,7 @@ import util from 'utils/util';
 
 function shallowEqual(a: any, b: any) {
   for (const key in a) {
-    if (
-      {}.hasOwnProperty.call(a, key) &&
-      (!{}.hasOwnProperty.call(b, key) || a[key] !== b[key])
-    ) {
+    if ({}.hasOwnProperty.call(a, key) && (!{}.hasOwnProperty.call(b, key) || a[key] !== b[key])) {
       return false;
     }
   }
@@ -21,10 +18,7 @@ function shallowEqual(a: any, b: any) {
 }
 
 function pureRender(component: any) {
-  component.prototype.shouldComponentUpdate = function shouldComponentUpdate(
-    props: any,
-    state: any
-  ) {
+  component.prototype.shouldComponentUpdate = function shouldComponentUpdate(props: any, state: any) {
     return !shallowEqual(props, this.props) || !shallowEqual(state, this.state);
   };
 }
@@ -37,9 +31,7 @@ export interface TooltipPayload {
   fill?: string;
 }
 const defaultFormatter = (value: any) =>
-  _.isArray(value) &&
-  util.isNumOrStrAndNotNaN(value[0]) &&
-  util.isNumOrStrAndNotNaN(value[1])
+  _.isArray(value) && util.isNumOrStrAndNotNaN(value[0]) && util.isNumOrStrAndNotNaN(value[1])
     ? value.join(' ~ ')
     : value;
 
@@ -61,21 +53,12 @@ class PropsDefaults {
   public labelStyle: {};
 }
 @pureRender
-class EntryTrendChartTooltipContent extends React.Component<
-  Props & PropsDefaults
-> {
+class EntryTrendChartTooltipContent extends React.Component<Props & PropsDefaults> {
   public static displayName = 'EntryTrendChartTooltipContent';
   public static defaultProps = new PropsDefaults();
 
   public renderContent() {
-    const {
-      payload,
-      separator,
-      formatter,
-      itemStyle,
-      itemSorter,
-      filter,
-    } = this.props;
+    const { payload, separator, formatter, itemStyle, itemSorter, filter } = this.props;
 
     if (payload && payload.length) {
       const listStyle = { padding: 0, margin: 0 };
@@ -96,27 +79,13 @@ class EntryTrendChartTooltipContent extends React.Component<
         }
 
         return (
-          <li
-            className="recharts-tooltip-item"
-            key={`tooltip-item-${i}`}
-            style={finalItemStyle}
-          >
-            {hasName ? (
-              <span className="recharts-tooltip-item-name">{entry.name}</span>
-            ) : null}
-            {hasName ? (
-              <span className="recharts-tooltip-item-separator">
-                {separator}
-              </span>
-            ) : null}
+          <li className="recharts-tooltip-item" key={`tooltip-item-${i}`} style={finalItemStyle}>
+            {hasName ? <span className="recharts-tooltip-item-name">{entry.name}</span> : null}
+            {hasName ? <span className="recharts-tooltip-item-separator">{separator}</span> : null}
             <span className="recharts-tooltip-item-value">
-              {finalFormatter
-                ? finalFormatter(entry.value, entry.name, entry, i)
-                : entry.value}
+              {finalFormatter ? finalFormatter(entry.value, entry.name, entry, i) : entry.value}
             </span>
-            <span className="recharts-tooltip-item-unit">
-              {entry.unit || ''}
-            </span>
+            <span className="recharts-tooltip-item-unit">{entry.unit || ''}</span>
           </li>
         );
       });

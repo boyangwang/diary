@@ -8,12 +8,7 @@ import { Badge, Button, Card, message } from 'antd';
 import ReactDOM from 'react-dom';
 import { ReduxState, User } from 'reducers';
 import { dispatch } from 'reducers/store';
-import api, {
-  EntriesDateMap,
-  Entry,
-  ErrResponse,
-  GetEntriesResponse,
-} from 'utils/api';
+import api, { EntriesDateMap, Entry, ErrResponse, GetEntriesResponse } from 'utils/api';
 import util from 'utils/util';
 
 import EntryObject from 'components/EntryModule/EntryObject';
@@ -92,9 +87,7 @@ class EntryDayContainer extends React.Component<Props & ReduxProps, State> {
 
   public renderSum() {
     const { date, entriesDateMap } = this.props;
-    const sum = !entriesDateMap[date]
-      ? 0
-      : entriesDateMap[date].reduce((prev, cur) => prev + cur.points || 0, 0);
+    const sum = !entriesDateMap[date] ? 0 : entriesDateMap[date].reduce((prev, cur) => prev + cur.points || 0, 0);
 
     let sumClasses = 'sum ';
     if (sum === 0) {
@@ -123,11 +116,7 @@ class EntryDayContainer extends React.Component<Props & ReduxProps, State> {
         extra={
           <div className="ExtraDiv">
             {this.renderSum()}
-            <Button
-              icon="reload"
-              size="large"
-              onClick={() => this.syncItem()}
-            />
+            <Button icon="reload" size="large" onClick={() => this.syncItem()} />
           </div>
         }
       >

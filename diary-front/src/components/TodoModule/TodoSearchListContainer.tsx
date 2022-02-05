@@ -53,10 +53,7 @@ class TodoSearchContainer extends React.Component<Props & ReduxProps, State> {
 
       if (d.content && d.content.includes(search)) {
         highlightsByCategory.push(
-          <div
-            className="highlightCategoryDiv highlightedContent"
-            key="content"
-          >
+          <div className="highlightCategoryDiv highlightedContent" key="content">
             <span className="highlightCategoryLabelSpan">Content: </span>
             <Highlighter
               highlightClassName="highlight"
@@ -109,20 +106,11 @@ class TodoSearchContainer extends React.Component<Props & ReduxProps, State> {
 
     return (
       <Collapse className="SearchContainer" activeKey={['search']}>
-        <Collapse.Panel
-          header={searchBar}
-          key="search"
-          showArrow={false}
-          forceRender={true}
-        >
+        <Collapse.Panel header={searchBar} key="search" showArrow={false} forceRender={true}>
           {!search ? (
             'Search title, tags, content'
           ) : (
-            <TodoListContainer
-              todos={todosAfterSearch}
-              headerText=""
-              hasCollapsePanel={false}
-            />
+            <TodoListContainer todos={todosAfterSearch} headerText="" hasCollapsePanel={false} />
           )}
         </Collapse.Panel>
       </Collapse>

@@ -5,15 +5,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { Icon } from '@ant-design/compatible';
-import {
-  Button,
-  Card,
-  DatePicker,
-  Form,
-  Input,
-  InputNumber,
-  message,
-} from 'antd';
+import { Button, Card, DatePicker, Form, Input, InputNumber, message } from 'antd';
 
 import { ReduxState, User } from 'reducers';
 import { dispatch } from 'reducers/store';
@@ -42,10 +34,7 @@ class TodoFormValues {
   public check: boolean;
   public dueDate?: moment.Moment;
 }
-class TodoFormContainer extends React.Component<
-  Props & PropsDefaults & ReduxProps & FormComponentProps,
-  {}
-> {
+class TodoFormContainer extends React.Component<Props & PropsDefaults & ReduxProps & FormComponentProps, {}> {
   public static defaultProps = new PropsDefaults();
 
   public handleSubmit = (e: any) => {
@@ -60,9 +49,7 @@ class TodoFormContainer extends React.Component<
         return;
       }
       const todo: Todo = Object.assign({}, values, {
-        dueDate: values.dueDate
-          ? values.dueDate.format(util.dateStringFormat)
-          : null,
+        dueDate: values.dueDate ? values.dueDate.format(util.dateStringFormat) : null,
       });
       api.postTodo({ data: { todo, owner: user.username } }).then(
         (data: PostTodoResponse & ErrResponse) => {
@@ -111,9 +98,7 @@ class TodoFormContainer extends React.Component<
           <Form.Item>
             {getFieldDecorator('dueDate', {
               rules: [],
-              initialValue: _.get(todo, 'dueDate')
-                ? moment(_.get(todo, 'dueDate'))
-                : moment(),
+              initialValue: _.get(todo, 'dueDate') ? moment(_.get(todo, 'dueDate')) : moment(),
             })(<DatePicker placeholder="Due date" />)}
           </Form.Item>
           <Form.Item>
@@ -125,8 +110,7 @@ class TodoFormContainer extends React.Component<
           <Form.Item className="hidden">
             {getFieldDecorator('date', {
               rules: [],
-              initialValue:
-                _.get(todo, 'date') || util.getDateStringWithOffset(),
+              initialValue: _.get(todo, 'date') || util.getDateStringWithOffset(),
             })(<Input type="hidden" />)}
           </Form.Item>
           <Form.Item className="hidden">

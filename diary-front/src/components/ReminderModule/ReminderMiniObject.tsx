@@ -28,9 +28,7 @@ class ReminderMiniObject extends React.Component<Props & ReduxProps, State> {
         <i className="anticon anticon-exclamation-circle-o ant-notification-notice-icon-warning" />
         <span className="title">{reminder.title}</span>
         <span className="cycle">
-          {(reminder.cycleType !== 'since'
-            ? ''
-            : moment().diff(reminder.cycleTime, 'days') + ' days ') +
+          {(reminder.cycleType !== 'since' ? '' : moment().diff(reminder.cycleTime, 'days') + ' days ') +
             reminder.cycleType +
             ' | ' +
             reminder.cycleTime}

@@ -23,12 +23,8 @@ class State {}
 class ReminderView extends React.Component<ReduxProps, State> {
   public renderContent() {
     const { reminders } = this.props;
-    const sinceReminders = reminders.filter(
-      (r: Reminder) => r.cycleType === 'since'
-    );
-    const nonSinceReminders = reminders.filter(
-      (r: Reminder) => r.cycleType !== 'since'
-    );
+    const sinceReminders = reminders.filter((r: Reminder) => r.cycleType === 'since');
+    const nonSinceReminders = reminders.filter((r: Reminder) => r.cycleType !== 'since');
 
     return (
       <div className="RemindersContainer">

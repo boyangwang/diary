@@ -27,12 +27,7 @@ class EntryWeekContainer extends React.Component<Props> {
         {dateRange.length === 0
           ? 'Empty data'
           : dateRange.map((d) => (
-              <EntryDayContainer
-                key={d}
-                date={d}
-                todayMark={d === todayString}
-                highlight={highlights![d]}
-              />
+              <EntryDayContainer key={d} date={d} todayMark={d === todayString} highlight={highlights![d]} />
             ))}
       </div>
     );
@@ -40,11 +35,7 @@ class EntryWeekContainer extends React.Component<Props> {
     if (hasCollapsePanel) {
       content = (
         <Collapse>
-          <Collapse.Panel
-            header="Days details"
-            key="details"
-            forceRender={true}
-          >
+          <Collapse.Panel header="Days details" key="details" forceRender={true}>
             {content}
           </Collapse.Panel>
         </Collapse>

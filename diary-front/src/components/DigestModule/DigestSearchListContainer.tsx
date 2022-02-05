@@ -73,17 +73,11 @@ class DigestSearchContainer extends React.Component<Props & ReduxProps, State> {
         );
       }
 
-      const contentResultRange = [
-        d.content.indexOf(search),
-        d.content.lastIndexOf(search),
-      ];
+      const contentResultRange = [d.content.indexOf(search), d.content.lastIndexOf(search)];
 
       if (contentResultRange[0] !== -1) {
         highlightsByCategory.push(
-          <div
-            className="highlightCategoryDiv highlightedContent"
-            key="content"
-          >
+          <div className="highlightCategoryDiv highlightedContent" key="content">
             <span className="highlightCategoryLabelSpan">Content: </span>
             <Highlighter
               highlightClassName="highlight"
@@ -93,10 +87,7 @@ class DigestSearchContainer extends React.Component<Props & ReduxProps, State> {
                 '...' +
                 d.content.slice(
                   Math.max(0, contentResultRange[0] - 12),
-                  Math.min(
-                    d.content.length,
-                    contentResultRange[1] + search.length + 12
-                  )
+                  Math.min(d.content.length, contentResultRange[1] + search.length + 12)
                 ) +
                 '...'
               }
@@ -144,20 +135,11 @@ class DigestSearchContainer extends React.Component<Props & ReduxProps, State> {
 
     const digestsAfterSearch = this.findDigestsAfterSearch();
     const digestsAfterSort = util.sortDigests(digestsAfterSearch);
-    const shouldShowDigests = util.findCurrentPageItems(
-      digestsAfterSort,
-      pageSize,
-      currentPage
-    );
+    const shouldShowDigests = util.findCurrentPageItems(digestsAfterSort, pageSize, currentPage);
 
     return (
       <Collapse className="SearchContainer" activeKey={['search']}>
-        <Collapse.Panel
-          header={searchBar}
-          key="search"
-          showArrow={false}
-          forceRender={true}
-        >
+        <Collapse.Panel header={searchBar} key="search" showArrow={false} forceRender={true}>
           {!search ? (
             searchPlaceholder
           ) : (
@@ -171,8 +153,7 @@ class DigestSearchContainer extends React.Component<Props & ReduxProps, State> {
                 current: currentPage,
                 total: digestsAfterSearch.length,
                 showTotal: (total: number) => `Total ${total} digests`,
-                onChange: (newPage: number) =>
-                  this.setState({ currentPage: newPage }),
+                onChange: (newPage: number) => this.setState({ currentPage: newPage }),
               }}
             />
           )}

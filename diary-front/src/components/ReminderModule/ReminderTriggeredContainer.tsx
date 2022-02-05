@@ -64,8 +64,7 @@ class ReminderTriggeredContainer extends React.Component<ReduxProps, State> {
         return today.format('E') === reminder.cycleTime;
       } else if (reminder.cycleType === 'since') {
         return (
-          util.getDateStringWithOffset().substring(5) ===
-            reminder.cycleTime.substring(5) ||
+          util.getDateStringWithOffset().substring(5) === reminder.cycleTime.substring(5) ||
           moment().diff(reminder.cycleTime, 'days') % 100 === 0
         );
       } else {
@@ -83,18 +82,12 @@ class ReminderTriggeredContainer extends React.Component<ReduxProps, State> {
     });
     return (
       <div className="ReminderTriggeredContainer">
-        {triggeredReminders.map((reminder) => (
-          <ReminderMiniObject reminder={reminder} key={reminder._id} />
-        ))}
+        {triggeredReminders.map((reminder) => <ReminderMiniObject reminder={reminder} key={reminder._id} />)}
       </div>
     );
   }
 
-  public componentDidUpdate(
-    prevProps: ReduxProps,
-    prevState: State,
-    snapshot: any
-  ) {
+  public componentDidUpdate(prevProps: ReduxProps, prevState: State, snapshot: any) {
     if (this.props.resyncCounter !== prevProps.resyncCounter) {
       this.getReminders();
     }

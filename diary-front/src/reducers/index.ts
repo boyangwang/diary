@@ -68,9 +68,7 @@ export default (state: ReduxState = INITIAL_STATE, action: Action) => {
     };
   } else if (action.type === 'POST_ENTRY') {
     const date = action.payload.entry.date;
-    const newEntriesArr = _.isArray(state.entriesDateMap[date])
-      ? state.entriesDateMap[date].slice()
-      : [];
+    const newEntriesArr = _.isArray(state.entriesDateMap[date]) ? state.entriesDateMap[date].slice() : [];
     newEntriesArr.push(action.payload.entry);
     return {
       ...state,
@@ -88,13 +86,9 @@ export default (state: ReduxState = INITIAL_STATE, action: Action) => {
     // now we dissemble entire map and re-assemble. Downside is that all related views re-render
     // Since update_entry is lower freq op, this is ok
     // post_entry still only touch the specific day, so it's ok
-    const allEntriesArr = util.fromEntriesDateMapToEntryList(
-      state.entriesDateMap
-    );
+    const allEntriesArr = util.fromEntriesDateMapToEntryList(state.entriesDateMap);
     let newEntriesArr;
-    const findIndex = allEntriesArr.findIndex(
-      (entry) => entry._id === action.payload.entry._id
-    );
+    const findIndex = allEntriesArr.findIndex((entry) => entry._id === action.payload.entry._id);
     if (findIndex === -1) {
       newEntriesArr = [...allEntriesArr, action.payload.entry];
     } else {
@@ -111,16 +105,9 @@ export default (state: ReduxState = INITIAL_STATE, action: Action) => {
     };
   } else if (action.type === 'DELETE_ENTRY') {
     const date = action.payload.entry.date;
-    let newEntriesArr = _.isArray(state.entriesDateMap[date])
-      ? state.entriesDateMap[date].slice()
-      : [];
-    const findIndex = newEntriesArr.findIndex(
-      (entry) => entry._id === action.payload.entry._id
-    );
-    newEntriesArr = [
-      ...newEntriesArr.slice(0, findIndex),
-      ...newEntriesArr.slice(findIndex + 1),
-    ];
+    let newEntriesArr = _.isArray(state.entriesDateMap[date]) ? state.entriesDateMap[date].slice() : [];
+    const findIndex = newEntriesArr.findIndex((entry) => entry._id === action.payload.entry._id);
+    newEntriesArr = [...newEntriesArr.slice(0, findIndex), ...newEntriesArr.slice(findIndex + 1)];
     return {
       ...state,
       entriesDateMap: {
@@ -157,12 +144,8 @@ export default (state: ReduxState = INITIAL_STATE, action: Action) => {
       reminders: [...state.reminders, action.payload.reminder],
     };
   } else if (action.type === 'UPDATE_REMINDER') {
-    let newRemindersArr = _.isArray(state.reminders)
-      ? state.reminders.slice()
-      : [];
-    const findIndex = newRemindersArr.findIndex(
-      (reminder) => reminder._id === action.payload.reminder._id
-    );
+    let newRemindersArr = _.isArray(state.reminders) ? state.reminders.slice() : [];
+    const findIndex = newRemindersArr.findIndex((reminder) => reminder._id === action.payload.reminder._id);
     if (findIndex === -1) {
       newRemindersArr = [...newRemindersArr, action.payload.reminder];
     } else {
@@ -177,16 +160,9 @@ export default (state: ReduxState = INITIAL_STATE, action: Action) => {
       reminders: newRemindersArr,
     };
   } else if (action.type === 'DELETE_REMINDER') {
-    let newRemindersArr = _.isArray(state.reminders)
-      ? state.reminders.slice()
-      : [];
-    const findIndex = newRemindersArr.findIndex(
-      (reminder) => reminder._id === action.payload.reminder._id
-    );
-    newRemindersArr = [
-      ...newRemindersArr.slice(0, findIndex),
-      ...newRemindersArr.slice(findIndex + 1),
-    ];
+    let newRemindersArr = _.isArray(state.reminders) ? state.reminders.slice() : [];
+    const findIndex = newRemindersArr.findIndex((reminder) => reminder._id === action.payload.reminder._id);
+    newRemindersArr = [...newRemindersArr.slice(0, findIndex), ...newRemindersArr.slice(findIndex + 1)];
     return {
       ...state,
       reminders: newRemindersArr,
@@ -203,17 +179,11 @@ export default (state: ReduxState = INITIAL_STATE, action: Action) => {
     };
   } else if (action.type === 'UPDATE_TODO') {
     let newTodosArr = _.isArray(state.todos) ? state.todos.slice() : [];
-    const findIndex = newTodosArr.findIndex(
-      (todo) => todo._id === action.payload.todo._id
-    );
+    const findIndex = newTodosArr.findIndex((todo) => todo._id === action.payload.todo._id);
     if (findIndex === -1) {
       newTodosArr = [...newTodosArr, action.payload.todo];
     } else {
-      newTodosArr = [
-        ...newTodosArr.slice(0, findIndex),
-        action.payload.todo,
-        ...newTodosArr.slice(findIndex + 1),
-      ];
+      newTodosArr = [...newTodosArr.slice(0, findIndex), action.payload.todo, ...newTodosArr.slice(findIndex + 1)];
     }
     return {
       ...state,
@@ -221,13 +191,8 @@ export default (state: ReduxState = INITIAL_STATE, action: Action) => {
     };
   } else if (action.type === 'DELETE_TODO') {
     let newTodosArr = _.isArray(state.todos) ? state.todos.slice() : [];
-    const findIndex = newTodosArr.findIndex(
-      (todo) => todo._id === action.payload.todo._id
-    );
-    newTodosArr = [
-      ...newTodosArr.slice(0, findIndex),
-      ...newTodosArr.slice(findIndex + 1),
-    ];
+    const findIndex = newTodosArr.findIndex((todo) => todo._id === action.payload.todo._id);
+    newTodosArr = [...newTodosArr.slice(0, findIndex), ...newTodosArr.slice(findIndex + 1)];
     return {
       ...state,
       todos: newTodosArr,
@@ -244,9 +209,7 @@ export default (state: ReduxState = INITIAL_STATE, action: Action) => {
     };
   } else if (action.type === 'UPDATE_DIGEST') {
     let newDigestsArr = _.isArray(state.digests) ? state.digests.slice() : [];
-    const findIndex = newDigestsArr.findIndex(
-      (digest) => digest._id === action.payload.digest._id
-    );
+    const findIndex = newDigestsArr.findIndex((digest) => digest._id === action.payload.digest._id);
     // this was added first for digest, so that when my digest and my _id doesn't exist in digests,
     // it will simply append. When will this happen? In single digest view. Digests arr is empty, and only the
     // requested digest is returned.
@@ -266,13 +229,8 @@ export default (state: ReduxState = INITIAL_STATE, action: Action) => {
     };
   } else if (action.type === 'DELETE_DIGEST') {
     let newDigestsArr = _.isArray(state.digests) ? state.digests.slice() : [];
-    const findIndex = newDigestsArr.findIndex(
-      (digest) => digest._id === action.payload.digest._id
-    );
-    newDigestsArr = [
-      ...newDigestsArr.slice(0, findIndex),
-      ...newDigestsArr.slice(findIndex + 1),
-    ];
+    const findIndex = newDigestsArr.findIndex((digest) => digest._id === action.payload.digest._id);
+    newDigestsArr = [...newDigestsArr.slice(0, findIndex), ...newDigestsArr.slice(findIndex + 1)];
     return {
       ...state,
       digests: newDigestsArr,

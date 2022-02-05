@@ -20,10 +20,7 @@ class LoginFormValues {
   public username: string;
   public password: string;
 }
-class NormalLoginForm extends React.Component<
-  Props & FormComponentProps,
-  State
-> {
+class NormalLoginForm extends React.Component<Props & FormComponentProps, State> {
   constructor(props: Props & FormComponentProps) {
     super(props);
     this.state = new State();
@@ -32,28 +29,26 @@ class NormalLoginForm extends React.Component<
   public handleSubmit = (e: any) => {
     this.setState({ loading: true });
     e.preventDefault();
-    this.props.form.validateFields(
-      (validateErr: any, values: LoginFormValues) => {
-        if (!validateErr) {
-          api.login(values).then(
-            (data: LoginResponse & ErrResponse) => {
-              if (data.err) {
-                message.warn('' + data.err);
-                this.setState({ loading: false });
-              } else {
-                dispatch({
-                  type: 'LOGIN',
-                  payload: { user: data.data.user },
-                });
-              }
-            },
-            (err) => {
+    this.props.form.validateFields((validateErr: any, values: LoginFormValues) => {
+      if (!validateErr) {
+        api.login(values).then(
+          (data: LoginResponse & ErrResponse) => {
+            if (data.err) {
+              message.warn('' + data.err);
               this.setState({ loading: false });
+            } else {
+              dispatch({
+                type: 'LOGIN',
+                payload: { user: data.data.user },
+              });
             }
-          );
-        }
+          },
+          (err) => {
+            this.setState({ loading: false });
+          }
+        );
       }
-    );
+    });
   };
 
   public render() {
@@ -90,11 +85,7 @@ class NormalLoginForm extends React.Component<
             <Checkbox>Remember me</Checkbox>
           )} */}
           {/* <a className="login-form-forgot" href="">Forgot password</a> */}
-          <Button
-            type="primary"
-            htmlType="submit"
-            className="login-form-button"
-          >
+          <Button type="primary" htmlType="submit" className="login-form-button">
             Log in
           </Button>
           <Button
@@ -103,8 +94,7 @@ class NormalLoginForm extends React.Component<
             href="/api/oauth/github"
             onClick={() => this.setState({ loading: true })}
           >
-            <Icon type="github" /> Log in using GitHub{' '}
-            {loading && <Icon type="loading" />}
+            <Icon type="github" /> Log in using GitHub {loading && <Icon type="loading" />}
           </Button>
           {/* Or <a href="">register now!</a> */}
         </Form.Item>

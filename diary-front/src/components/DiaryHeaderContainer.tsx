@@ -48,19 +48,14 @@ class DiaryHeaderContainer extends React.Component<Props & ReduxProps> {
       <Layout.Header className="DiaryHeaderContainer noLogin">
         <div className="DiaryAppTitleDiv logo">
           <h1>DiaryApp</h1>
-          <h4 className="grey">
-            {process.env.NODE_ENV === 'production' ? 'PROD' : 'DEV'}
-          </h4>
+          <h4 className="grey">{process.env.NODE_ENV === 'production' ? 'PROD' : 'DEV'}</h4>
           &nbsp;
           <h4 className="grey">v{backendVersion}</h4>
         </div>
         <Menu theme="light" mode="horizontal">
           <Menu.Item key="issue">
             <Button>
-              <a
-                target="_blank"
-                href="https://github.com/boyangwang/diary/issues/new"
-              >
+              <a target="_blank" href="https://github.com/boyangwang/diary/issues/new">
                 Issue
               </a>
             </Button>
@@ -90,9 +85,7 @@ class DiaryHeaderContainer extends React.Component<Props & ReduxProps> {
           <div className="DiaryAppTitleDiv logo">
             <h1>DiaryApp</h1>
             <h4 className="grey">
-              {process.env.NODE_ENV === 'production' ? 'PROD' : 'DEV'}&nbsp;v{
-                backendVersion
-              }
+              {process.env.NODE_ENV === 'production' ? 'PROD' : 'DEV'}&nbsp;v{backendVersion}
             </h4>
           </div>
         </Menu.Item>
@@ -111,10 +104,7 @@ class DiaryHeaderContainer extends React.Component<Props & ReduxProps> {
           </Menu.Item>
           <Menu.Divider />
           <Menu.Item key="issue">
-            <a
-              target="_blank"
-              href="https://github.com/boyangwang/diary/issues/new"
-            >
+            <a target="_blank" href="https://github.com/boyangwang/diary/issues/new">
               Issue
             </a>
           </Menu.Item>
@@ -162,11 +152,7 @@ class DiaryHeaderContainer extends React.Component<Props & ReduxProps> {
             </NavLink>
           </Menu.Item>
           <Menu.Item key="user" className="DiaryHeaderMenuItemContainer user">
-            <Dropdown
-              overlay={userMenuItem}
-              trigger={['click']}
-              placement="topRight"
-            >
+            <Dropdown overlay={userMenuItem} trigger={['click']} placement="topRight">
               <Button className="userButton" icon="user" />
             </Dropdown>
           </Menu.Item>

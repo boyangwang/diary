@@ -110,18 +110,12 @@ class EntryView extends React.Component<ReduxProps, State> {
     );
   }
 
-  public async fetchDaysEntries(
-    entriesDateMap: EntriesDateMap,
-    user: User | null,
-    dateRange: string[]
-  ) {
+  public async fetchDaysEntries(entriesDateMap: EntriesDateMap, user: User | null, dateRange: string[]) {
     if (!user) {
       return;
     }
 
-    const missingDays = dateRange.filter(
-      (dateString) => !entriesDateMap[dateString]
-    );
+    const missingDays = dateRange.filter((dateString) => !entriesDateMap[dateString]);
     if (missingDays.length === 0) {
       return;
     }
@@ -170,10 +164,7 @@ class EntryView extends React.Component<ReduxProps, State> {
     const { entriesDateMap, user } = this.props;
     const { tipOffset, lastDaysRange } = this.state;
 
-    const dateRange = util.getDateStringsFromDateRange(
-      tipOffset,
-      lastDaysRange
-    );
+    const dateRange = util.getDateStringsFromDateRange(tipOffset, lastDaysRange);
 
     this.fetchDaysEntries(entriesDateMap, user, dateRange);
     this.fetchCategoryFrequencyMap(user);
@@ -181,18 +172,11 @@ class EntryView extends React.Component<ReduxProps, State> {
     this.fetchHistoricalStreaks(user);
   }
 
-  public componentDidUpdate(
-    prevProps: ReduxProps,
-    prevState: State,
-    snapshot: any
-  ) {
+  public componentDidUpdate(prevProps: ReduxProps, prevState: State, snapshot: any) {
     const { entriesDateMap, user } = this.props;
     const { tipOffset, lastDaysRange } = this.state;
 
-    const dateRange = util.getDateStringsFromDateRange(
-      tipOffset,
-      lastDaysRange
-    );
+    const dateRange = util.getDateStringsFromDateRange(tipOffset, lastDaysRange);
 
     if (this.props.resyncCounter !== prevProps.resyncCounter) {
       this.fetchDaysEntries({}, user, dateRange);
@@ -208,10 +192,7 @@ class EntryView extends React.Component<ReduxProps, State> {
     const tailDayString = moment(tipDayString)
       .add(-(lastDaysRange - 1), 'days')
       .format(util.dateStringFormat);
-    const dateRange = util.getDateStringsFromDateRange(
-      tipOffset,
-      lastDaysRange
-    );
+    const dateRange = util.getDateStringsFromDateRange(tipOffset, lastDaysRange);
 
     return (
       <div className="EntryView">
@@ -232,18 +213,10 @@ class EntryView extends React.Component<ReduxProps, State> {
           </Col>
         </Row>
 
-        <Row
-          className="ArrowButtonRowDiv"
-          type="flex"
-          style={{ justifyContent: 'center', alignItems: 'center' }}
-        >
+        <Row className="ArrowButtonRowDiv" type="flex" style={{ justifyContent: 'center', alignItems: 'center' }}>
           <Col className="ArrowButtonColDiv">
             <div className="ArrowButtonDiv">
-              <Button
-                shape="circle"
-                icon="left"
-                onClick={this.handleArrowButtonClick('left')}
-              />
+              <Button shape="circle" icon="left" onClick={this.handleArrowButtonClick('left')} />
             </div>
           </Col>
           <Col>
@@ -251,23 +224,12 @@ class EntryView extends React.Component<ReduxProps, State> {
           </Col>
           <Col className="ArrowButtonColDiv">
             <div className="ArrowButtonDiv">
-              <Button
-                shape="circle"
-                icon="right"
-                onClick={this.handleArrowButtonClick('right')}
-              />
+              <Button shape="circle" icon="right" onClick={this.handleArrowButtonClick('right')} />
             </div>
           </Col>
         </Row>
-        <Row
-          type="flex"
-          style={{ justifyContent: 'center', alignItems: 'center' }}
-        >
-          <DiaryInputNumber
-            onChange={this.handleDaysRangeChange}
-            suffix="weeks"
-            prefix="Showing"
-          />
+        <Row type="flex" style={{ justifyContent: 'center', alignItems: 'center' }}>
+          <DiaryInputNumber onChange={this.handleDaysRangeChange} suffix="weeks" prefix="Showing" />
         </Row>
         <EntryTrendChartContainer dateRange={dateRange} />
         <Row type="flex">

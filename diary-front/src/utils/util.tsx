@@ -9,10 +9,7 @@ import { AutoComplete } from 'antd';
 import { isArray } from 'util';
 import { Digest, EntriesDateMap, Entry, FrequencyMap } from 'utils/api';
 import mylog from 'utils/mylog';
-import {
-  dateStringFormat,
-  getDateStringWithOffset,
-} from '../../../isomorphicUtil';
+import { dateStringFormat, getDateStringWithOffset } from '../../../isomorphicUtil';
 
 const base64Chars = [
   'A',
@@ -167,11 +164,7 @@ export default {
   },
   errComponent: <Icon type="exclamation-circle-o" />,
   compare,
-  compareDate(
-    a: string | undefined,
-    b: string | undefined,
-    isDescending: boolean = false
-  ) {
+  compareDate(a: string | undefined, b: string | undefined, isDescending: boolean = false) {
     let res;
     if (_.isNil(a)) {
       // b is bigger
@@ -188,11 +181,7 @@ export default {
       return res;
     }
   },
-  findCurrentPageItems: (
-    items: any[],
-    pageSize: number,
-    currentPage: number
-  ) => {
+  findCurrentPageItems: (items: any[], pageSize: number, currentPage: number) => {
     return items.slice((currentPage - 1) * pageSize, currentPage * pageSize);
   },
   sortDigests: (digests: Digest[]) => {
@@ -229,11 +218,7 @@ export default {
       });
     } else if (!urlValue) {
       searchParams.set(urlParamName, stateValue);
-      window.history.replaceState(
-        {},
-        '',
-        `${location.pathname}?${searchParams}`
-      );
+      window.history.replaceState({}, '', `${location.pathname}?${searchParams}`);
     } else {
       if (isUrlToState) {
         setState({
@@ -241,11 +226,7 @@ export default {
         });
       } else {
         searchParams.set(urlParamName, stateValue);
-        window.history.replaceState(
-          {},
-          '',
-          `${location.pathname}?${searchParams}`
-        );
+        window.history.replaceState({}, '', `${location.pathname}?${searchParams}`);
       }
     }
   },
@@ -263,9 +244,7 @@ export default {
     return new Array(range)
       .fill(0)
       .map((item, i) => i)
-      .map((currentOffset) =>
-        getDateStringWithOffset(-currentOffset + tipOffset)
-      )
+      .map((currentOffset) => getDateStringWithOffset(-currentOffset + tipOffset))
       .reverse();
   },
   wrappedWithRouter: (component: any) => {
@@ -274,9 +253,7 @@ export default {
   fromEntryListToEntriesDateMap: (entryList: Entry[]): EntriesDateMap => {
     const entriesDateMap = {};
     entryList.forEach((e) => {
-      entriesDateMap[e.date] = isArray(entriesDateMap[e.date])
-        ? [...entriesDateMap[e.date], e]
-        : [e];
+      entriesDateMap[e.date] = isArray(entriesDateMap[e.date]) ? [...entriesDateMap[e.date], e] : [e];
     });
     return entriesDateMap;
   },
