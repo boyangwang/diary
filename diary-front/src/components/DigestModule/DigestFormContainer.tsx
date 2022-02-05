@@ -5,7 +5,8 @@ import * as moment from 'moment';
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { Button, Card, DatePicker, Form, Icon, Input, message } from 'antd';
+import { Icon } from '@ant-design/compatible';
+import { Button, Card, DatePicker, Form, Input, message } from 'antd';
 
 import { ReduxState, User } from 'reducers';
 import { dispatch } from 'reducers/store';

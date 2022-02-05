@@ -4,12 +4,12 @@ import * as moment from 'moment';
 import React from 'react';
 import { connect } from 'react-redux';
 
+import { Icon } from '@ant-design/compatible';
 import {
   Button,
   Card,
   DatePicker,
   Form,
-  Icon,
   Input,
   InputNumber,
   message,

@@ -2,7 +2,8 @@ import { SelectValue } from 'antd/lib/select';
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { Icon, Input, Select, Tooltip } from 'antd';
+import { Icon } from '@ant-design/compatible';
+import { Input, Select, Tooltip } from 'antd';
 
 import { ReduxState } from 'reducers';
 import { Digest, FrequencyMap } from 'utils/api';

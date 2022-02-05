@@ -2,7 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link, NavLink, withRouter } from 'react-router-dom';
 
-import { Button, Dropdown, Icon, Layout, Menu } from 'antd';
+import { Icon } from '@ant-design/compatible';
+import { Button, Dropdown, Layout, Menu } from 'antd';
 
 import { ReduxState, User } from 'reducers';
 import { dispatch } from 'reducers/store';

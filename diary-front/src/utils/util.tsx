@@ -3,7 +3,8 @@ import * as moment from 'moment';
 import React from 'react';
 import { withRouter } from 'react-router';
 
-import { AutoComplete, Icon } from 'antd';
+import { Icon } from '@ant-design/compatible';
+import { AutoComplete } from 'antd';
 
 import { isArray } from 'util';
 import { Digest, EntriesDateMap, Entry, FrequencyMap } from 'utils/api';

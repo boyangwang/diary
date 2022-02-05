@@ -4,7 +4,7 @@ import Animate from 'rc-animate';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
-import { Icon } from 'antd';
+import { Icon } from '@ant-design/compatible';
 
 import { FrequencyMap } from 'utils/api';
 

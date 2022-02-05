@@ -33,7 +33,6 @@
     "no-switch-case-fall-through": true,
     "no-trailing-whitespace": false,
     "no-unused-expression": true,
-    "no-use-before-declare": true,
     "radix": true,
     "switch-default": true,
     "trailing-comma": [false],
@@ -48,7 +47,11 @@
     ],
     "object-literal-sort-keys": false,
     "ordered-imports": true,
-    "max-classes-per-file": false
+    "max-classes-per-file": false,
+    "max-line-length": [
+      true,
+      120
+    ]
   },
   "jsRules": {
     "no-empty": false,

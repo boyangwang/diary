@@ -2,7 +2,8 @@ import classnames from 'classnames';
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { Badge, Button, Card, Icon, message } from 'antd';
+import { Icon } from '@ant-design/compatible';
+import { Badge, Button, Card, message } from 'antd';
 
 import ReactDOM from 'react-dom';
 import { ReduxState, User } from 'reducers';

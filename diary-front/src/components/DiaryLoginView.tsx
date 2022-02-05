@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { Button, Form, Icon, Input, message } from 'antd';
+import { Icon } from '@ant-design/compatible';
+import { Button, Form, Input, message } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 
 import { dispatch } from 'reducers/store';
