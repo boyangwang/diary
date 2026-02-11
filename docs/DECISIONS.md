@@ -121,3 +121,78 @@ Every entry type maps to exactly one domain. Points aggregate by domain for high
 - Entry types already reflect Boyang's real life activities
 - Adding domain mapping is additive, not destructive
 - New types will be added as needed (29 is a starting point, not a limit)
+
+---
+
+## ADR-008: Dedicated Telegram Bot for Diary
+
+**Date:** 2026-02-11
+**Status:** Accepted
+
+**Context:** Need to decide how diary input reaches the system. Options: (a) slash commands in existing Doudou chat, (b) dedicated bot.
+
+**Decision:** Separate Telegram bot account dedicated exclusively to diary operations.
+
+**Rationale:**
+- Every message to the bot IS diary input — no slash command friction
+- No intent detection needed — context is always diary
+- Clean separation from general Doudou conversation
+- Explicit context switch: opening this chat = "I'm logging my day"
+- No risk of accidental diary logging from casual conversation
+
+**Trade-off:** User opens a different chat. But this is a feature — deliberate context boundary.
+
+---
+
+## ADR-009: Confirm Before Persist (Safety)
+
+**Date:** 2026-02-11
+**Status:** Accepted
+
+**Context:** LLM parses natural language into operations. Misinterpretation could cause data loss. Example: "Oh shit, I didn't do anything today" must NEVER become "delete all entries."
+
+**Decision:** All operations are shown to the user as a preview before any data is written. User must explicitly confirm (e.g., "ok", "confirm") before persistence.
+
+**Flow:** Input → LLM maps to primitives → Show preview → User confirms/edits/cancels → Only then persist.
+
+**Rationale:**
+- Prevents catastrophic misinterpretation
+- User always knows exactly what will be written
+- Supports iterative correction ("change gym to 2hrs")
+- Zero data loss risk from LLM errors
+
+---
+
+## ADR-010: Three Primitive Operations Only
+
+**Date:** 2026-02-11
+**Status:** Accepted
+
+**Context:** Need to define what the LLM can map natural language to.
+
+**Decision:** Exactly three primitives: ADD, DELETE, UPDATE. No bulk operations. No "delete all." Each operates on a single entry.
+
+**Rationale:**
+- Minimal surface area for mistakes
+- Easy to preview and understand
+- Each operation is atomic and reversible
+- Combined with confirm-before-persist, provides strong safety guarantees
+
+---
+
+## ADR-011: Two-Tier Points Model
+
+**Date:** 2026-02-11
+**Status:** Accepted
+
+**Context:** Some activities have fixed points (brushteeth = 1 pt always), others depend on duration/effort (gym = varies by hours).
+
+**Decision:** Two tiers:
+- **Simple (non-parameterized):** Fixed `defaultPoints`, no questions needed
+- **Parameterized:** Has `defaultParamValue`, `defaultParamUnit`, `pointsPerUnit`. Points = param × rate. If user doesn't specify param, use default.
+
+**Examples:**
+- `brushteeth` (simple): always 1 pt
+- `gym` (parameterized): default 1 hr × 1.5 pts/hr = 1.5 pts; "gym 2hrs" = 3.0 pts
+
+**Rationale:** Matches Boyang's historical usage patterns (work: 1-8 pts based on hours, brushteeth: always 1 pt). Preserves simplicity for routine habits while supporting granularity for effort-based activities.
