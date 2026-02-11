@@ -1,12 +1,25 @@
 {
-  "private": true,
-  "devDependencies": {
-    "husky": "^0.15.0-rc.9"
+  "name": "diary",
+  "version": "0.1.0",
+  "description": "Life tracking system — quantified self with Harada method structure",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "",
-      "pre-push": "echo pre-push && cd diary-front && yarn run pretty && cd ../diary-back && yarn run pretty && cd .. && echo `git commit -am \"pretty\"` && cd ./diary-back && yarn run test"
-    }
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx watch src/index.ts",
+    "start": "node dist/index.js",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "serve": "tsx src/server/serve.ts",
+    "render": "tsx src/cli/render.ts",
+    "import": "tsx src/cli/import-legacy.ts"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.0",
+    "tsx": "^4.19.0",
+    "vitest": "^3.0.0",
+    "@types/node": "^22.0.0"
   }
 }
