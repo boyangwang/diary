@@ -14,7 +14,8 @@
     "test:watch": "vitest",
     "serve": "tsx src/server/serve.ts",
     "render": "tsx src/cli/render.ts",
-    "import": "tsx src/cli/import-legacy.ts"
+    "import": "tsx src/cli/import-legacy.ts",
+    "bot": "tsx src/bot/telegram.ts"
   },
   "devDependencies": {
     "typescript": "^5.7.0",
