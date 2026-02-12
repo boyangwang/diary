@@ -8,7 +8,7 @@
 import { readFile, writeFile, readdir, rename, mkdir } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import { join, dirname } from "node:path";
-import type { DailyFile, EntryTypesFile, SubGoalsFile } from "../schema/types.js";
+import type { DailyFile, EntryTypesFile } from "../schema/types.js";
 
 // ---------------------------------------------------------------------------
 // Configuration
@@ -78,33 +78,6 @@ export async function readEntryTypes(): Promise<EntryTypesFile> {
 /** Write the entry types registry atomically. */
 export async function writeEntryTypes(data: EntryTypesFile): Promise<void> {
   const path = entryTypesPath();
-  await mkdir(dirname(path), { recursive: true });
-  const tmp = `${path}.tmp.${Date.now()}`;
-  await writeFile(tmp, JSON.stringify(data, null, 2) + "\n", "utf-8");
-  await rename(tmp, path);
-}
-
-// ---------------------------------------------------------------------------
-// Sub-Goals Registry
-// ---------------------------------------------------------------------------
-
-function subGoalsPath(): string {
-  return join(DATA_DIR, "sub-goals.json");
-}
-
-/** Read the sub-goals registry. Returns empty if not found. */
-export async function readSubGoals(): Promise<SubGoalsFile> {
-  const path = subGoalsPath();
-  if (!existsSync(path)) {
-    return { subGoals: [] };
-  }
-  const raw = await readFile(path, "utf-8");
-  return JSON.parse(raw) as SubGoalsFile;
-}
-
-/** Write the sub-goals registry atomically. */
-export async function writeSubGoals(data: SubGoalsFile): Promise<void> {
-  const path = subGoalsPath();
   await mkdir(dirname(path), { recursive: true });
   const tmp = `${path}.tmp.${Date.now()}`;
   await writeFile(tmp, JSON.stringify(data, null, 2) + "\n", "utf-8");

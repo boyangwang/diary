@@ -60,9 +60,39 @@ interface LegacyExport {
 // Deduplication Map (legacy ID → canonical ID)
 // ---------------------------------------------------------------------------
 
+// Map legacy entry type IDs → new LOrder IDs
 const DEDUP_MAP: Record<string, string> = {
-  brushteech: "brushteeth",
-  vitaminsupplements: "vitamin",
+  // Deduplication
+  brushteech: "med-tooth",
+  brushteeth: "med-tooth",
+  vitaminsupplements: "med-eye", // was vitamin supplements, closest match
+  vitamin: "med-eye", // vitamin/supplements → general medical daily
+  // Legacy → LOrder mapping
+  gym: "body-gym",
+  badminton: "body-badminton",
+  walk: "body-zone2",
+  physio: "body-rehab",
+  shower: "body-gym", // hygiene, mapped to gym adhoc for now
+  meditation: "mind-home-wellness",
+  interpersonal: "mind-friends",
+  dreamdiary: "mind-home-wellness",
+  tourism: "mind-friends",
+  abstinence: "mind-home-wellness",
+  mushroom: "mind-psychedelics",
+  sleepearly: "zzz-winddown",
+  nosupper: "eat-fasting",
+  eatless: "eat-safefood",
+  sinusrinse: "med-nose",
+  medical: "med-screening",
+  work: "biz-office",
+  dev: "logi-productivity",
+  chore: "mind-clean",
+  digest: "sci-learn",
+  read: "sci-learn",
+  academic: "sci-learn",
+  lantingflorilegium: "sci-publish",
+  heresyanthology: "sci-publish",
+  serendipity: "logi-habit",
 };
 
 function canonicalId(legacyId: string): string {

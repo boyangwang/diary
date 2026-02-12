@@ -1,32 +1,34 @@
 /**
  * Core type definitions for the Diary life tracking system.
  *
- * These types define the data contracts used across all layers:
- * storage, computation, and rendering.
+ * LOrder Framework (Boyang's adaptation of Harada OW64):
+ *   Goal (1): Super Healthy Longevity 120
+ *   Subgoals (8): Physical, Mental, Sleep, Eat, Medical, Business, Academic, Methodology
+ *   EntryTypes (many): Body-Weight Lifting, Mind-Home Wellness, etc.
+ *   EntryItems: individual logged instances
  */
 
 // ---------------------------------------------------------------------------
-// Harada Domains
+// Subgoals (the 8 LOrder domains)
 // ---------------------------------------------------------------------------
 
 /**
- * The 8 life domains from Boyang's Harada method framework.
+ * The 8 subgoals from LOrder (Boyang's Harada OW64 adaptation).
  *
- * Outlive 4: physical, mental, sleep, eat
- * Headache 1: medical
- * Mundane 3: business, academic, methodology
+ * Outlive 5: physical, mental, sleep, eat, medical
+ * IRL 3: business, academic, methodology
  */
-export type HaradaDomain =
-  | "physical"     // 身体 — strength, cardio, flexibility, hygiene
-  | "mental"       // 心理 — wellness, social, dog, relaxation
-  | "sleep"        // 睡 — wind-down, sleep quality, timing
-  | "eat"          // 吃 — fasting, diet discipline, safe foods
-  | "medical"      // 医疗 — health screening, treatments, medication
-  | "business"     // 业界 — work, trading, networking, PR, content
-  | "academic"     // 学界 — learning, papers, institutional connections
-  | "methodology"; // 鸡血 — productivity, habit systems, tools, rituals
+export type Subgoal =
+  | "physical"     // 身体 Body-  (Outlive)
+  | "mental"       // 心理 Mind-  (Outlive)
+  | "sleep"        // 睡   Zzz-   (Outlive)
+  | "eat"          // 吃   Eat-   (Outlive)
+  | "medical"      // 医疗 Med-   (Outlive)
+  | "business"     // 业界 Biz-   (IRL)
+  | "academic"     // 学界 Sci-   (IRL)
+  | "methodology"; // 方法论 Logi- (IRL)
 
-export const HARADA_DOMAINS: readonly HaradaDomain[] = [
+export const SUBGOALS: readonly Subgoal[] = [
   "physical",
   "mental",
   "sleep",
@@ -37,46 +39,23 @@ export const HARADA_DOMAINS: readonly HaradaDomain[] = [
   "methodology",
 ] as const;
 
-export const DOMAIN_LABELS: Record<HaradaDomain, { en: string; zh: string }> = {
-  physical:    { en: "Physical",    zh: "身体" },
-  mental:      { en: "Mental",      zh: "心理" },
-  sleep:       { en: "Sleep",       zh: "睡" },
-  eat:         { en: "Eat",         zh: "吃" },
-  medical:     { en: "Medical",     zh: "医疗" },
-  business:    { en: "Business",    zh: "业界" },
-  academic:    { en: "Academic",    zh: "学界" },
-  methodology: { en: "Methodology", zh: "鸡血" },
+export const SUBGOAL_META: Record<Subgoal, { en: string; zh: string; prefix: string; category: "Outlive" | "IRL" }> = {
+  physical:    { en: "Physical",    zh: "身体",   prefix: "Body-", category: "Outlive" },
+  mental:      { en: "Mental",      zh: "心理",   prefix: "Mind-", category: "Outlive" },
+  sleep:       { en: "Sleep",       zh: "睡",     prefix: "Zzz-",  category: "Outlive" },
+  eat:         { en: "Eat",         zh: "吃",     prefix: "Eat-",  category: "Outlive" },
+  medical:     { en: "Medical",     zh: "医疗",   prefix: "Med-",  category: "Outlive" },
+  business:    { en: "Business",    zh: "业界",   prefix: "Biz-",  category: "IRL" },
+  academic:    { en: "Academic",    zh: "学界",   prefix: "Sci-",  category: "IRL" },
+  methodology: { en: "Methodology", zh: "方法论", prefix: "Logi-", category: "IRL" },
 };
 
-// ---------------------------------------------------------------------------
-// Sub-Goals (intermediate taxonomy layer)
-// ---------------------------------------------------------------------------
-
-/**
- * Sub-goals sit between Harada domains and entry types.
- *
- * Structure: HaradaDomain → SubGoal[] → EntryType[]
- *
- * Example: Physical → Strength Training → [Gym, Pilates]
- *          Physical → Cardio & Sports  → [Badminton, Walk]
- */
-export interface SubGoal {
-  /** Unique slug, e.g., "strength-training" */
-  id: string;
-  /** Display name, e.g., "Strength Training" */
-  title: string;
-  /** Chinese display name */
-  titleZh: string;
-  /** Parent Harada domain */
-  domain: HaradaDomain;
-  /** Brief description */
-  description: string;
-}
-
-/** The sub-goals registry file format. */
-export interface SubGoalsFile {
-  subGoals: SubGoal[];
-}
+// Backwards compat alias
+export type HaradaDomain = Subgoal;
+export const HARADA_DOMAINS = SUBGOALS;
+export const DOMAIN_LABELS: Record<Subgoal, { en: string; zh: string }> = Object.fromEntries(
+  Object.entries(SUBGOAL_META).map(([k, v]) => [k, { en: v.en, zh: v.zh }])
+) as Record<Subgoal, { en: string; zh: string }>;
 
 // ---------------------------------------------------------------------------
 // Entry Types
@@ -84,9 +63,9 @@ export interface SubGoalsFile {
 
 /** Defines a trackable activity category. */
 export interface EntryType {
-  /** Unique slug, e.g., "gym", "brushteeth" */
+  /** Unique slug, e.g., "body-weight-lifting", "mind-home-wellness" */
   id: string;
-  /** Display name, e.g., "Gym", "Brush Teeth" */
+  /** Display name with prefix, e.g., "Body-Weight Lifting" */
   title: string;
   /** Default points when logging */
   defaultPoints: number;
@@ -94,10 +73,8 @@ export interface EntryType {
   pointStep: number;
   /** Expected frequency */
   routine: "Daily" | "Weekly" | "Adhoc";
-  /** Harada method domain */
-  domain: HaradaDomain;
-  /** Sub-goal within the domain */
-  subGoalId: string;
+  /** LOrder subgoal */
+  domain: Subgoal;
   /** Gradient hex colors (no #), e.g., ["FC8D3C", "FF5912"] */
   themeColors: [string, string];
   /** Unix timestamp ms */
@@ -112,7 +89,7 @@ export interface EntryTypesFile {
 }
 
 // ---------------------------------------------------------------------------
-// Entry Instances
+// Entry Instances (EntryItems in LOrder terminology)
 // ---------------------------------------------------------------------------
 
 /** A single logged activity instance. */
@@ -149,7 +126,7 @@ export interface DailySummary {
   entries: EntryInstance[];
   totalPoints: number;
   entryCount: number;
-  pointsByDomain: Record<HaradaDomain, number>;
+  pointsByDomain: Record<Subgoal, number>;
   pointsByType: Record<string, number>;
 }
 
@@ -178,5 +155,5 @@ export interface WeekSummary {
   totalPoints: number;
   avgPointsPerDay: number;
   activeDays: number;
-  pointsByDomain: Record<HaradaDomain, number>;
+  pointsByDomain: Record<Subgoal, number>;
 }

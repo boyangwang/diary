@@ -1,49 +1,12 @@
 {
   "subGoals": [
-    { "id": "weight-lifting", "title": "Weight Lifting", "titleZh": "抗阻训练", "domain": "physical", "description": "Salam, Gym, hotel/Bryan Johnson/adhoc, core muscle physio, VR" },
-    { "id": "cardio-zone2", "title": "Cardio / Zone 2", "titleZh": "心肺有氧", "domain": "physical", "description": "Running + dog walking, elliptical, bike, zone 5 occasional, cardiac rehab" },
-    { "id": "badminton", "title": "Badminton", "titleZh": "羽毛球", "domain": "physical", "description": "Find coach, rhythm that fits schedule" },
-    { "id": "flexibility", "title": "Flexibility", "titleZh": "柔韧性", "domain": "physical", "description": "Pilates/Nova/DrStretch, abs, arm, 提肛" },
-    { "id": "thrill-of-the-fight", "title": "Thrill of the Fight", "titleZh": "VR拳击", "domain": "physical", "description": "VR Headset boxing game" },
-
-    { "id": "home-wellness", "title": "Home Wellness", "titleZh": "居家养生", "domain": "mental", "description": "Tapping, Shiftwave chair, guided meditation, hypnosis, NSDR, PMR, ZField" },
-    { "id": "away-wellness", "title": "Away Wellness", "titleZh": "外出养生", "domain": "mental", "description": "Facial, massage (foot/body), scalp, sauna, HBOT, sound bath, craniosacral" },
-    { "id": "psychedelics", "title": "Psychedelics", "titleZh": "迷幻", "domain": "mental", "description": "Psychedelic experiences" },
-    { "id": "friends", "title": "Friends", "titleZh": "朋友", "domain": "mental", "description": "Social connection, interpersonal" },
-    { "id": "dog", "title": "Dog", "titleZh": "遛狗", "domain": "mental", "description": "Daily walks, evening walks when restless" },
-    { "id": "positive-reinforcement", "title": "Positive Reinforcement", "titleZh": "正向激励", "domain": "mental", "description": "Positive reinforcement practices" },
-
-    { "id": "sleep-habits", "title": "Sleep Habits", "titleZh": "睡眠习惯", "domain": "sleep", "description": "No all-nighters, temperature, wind-down, timing, medication" },
-
-    { "id": "fasting", "title": "Fasting", "titleZh": "断食", "domain": "eat", "description": "Fasting 16+, no eating after 9:30 PM" },
-    { "id": "safe-food", "title": "Safe Food & Avoid Food", "titleZh": "安全饮食", "domain": "eat", "description": "Safe foods, no spicy, no oily, no bad BBQ, meal plan" },
-
-    { "id": "skin", "title": "Skin", "titleZh": "皮肤", "domain": "medical", "description": "Skin care" },
-    { "id": "eye", "title": "Eye", "titleZh": "眼睛", "domain": "medical", "description": "Ikervis + moisturizer regimen" },
-    { "id": "heart", "title": "Heart", "titleZh": "心脏", "domain": "medical", "description": "Cardiac rehab, zone training" },
-    { "id": "health-screening", "title": "Health Screening", "titleZh": "健康检查", "domain": "medical", "description": "Regular checkups, blood tests" },
-    { "id": "metabolism", "title": "Liver/Kidney/Glucose/Metabolism", "titleZh": "肝肾糖代谢", "domain": "medical", "description": "Metabolic health markers" },
-    { "id": "brain-nerves", "title": "Brain & Nerves", "titleZh": "脑神经", "domain": "medical", "description": "Gradual medication reduction, Space2B" },
-    { "id": "hair", "title": "Hair", "titleZh": "头发", "domain": "medical", "description": "2x daily treatment" },
-    { "id": "teeth", "title": "Teeth", "titleZh": "牙", "domain": "medical", "description": "Floss + brush" },
-    { "id": "upper-respiratory", "title": "Upper Respiratory / Lungs", "titleZh": "上呼吸道/肺", "domain": "medical", "description": "Throat, mouthwash, inhaler, allergy immunotherapy" },
-
-    { "id": "ipo", "title": "IPO", "titleZh": "上市", "domain": "business", "description": "IPO preparation" },
-    { "id": "build-business", "title": "Build a Business", "titleZh": "做个业务", "domain": "business", "description": "Business building" },
-    { "id": "trading", "title": "Trading", "titleZh": "交易赚钱", "domain": "business", "description": "Trading and investments" },
-    { "id": "core-network", "title": "Core Network & Circles", "titleZh": "核心人核心圈", "domain": "business", "description": "Key people and circles" },
-    { "id": "pr-west", "title": "PR Western", "titleZh": "PR西方", "domain": "business", "description": "Western PR and outreach" },
-    { "id": "pr-east", "title": "PR Eastern", "titleZh": "PR东方", "domain": "business", "description": "Eastern PR and outreach" },
-    { "id": "content", "title": "Content", "titleZh": "内容", "domain": "business", "description": "Content creation" },
-    { "id": "podcast-translation", "title": "Podcast / Translation", "titleZh": "播客/翻译书", "domain": "business", "description": "Podcasting and book translation" },
-    { "id": "office-team", "title": "Office & Team", "titleZh": "办公室和团队事务", "domain": "business", "description": "Office and team affairs" },
-
-    { "id": "learn-science", "title": "Learn Science", "titleZh": "学习科学", "domain": "academic", "description": "Physics, Chemistry, Biology, Medicine" },
-    { "id": "publish-cv", "title": "Publish Papers / Build CV", "titleZh": "发paper打造CV", "domain": "academic", "description": "Academic publishing and CV building" },
-    { "id": "top-institutions", "title": "Top Institutions", "titleZh": "顶尖机构建联合作", "domain": "academic", "description": "Connect and collaborate with top institutions" },
-    { "id": "top-scholars", "title": "Top Scholars", "titleZh": "顶尖学者建联合作", "domain": "academic", "description": "Connect and collaborate with top scholars" },
-
-    { "id": "productivity", "title": "Productivity Systems", "titleZh": "生产力系统", "domain": "methodology", "description": "Productivity systems, hacks, tools, routines, rituals" },
-    { "id": "habit-building", "title": "Habit Building", "titleZh": "习惯养成", "domain": "methodology", "description": "Habit building techniques and tracking" }
+    { "id": "physical", "title": "Physical", "titleZh": "身体", "prefix": "Body-", "domain": "physical", "category": "Outlive" },
+    { "id": "mental", "title": "Mental", "titleZh": "心理", "prefix": "Mind-", "domain": "mental", "category": "Outlive" },
+    { "id": "sleep", "title": "Sleep", "titleZh": "睡", "prefix": "Zzz-", "domain": "sleep", "category": "Outlive" },
+    { "id": "eat", "title": "Eat", "titleZh": "吃", "prefix": "Eat-", "domain": "eat", "category": "Outlive" },
+    { "id": "medical", "title": "Medical", "titleZh": "医疗", "prefix": "Med-", "domain": "medical", "category": "Outlive" },
+    { "id": "business", "title": "Business", "titleZh": "业界", "prefix": "Biz-", "domain": "business", "category": "IRL" },
+    { "id": "academic", "title": "Academic", "titleZh": "学界", "prefix": "Sci-", "domain": "academic", "category": "IRL" },
+    { "id": "methodology", "title": "Methodology", "titleZh": "方法论", "prefix": "Logi-", "domain": "methodology", "category": "IRL" }
   ]
 }
