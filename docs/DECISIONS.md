@@ -196,3 +196,26 @@ Every entry type maps to exactly one domain. Points aggregate by domain for high
 - `gym` (parameterized): default 1 hr × 1.5 pts/hr = 1.5 pts; "gym 2hrs" = 3.0 pts
 
 **Rationale:** Matches Boyang's historical usage patterns (work: 1-8 pts based on hours, brushteeth: always 1 pt). Preserves simplicity for routine habits while supporting granularity for effort-based activities.
+
+---
+
+## ADR-012: Three-Level Taxonomy (Domain → Sub-Goal → Activity)
+
+**Date:** 2026-02-12
+**Status:** Accepted
+
+**Context:** Entry types (activities) map directly to Harada domains, but some activities are distinct yet fall under the same conceptual sub-category. Example: Gym and Pilates are different activities but both relate to physical conditioning. Boyang's insight: "We have 8 goals from Harada, then many sub-goals. These create the taxonomy for all activities."
+
+**Decision:** Three-level hierarchy:
+1. **HaradaDomain** (8 goals) — top level, fixed
+2. **SubGoal** — intermediate grouping within each domain (e.g., "Strength Training", "Cardio & Sports")
+3. **EntryType** (activities) — the detailed trackable items
+
+Each `EntryType` has both `domain` and `subGoalId` fields. Sub-goals are stored in `data/sub-goals.json`.
+
+**Rationale:**
+- Pilates ≠ Gym, but both are Physical activities (different sub-goals: flexibility vs strength)
+- Enables aggregation at multiple levels: domain, sub-goal, activity
+- Mirrors Harada OW64 structure (main goals → sub-goals → action items)
+- Sub-goals are flexible — not locked to 8 per domain
+- 29 entry types (and growing) need organizational structure beyond flat domain mapping

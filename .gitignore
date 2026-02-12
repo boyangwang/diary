@@ -4,9 +4,12 @@ node_modules/
 # Build output
 dist/
 
-# Data (local only, contains personal tracking data)
-data/*.json
-data/**/*.json
+# Data — daily tracking data (personal, not committed)
+data/20*.json
+
+# Keep registry files tracked
+!data/entry-types.json
+!data/sub-goals.json
 !data/.gitkeep
 
 # Environment

@@ -1,0 +1,32 @@
+{
+  "subGoals": [
+    { "id": "strength-training", "title": "Strength Training", "titleZh": "力量训练", "domain": "physical", "description": "Weight training, resistance exercises, body conditioning" },
+    { "id": "cardio-sports", "title": "Cardio & Sports", "titleZh": "有氧与运动", "domain": "physical", "description": "Racquet sports, walking, running, swimming" },
+    { "id": "flexibility-recovery", "title": "Flexibility & Recovery", "titleZh": "柔韧与恢复", "domain": "physical", "description": "Stretching, physiotherapy, mobility work" },
+    { "id": "hygiene", "title": "Hygiene", "titleZh": "个人卫生", "domain": "physical", "description": "Showering, grooming, personal care" },
+
+    { "id": "mindfulness", "title": "Mindfulness", "titleZh": "正念", "domain": "mental", "description": "Meditation, breathing exercises, awareness practices" },
+    { "id": "social-connection", "title": "Social Connection", "titleZh": "社交联结", "domain": "mental", "description": "Interpersonal relationships, friends, family" },
+    { "id": "self-reflection", "title": "Self-Reflection", "titleZh": "自我反思", "domain": "mental", "description": "Dream diary, journaling, introspection" },
+    { "id": "recreation", "title": "Recreation", "titleZh": "休闲娱乐", "domain": "mental", "description": "Tourism, leisure activities, entertainment" },
+    { "id": "self-discipline", "title": "Self-Discipline", "titleZh": "自律", "domain": "mental", "description": "Abstinence, willpower exercises, habit control" },
+    { "id": "consciousness", "title": "Consciousness Exploration", "titleZh": "意识探索", "domain": "mental", "description": "Psychedelics, altered states, consciousness research" },
+
+    { "id": "sleep-hygiene", "title": "Sleep Hygiene", "titleZh": "睡眠卫生", "domain": "sleep", "description": "Wind-down routines, sleep timing, sleep quality" },
+
+    { "id": "diet-discipline", "title": "Diet Discipline", "titleZh": "饮食纪律", "domain": "eat", "description": "Fasting, caloric restriction, meal timing" },
+
+    { "id": "daily-health", "title": "Daily Health Care", "titleZh": "日常保健", "domain": "medical", "description": "Dental care, supplements, nasal rinse, daily routines" },
+    { "id": "health-screening", "title": "Health Screening", "titleZh": "健康检查", "domain": "medical", "description": "Doctor visits, blood tests, check-ups, treatments" },
+
+    { "id": "operations", "title": "Operations", "titleZh": "运营工作", "domain": "business", "description": "Meetings, admin, investor relations, PR" },
+    { "id": "engineering", "title": "Engineering", "titleZh": "工程开发", "domain": "business", "description": "Coding, development, technical work" },
+
+    { "id": "reading", "title": "Reading & Digesting", "titleZh": "阅读与消化", "domain": "academic", "description": "Books, papers, deep reading, comprehension" },
+    { "id": "writing", "title": "Writing & Publishing", "titleZh": "写作与发表", "domain": "academic", "description": "Articles, anthologies, creative writing" },
+    { "id": "research", "title": "Research & Study", "titleZh": "研究与学习", "domain": "academic", "description": "Formal study, courses, academic research" },
+
+    { "id": "productivity", "title": "Productivity", "titleZh": "生产力", "domain": "methodology", "description": "Chores, errands, task management, tools" },
+    { "id": "serendipity-luck", "title": "Serendipity & Luck", "titleZh": "机缘巧合", "domain": "methodology", "description": "Chance encounters, unexpected opportunities" }
+  ]
+}

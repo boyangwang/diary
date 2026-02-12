@@ -1,6 +1,6 @@
 # Architecture
 
-> Last updated: 2026-02-11
+> Last updated: 2026-02-12
 
 ## Core Principle: Code-First
 
@@ -90,16 +90,17 @@ Each day's data lives in `data/YYYY-MM-DD.json`. This approach:
 - **Git-friendly**: Each day is a discrete file (though data is gitignored by default for privacy)
 - **Concurrent-safe**: File locking prevents corruption
 
-## Entry Types Registry
+## Three-Level Taxonomy
 
-Entry types are defined in `data/entry-types.json`. This is the master list of all trackable activities. Each entry type has:
+```
+HaradaDomain (8 goals) → SubGoal (grouping) → EntryType (activities)
+```
 
-- ID, title, default points, point step
-- Routine classification (Daily/Weekly/Adhoc)
-- Harada domain mapping
-- Theme colors for future visualization
+- **Domains** (`src/schema/types.ts`): 8 fixed Harada life domains
+- **Sub-Goals** (`data/sub-goals.json`): Intermediate categories within each domain
+- **Entry Types** (`data/entry-types.json`): Specific trackable activities, each linked to a domain + sub-goal
 
-Adding a new entry type = adding a row to this JSON file. No code changes needed.
+Adding a new activity = adding a row to `entry-types.json`. If it needs a new sub-goal, add to `sub-goals.json` too. No code changes needed.
 
 ## Markdown ↔ JSON Bidirectional Conversion
 

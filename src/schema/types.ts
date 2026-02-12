@@ -49,6 +49,36 @@ export const DOMAIN_LABELS: Record<HaradaDomain, { en: string; zh: string }> = {
 };
 
 // ---------------------------------------------------------------------------
+// Sub-Goals (intermediate taxonomy layer)
+// ---------------------------------------------------------------------------
+
+/**
+ * Sub-goals sit between Harada domains and entry types.
+ *
+ * Structure: HaradaDomain → SubGoal[] → EntryType[]
+ *
+ * Example: Physical → Strength Training → [Gym, Pilates]
+ *          Physical → Cardio & Sports  → [Badminton, Walk]
+ */
+export interface SubGoal {
+  /** Unique slug, e.g., "strength-training" */
+  id: string;
+  /** Display name, e.g., "Strength Training" */
+  title: string;
+  /** Chinese display name */
+  titleZh: string;
+  /** Parent Harada domain */
+  domain: HaradaDomain;
+  /** Brief description */
+  description: string;
+}
+
+/** The sub-goals registry file format. */
+export interface SubGoalsFile {
+  subGoals: SubGoal[];
+}
+
+// ---------------------------------------------------------------------------
 // Entry Types
 // ---------------------------------------------------------------------------
 
@@ -66,6 +96,8 @@ export interface EntryType {
   routine: "Daily" | "Weekly" | "Adhoc";
   /** Harada method domain */
   domain: HaradaDomain;
+  /** Sub-goal within the domain */
+  subGoalId: string;
   /** Gradient hex colors (no #), e.g., ["FC8D3C", "FF5912"] */
   themeColors: [string, string];
   /** Unix timestamp ms */
