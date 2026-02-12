@@ -1,32 +1,49 @@
 {
   "subGoals": [
-    { "id": "strength-training", "title": "Strength Training", "titleZh": "力量训练", "domain": "physical", "description": "Weight training, resistance exercises, body conditioning" },
-    { "id": "cardio-sports", "title": "Cardio & Sports", "titleZh": "有氧与运动", "domain": "physical", "description": "Racquet sports, walking, running, swimming" },
-    { "id": "flexibility-recovery", "title": "Flexibility & Recovery", "titleZh": "柔韧与恢复", "domain": "physical", "description": "Stretching, physiotherapy, mobility work" },
-    { "id": "hygiene", "title": "Hygiene", "titleZh": "个人卫生", "domain": "physical", "description": "Showering, grooming, personal care" },
+    { "id": "weight-lifting", "title": "Weight Lifting", "titleZh": "抗阻训练", "domain": "physical", "description": "Salam, Gym, hotel/Bryan Johnson/adhoc, core muscle physio, VR" },
+    { "id": "cardio-zone2", "title": "Cardio / Zone 2", "titleZh": "心肺有氧", "domain": "physical", "description": "Running + dog walking, elliptical, bike, zone 5 occasional, cardiac rehab" },
+    { "id": "badminton", "title": "Badminton", "titleZh": "羽毛球", "domain": "physical", "description": "Find coach, rhythm that fits schedule" },
+    { "id": "flexibility", "title": "Flexibility", "titleZh": "柔韧性", "domain": "physical", "description": "Pilates/Nova/DrStretch, abs, arm, 提肛" },
+    { "id": "thrill-of-the-fight", "title": "Thrill of the Fight", "titleZh": "VR拳击", "domain": "physical", "description": "VR Headset boxing game" },
 
-    { "id": "mindfulness", "title": "Mindfulness", "titleZh": "正念", "domain": "mental", "description": "Meditation, breathing exercises, awareness practices" },
-    { "id": "social-connection", "title": "Social Connection", "titleZh": "社交联结", "domain": "mental", "description": "Interpersonal relationships, friends, family" },
-    { "id": "self-reflection", "title": "Self-Reflection", "titleZh": "自我反思", "domain": "mental", "description": "Dream diary, journaling, introspection" },
-    { "id": "recreation", "title": "Recreation", "titleZh": "休闲娱乐", "domain": "mental", "description": "Tourism, leisure activities, entertainment" },
-    { "id": "self-discipline", "title": "Self-Discipline", "titleZh": "自律", "domain": "mental", "description": "Abstinence, willpower exercises, habit control" },
-    { "id": "consciousness", "title": "Consciousness Exploration", "titleZh": "意识探索", "domain": "mental", "description": "Psychedelics, altered states, consciousness research" },
+    { "id": "home-wellness", "title": "Home Wellness", "titleZh": "居家养生", "domain": "mental", "description": "Tapping, Shiftwave chair, guided meditation, hypnosis, NSDR, PMR, ZField" },
+    { "id": "away-wellness", "title": "Away Wellness", "titleZh": "外出养生", "domain": "mental", "description": "Facial, massage (foot/body), scalp, sauna, HBOT, sound bath, craniosacral" },
+    { "id": "psychedelics", "title": "Psychedelics", "titleZh": "迷幻", "domain": "mental", "description": "Psychedelic experiences" },
+    { "id": "friends", "title": "Friends", "titleZh": "朋友", "domain": "mental", "description": "Social connection, interpersonal" },
+    { "id": "dog", "title": "Dog", "titleZh": "遛狗", "domain": "mental", "description": "Daily walks, evening walks when restless" },
+    { "id": "positive-reinforcement", "title": "Positive Reinforcement", "titleZh": "正向激励", "domain": "mental", "description": "Positive reinforcement practices" },
 
-    { "id": "sleep-hygiene", "title": "Sleep Hygiene", "titleZh": "睡眠卫生", "domain": "sleep", "description": "Wind-down routines, sleep timing, sleep quality" },
+    { "id": "sleep-habits", "title": "Sleep Habits", "titleZh": "睡眠习惯", "domain": "sleep", "description": "No all-nighters, temperature, wind-down, timing, medication" },
 
-    { "id": "diet-discipline", "title": "Diet Discipline", "titleZh": "饮食纪律", "domain": "eat", "description": "Fasting, caloric restriction, meal timing" },
+    { "id": "fasting", "title": "Fasting", "titleZh": "断食", "domain": "eat", "description": "Fasting 16+, no eating after 9:30 PM" },
+    { "id": "safe-food", "title": "Safe Food & Avoid Food", "titleZh": "安全饮食", "domain": "eat", "description": "Safe foods, no spicy, no oily, no bad BBQ, meal plan" },
 
-    { "id": "daily-health", "title": "Daily Health Care", "titleZh": "日常保健", "domain": "medical", "description": "Dental care, supplements, nasal rinse, daily routines" },
-    { "id": "health-screening", "title": "Health Screening", "titleZh": "健康检查", "domain": "medical", "description": "Doctor visits, blood tests, check-ups, treatments" },
+    { "id": "skin", "title": "Skin", "titleZh": "皮肤", "domain": "medical", "description": "Skin care" },
+    { "id": "eye", "title": "Eye", "titleZh": "眼睛", "domain": "medical", "description": "Ikervis + moisturizer regimen" },
+    { "id": "heart", "title": "Heart", "titleZh": "心脏", "domain": "medical", "description": "Cardiac rehab, zone training" },
+    { "id": "health-screening", "title": "Health Screening", "titleZh": "健康检查", "domain": "medical", "description": "Regular checkups, blood tests" },
+    { "id": "metabolism", "title": "Liver/Kidney/Glucose/Metabolism", "titleZh": "肝肾糖代谢", "domain": "medical", "description": "Metabolic health markers" },
+    { "id": "brain-nerves", "title": "Brain & Nerves", "titleZh": "脑神经", "domain": "medical", "description": "Gradual medication reduction, Space2B" },
+    { "id": "hair", "title": "Hair", "titleZh": "头发", "domain": "medical", "description": "2x daily treatment" },
+    { "id": "teeth", "title": "Teeth", "titleZh": "牙", "domain": "medical", "description": "Floss + brush" },
+    { "id": "upper-respiratory", "title": "Upper Respiratory / Lungs", "titleZh": "上呼吸道/肺", "domain": "medical", "description": "Throat, mouthwash, inhaler, allergy immunotherapy" },
 
-    { "id": "operations", "title": "Operations", "titleZh": "运营工作", "domain": "business", "description": "Meetings, admin, investor relations, PR" },
-    { "id": "engineering", "title": "Engineering", "titleZh": "工程开发", "domain": "business", "description": "Coding, development, technical work" },
+    { "id": "ipo", "title": "IPO", "titleZh": "上市", "domain": "business", "description": "IPO preparation" },
+    { "id": "build-business", "title": "Build a Business", "titleZh": "做个业务", "domain": "business", "description": "Business building" },
+    { "id": "trading", "title": "Trading", "titleZh": "交易赚钱", "domain": "business", "description": "Trading and investments" },
+    { "id": "core-network", "title": "Core Network & Circles", "titleZh": "核心人核心圈", "domain": "business", "description": "Key people and circles" },
+    { "id": "pr-west", "title": "PR Western", "titleZh": "PR西方", "domain": "business", "description": "Western PR and outreach" },
+    { "id": "pr-east", "title": "PR Eastern", "titleZh": "PR东方", "domain": "business", "description": "Eastern PR and outreach" },
+    { "id": "content", "title": "Content", "titleZh": "内容", "domain": "business", "description": "Content creation" },
+    { "id": "podcast-translation", "title": "Podcast / Translation", "titleZh": "播客/翻译书", "domain": "business", "description": "Podcasting and book translation" },
+    { "id": "office-team", "title": "Office & Team", "titleZh": "办公室和团队事务", "domain": "business", "description": "Office and team affairs" },
 
-    { "id": "reading", "title": "Reading & Digesting", "titleZh": "阅读与消化", "domain": "academic", "description": "Books, papers, deep reading, comprehension" },
-    { "id": "writing", "title": "Writing & Publishing", "titleZh": "写作与发表", "domain": "academic", "description": "Articles, anthologies, creative writing" },
-    { "id": "research", "title": "Research & Study", "titleZh": "研究与学习", "domain": "academic", "description": "Formal study, courses, academic research" },
+    { "id": "learn-science", "title": "Learn Science", "titleZh": "学习科学", "domain": "academic", "description": "Physics, Chemistry, Biology, Medicine" },
+    { "id": "publish-cv", "title": "Publish Papers / Build CV", "titleZh": "发paper打造CV", "domain": "academic", "description": "Academic publishing and CV building" },
+    { "id": "top-institutions", "title": "Top Institutions", "titleZh": "顶尖机构建联合作", "domain": "academic", "description": "Connect and collaborate with top institutions" },
+    { "id": "top-scholars", "title": "Top Scholars", "titleZh": "顶尖学者建联合作", "domain": "academic", "description": "Connect and collaborate with top scholars" },
 
-    { "id": "productivity", "title": "Productivity", "titleZh": "生产力", "domain": "methodology", "description": "Chores, errands, task management, tools" },
-    { "id": "serendipity-luck", "title": "Serendipity & Luck", "titleZh": "机缘巧合", "domain": "methodology", "description": "Chance encounters, unexpected opportunities" }
+    { "id": "productivity", "title": "Productivity Systems", "titleZh": "生产力系统", "domain": "methodology", "description": "Productivity systems, hacks, tools, routines, rituals" },
+    { "id": "habit-building", "title": "Habit Building", "titleZh": "习惯养成", "domain": "methodology", "description": "Habit building techniques and tracking" }
   ]
 }
